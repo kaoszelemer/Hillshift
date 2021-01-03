@@ -10,14 +10,13 @@ local actionDone = false
 
 
 function char_meregkevero:load()
-    self.x , self.y = boardGrid[4][9].x, boardGrid[4][9].y
+    self.x , self.y = boardGrid[5][10].x, boardGrid[5][10].y
 
 end
 
 function char_meregkevero:update(dt)
 end
 
-function char_meregkevero:draw()
-    --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
-    love.graphics.print("M",char_meregkevero.x,char_meregkevero.y)
+function char_meregkevero:draw()  
+    love.graphics.print("M", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

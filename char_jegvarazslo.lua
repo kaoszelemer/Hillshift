@@ -10,7 +10,7 @@ local actionDone = false
 
 
 function char_jegvarazslo:load()
-    self.x , self.y = boardGrid[4][10].x, boardGrid[4][10].y
+    self.x , self.y = boardGrid[5][2].x, boardGrid[6][2].y
 
 end
 
@@ -18,5 +18,5 @@ function char_jegvarazslo:update(dt)
 end
 
 function char_jegvarazslo:draw()
-    love.graphics.print("J",char_jegvarazslo.x,char_jegvarazslo.y)
+    love.graphics.print("J", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

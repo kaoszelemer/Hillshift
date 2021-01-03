@@ -18,6 +18,5 @@ function char_legelemental:update(dt)
 end
 
 function char_legelemental:draw()
-
-    love.graphics.print("L",char_legelemental.x,char_legelemental.y)
+    love.graphics.print("L", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

@@ -10,7 +10,7 @@ local actionDone = false
 
 
 function char_harcos:load()
-    self.x , self.y = boardGrid[6][10].x, boardGrid[6][10].y
+    self.x , self.y = boardGrid[6][1].x, boardGrid[6][1].y
 
 end
 
@@ -19,5 +19,5 @@ end
 
 function char_harcos:draw()
     --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
-    love.graphics.print("H",char_harcos.x,char_harcos.y)
+    love.graphics.print("H", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

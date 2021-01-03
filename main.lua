@@ -13,6 +13,8 @@ require ('char_tuzmagus')
 --valtozok
 width = 1280
 height = 720
+offsetX = 15
+offsetY = 15
 font = love.graphics.newFont(32)
 
 love.graphics.setFont(font)

@@ -130,7 +130,9 @@ function board:draw()
             local currentType = boardType[currentCell.type] 
                 
             love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)
-			love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+            
+            
+          --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
 		end
 	end
 

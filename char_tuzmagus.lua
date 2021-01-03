@@ -18,6 +18,5 @@ function char_tuzmagus:update(dt)
 end
 
 function char_tuzmagus:draw()
-    --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
-    love.graphics.print("T",char_tuzmagus.x,char_tuzmagus.y)
+    love.graphics.print("T", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end
