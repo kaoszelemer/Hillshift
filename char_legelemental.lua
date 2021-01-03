@@ -18,5 +18,7 @@ function char_legelemental:update(dt)
 end
 
 function char_legelemental:draw()
+    love.graphics.setColor(charColor) 
+
     love.graphics.print("L", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

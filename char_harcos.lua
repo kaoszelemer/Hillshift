@@ -18,6 +18,8 @@ function char_harcos:update(dt)
 end
 
 function char_harcos:draw()
+    love.graphics.setColor(charColor) 
+
     --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
     love.graphics.print("H", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

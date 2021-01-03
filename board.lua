@@ -13,6 +13,8 @@ local lakeQuad
 local fieldQuad
 local type
 
+
+
 ---type-ok
 boardType = {
     "forest", "mount", "lake", "field"
@@ -115,11 +117,12 @@ function board:load()
 end
 
 function board:update(dt)
+
 end
 
 function board:draw()
    
-    love.graphics.setColor(1,1,1)
+  
     
 
    

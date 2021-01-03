@@ -18,5 +18,7 @@ function char_meregkevero:update(dt)
 end
 
 function char_meregkevero:draw()  
+    love.graphics.setColor(charColor) 
+
     love.graphics.print("M", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end

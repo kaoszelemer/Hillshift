@@ -18,5 +18,7 @@ function char_tuzmagus:update(dt)
 end
 
 function char_tuzmagus:draw()
+    love.graphics.setColor(charColor) 
+
     love.graphics.print("T", self.x * tileW + tileW / 2 - offsetX, self.y * tileH + tileH / 2 - offsetY)
 end
