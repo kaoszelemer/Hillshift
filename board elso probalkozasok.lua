@@ -31,14 +31,15 @@ function board:draw()
 
     {
         id = "", 
-        num, 
-        x, 
-        y, 
+        num=0, 
+        x=0, 
+        y=0, 
         type= ""
     }
     }
 
-
+for i = 1,9 do
+    table.insert(boardfelosztas,  )
 
     love.graphics.setColor(1,1,1)
 

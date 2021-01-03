@@ -10,8 +10,8 @@ local actionDone = false
 
 
 function char_harcos:load()
-    self.x = 650
-    self.y = 650
+    self.x , self.y = boardGrid[6][10].x, boardGrid[6][10].y
+
 end
 
 function char_harcos:update(dt)

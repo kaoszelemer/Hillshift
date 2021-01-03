@@ -10,8 +10,8 @@ local actionDone = false
 
 
 function char_meregkevero:load()
-    self.x = 400
-    self.y = 400
+    self.x , self.y = boardGrid[4][9].x, boardGrid[4][9].y
+
 end
 
 function char_meregkevero:update(dt)

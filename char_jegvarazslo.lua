@@ -10,8 +10,8 @@ local actionDone = false
 
 
 function char_jegvarazslo:load()
-    self.x = 500
-    self.y = 500
+    self.x , self.y = boardGrid[4][10].x, boardGrid[4][10].y
+
 end
 
 function char_jegvarazslo:update(dt)

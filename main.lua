@@ -1,19 +1,25 @@
 -- HillShift - project started: 2021.01.01
 
 --require
+
+require ('board')
 require ('char_foldmano')
 require ('char_harcos')
 require ('char_jegvarazslo')
 require ('char_legelemental')
 require ('char_meregkevero')
 require ('char_tuzmagus')
-require ('board')
 
 --valtozok
 width = 1280
 height = 720
 
 function love.load()
+ 
+    --board betoltese
+    board:load()
+ 
+ 
     --karakterek betoltese
     char_foldmano:load()
     char_harcos:load()
@@ -23,8 +29,6 @@ function love.load()
     char_tuzmagus:load()
 
 
-    --board betoltese
-    board:load()
     
     --beallitasok
     love.window.setTitle("HillShift")
@@ -34,6 +38,11 @@ function love.load()
 end
 
 function love.update(dt)
+   
+    --tabla update
+    board:update(dt)
+
+
 
     --karakter update
     char_foldmano:update(dt)
@@ -43,13 +52,15 @@ function love.update(dt)
     char_meregkevero:update(dt)
     char_tuzmagus:update(dt)
     
-    --tabla update
-    board:update(dt)
+
   
 
 end
 
 function love.draw()
+   --board draw
+   board:draw()
+
 
     --karakter draw PLAYER 1
     char_foldmano:draw()
@@ -59,7 +70,6 @@ function love.draw()
     char_meregkevero:draw()
     char_tuzmagus:draw()
     
-    --board draw
-    board:draw()
+ 
 end
 

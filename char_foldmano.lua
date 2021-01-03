@@ -10,8 +10,7 @@ local actionDone = false
 
 
 function char_foldmano:load()
-    self.x = 600
-    self.y = 600
+    self.x , self.y = boardGrid[5][10].x, boardGrid[5][10].y
 end
 
 function char_foldmano:update(dt)

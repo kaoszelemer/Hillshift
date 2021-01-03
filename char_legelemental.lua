@@ -10,8 +10,8 @@ local actionDone = false
 
 
 function char_legelemental:load()
-    self.x = 650
-    self.y = 600
+    self.x , self.y = boardGrid[5][9].x, boardGrid[5][9].y
+
 end
 
 function char_legelemental:update(dt)
