@@ -18,6 +18,5 @@ function char_jegvarazslo:update(dt)
 end
 
 function char_jegvarazslo:draw()
-    --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
     love.graphics.print("J",char_jegvarazslo.x,char_jegvarazslo.y)
 end

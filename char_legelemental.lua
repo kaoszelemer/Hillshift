@@ -18,6 +18,6 @@ function char_legelemental:update(dt)
 end
 
 function char_legelemental:draw()
-    --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
+
     love.graphics.print("L",char_legelemental.x,char_legelemental.y)
 end

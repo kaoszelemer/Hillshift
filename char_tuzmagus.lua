@@ -19,7 +19,5 @@ end
 
 function char_tuzmagus:draw()
     --meg kell rajzolni a playert addig a placeholder egy szoveg: "F"
-    font = love.graphics.newFont(32)
-    love.graphics.setFont(font)
     love.graphics.print("T",char_tuzmagus.x,char_tuzmagus.y)
 end
