@@ -27,7 +27,7 @@ function char_foldmano:update(dt)
 end
 
 function char_foldmano:draw()
-    
+    -- statuszok alapján eldöntöm a karakterek színét
     if self.isHovered then 
         love.graphics.setColor(hoverColor)
 
@@ -43,9 +43,9 @@ function char_foldmano:draw()
         love.graphics.setColor(hoverColor)
     end
 
-
+    --kirajzolom a karaktert
         love.graphics.print("F", self.screenX, self.screenY)
 
-    
+    --visszaállítom a színt eredetire
         love.graphics.setColor(charColor)
 end

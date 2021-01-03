@@ -11,6 +11,7 @@ require ('char_meregkevero')
 require ('char_tuzmagus')
 
 --valtozok
+--altalanos valtozok
 width = 1280
 height = 720
 offsetX = 15
@@ -26,16 +27,7 @@ charW = 32
 
 local mouseX, mouseY
 
-function love.mousereleased(x, y, button, istouch, presses)
-    
-    if char_foldmano.isHovered then
 
-        char_foldmano.isSelected = true
-else
-        char_foldmano.isSelected = false
-end
-
-end
 
 love.graphics.setFont(font)
 
@@ -91,8 +83,8 @@ function love.draw()
  
     --board draw
    board:draw()
-
  
+    --mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van
     if  mouseX > char_foldmano.screenX and mouseX < char_foldmano.screenX + charW and
         mouseY > char_foldmano.screenY and mouseY < char_foldmano.screenY + charH then
 
@@ -101,7 +93,6 @@ function love.draw()
             char_foldmano.isHovered = false
     end
 
-  
 
     --karakter draw PLAYER 1
     char_foldmano:draw()
@@ -115,4 +106,15 @@ function love.draw()
     
 end
 
+-- ez ellenorzi h felengedtem az egeret
 
+function love.mousereleased(x, y, button, istouch, presses)
+    
+    if char_foldmano.isHovered then
+            
+            char_foldmano.isSelected = true
+    else
+            char_foldmano.isSelected = false
+    end
+
+end
