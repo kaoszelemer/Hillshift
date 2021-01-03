@@ -64,13 +64,31 @@ function board:load()
                 
         
                     for j = 1, maxCol do 
+                        --start mezők beállítása
+                        if  i == 5 and j == 1 or 
+                            i == 5 and j == 2 or
+                            i == 6 and j == 1 or
+                            i == 6 and j == 2 or
+                            i == 5 and j == 9 or
+                            i == 6 and j == 9 or
+                            i == 5 and j == 10 or
+                            i == 6 and j == 10 then
+
+                            selectedType = 4   
+                        -- egyébként legyen random
+                        else
+                            
+                            selectedType = love.math.random(1, #boardType)
+
+                        end
+                        -- a mezők adatai itt kerülnek be a táblázatba
                         boardGrid[i][j] = {
     
                             id = "R" .. i .. "C" .. j,
                             num = i,
                             x = i,
                             y = j, 
-                            type = love.math.random(1, #boardType),
+                            type = selectedType,
     
                         }                     
                         
@@ -87,6 +105,9 @@ function board:load()
                     end
     
             end
+
+
+
 
 
 
@@ -109,7 +130,7 @@ function board:draw()
             local currentType = boardType[currentCell.type] 
                 
             love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)
-			
+			love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
 		end
 	end
 
@@ -122,7 +143,7 @@ function board:draw()
  --   print(k, v)
 --end
  
-
+-- a boardgridben az R1C5, R1C6 az starters
 
 
 end
