@@ -15,16 +15,24 @@ local type
 
 
 
----type-ok
+---Típustáblák definiálása
 boardType = {
     "forest", "mount", "lake", "field"
 }
 
+charType = {
+    "földmanó", "harcos", "jégvarázsló", "légelementál", "méregkeverő", "tűzmágus"
+}
+
+
+--Quadtáblák definiálása
+--1. a tileset betöltése
 boardPicture = love.graphics.newImage("/graphics/tileset3.png") -- placeholder tileset
-   
+--1a. a tileset változói
 local tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 
-quadTable = {
+--2, a cella típusuk definiálása a quadokból   
+cellQuadTable = {
 
     forest = {
         
@@ -55,6 +63,10 @@ quadTable = {
         love.graphics.newQuad(448, 64, tileW, tileH, tilesetW, tilesetH)
     },
 }
+--3. a charactertípusok definiálása a quadokból
+
+charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32px)
+
 
 function board:load()
 
@@ -96,7 +108,7 @@ function board:load()
                         
                         local cellType = boardGrid[i][j].type
                         local cellTypeString = boardType[cellType]
-                        local quadSort = quadTable[cellTypeString]
+                        local quadSort = cellQuadTable[cellTypeString]
 
                        
 
@@ -129,12 +141,15 @@ function board:draw()
 
     for i=1, #boardGrid do
         for j=1, #boardGrid[i] do 
+            
+            --random cellák változói
             local currentCell = boardGrid[i][j] 
             local currentType = boardType[currentCell.type] 
-                
+        
+            
             love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)
             
-            
+         --- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
           --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
 		end
 	end
