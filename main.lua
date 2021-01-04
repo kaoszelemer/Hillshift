@@ -3,12 +3,8 @@
 --require
 
 require ('board')
-require ('char_foldmano')
-require ('char_harcos')
-require ('char_jegvarazslo')
-require ('char_legelemental')
-require ('char_meregkevero')
-require ('char_tuzmagus')
+require ('characters')
+
 
 --valtozok
 --altalanos valtozok
@@ -38,12 +34,7 @@ function love.load()
  
  
     --karakterek betoltese
-    char_foldmano:load()
-    char_harcos:load()
-    char_jegvarazslo:load()
-    char_legelemental:load()
-    char_meregkevero:load()
-    char_tuzmagus:load()
+
 
 
     
@@ -65,12 +56,7 @@ function love.update(dt)
 
 
     --karakter update
-    char_foldmano:update(dt)
-    char_harcos:update(dt)
-    char_jegvarazslo:update(dt)
-    char_legelemental:update(dt)
-    char_meregkevero:update(dt)
-    char_tuzmagus:update(dt)
+
     
 
   
@@ -83,24 +69,21 @@ function love.draw()
  
     --board draw
    board:draw()
+
+   
  
     --mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van
-    if  mouseX > char_foldmano.screenX and mouseX < char_foldmano.screenX + charW and
-        mouseY > char_foldmano.screenY and mouseY < char_foldmano.screenY + charH then
+    -- if  mouseX > c.screenX and mouseX < char_foldmano.screenX + charW and
+    --     mouseY > char_foldmano.screenY and mouseY < char_foldmano.screenY + charH then
 
-            char_foldmano.isHovered = true
-    else
-            char_foldmano.isHovered = false
-    end
+    --         char_foldmano.isHovered = true
+    -- else
+    --         char_foldmano.isHovered = false
+    -- end
 
 
     --karakter draw PLAYER 1
-    char_foldmano:draw()
-    char_harcos:draw()
-    char_jegvarazslo:draw()
-    char_legelemental:draw()
-    char_meregkevero:draw()
-    char_tuzmagus:draw()
+
     
 
     

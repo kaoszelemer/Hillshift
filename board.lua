@@ -20,9 +20,7 @@ boardType = {
     "forest", "mount", "lake", "field"
 }
 
-charType = {
-    "földmanó", "harcos", "jégvarázsló", "légelementál", "méregkeverő", "tűzmágus"
-}
+
 
 
 --Quadtáblák definiálása
@@ -69,6 +67,112 @@ charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32
 
 
 function board:load()
+
+playerOne = {}
+playerTwo = {}
+
+
+for i = 1,4 do
+
+    local characterCopy = {}
+  
+    
+    for key, value in pairs(characters.geognome) do
+        
+        characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
+        
+    end
+    
+    
+    table.insert(playerOne, characterCopy)
+
+
+end    
+
+for i = 1,4 do
+
+    local characterCopy = {}
+  
+    
+    for key, value in pairs(characters.geognome) do
+        
+        characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
+        
+    end
+    
+    table.insert(playerTwo, characterCopy)
+
+end
+
+    --karakterek inicializáslálsálsa
+-- 1. karakter pozicio
+-- 2. milyen karakter
+for index, currentChar in ipairs(playerOne) do
+
+
+    if     index == 1 then currentChar.x , currentChar.y = 5 , 1
+    elseif index == 2 then currentChar.x , currentChar.y = 6 , 1
+    elseif index == 3 then currentChar.x , currentChar.y = 5 , 2
+    elseif index == 4 then currentChar.x , currentChar.y = 6 , 2
+
+    end
+
+
+
+    currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
+    currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+    currentChar.isHovered = false
+    currentChar.isSelected = false
+    currentChar.stepsDone = false
+    currentChar.actionDone = false
+
+end
+
+for index, currentChar in ipairs(playerTwo) do
+
+
+    if     index == 1 then currentChar.x , currentChar.y = 5 , 9
+    elseif index == 2 then currentChar.x , currentChar.y = 6 , 9
+    elseif index == 3 then currentChar.x , currentChar.y = 5 , 10
+    elseif index == 4 then currentChar.x , currentChar.y = 6 , 10
+
+    end
+
+
+
+    currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
+    currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+    currentChar.isHovered = false
+    currentChar.isSelected = false
+    currentChar.stepsDone = false
+    currentChar.actionDone = false
+
+end
+
+   
+
+    --     -- statuszok alapján eldöntöm a karakterek színét
+    --     if self.isHovered then 
+    --         love.graphics.setColor(hoverColor)
+    
+    --     else  
+    --         love.graphics.setColor(charColor)
+    --     end
+      
+    --     if self.isSelected then
+        
+    --         love.graphics.setColor(selectedColor)
+        
+    --     elseif self.isHovered == true then
+    --         love.graphics.setColor(hoverColor)
+    --     end
+    
+    --     --kirajzolom a karaktert
+    --         love.graphics.print("F", self.screenX, self.screenY)
+    
+    --     --visszaállítom a színt eredetire
+    --         love.graphics.setColor(charColor)
+
 
     boardGrid = {}
     
@@ -121,7 +225,19 @@ function board:load()
             end
 
 
+        for k, v in pairs(playerTwo) do
+            print(k)
+            for a, c in pairs(v) do
+                print(a, c)
+             end
+                end
 
+                for k, v in pairs(playerOne) do
+                    print(k)
+                    for a, c in pairs(v) do
+                        print(a, c)
+                     end
+                        end
 
 
 
@@ -135,10 +251,6 @@ end
 function board:draw()
    
   
-    
-
-   
-
     for i=1, #boardGrid do
         for j=1, #boardGrid[i] do 
             
@@ -154,14 +266,26 @@ function board:draw()
 		end
 	end
 
+for index, currentChar in ipairs(playerOne) do
+
+  love.graphics.print("F", playerOne[index].screenX, playerOne[index].screenY)
+
+end
+
+for index, currentChar in ipairs(playerTwo) do
+
+    love.graphics.print("F", playerTwo[index].screenX, playerTwo[index].screenY)
+  
+end
+
 
  --for debugging
  
  --print a table
 
---for k, v in pairs(boardGrid) do
- --   print(k, v)
---end
+-- for k, v in pairs(characterCopy) do
+--    print(k, v)
+-- end
  
 -- a boardgridben az R1C5, R1C6 az starters
 
