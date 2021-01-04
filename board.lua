@@ -121,10 +121,12 @@ for index, currentChar in ipairs(playerOne) do
 
     currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
     currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+    currentChar.type = love.math.random(1,6)
     currentChar.isHovered = false
     currentChar.isSelected = false
     currentChar.stepsDone = false
     currentChar.actionDone = false
+
 
 end
 
@@ -142,11 +144,12 @@ for index, currentChar in ipairs(playerTwo) do
 
     currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
     currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+    currentChar.type = love.math.random(1,6)
     currentChar.isHovered = false
     currentChar.isSelected = false
     currentChar.stepsDone = false
     currentChar.actionDone = false
-
+   
 end
 
    
@@ -224,24 +227,6 @@ end
     
             end
 
-
-        for k, v in pairs(playerTwo) do
-            print(k)
-            for a, c in pairs(v) do
-                print(a, c)
-             end
-                end
-
-                for k, v in pairs(playerOne) do
-                    print(k)
-                    for a, c in pairs(v) do
-                        print(a, c)
-                     end
-                        end
-
-
-
- 
 end
 
 function board:update(dt)
@@ -267,15 +252,36 @@ function board:draw()
 	end
 
 for index, currentChar in ipairs(playerOne) do
-
-  love.graphics.print("F", playerOne[index].screenX, playerOne[index].screenY)
-
+    if playerOne[index].type == 1 then
+    love.graphics.print("G", playerOne[index].screenX, playerOne[index].screenY)
+    elseif playerOne[index].type == 2 then 
+    love.graphics.print("F", playerOne[index].screenX, playerOne[index].screenY)
+    elseif playerOne[index].type == 3 then 
+    love.graphics.print("I", playerOne[index].screenX, playerOne[index].screenY)
+    elseif playerOne[index].type == 4 then 
+    love.graphics.print("E", playerOne[index].screenX, playerOne[index].screenY)
+    elseif playerOne[index].type == 5 then 
+    love.graphics.print("A", playerOne[index].screenX, playerOne[index].screenY)
+    elseif playerOne[index].type == 6 then 
+    love.graphics.print("T", playerOne[index].screenX, playerOne[index].screenY)
+    end
 end
 
 for index, currentChar in ipairs(playerTwo) do
-
+    if playerTwo[index].type == 1 then
+    love.graphics.print("G", playerTwo[index].screenX, playerTwo[index].screenY)
+    elseif playerTwo[index].type == 2 then 
     love.graphics.print("F", playerTwo[index].screenX, playerTwo[index].screenY)
-  
+    elseif playerTwo[index].type == 3 then 
+    love.graphics.print("I", playerTwo[index].screenX, playerTwo[index].screenY)
+    elseif playerTwo[index].type == 4 then 
+    love.graphics.print("E", playerTwo[index].screenX, playerTwo[index].screenY)
+    elseif playerTwo[index].type == 5 then 
+    love.graphics.print("A", playerTwo[index].screenX, playerTwo[index].screenY)
+    elseif playerTwo[index].type == 6 then 
+    love.graphics.print("T", playerTwo[index].screenX, playerTwo[index].screenY)
+    end
+
 end
 
 
