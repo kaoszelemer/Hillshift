@@ -121,7 +121,10 @@ for index, currentChar in ipairs(playerOne) do
 
     currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
     currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+
+       
     currentChar.type = love.math.random(1,6)
+
     currentChar.isHovered = false
     currentChar.isSelected = false
     currentChar.stepsDone = false
@@ -144,7 +147,10 @@ for index, currentChar in ipairs(playerTwo) do
 
     currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
     currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+
     currentChar.type = love.math.random(1,6)
+ 
+
     currentChar.isHovered = false
     currentChar.isSelected = false
     currentChar.stepsDone = false
@@ -152,29 +158,7 @@ for index, currentChar in ipairs(playerTwo) do
    
 end
 
-   
 
-    --     -- statuszok alapján eldöntöm a karakterek színét
-    --     if self.isHovered then 
-    --         love.graphics.setColor(hoverColor)
-    
-    --     else  
-    --         love.graphics.setColor(charColor)
-    --     end
-      
-    --     if self.isSelected then
-        
-    --         love.graphics.setColor(selectedColor)
-        
-    --     elseif self.isHovered == true then
-    --         love.graphics.setColor(hoverColor)
-    --     end
-    
-    --     --kirajzolom a karaktert
-    --         love.graphics.print("F", self.screenX, self.screenY)
-    
-    --     --visszaállítom a színt eredetire
-    --         love.graphics.setColor(charColor)
 
 
     boardGrid = {}
@@ -249,7 +233,57 @@ function board:draw()
          --- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
           --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
 		end
-	end
+    end
+    
+
+ --  mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
+ --  (a board rajzolja ki a karaktert)
+
+ for index, currentChar in ipairs(playerOne) do
+
+    if  mouseX > playerOne[index].screenX and mouseX < playerOne[index].screenX + charW and
+        mouseY > playerOne[index].screenY and mouseY < playerOne[index].screenY + charH then
+
+            playerOne[index].isHovered = true
+    else
+            playerOne[index].isHovered = false
+    end
+
+
+print(isHovered)
+
+end
+
+
+
+        -- statuszok alapján eldöntöm a karakterek színét
+for index, currentChar in ipairs(playerOne) do
+        if playerOne[index].isHovered then 
+            love.graphics.setColor(hoverColor)
+    
+        else  
+            love.graphics.setColor(charColor)
+        end
+      
+        if playerOne[index].isSelected then
+        
+            love.graphics.setColor(selectedColor)
+        
+        elseif playerOne[index].isHovered == true then
+            love.graphics.setColor(hoverColor)
+        end
+
+            --visszaállítom a színt eredetire
+            love.graphics.setColor(charColor)
+
+end
+
+    
+
+    
+
+
+    ---kirajzolom a karaktereket
 
 for index, currentChar in ipairs(playerOne) do
     if playerOne[index].type == 1 then
@@ -283,6 +317,7 @@ for index, currentChar in ipairs(playerTwo) do
     end
 
 end
+
 
 
  --for debugging

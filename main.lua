@@ -21,7 +21,7 @@ charH = 32
 charW = 32
 
 
-local mouseX, mouseY
+mouseX, mouseY = love.mouse.getPosition()
 
 
 
@@ -67,22 +67,18 @@ function love.draw()
  
     love.graphics.setColor(charColor)
  
+
+
     --board draw
    board:draw()
 
-   
+
  
-    --mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van
-    -- if  mouseX > c.screenX and mouseX < char_foldmano.screenX + charW and
-    --     mouseY > char_foldmano.screenY and mouseY < char_foldmano.screenY + charH then
-
-    --         char_foldmano.isHovered = true
-    -- else
-    --         char_foldmano.isHovered = false
-    -- end
+ 
+  
 
 
-    --karakter draw PLAYER 1
+   
 
     
 
@@ -93,11 +89,11 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses)
     
-    if char_foldmano.isHovered then
+    if characters.isHovered then
             
-            char_foldmano.isSelected = true
+            characters.isSelected = true
     else
-            char_foldmano.isSelected = false
+            characters.isSelected = false
     end
 
 end
