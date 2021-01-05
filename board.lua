@@ -13,15 +13,10 @@ local lakeQuad
 local fieldQuad
 local type
 
-
-
 ---Típustáblák definiálása
 boardType = {
     "forest", "mount", "lake", "field"
 }
-
-
-
 
 --Quadtáblák definiálása
 --1. a tileset betöltése
@@ -65,103 +60,71 @@ cellQuadTable = {
 
 charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32px)
 
+local function initPlayerDeck(playerTable, initCoordinates)
+
+    --kapnak 6 lapot
+
+    for index, currentChar in ipairs (characters) do
+
+        local characterCopy = {}
+
+        for key, value in pairs(currentChar) do
+            
+            characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
+            
+        end
+    
+        table.insert(playerTable, characterCopy)
+    
+    end
+
+
+    while #playerTable ~= 4
+    
+    do     
+        
+        local cardNumber = love.math.random(1, #playerTable)
+
+        table.remove(playerTable, cardNumber)
+        
+    end
+   
+
+    for index, currentChar in ipairs(playerTable) do
+
+            if     index == 1 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+            elseif index == 2 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+            elseif index == 3 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+            elseif index == 4 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+
+            end
+
+            currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
+            currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+
+            currentChar.isHovered = false
+            currentChar.isSelected = false
+            currentChar.stepsDone = false
+            currentChar.actionDone = false
+
+        end
+
+end
 
 function board:load()
 
 playerOne = {}
 playerTwo = {}
 
+local initPlayerCoordinatesPlayerOne = {{5,1},{5,2},{6,1},{6,2}}
+local initPlayerCoordinatesPlayerTwo = {{5,9},{5,10},{6,9},{6,10}}
 
-for i = 1,4 do
-
-    local characterCopy = {}
-  
-    
-    for key, value in pairs(characters.geognome) do
-        
-        characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
-        
-    end
-    
-    
-    table.insert(playerOne, characterCopy)
-
-
-end    
-
-for i = 1,4 do
-
-    local characterCopy = {}
-  
-    
-    for key, value in pairs(characters.geognome) do
-        
-        characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
-        
-    end
-    
-    table.insert(playerTwo, characterCopy)
-
-end
-
-    --karakterek inicializáslálsálsa
--- 1. karakter pozicio
--- 2. milyen karakter
-for index, currentChar in ipairs(playerOne) do
-
-
-    if     index == 1 then currentChar.x , currentChar.y = 5 , 1
-    elseif index == 2 then currentChar.x , currentChar.y = 6 , 1
-    elseif index == 3 then currentChar.x , currentChar.y = 5 , 2
-    elseif index == 4 then currentChar.x , currentChar.y = 6 , 2
-
-    end
+initPlayerDeck(playerOne, initPlayerCoordinatesPlayerOne)
+initPlayerDeck(playerTwo, initPlayerCoordinatesPlayerTwo)
 
 
 
-    currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
-    currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
-
-       
-    currentChar.type = love.math.random(1,6)
-
-    currentChar.isHovered = false
-    currentChar.isSelected = false
-    currentChar.stepsDone = false
-    currentChar.actionDone = false
-
-
-end
-
-for index, currentChar in ipairs(playerTwo) do
-
-
-    if     index == 1 then currentChar.x , currentChar.y = 5 , 9
-    elseif index == 2 then currentChar.x , currentChar.y = 6 , 9
-    elseif index == 3 then currentChar.x , currentChar.y = 5 , 10
-    elseif index == 4 then currentChar.x , currentChar.y = 6 , 10
-
-    end
-
-
-
-    currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
-    currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
-
-    currentChar.type = love.math.random(1,6)
- 
-
-    currentChar.isHovered = false
-    currentChar.isSelected = false
-    currentChar.stepsDone = false
-    currentChar.actionDone = false
-   
-end
-
-
-
-
-    boardGrid = {}
+boardGrid = {}
     
             for i = 1, maxRow do
         
@@ -236,8 +199,8 @@ function board:draw()
     end
     
 
- --  mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
- --  (a board rajzolja ki a karaktert)
+--   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
+--   (a board rajzolja ki a karaktert)
 
  for index, currentChar in ipairs(playerOne) do
 
@@ -250,33 +213,31 @@ function board:draw()
     end
 
 
-print(isHovered)
-
 end
 
 
 
         -- statuszok alapján eldöntöm a karakterek színét
-for index, currentChar in ipairs(playerOne) do
-        if playerOne[index].isHovered then 
-            love.graphics.setColor(hoverColor)
+-- for index, currentChar in ipairs(playerOne) do
+--         if playerOne[index].isHovered then 
+--             love.graphics.setColor(hoverColor)
     
-        else  
-            love.graphics.setColor(charColor)
-        end
+--         else  
+--             love.graphics.setColor(charColor)
+--         end
       
-        if playerOne[index].isSelected then
+--         if playerOne[index].isSelected then
         
-            love.graphics.setColor(selectedColor)
+--             love.graphics.setColor(selectedColor)
         
-        elseif playerOne[index].isHovered == true then
-            love.graphics.setColor(hoverColor)
-        end
+--         elseif playerOne[index].isHovered == true then
+--             love.graphics.setColor(hoverColor)
+--         end
 
-            --visszaállítom a színt eredetire
-            love.graphics.setColor(charColor)
+--             --visszaállítom a színt eredetire
+--             love.graphics.setColor(charColor)
 
-end
+-- end
 
     
 
@@ -286,35 +247,18 @@ end
     ---kirajzolom a karaktereket
 
 for index, currentChar in ipairs(playerOne) do
-    if playerOne[index].type == 1 then
-    love.graphics.print("G", playerOne[index].screenX, playerOne[index].screenY)
-    elseif playerOne[index].type == 2 then 
-    love.graphics.print("F", playerOne[index].screenX, playerOne[index].screenY)
-    elseif playerOne[index].type == 3 then 
-    love.graphics.print("I", playerOne[index].screenX, playerOne[index].screenY)
-    elseif playerOne[index].type == 4 then 
-    love.graphics.print("E", playerOne[index].screenX, playerOne[index].screenY)
-    elseif playerOne[index].type == 5 then 
-    love.graphics.print("A", playerOne[index].screenX, playerOne[index].screenY)
-    elseif playerOne[index].type == 6 then 
-    love.graphics.print("T", playerOne[index].screenX, playerOne[index].screenY)
-    end
+  
+    love.graphics.print(playerOne[index].name:sub(0, 1), playerOne[index].screenX, playerOne[index].screenY)
+
+
+
 end
 
 for index, currentChar in ipairs(playerTwo) do
-    if playerTwo[index].type == 1 then
-    love.graphics.print("G", playerTwo[index].screenX, playerTwo[index].screenY)
-    elseif playerTwo[index].type == 2 then 
-    love.graphics.print("F", playerTwo[index].screenX, playerTwo[index].screenY)
-    elseif playerTwo[index].type == 3 then 
-    love.graphics.print("I", playerTwo[index].screenX, playerTwo[index].screenY)
-    elseif playerTwo[index].type == 4 then 
-    love.graphics.print("E", playerTwo[index].screenX, playerTwo[index].screenY)
-    elseif playerTwo[index].type == 5 then 
-    love.graphics.print("A", playerTwo[index].screenX, playerTwo[index].screenY)
-    elseif playerTwo[index].type == 6 then 
-    love.graphics.print("T", playerTwo[index].screenX, playerTwo[index].screenY)
-    end
+  
+    love.graphics.print(playerTwo[index].name:sub(0, 1), playerTwo[index].screenX, playerTwo[index].screenY)
+  
+
 
 end
 
@@ -327,6 +271,17 @@ end
 -- for k, v in pairs(characterCopy) do
 --    print(k, v)
 -- end
+
+
+
+-- for k, v in ipairs(playerOne) do
+--     for a, b in pairs(v) do 
+--        print(a, b)
+--     end
+--        print(k, v)
+   
+--    end
+
  
 -- a boardgridben az R1C5, R1C6 az starters
 
