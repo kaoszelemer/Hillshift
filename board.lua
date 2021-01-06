@@ -17,15 +17,11 @@ local type
 boardType = {
     "forest", "mount", "lake", "field"
 }
-
 --Quadtáblák definiálása
 --1. a tileset betöltése
 boardPicture = love.graphics.newImage("/graphics/tileset4.png")  -- placeholder tileset
-
-
 --1a. a tileset változói
 local tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
-
 --2, a cella típusuk definiálása a quadokból   
 cellQuadTable = {
 
@@ -59,7 +55,6 @@ cellQuadTable = {
     },
 }
 --3. a charactertípusok definiálása a quadokból
-
 charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32px)
 
 local function initPlayerDeck(playerTable, initCoordinates)
@@ -118,11 +113,9 @@ local function initPlayerDeck(playerTable, initCoordinates)
 
     end
 
-local function selectCharacterOnBoard(characterHover) 
 
+    local function selectCharacterOnBoard(characterHover) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
---   (a board rajzolja ki a karaktert)
-
     for index, currentChar in ipairs(characterHover) do
 
         if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + charW and
@@ -161,60 +154,41 @@ initPlayerDeck(playerOne, initPlayerCoordinatesPlayerOne)
 initPlayerDeck(playerTwo, initPlayerCoordinatesPlayerTwo)
 
 
-
-
-
-
 boardGrid = {}
     
-            for i = 1, maxRow do
-        
-                boardGrid[i] = {}
-                
-        
-                    for j = 1, maxCol do 
-                        --start mezők beállítása
-                        if  i == 5 and j == 1 or 
-                            i == 5 and j == 2 or
-                            i == 6 and j == 1 or
-                            i == 6 and j == 2 or
-                            i == 5 and j == 9 or
-                            i == 6 and j == 9 or
-                            i == 5 and j == 10 or
-                            i == 6 and j == 10 then
+    for i = 1, maxRow do boardGrid[i] = {}
+        for j = 1, maxCol do 
+            --start mezők beállítása
+            if      i == 5 and j == 1 or 
+                    i == 5 and j == 2 or
+                    i == 6 and j == 1 or
+                    i == 6 and j == 2 or
+                    i == 5 and j == 9 or
+                    i == 6 and j == 9 or
+                    i == 5 and j == 10 or
+                    i == 6 and j == 10 then
 
-                            selectedType = 4   
-                        -- egyébként legyen random
-                        else
-                            
-                            selectedType = love.math.random(1, #boardType)
-
-                        end
-                        -- a mezők adatai itt kerülnek be a táblázatba
-                        boardGrid[i][j] = {
-    
-                            id = "R" .. i .. "C" .. j,
-                            num = i,
-                            x = i,
-                            y = j, 
-                            type = selectedType,
-    
-                        }                     
-                        
-                        local cellType = boardGrid[i][j].type
-                        local cellTypeString = boardType[cellType]
-                        local quadSort = cellQuadTable[cellTypeString]
-
-                       
-
-                        boardGrid[i][j].quad = quadSort[love.math.random(#quadSort)]
-                        
-                        
-
-                    end
-    
+                    selectedType = 4   
+            -- egyébként legyen random
+            else    selectedType = love.math.random(1, #boardType)
             end
+            -- a mezők adatai itt kerülnek be a táblázatba
+            boardGrid[i][j] = {
 
+                id = "R" .. i .. "C" .. j,
+                num = i,
+                x = i,
+                y = j, 
+                type = selectedType,
+
+            }                     
+            
+            local cellType = boardGrid[i][j].type
+            local cellTypeString = boardType[cellType]
+            local quadSort = cellQuadTable[cellTypeString]
+            boardGrid[i][j].quad = quadSort[love.math.random(#quadSort)]
+        end
+    end
 end
 
 function board:update(dt)
@@ -239,28 +213,28 @@ function board:draw()
 end
 
 -- statuszok alapján eldöntöm a karakterek színét
-for index, currentChar in ipairs(PlayerOne) do
+for index, currentChar in ipairs(playerOne) do
 
-    if      PlayerOne[index].isHovered then love.graphics.setColor(hoverColor)
+    if      playerOne[index].isHovered then love.graphics.setColor(hoverColor)
     else    love.graphics.setColor(charColor)
     end
 
-    if      PlayerOne[index].isSelected then love.graphics.setColor(selectedColor)
-    elseif  PlayerOne[index].isHovered == true then love.graphics.setColor(hoverColor)
+    if      playerOne[index].isSelected then love.graphics.setColor(selectedColor)
+    elseif  playerOne[index].isHovered == true then love.graphics.setColor(hoverColor)
     end
            -- visszaállítom a színt eredetire
         love.graphics.setColor(charColor)
 
 end
 
-for index, currentChar in ipairs(characterHoverPlayerTwo) do
+for index, currentChar in ipairs(playerTwo) do
 
-    if      PlayerTwo[index].isHovered then love.graphics.setColor(hoverColor)
+    if      playerTwo[index].isHovered then love.graphics.setColor(hoverColor)
     else    love.graphics.setColor(charColor)
     end
 
-    if      PlayerTwo[index].isSelected then love.graphics.setColor(selectedColor)
-    elseif  PlayerTwo[index].isHovered == true then love.graphics.setColor(hoverColor)
+    if      playerTwo[index].isSelected then love.graphics.setColor(selectedColor)
+    elseif  playerTwo[index].isHovered == true then love.graphics.setColor(hoverColor)
     end
         --visszaállítom a színt eredetire
     love.graphics.setColor(charColor)
@@ -270,21 +244,6 @@ end
 
 drawCharactersOnBoard(playerOne)
 drawCharactersOnBoard(playerTwo)
-
-
--- for index, currentChar in ipairs(drawPlayerOne) do
---     love.graphics.print(drawPlayerOne[index].name:sub(0, 1), drawPlayerOne[index].screenX, drawPlayerOne[index].screenY)
--- end
-
--- for index, currentChar in ipairs(drawPlayerTwo) do
---     love.graphics.print(drawPlayerTwo[index].name:sub(0, 1), drawPlayerTwo[index].screenX, drawPlayerTwo[index].screenY)
--- end
-
-
-
-
-
-
 
 
 end
