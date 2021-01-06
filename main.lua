@@ -89,11 +89,11 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses)
     
-    if characters.isHovered then
+    if playerOne.isHovered then
             
-            characters.isSelected = true
+            playerOne.isSelected = true
     else
-            characters.isSelected = false
+            playerOne.isSelected = false
     end
 
 end

@@ -20,7 +20,9 @@ boardType = {
 
 --Quadtáblák definiálása
 --1. a tileset betöltése
-boardPicture = love.graphics.newImage("/graphics/tileset3.png") -- placeholder tileset
+boardPicture = love.graphics.newImage("/graphics/tileset4.png")  -- placeholder tileset
+
+
 --1a. a tileset változói
 local tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 
@@ -62,7 +64,7 @@ charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32
 
 local function initPlayerDeck(playerTable, initCoordinates)
 
-    --kapnak 6 lapot
+    --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
 
     for index, currentChar in ipairs (characters) do
 
@@ -78,6 +80,7 @@ local function initPlayerDeck(playerTable, initCoordinates)
     
     end
 
+    --amig a playertable hossza nem 4 kiveszek 2 lapot
 
     while #playerTable ~= 4
     
@@ -89,6 +92,7 @@ local function initPlayerDeck(playerTable, initCoordinates)
         
     end
    
+    -- beallítom a kezdőpozíciókat
 
     for index, currentChar in ipairs(playerTable) do
 
@@ -102,12 +106,44 @@ local function initPlayerDeck(playerTable, initCoordinates)
             currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
             currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
 
+    -- adok nekik kezdőváltozókat
+
             currentChar.isHovered = false
             currentChar.isSelected = false
             currentChar.stepsDone = false
             currentChar.actionDone = false
 
         end
+
+
+    end
+
+local function selectCharacterOnBoard(characterHover) 
+
+    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
+--   (a board rajzolja ki a karaktert)
+
+    for index, currentChar in ipairs(characterHover) do
+
+        if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + charW and
+            mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + charH then
+            characterHover[index].isHovered = true
+        else
+            characterHover[index].isHovered = false
+        end
+    end
+
+end
+
+local function drawCharactersOnBoard(drawPlayer)
+
+    ---kirajzolom a karaktereket
+   
+
+    for index, currentChar in ipairs(drawPlayer) do
+        love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
+    end
+
 
 end
 
@@ -116,11 +152,16 @@ function board:load()
 playerOne = {}
 playerTwo = {}
 
+-- létrehozom a kezdőpozíciók tábláját
+
 local initPlayerCoordinatesPlayerOne = {{5,1},{5,2},{6,1},{6,2}}
 local initPlayerCoordinatesPlayerTwo = {{5,9},{5,10},{6,9},{6,10}}
 
 initPlayerDeck(playerOne, initPlayerCoordinatesPlayerOne)
 initPlayerDeck(playerTwo, initPlayerCoordinatesPlayerTwo)
+
+
+
 
 
 
@@ -177,92 +218,76 @@ boardGrid = {}
 end
 
 function board:update(dt)
-
+    selectCharacterOnBoard(playerOne)
+    selectCharacterOnBoard(playerTwo)
+    print(playerOne[2].isHovered)
 end
 
 function board:draw()
-   
-  
-    for i=1, #boardGrid do
-        for j=1, #boardGrid[i] do 
-            
-            --random cellák változói
-            local currentCell = boardGrid[i][j] 
-            local currentType = boardType[currentCell.type] 
-        
-            
-            love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)
-            
-         --- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-          --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
-		end
+
+
+  -- kirajzolom a táblát
+  for i=1, #boardGrid do
+    for j=1, #boardGrid[i] do 
+        --random cellák változói
+        local currentCell = boardGrid[i][j] 
+        local currentType = boardType[currentCell.type] 
+        love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)     
+      -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
+      --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
     end
-    
+end
 
---   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
---   (a board rajzolja ki a karaktert)
+-- statuszok alapján eldöntöm a karakterek színét
+for index, currentChar in ipairs(PlayerOne) do
 
- for index, currentChar in ipairs(playerOne) do
-
-    if  mouseX > playerOne[index].screenX and mouseX < playerOne[index].screenX + charW and
-        mouseY > playerOne[index].screenY and mouseY < playerOne[index].screenY + charH then
-
-            playerOne[index].isHovered = true
-    else
-            playerOne[index].isHovered = false
+    if      PlayerOne[index].isHovered then love.graphics.setColor(hoverColor)
+    else    love.graphics.setColor(charColor)
     end
 
+    if      PlayerOne[index].isSelected then love.graphics.setColor(selectedColor)
+    elseif  PlayerOne[index].isHovered == true then love.graphics.setColor(hoverColor)
+    end
+           -- visszaállítom a színt eredetire
+        love.graphics.setColor(charColor)
+
+end
+
+for index, currentChar in ipairs(characterHoverPlayerTwo) do
+
+    if      PlayerTwo[index].isHovered then love.graphics.setColor(hoverColor)
+    else    love.graphics.setColor(charColor)
+    end
+
+    if      PlayerTwo[index].isSelected then love.graphics.setColor(selectedColor)
+    elseif  PlayerTwo[index].isHovered == true then love.graphics.setColor(hoverColor)
+    end
+        --visszaállítom a színt eredetire
+    love.graphics.setColor(charColor)
 
 end
 
 
+drawCharactersOnBoard(playerOne)
+drawCharactersOnBoard(playerTwo)
 
-        -- statuszok alapján eldöntöm a karakterek színét
--- for index, currentChar in ipairs(playerOne) do
---         if playerOne[index].isHovered then 
---             love.graphics.setColor(hoverColor)
-    
---         else  
---             love.graphics.setColor(charColor)
---         end
-      
---         if playerOne[index].isSelected then
-        
---             love.graphics.setColor(selectedColor)
-        
---         elseif playerOne[index].isHovered == true then
---             love.graphics.setColor(hoverColor)
---         end
 
---             --visszaállítom a színt eredetire
---             love.graphics.setColor(charColor)
-
+-- for index, currentChar in ipairs(drawPlayerOne) do
+--     love.graphics.print(drawPlayerOne[index].name:sub(0, 1), drawPlayerOne[index].screenX, drawPlayerOne[index].screenY)
 -- end
 
-    
+-- for index, currentChar in ipairs(drawPlayerTwo) do
+--     love.graphics.print(drawPlayerTwo[index].name:sub(0, 1), drawPlayerTwo[index].screenX, drawPlayerTwo[index].screenY)
+-- end
 
-    
 
 
-    ---kirajzolom a karaktereket
 
-for index, currentChar in ipairs(playerOne) do
-  
-    love.graphics.print(playerOne[index].name:sub(0, 1), playerOne[index].screenX, playerOne[index].screenY)
+
 
 
 
 end
-
-for index, currentChar in ipairs(playerTwo) do
-  
-    love.graphics.print(playerTwo[index].name:sub(0, 1), playerTwo[index].screenX, playerTwo[index].screenY)
-  
-
-
-end
-
-
 
  --for debugging
  
@@ -284,7 +309,4 @@ end
 
  
 -- a boardgridben az R1C5, R1C6 az starters
-
-
-end
 
