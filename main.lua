@@ -29,7 +29,7 @@ function love.load()
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(0,0,0)
     love.window.setMode(width,height)
-
+    love.mouse.setVisible(true)
 end
 
 function love.update(dt)
@@ -42,15 +42,18 @@ end
 function love.draw()
     board:draw()
     love.graphics.setColor(charColor)
+    love.graphics.print("x", mouseX, mouseY)
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
     -- ez ellenorzi h felengedtem az egeret
-    if      playerOne.isHovered then playerOne.isSelected = true
-    else    playerOne.isSelected = false
-    end
+    for i = 1, 4 do
+        if      playerOne[i].isHovered then playerOne[i].isSelected = true
+        else    playerOne[i].isSelected = false
+        end
 
-    if      playerTwo.isHovered then playerTwo.isSelected = true
-    else    playerTwo.isSelected = false
+        if      playerTwo[i].isHovered then playerTwo[i].isSelected = true
+        else    playerTwo[i].isSelected = false
+        end
     end
 end

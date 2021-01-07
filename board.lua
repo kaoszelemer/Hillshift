@@ -86,8 +86,6 @@ local function initPlayerDeck(playerTable, initCoordinates)
     end
 end
 
-
-
 local function selectCharacterOnBoard(characterHover) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van    
     for index, currentChar in ipairs(characterHover) do
@@ -111,14 +109,11 @@ local function drawCharactersOnBoard(drawPlayer)
         if      drawPlayer[index].isSelected then love.graphics.setColor(selectedColor)
         elseif  drawPlayer[index].isHovered == true then love.graphics.setColor(hoverColor)
         end
-    
-    end
-    ---kirajzolom a karaktereket
-    for index, currentChar in ipairs(drawPlayer) do
-        love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
-    end
-end
 
+        love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
+    
+    end    
+end
 
 function board:load()
 
@@ -183,10 +178,13 @@ function board:draw()
         end
     end
 
+    
+
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
 
-    print(playerOne[1].isHovered)
+   print(playerOne[1].isSelected)
+   
 
 end
 
