@@ -54,8 +54,6 @@ cellQuadTable = {
         love.graphics.newQuad(448, 64, tileW, tileH, tilesetW, tilesetH)
     },
 }
---3. a charactertípusok definiálása a quadokból
-charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32px)
 
 local function initPlayerDeck(playerTable, initCoordinates)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
@@ -88,8 +86,10 @@ local function initPlayerDeck(playerTable, initCoordinates)
     end
 end
 
+
+
 local function selectCharacterOnBoard(characterHover) 
-    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
+    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van    
     for index, currentChar in ipairs(characterHover) do
         if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + charW and
             mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + charH then
@@ -101,123 +101,92 @@ local function selectCharacterOnBoard(characterHover)
 end
 
 local function drawCharactersOnBoard(drawPlayer)
+    -- státuszok alapján beállítom a színeket
+    for index, currentChar in ipairs(drawPlayer) do
+
+        if      drawPlayer[index].isHovered then love.graphics.setColor(hoverColor)
+        else    love.graphics.setColor(charColor)
+        end
+    
+        if      drawPlayer[index].isSelected then love.graphics.setColor(selectedColor)
+        elseif  drawPlayer[index].isHovered == true then love.graphics.setColor(hoverColor)
+        end
+    
+    end
     ---kirajzolom a karaktereket
     for index, currentChar in ipairs(drawPlayer) do
         love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
     end
 end
 
+
 function board:load()
 
-playerOne = {}
-playerTwo = {}
+    playerOne = {}
+    playerTwo = {}
 
--- létrehozom a kezdőpozíciók tábláját
+    -- létrehozom a kezdőpozíciók tábláját
 
-local initPlayerCoordinatesPlayerOne = {{5,1},{5,2},{6,1},{6,2}}
-local initPlayerCoordinatesPlayerTwo = {{5,9},{5,10},{6,9},{6,10}}
+    local initPlayerCoordinatesPlayerOne = {{5,1},{5,2},{6,1},{6,2}}
+    local initPlayerCoordinatesPlayerTwo = {{5,9},{5,10},{6,9},{6,10}}
 
-initPlayerDeck(playerOne, initPlayerCoordinatesPlayerOne)
-initPlayerDeck(playerTwo, initPlayerCoordinatesPlayerTwo)
+    initPlayerDeck(playerOne, initPlayerCoordinatesPlayerOne)
+    initPlayerDeck(playerTwo, initPlayerCoordinatesPlayerTwo)
 
 
-boardGrid = {}
-    
-    for i = 1, maxRow do boardGrid[i] = {}
-        for j = 1, maxCol do 
-            --start mezők beállítása
-            if      i == 5 and j == 1 or 
-                    i == 5 and j == 2 or
-                    i == 6 and j == 1 or
-                    i == 6 and j == 2 or
-                    i == 5 and j == 9 or
-                    i == 6 and j == 9 or
-                    i == 5 and j == 10 or
-                    i == 6 and j == 10 then
+    boardGrid = {}
+        
+        for i = 1, maxRow do boardGrid[i] = {}
+            for j = 1, maxCol do 
+                --start mezők beállítása
+                if      i == 5 and j == 1 or i == 5 and j == 2 or
+                        i == 6 and j == 1 or i == 6 and j == 2 or
+                        i == 5 and j == 9 or i == 6 and j == 9 or
+                        i == 5 and j == 10 or i == 6 and j == 10 then selectedType = 4   
+                -- egyébként legyen random
+                else    selectedType = love.math.random(1, #boardType)
+                end
+                -- a mezők adatai itt kerülnek be a táblázatba
+                boardGrid[i][j] = {
 
-                    selectedType = 4   
-            -- egyébként legyen random
-            else    selectedType = love.math.random(1, #boardType)
+                    id = "R" .. i .. "C" .. j,
+                    num = i,
+                    x = i,
+                    y = j, 
+                    type = selectedType,
+
+                }                     
+                
+                local cellType = boardGrid[i][j].type
+                local cellTypeString = boardType[cellType]
+                local quadSort = cellQuadTable[cellTypeString]
+                boardGrid[i][j].quad = quadSort[love.math.random(#quadSort)]
             end
-            -- a mezők adatai itt kerülnek be a táblázatba
-            boardGrid[i][j] = {
-
-                id = "R" .. i .. "C" .. j,
-                num = i,
-                x = i,
-                y = j, 
-                type = selectedType,
-
-            }                     
-            
-            local cellType = boardGrid[i][j].type
-            local cellTypeString = boardType[cellType]
-            local quadSort = cellQuadTable[cellTypeString]
-            boardGrid[i][j].quad = quadSort[love.math.random(#quadSort)]
         end
-    end
 end
 
 function board:update(dt)
-
+    selectCharacterOnBoard(playerOne)
+    selectCharacterOnBoard(playerTwo)   
 end
 
 function board:draw()
-
-    selectCharacterOnBoard(playerOne)
-    selectCharacterOnBoard(playerTwo)
-   
-
   -- kirajzolom a táblát
-  for i=1, #boardGrid do
-    for j=1, #boardGrid[i] do 
-        --random cellák változói
-        local currentCell = boardGrid[i][j] 
-        local currentType = boardType[currentCell.type] 
-        love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)     
-      -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-      --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
-    end
-end
-
-print(playerOne[1].isHovered)
-
--- statuszok alapján eldöntöm a karakterek színét
-for index, currentChar in ipairs(playerOne) do
-
-    if      playerOne[index].isHovered then love.graphics.setColor(hoverColor)
-    else    love.graphics.setColor(charColor)
+    for i=1, #boardGrid do
+        for j=1, #boardGrid[i] do 
+            --random cellák változói
+            local currentCell = boardGrid[i][j] 
+            local currentType = boardType[currentCell.type] 
+            love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)     
+        -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
+        --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+        end
     end
 
-
-    if      playerOne[index].isSelected then love.graphics.setColor(selectedColor)
-    elseif  playerOne[index].isHovered == true then love.graphics.setColor(hoverColor)
-    end
+    drawCharactersOnBoard(playerOne)
+    drawCharactersOnBoard(playerTwo)
 
     print(playerOne[1].isHovered)
-
-           -- visszaállítom a színt eredetire
-        love.graphics.setColor(charColor)
-
-end
-
-for index, currentChar in ipairs(playerTwo) do
-
-    if      playerTwo[index].isHovered then love.graphics.setColor(hoverColor)
-    else    love.graphics.setColor(charColor)
-    end
-
-    if      playerTwo[index].isSelected then love.graphics.setColor(selectedColor)
-    elseif  playerTwo[index].isHovered == true then love.graphics.setColor(hoverColor)
-    end
-        --visszaállítom a színt eredetire
-    love.graphics.setColor(charColor)
-
-end
-
-drawCharactersOnBoard(playerOne)
-drawCharactersOnBoard(playerTwo)
-
 
 end
 
@@ -229,8 +198,6 @@ end
 --    print(k, v)
 -- end
 
-
-
 -- for k, v in ipairs(playerOne) do
 --     for a, b in pairs(v) do 
 --        print(a, b)
@@ -238,7 +205,3 @@ end
 --        print(k, v)
    
 --    end
-
- 
--- a boardgridben az R1C5, R1C6 az starters
-
