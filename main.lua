@@ -5,7 +5,6 @@
 require ('board')
 require ('characters')
 
-
 --valtozok
 --altalanos valtozok
 width = 1280
@@ -23,20 +22,11 @@ charW = 32
 
 mouseX, mouseY = love.mouse.getPosition()
 
-
-
 love.graphics.setFont(font)
 
 function love.load()
- 
     --board betoltese
     board:load()
- 
- 
-    --karakterek betoltese
-
-
-
     
     --beallitasok
     love.window.setTitle("HillShift")
@@ -48,40 +38,14 @@ end
 function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
-    
-
-    --tabla update
-    board:update(dt)
-
-
-
-    --karakter update
-
-    
-
-  
+    board:update(dt) 
 
 end
 
 function love.draw()
  
     love.graphics.setColor(charColor)
- 
-
-
-    --board draw
-   board:draw()
-
-
- 
- 
-  
-
-
-   
-
-    
-
+    board:draw()
     
 end
 
@@ -89,11 +53,11 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses)
     
-    if playerOne.isHovered then
-            
-            playerOne.isSelected = true
-    else
-            playerOne.isSelected = false
+    if      playerOne.isHovered then playerOne.isSelected = true
+    else    playerOne.isSelected = false
     end
 
+    if      playerTwo.isHovered then playerTwo.isSelected = true
+    else    playerTwo.isSelected = false
+    end
 end

@@ -58,66 +58,39 @@ cellQuadTable = {
 charQuadTable = {} --ki kell tolteni a karakterek quadjaival (egy karakter 32x32px)
 
 local function initPlayerDeck(playerTable, initCoordinates)
-
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
-
-    for index, currentChar in ipairs (characters) do
-
-        local characterCopy = {}
-
-        for key, value in pairs(currentChar) do
-            
-            characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
-            
+    for index, currentChar in ipairs (characters) do local characterCopy = {}
+        for key, value in pairs(currentChar) do characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
         end
-    
         table.insert(playerTable, characterCopy)
-    
     end
-
     --amig a playertable hossza nem 4 kiveszek 2 lapot
-
-    while #playerTable ~= 4
-    
-    do     
-        
+    while #playerTable ~= 4 do     
         local cardNumber = love.math.random(1, #playerTable)
-
         table.remove(playerTable, cardNumber)
-        
     end
-   
     -- beallítom a kezdőpozíciókat
-
     for index, currentChar in ipairs(playerTable) do
 
-            if     index == 1 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-            elseif index == 2 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-            elseif index == 3 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-            elseif index == 4 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-
-            end
-
-            currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
-            currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
-
-    -- adok nekik kezdőváltozókat
-
-            currentChar.isHovered = false
-            currentChar.isSelected = false
-            currentChar.stepsDone = false
-            currentChar.actionDone = false
-
+        if     index == 1 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        elseif index == 2 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        elseif index == 3 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        elseif index == 4 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
         end
 
-
+        currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
+        currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+        -- adok nekik kezdőváltozókat
+        currentChar.isHovered = false
+        currentChar.isSelected = false
+        currentChar.stepsDone = false
+        currentChar.actionDone = false
     end
+end
 
-
-    local function selectCharacterOnBoard(characterHover) 
+local function selectCharacterOnBoard(characterHover) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
     for index, currentChar in ipairs(characterHover) do
-
         if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + charW and
             mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + charH then
             characterHover[index].isHovered = true
@@ -125,19 +98,13 @@ local function initPlayerDeck(playerTable, initCoordinates)
             characterHover[index].isHovered = false
         end
     end
-
 end
 
 local function drawCharactersOnBoard(drawPlayer)
-
     ---kirajzolom a karaktereket
-   
-
     for index, currentChar in ipairs(drawPlayer) do
         love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
     end
-
-
 end
 
 function board:load()
@@ -192,13 +159,14 @@ boardGrid = {}
 end
 
 function board:update(dt)
-    selectCharacterOnBoard(playerOne)
-    selectCharacterOnBoard(playerTwo)
-    print(playerOne[2].isHovered)
+
 end
 
 function board:draw()
 
+    selectCharacterOnBoard(playerOne)
+    selectCharacterOnBoard(playerTwo)
+   
 
   -- kirajzolom a táblát
   for i=1, #boardGrid do
@@ -212,6 +180,8 @@ function board:draw()
     end
 end
 
+print(playerOne[1].isHovered)
+
 -- statuszok alapján eldöntöm a karakterek színét
 for index, currentChar in ipairs(playerOne) do
 
@@ -219,9 +189,13 @@ for index, currentChar in ipairs(playerOne) do
     else    love.graphics.setColor(charColor)
     end
 
+
     if      playerOne[index].isSelected then love.graphics.setColor(selectedColor)
     elseif  playerOne[index].isHovered == true then love.graphics.setColor(hoverColor)
     end
+
+    print(playerOne[1].isHovered)
+
            -- visszaállítom a színt eredetire
         love.graphics.setColor(charColor)
 
@@ -240,7 +214,6 @@ for index, currentChar in ipairs(playerTwo) do
     love.graphics.setColor(charColor)
 
 end
-
 
 drawCharactersOnBoard(playerOne)
 drawCharactersOnBoard(playerTwo)
