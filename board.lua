@@ -98,6 +98,27 @@ local function selectCharacterOnBoard(characterHover)
     end
 end
 
+local function gridTestMouse(board)
+
+    for index, rows in ipairs(board) do
+        for _, cell in ipairs(rows) do -- _alulvonás azt jelenti hogy változó ami nem kell
+    
+            if  mouseX > cell.x * tileW - tileW and mouseX < cell.x * tileW - tileW  + tileW and
+                mouseY > cell.y * tileW - tileW and mouseY < cell.y * tileW - tileW  + tileH then
+                cell.isHovered = true
+                print(cell.x .. "," .. cell.y)
+                print(mouseX,mouseY)
+            else
+                cell.isHovered = false
+            end     
+        end
+    end
+end
+
+
+
+
+
 local function drawCharactersOnBoard(drawPlayer)
     -- státuszok alapján beállítom a színeket
     for index, currentChar in ipairs(drawPlayer) do
@@ -149,9 +170,14 @@ function board:load()
                     x = i,
                     y = j, 
                     type = selectedType,
-
+                    isWalkable = true
+                    
                 }                     
                 
+                if selectedType == 3 then
+                    boardGrid[i][j].isWalkable = false
+                end
+
                 local cellType = boardGrid[i][j].type
                 local cellTypeString = boardType[cellType]
                 local quadSort = cellQuadTable[cellTypeString]
@@ -162,7 +188,8 @@ end
 
 function board:update(dt)
     selectCharacterOnBoard(playerOne)
-    selectCharacterOnBoard(playerTwo)   
+    selectCharacterOnBoard(playerTwo)
+    gridTestMouse(boardGrid)  
 end
 
 function board:draw()
@@ -174,7 +201,7 @@ function board:draw()
             local currentType = boardType[currentCell.type] 
             love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)     
         -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-        --  love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+         love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
         end
     end
 
@@ -183,7 +210,8 @@ function board:draw()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
 
-   print(playerOne[1].isSelected)
+  
+
    
 
 end
