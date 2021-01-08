@@ -48,12 +48,29 @@ end
 function love.mousereleased(x, y, button, istouch, presses)
     -- ez ellenorzi h felengedtem az egeret
     for i = 1, 4 do
-        if      playerOne[i].isHovered then playerOne[i].isSelected = true
-        else    playerOne[i].isSelected = false
-        end
 
-        if      playerTwo[i].isHovered then playerTwo[i].isSelected = true
-        else    playerTwo[i].isSelected = false
+                if      playerOne[i].isHovered then playerOne[i].isSelected = true   
+                else    playerOne[i].isSelected = false
+                end
+
+                if      playerTwo[i].isHovered then playerTwo[i].isSelected = true
+                else    playerTwo[i].isSelected = false
+                end            
+
+    end
+
+    --melyik cella felett hoverelek eppen az egermutatoval -> ezt tegnap megcsinaltuk
+  --amikor felengedem az egeret meg kell neznem -> kész mivel a mousepressed-be vagyok
+    for index, rows in ipairs(boardGrid) do
+        for _, cell in ipairs(boardGrid) do
+            if cell.isHovered == true
+  --van-e eppen kivalasztott karakterem
+            --and playerOne[1].isSelected == true
+  --ha ez a ketto true akkor meg kell neznem valid-e a mozgas (ezt lehet kesobb)
+            then print('helo') end
+  --ha valid a mozgas akkor mozgatom a karaktert
+  --ha invalid akkor deszelektálom a karaktert
         end
     end
+
 end

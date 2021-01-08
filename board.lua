@@ -106,8 +106,9 @@ local function gridTestMouse(board)
             if  mouseX > cell.x * tileW - tileW and mouseX < cell.x * tileW - tileW  + tileW and
                 mouseY > cell.y * tileW - tileW and mouseY < cell.y * tileW - tileW  + tileH then
                 cell.isHovered = true
-                print(cell.x .. "," .. cell.y)
-                print(mouseX,mouseY)
+                --for bugfixing purposes, egeret viszonyitani a cellakhoz
+                --print(cell.x .. "," .. cell.y)
+                --print(mouseX,mouseY)
             else
                 cell.isHovered = false
             end     
@@ -115,8 +116,22 @@ local function gridTestMouse(board)
     end
 end
 
+local function boardMove(x, y)  --egyelore kopipeszt
+   for index, rows in ipairs(boardGrid) do
+        for _, cell in ipairs(rows) do 
+            oldMapX = cell.x
+            oldMapY = cell.y
 
+            cell.x = math.max(math.min(cell.x + x, maxRow - tileW), 1)
+            cell.y = math.max(math.min(cell.y + y, maxCol - tileH), 1)
 
+            if math.floor(cell.x) ~= math.floor(oldMapX) or math.floor(cell.y) ~= math.floor(oldMapY) then
+                print("helo")
+            end    
+
+        end
+    end
+end
 
 
 local function drawCharactersOnBoard(drawPlayer)
@@ -134,6 +149,8 @@ local function drawCharactersOnBoard(drawPlayer)
         love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
     
     end    
+
+
 end
 
 function board:load()
@@ -201,7 +218,7 @@ function board:draw()
             local currentType = boardType[currentCell.type] 
             love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)     
         -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-         love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+        -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
         end
     end
 
