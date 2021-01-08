@@ -46,31 +46,61 @@ function love.draw()
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
-    -- ez ellenorzi h felengedtem az egeret
+
+    -- rögzítsük az adatot a játékosokban, hogy az egér felengedéssel kijelöltük-e őket éppen
+  
     for i = 1, 4 do
-
-                if      playerOne[i].isHovered then playerOne[i].isSelected = true   
-                else    playerOne[i].isSelected = false
-                end
-
-                if      playerTwo[i].isHovered then playerTwo[i].isSelected = true
-                else    playerTwo[i].isSelected = false
-                end            
-
-    end
-
-    --melyik cella felett hoverelek eppen az egermutatoval -> ezt tegnap megcsinaltuk
-  --amikor felengedem az egeret meg kell neznem -> kész mivel a mousepressed-be vagyok
-    for index, rows in ipairs(boardGrid) do
-        for _, cell in ipairs(boardGrid) do
-            if cell.isHovered == true
-  --van-e eppen kivalasztott karakterem
-            --and playerOne[1].isSelected == true
-  --ha ez a ketto true akkor meg kell neznem valid-e a mozgas (ezt lehet kesobb)
-            then print('helo') end
-  --ha valid a mozgas akkor mozgatom a karaktert
-  --ha invalid akkor deszelektálom a karaktert
+ 
+        if playerOne[i].isHovered then
+            playerOne[i].isSelected = true  
+        else
+            playerOne[i].isSelected = false                          
         end
+                
     end
+    
+      -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
+    
+    for index, rows in ipairs(boardGrid) do
+        for _, cell in ipairs(rows) do 
+            if cell.isHovered == true and cell.isOccupied == false then
+                -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
+               
+                moveCharactersOnBoard(playerOne, 1,1)
+            end
+      
+        end   
+
+
+    end
+
+
+
+    for i = 1, 4 do
+ 
+        if playerTwo[i].isHovered then
+            playerTwo[i].isSelected = true  
+        else
+            playerTwo[i].isSelected = false                          
+        end
+                
+    end
+    
+      -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
+    
+    for index, rows in ipairs(boardGrid) do
+        for _, cell in ipairs(rows) do 
+            if cell.isHovered == true and cell.isOccupied == false then
+
+                -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
+                moveCharactersOnBoard(playerTwo, 1,1)
+            end
+      
+        end   
+
+
+    end
+
+    
 
 end

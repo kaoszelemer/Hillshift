@@ -116,21 +116,33 @@ local function gridTestMouse(board)
     end
 end
 
-local function boardMove(x, y)  --egyelore kopipeszt
-   for index, rows in ipairs(boardGrid) do
-        for _, cell in ipairs(rows) do 
-            oldMapX = cell.x
-            oldMapY = cell.y
+function moveCharactersOnBoard(moveCharacter, x, y)  --egyelore kopipeszt
 
-            cell.x = math.max(math.min(cell.x + x, maxRow - tileW), 1)
-            cell.y = math.max(math.min(cell.y + y, maxCol - tileH), 1)
+    -- for index, currentChar in ipairs(moveCharacter) do
 
-            if math.floor(cell.x) ~= math.floor(oldMapX) or math.floor(cell.y) ~= math.floor(oldMapY) then
-                print("helo")
-            end    
+    --     local oldX = currentChar.x
+    --     local oldY = currentChar.y
 
-        end
+    --     currentChar.x = math.max(math.min(currentChar.x + x, maxRow - tileW), 1)
+    --     currentChar.y = math.max(math.min(currentChar.y + y, maxRow - tileW), 1)
+
+    --     oldX = currentChar.screenX
+    --     oldY = currentChar.screenY
+
+    -- end 
+  print("helo2")
+    --love.graphics.print(currentChar.name:sub(0, 1), currentChar.screenX, currentChar.screenY)
+
+end
+
+function testCharactersOnCell(player)
+
+    
+   
+    for _, currentChar in ipairs(player) do
+        boardGrid[currentChar.x][currentChar.y].isOccupied = true
     end
+    
 end
 
 
@@ -149,7 +161,7 @@ local function drawCharactersOnBoard(drawPlayer)
         love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
     
     end    
-
+ 
 
 end
 
@@ -175,7 +187,8 @@ function board:load()
                 if      i == 5 and j == 1 or i == 5 and j == 2 or
                         i == 6 and j == 1 or i == 6 and j == 2 or
                         i == 5 and j == 9 or i == 6 and j == 9 or
-                        i == 5 and j == 10 or i == 6 and j == 10 then selectedType = 4   
+                        i == 5 and j == 10 or i == 6 and j == 10 then 
+                            selectedType = 4
                 -- egyébként legyen random
                 else    selectedType = love.math.random(1, #boardType)
                 end
@@ -187,7 +200,9 @@ function board:load()
                     x = i,
                     y = j, 
                     type = selectedType,
-                    isWalkable = true
+                    isWalkable = true,
+                    isOccupied = false,
+                    
                     
                 }                     
                 
@@ -206,17 +221,34 @@ end
 function board:update(dt)
     selectCharacterOnBoard(playerOne)
     selectCharacterOnBoard(playerTwo)
-    gridTestMouse(boardGrid)  
+
+    gridTestMouse(boardGrid)
+    testCharactersOnCell(playerOne)
+    testCharactersOnCell(playerTwo)
 end
 
 function board:draw()
   -- kirajzolom a táblát
     for i=1, #boardGrid do
         for j=1, #boardGrid[i] do 
+           
             --random cellák változói
             local currentCell = boardGrid[i][j] 
-            local currentType = boardType[currentCell.type] 
-            love.graphics.draw(boardPicture, currentCell.quad, currentCell.x*tileW, currentCell.y*tileH)     
+            local currentType = boardType[currentCell.type]
+            
+            if boardGrid[i][j].isHovered == true then
+            love.graphics.setColor(hoverColor)
+            love.graphics.rectangle("line", (currentCell.x - 1) * tileW, (currentCell.y - 1) * tileH, tileW, tileH)
+            love.graphics.setColor(charColor)
+            end
+
+            if boardGrid[i][j].isOccupied == true then
+                love.graphics.setColor(selectedColor)
+                love.graphics.rectangle("line", (currentCell.x) * tileW, (currentCell.y) * tileH, tileW, tileH)
+                love.graphics.setColor(charColor)
+                end
+
+            love.graphics.draw(boardPicture, currentCell.quad, (currentCell.x) * tileW, (currentCell.y) * tileH)     
         -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
         -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
         end
