@@ -103,46 +103,47 @@ local function gridTestMouse(board)
     for index, rows in ipairs(board) do
         for _, cell in ipairs(rows) do -- _alulvonás azt jelenti hogy változó ami nem kell
     
-            if  mouseX > cell.x * tileW - tileW and mouseX < cell.x * tileW - tileW  + tileW and
-                mouseY > cell.y * tileW - tileW and mouseY < cell.y * tileW - tileW  + tileH then
+            if  mouseX > (cell.x + 1) * tileW - tileW and mouseX < (cell.x + 1) * tileW - tileW  + tileW and
+                mouseY > (cell.y + 1) * tileW - tileW and mouseY < (cell.y + 1) * tileW - tileW  + tileH then
                 cell.isHovered = true
                 --for bugfixing purposes, egeret viszonyitani a cellakhoz
                 --print(cell.x .. "," .. cell.y)
                 --print(mouseX,mouseY)
             else
                 cell.isHovered = false
-            end     
+            end
         end
     end
 end
 
-function moveCharactersOnBoard(moveCharacter, x, y)  --egyelore kopipeszt
+local function updateCharacterPosition(player)
 
-    -- for index, currentChar in ipairs(moveCharacter) do
+ for index, currentChar in ipairs(playerOne) do
+    currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
+    currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+ end
 
-    --     local oldX = currentChar.x
-    --     local oldY = currentChar.y
+end
 
-    --     currentChar.x = math.max(math.min(currentChar.x + x, maxRow - tileW), 1)
-    --     currentChar.y = math.max(math.min(currentChar.y + y, maxRow - tileW), 1)
-
-    --     oldX = currentChar.screenX
-    --     oldY = currentChar.screenY
-
-    -- end 
-  print("helo2")
-    --love.graphics.print(currentChar.name:sub(0, 1), currentChar.screenX, currentChar.screenY)
+function moveCharactersOnBoard(character, x, y)  --egyelore kopipeszt
+     
+        character.x = x
+        character.y = y
 
 end
 
 function testCharactersOnCell(player)
 
-    
+    for index, row in ipairs(boardGrid) do
+     for _, cell in ipairs(row) do
+        cell.isOccupied = false
+    end
+    end
+
    
     for _, currentChar in ipairs(player) do
         boardGrid[currentChar.x][currentChar.y].isOccupied = true   
     end
-   
 
 
 end
@@ -223,7 +224,8 @@ end
 function board:update(dt)
     selectCharacterOnBoard(playerOne)
     selectCharacterOnBoard(playerTwo)
-
+    updateCharacterPosition(playerOne)
+    updateCharacterPosition(playerTwo)
     gridTestMouse(boardGrid)
     testCharactersOnCell(playerOne)
     testCharactersOnCell(playerTwo)
@@ -239,20 +241,25 @@ function board:draw()
             local currentType = boardType[currentCell.type]
             
             if boardGrid[i][j].isHovered == true then
+            love.graphics.setLineWidth(3)
             love.graphics.setColor(hoverColor)
-            love.graphics.rectangle("line", (currentCell.x - 1) * tileW, (currentCell.y - 1) * tileH, tileW, tileH)
+            love.graphics.rectangle("line", (currentCell.x) * tileW, (currentCell.y) * tileH, tileW, tileH)
             love.graphics.setColor(charColor)
+            love.graphics.setLineWidth(1)
             end
 
             if boardGrid[i][j].isOccupied == true then
-                love.graphics.setColor(selectedColor)
+                love.graphics.setLineWidth(3)
+                love.graphics.setColor(cellOccupiedColor)
                 love.graphics.rectangle("line", (currentCell.x) * tileW, (currentCell.y) * tileH, tileW, tileH)
                 love.graphics.setColor(charColor)
-                end
+                love.graphics.setLineWidth(1)
+            end
+
 
             love.graphics.draw(boardPicture, currentCell.quad, (currentCell.x) * tileW, (currentCell.y) * tileH)     
         -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-        love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+        -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
         end
     end
 
