@@ -69,12 +69,11 @@ function love.mousereleased(x, y, button, istouch, presses)
     end
 
 
-    
+
 
 
             local cellMousePositionX = math.floor(mouseX / tileW)
             local cellMousePositionY = math.floor(mouseY / tileH)
-
             if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false 
             and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true then
 

@@ -89,8 +89,8 @@ end
 local function selectCharacterOnBoard(characterHover) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van    
     for index, currentChar in ipairs(characterHover) do
-        if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + charW and
-            mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + charH then
+        if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + tileW and
+            mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + tileH then
             characterHover[index].isHovered = true
         else
             characterHover[index].isHovered = false
@@ -134,18 +134,18 @@ end
 
 function testCharactersOnCell(player)
 
+     
     for index, row in ipairs(boardGrid) do
-     for _, cell in ipairs(row) do
-        cell.isOccupied = false
-    end
-
+        for _, cell in ipairs(row) do
+           cell.isOccupied = false
+        end
     end
 
    
     for _, currentChar in ipairs(player) do
-        boardGrid[currentChar.x][currentChar.y].isOccupied = true   
+        boardGrid[currentChar.x][currentChar.y].isOccupied = true
+        
     end
-    
    
 end
 
