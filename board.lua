@@ -125,7 +125,7 @@ local function updateCharacterPosition(player)
 
 end
 
-function moveCharactersOnBoard(character, x, y)  --egyelore kopipeszt
+function moveCharactersOnBoard(character, x, y)  
      
         character.x = x
         character.y = y
@@ -151,20 +151,24 @@ end
 
 local function drawCharactersOnBoard(drawPlayer)
     -- státuszok alapján beállítom a színeket
-    for index, currentChar in ipairs(drawPlayer) do
 
-        if      drawPlayer[index].isHovered then love.graphics.setColor(hoverColor)
-        else    love.graphics.setColor(charColor)
+     for index, currentChar in ipairs(drawPlayer) do
+
+        if      drawPlayer[index].isHovered then
+                love.graphics.draw(drawPlayer[index].imageHover, drawPlayer[index].screenX - 16, drawPlayer[index].screenY - 16)
+        else    love.graphics.draw(drawPlayer[index].image, drawPlayer[index].screenX - 16, drawPlayer[index].screenY - 16)
         end
     
-        if      drawPlayer[index].isSelected then love.graphics.setColor(selectedColor)
-        elseif  drawPlayer[index].isHovered == true then love.graphics.setColor(hoverColor)
-        end
+    --     if      drawPlayer[index].isSelected then love.graphics.setColor(selectedColor)
+    --     elseif  drawPlayer[index].isHovered == true then love.graphics.setColor(hoverColor)
+    --     end
 
-        love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
+    --     love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
     
-    end    
- 
+    -- end   
+    
+      
+    end
 
 end
 
@@ -209,7 +213,7 @@ function board:load()
                     
                 }                     
                 
-                if selectedType == 3 then
+                if selectedType == 2 then
                     boardGrid[i][j].isWalkable = false
                 end
 
