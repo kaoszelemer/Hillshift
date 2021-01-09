@@ -118,14 +118,14 @@ end
 
 local function updateCharacterPosition(player)
 
- for index, currentChar in ipairs(playerOne) do
+ for index, currentChar in ipairs(player) do
     currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
     currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
  end
 
 end
 
-function moveCharactersOnBoard(character, x, y)  
+function moveCharacterOnBoard(character, x, y)  
      
         character.x = x
         character.y = y
@@ -138,14 +138,15 @@ function testCharactersOnCell(player)
      for _, cell in ipairs(row) do
         cell.isOccupied = false
     end
+
     end
 
    
     for _, currentChar in ipairs(player) do
         boardGrid[currentChar.x][currentChar.y].isOccupied = true   
     end
-
-
+    
+   
 end
 
 
@@ -233,9 +234,11 @@ function board:update(dt)
     gridTestMouse(boardGrid)
     testCharactersOnCell(playerOne)
     testCharactersOnCell(playerTwo)
+    
 end
 
 function board:draw()
+  
   -- kirajzolom a táblát
     for i=1, #boardGrid do
         for j=1, #boardGrid[i] do 

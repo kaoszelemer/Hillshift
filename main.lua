@@ -41,6 +41,7 @@ function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
+    
 
 end
 
@@ -51,82 +52,34 @@ function love.draw()
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
-
-    -- rögzítsük az adatot a játékosokban, hogy az egér felengedéssel kijelöltük-e őket éppen
-    
+    -- rögzítsük az adatot a játékosokban, hogy az egér felengedéssel kijelöltük-e őket éppen 
     for i = 1, 4 do
- 
-            if playerOne[i].isHovered then
-                playerOne[i].isSelected = true
-                selectedCharacter = playerOne[i]  
-            else
-                playerOne[i].isSelected = false                          
-            end
-                    
-            
+            if     playerOne[i].isHovered then playerOne[i].isSelected = true
+                   selectedCharacter = playerOne[i]  
+            else   playerOne[i].isSelected = false                          
+            end 
+    end
+
+    for i = 1, 4 do
+        if     playerTwo[i].isHovered then playerTwo[i].isSelected = true
+               selectedCharacter = playerTwo[i]  
+        else   playerTwo[i].isSelected = false                          
+        end 
     
     end
-        
+
+
     
 
-        -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
-        
+
             local cellMousePositionX = math.floor(mouseX / tileW)
             local cellMousePositionY = math.floor(mouseY / tileH)
 
             if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false 
             and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true then
 
-            moveCharactersOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
+            moveCharacterOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
 
             end 
-
-
-    --     for index, rows in ipairs(boardGrid) do
-    --         for _, cell in ipairs(rows) do 
-                
-    --             --print(boardGrid[1][1].isHovered)
-    --             if playerOne[i].isHovered and cell.isHovered and cell.isOccupied == false then
-    --                 -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
-    --                 moveCharactersOnBoard(playerOne, 1,1)
-    --                -- moveCharactersOnBoard(playerOne, 1,1)
-    --             elseif playerOne[i].isSelected and cell.isHovered and cell.isOccupied then
-                   
-                
-    --             end
-        
-    --         end   
-
-
-    --     end
-
-   
-    -- end
-    -- for i = 1, 4 do
- 
-    --     if playerTwo[i].isHovered then
-    --         playerTwo[i].isSelected = true  
-    --     else
-    --         playerTwo[i].isSelected = false                          
-    --     end
-                
-    -- end
-    
-    --   -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
-    
-    -- for index, rows in ipairs(boardGrid) do
-    --     for _, cell in ipairs(rows) do 
-    --         if cell.isHovered == true and cell.isOccupied == false then
-
-    --             -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
-    --             moveCharactersOnBoard(playerTwo, 1,1)
-    --         end
-      
-    --     end   
-
-
-    -- end
-
-    
 
 end
