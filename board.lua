@@ -140,9 +140,11 @@ function testCharactersOnCell(player)
     
    
     for _, currentChar in ipairs(player) do
-        boardGrid[currentChar.x][currentChar.y].isOccupied = true
+        boardGrid[currentChar.x][currentChar.y].isOccupied = true   
     end
-    
+   
+
+
 end
 
 
@@ -250,7 +252,7 @@ function board:draw()
 
             love.graphics.draw(boardPicture, currentCell.quad, (currentCell.x) * tileW, (currentCell.y) * tileH)     
         -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-        -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+        love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
         end
     end
 

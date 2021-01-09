@@ -20,6 +20,8 @@ charW = 32
 mouseX, mouseY = love.mouse.getPosition()
 --betutipus beállítása
 love.graphics.setFont(font)
+--kepek betoltese
+mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 
 function love.load()
     --board betoltese
@@ -29,20 +31,20 @@ function love.load()
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(0,0,0)
     love.window.setMode(width,height)
-    love.mouse.setVisible(true)
+    love.mouse.setVisible(false)
 end
 
 function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
-    board:update(dt) 
+    board:update(dt)
 
 end
 
 function love.draw()
     board:draw()
     love.graphics.setColor(charColor)
-    love.graphics.print("x", mouseX, mouseY)
+    love.graphics.draw(mouseArrow, mouseX - 8, mouseY - 8)
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
@@ -51,55 +53,60 @@ function love.mousereleased(x, y, button, istouch, presses)
   
     for i = 1, 4 do
  
-        if playerOne[i].isHovered then
-            playerOne[i].isSelected = true  
-        else
-            playerOne[i].isSelected = false                          
-        end
-                
-    end
-    
-      -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
-    
-    for index, rows in ipairs(boardGrid) do
-        for _, cell in ipairs(rows) do 
-            if cell.isHovered == true and cell.isOccupied == false then
-                -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
-               
-                moveCharactersOnBoard(playerOne, 1,1)
+            if playerOne[i].isHovered then
+                playerOne[i].isSelected = true  
+            else
+                playerOne[i].isSelected = false                          
             end
-      
-        end   
+                    
+        
+        
+        -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
+        
+        for index, rows in ipairs(boardGrid) do
+            for _, cell in ipairs(rows) do 
+                
 
+                
+
+
+                if playerOne[i].isSelected and cell.isHovered == true and cell.isOccupied == false then
+                    -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
+                    print("helo, olyankor ha nem foglalt mezore kattintok")
+                   -- moveCharactersOnBoard(playerOne, 1,1)
+                end
+        
+            end   
+
+
+        end
 
     end
 
-
-
-    for i = 1, 4 do
+    -- for i = 1, 4 do
  
-        if playerTwo[i].isHovered then
-            playerTwo[i].isSelected = true  
-        else
-            playerTwo[i].isSelected = false                          
-        end
+    --     if playerTwo[i].isHovered then
+    --         playerTwo[i].isSelected = true  
+    --     else
+    --         playerTwo[i].isSelected = false                          
+    --     end
                 
-    end
+    -- end
     
-      -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
+    --   -- nézzünk meg minden cellát, és amelyik fölött épp elengedjük az egérgombot, tehát épp azt hoverezzük
     
-    for index, rows in ipairs(boardGrid) do
-        for _, cell in ipairs(rows) do 
-            if cell.isHovered == true and cell.isOccupied == false then
+    -- for index, rows in ipairs(boardGrid) do
+    --     for _, cell in ipairs(rows) do 
+    --         if cell.isHovered == true and cell.isOccupied == false then
 
-                -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
-                moveCharactersOnBoard(playerTwo, 1,1)
-            end
+    --             -- ha nincs rajta karakter akkor oda tudjuk mozgatni azt amelyik ki van jelölve
+    --             moveCharactersOnBoard(playerTwo, 1,1)
+    --         end
       
-        end   
+    --     end   
 
 
-    end
+    -- end
 
     
 
