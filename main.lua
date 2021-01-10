@@ -7,9 +7,11 @@ require ('characters')
 --altalanos valtozok
 width = 1280
 height = 720
-offsetX = 15
-offsetY = 15
+numberOfTiles = 10
+offsetX = (width / 2 - (tileW * numberOfTiles / 2)  - tileW)
+offsetY = (height / 2 - (tileH * numberOfTiles / 2) - tileH)
 font = love.graphics.newFont(32)
+statFont = love.graphics.newFont(12)
 
 
 --karakterek valtozoi
@@ -56,11 +58,10 @@ function love.mousereleased(x, y, button, istouch, presses)
     for i = 1, 4 do
             if     playerOne[i].isHovered then playerOne[i].isSelected = true
                    selectedCharacter = playerOne[i]
-
             elseif playerOne[i].isSelected and playerOne[i].stepPoints ~= 0 then 
 
 
-                    local cellMousePositionX = math.floor(mouseX / tileW)
+                    local cellMousePositionX = math.floor(mouseX / tileW) 
                     local cellMousePositionY = math.floor(mouseY / tileH)
 
                     if cellMousePositionX > 10 then cellMousePositionX = 10
@@ -90,8 +91,8 @@ function love.mousereleased(x, y, button, istouch, presses)
 
         elseif playerTwo[i].isSelected and playerTwo[i].stepPoints ~= 0 then 
 
-                local cellMousePositionX = math.floor(mouseX / tileW)
-                local cellMousePositionY = math.floor(mouseY / tileH)
+                local cellMousePositionX = math.floor(mouseX / tileW) 
+                local cellMousePositionY = math.floor(mouseY / tileH) 
 
                 if cellMousePositionX > 10 then cellMousePositionX = 10
                 end

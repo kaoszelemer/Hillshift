@@ -70,14 +70,14 @@ local function initPlayerDeck(playerTable, initCoordinates)
     -- beallítom a kezdőpozíciókat
     for index, currentChar in ipairs(playerTable) do
 
-        if     index == 1 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-        elseif index == 2 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-        elseif index == 3 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-        elseif index == 4 then currentChar.x , currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        if     index == 1 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        elseif index == 2 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        elseif index == 3 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        elseif index == 4 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
         end
 
-        currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
-        currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+        currentChar.screenX = (currentChar.x * tileW + tileW / 2) + offsetX
+        currentChar.screenY = (currentChar.y * tileH + tileW / 2) + offsetY
         -- adok nekik kezdőváltozókat
         currentChar.isHovered = false
         currentChar.isSelected = false
@@ -86,14 +86,15 @@ local function initPlayerDeck(playerTable, initCoordinates)
     end
 end
 
-local function selectCharacterOnBoard(characterHover) 
+
+local function selectCharacterOnBoard(character) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van    
-    for index, currentChar in ipairs(characterHover) do
-        if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + tileW  and
-            mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + tileH  then
-            characterHover[index].isHovered = true
+    for index, currentChar in ipairs(character) do
+        if  mouseX > (character[index].screenX) and mouseX < ((character[index].screenX) + tileW) and
+            mouseY > (character[index].screenY) and mouseY < ((character[index].screenY) + tileH) then
+            character[index].isHovered = true
         else
-            characterHover[index].isHovered = false
+            character[index].isHovered = false
         end
     end
 end
@@ -103,8 +104,8 @@ local function gridTestMouse(board)
     for index, rows in ipairs(board) do
         for _, cell in ipairs(rows) do -- _alulvonás azt jelenti hogy változó ami nem kell
     
-            if  mouseX > (cell.x + 1) * tileW - tileW and mouseX < (cell.x + 1) * tileW - tileW  + tileW and
-                mouseY > (cell.y + 1) * tileW - tileW and mouseY < (cell.y + 1) * tileW - tileW  + tileH then
+            if  mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and
+                mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH) + offsetY then
                 cell.isHovered = true
                 --for bugfixing purposes, egeret viszonyitani a cellakhoz
                 --print(cell.x .. "," .. cell.y)
@@ -119,8 +120,8 @@ end
 local function updateCharacterPosition(player)
 
  for index, currentChar in ipairs(player) do
-    currentChar.screenX = currentChar.x * tileW + tileW / 2 - offsetX
-    currentChar.screenY = currentChar.y * tileH + tileH / 2 - offsetY
+    currentChar.screenX = (currentChar.x * tileW) + offsetX
+    currentChar.screenY = (currentChar.y * tileH) + offsetY
  end
 
 end
@@ -130,8 +131,8 @@ function moveCharacterOnBoard(character, mX, mY)
 
         if      mX == character.x + 1 then character.x = mX
         elseif  mX == character.x - 1 then character.x = mX
-        elseif  mX > character.x + 1 then character.isSelected = false
-        elseif  mX < character.x - 1 then character.isSelected = false
+        elseif  mX >= character.x + 1 then character.isSelected = false
+        elseif  mX <= character.x - 1 then character.isSelected = false
         else    character.x = mX
         end
 
@@ -139,9 +140,8 @@ function moveCharacterOnBoard(character, mX, mY)
         elseif  mY == character.y - 1 then character.y = mY
         elseif  mY >= character.y + 1 then character.isSelected = false
         elseif  mY <= character.y - 1 then character.isSelected = false  
-        else    character.y = mY 
+        else    character.y = mY
         end
-
 
 end
 
@@ -154,10 +154,11 @@ function testCharactersOnCell(player)
         end
     end
 
-   
+  
     for _, currentChar in ipairs(player) do
+    
         boardGrid[currentChar.x][currentChar.y].isOccupied = true
-        
+    
     end
    
 end
@@ -169,22 +170,53 @@ local function drawCharactersOnBoard(drawPlayer)
      for index, currentChar in ipairs(drawPlayer) do
 
         if      drawPlayer[index].isHovered then
-                love.graphics.draw(drawPlayer[index].imageHover, drawPlayer[index].screenX - 16, drawPlayer[index].screenY - 16)
-        else    love.graphics.draw(drawPlayer[index].image, drawPlayer[index].screenX - 16, drawPlayer[index].screenY - 16)
+                love.graphics.draw(drawPlayer[index].imageHover, drawPlayer[index].screenX, drawPlayer[index].screenY)
+        else    love.graphics.draw(drawPlayer[index].image, drawPlayer[index].screenX, drawPlayer[index].screenY)
         end
-    
-    --     if      drawPlayer[index].isSelected then love.graphics.setColor(selectedColor)
-    --     elseif  drawPlayer[index].isHovered == true then love.graphics.setColor(hoverColor)
-    --     end
-
-    --     love.graphics.print(drawPlayer[index].name:sub(0, 1), drawPlayer[index].screenX, drawPlayer[index].screenY)
-    
-    -- end   
     
       
     end
 
 end
+
+local function drawStatsOnSideBarPlayerOne(player)
+
+    love.graphics.setColor(charColor)
+    love.graphics.setFont(statFont)
+    love.graphics.print("PLAYER ONE", 200, 50)
+        for index, value in ipairs(player) do
+            for i = 1, #player do        
+                love.graphics.print(player[i].name, 200, 10 + i * 100)
+                love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 100)
+                love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 100)
+                if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
+                elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
+                end
+            end
+        end
+    love.graphics.setFont(font)
+end
+
+local function drawStatsOnSideBarPlayerTwo(player)
+
+    love.graphics.setColor(charColor)
+    love.graphics.setFont(statFont)
+    love.graphics.print("PLAYER TWO", 1000, 50)
+        for index, value in ipairs(player) do
+            for i = 1, #player do
+                
+                love.graphics.print(player[i].name, 1000, 10 + i * 100)
+                love.graphics.print("SP: " .. player[i].stepPoints, 1000, 30 + i * 100)
+                love.graphics.print("AP: " .. player[i].actionPoints, 1000, 50 + i * 100)
+
+                if     player[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 100)
+                elseif player[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 100)
+                end
+            end
+        end
+    love.graphics.setFont(font)
+end
+
 
 function board:load()
 
@@ -259,27 +291,36 @@ function board:draw()
             --random cellák változói
             local currentCell = boardGrid[i][j] 
             local currentType = boardType[currentCell.type]
-            
+            local currentTileX = (currentCell.x) * tileW
+            local currentTileY = (currentCell.y) * tileH
+
+
             if boardGrid[i][j].isHovered == true then
             love.graphics.setLineWidth(3)
             love.graphics.setColor(hoverColor)
-            love.graphics.rectangle("line", (currentCell.x) * tileW, (currentCell.y) * tileH, tileW, tileH)
+            love.graphics.rectangle("line", currentTileX + offsetX , currentTileY + offsetY, tileW, tileH)
             love.graphics.setColor(charColor)
             love.graphics.setLineWidth(1)
             end
 
             if boardGrid[i][j].isOccupied == true then
                 love.graphics.setLineWidth(3)
-                love.graphics.setColor(cellOccupiedColor)
-                love.graphics.rectangle("line", (currentCell.x) * tileW, (currentCell.y) * tileH, tileW, tileH)
+                love.graphics.setColor(charColor)
+                love.graphics.rectangle("line", currentTileX + offsetX, currentTileY + offsetY, tileW, tileH)
                 love.graphics.setColor(charColor)
                 love.graphics.setLineWidth(1)
             end
 
-
-            love.graphics.draw(boardPicture, currentCell.quad, (currentCell.x) * tileW, (currentCell.y) * tileH)     
+           
+           
+            love.graphics.draw(boardPicture, currentCell.quad, currentTileX + offsetX, currentTileY + offsetY)
+            
+        
+            
         -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
         -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
+
+
         end
     end
 
@@ -287,7 +328,8 @@ function board:draw()
 
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
-
+    drawStatsOnSideBarPlayerOne(playerOne)
+    drawStatsOnSideBarPlayerTwo(playerTwo)
   
 
    

@@ -3,7 +3,7 @@ characters = {
     
      {
 
-        name = "F_GeoGnome",
+        name = "GeoGnome",
         id=1,
         baseHP = 6,
         baseDefense = 6,
@@ -34,7 +34,7 @@ characters = {
 
     {
 
-        name="J_IceWizard",
+        name="IceWizard",
         id=3,
         baseHP = 6,
         baseDefense = 6,
