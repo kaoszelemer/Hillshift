@@ -126,9 +126,29 @@ local function updateCharacterPosition(player)
 end
 
 function moveCharacterOnBoard(character, x, y)  
-     
-        character.x = x
-        character.y = y
+        
+        local maxCharacterX = character.x + character.stepPoints
+        local maxCharacterY = character.y + character.stepPoints
+        local minCharacterX = character.x - character.stepPoints
+        local minCharacterY = character.y - character.stepPoints
+
+
+        if      x > maxCharacterX then x = maxCharacterX 
+        elseif  x < minCharacterX then y = minCharacterY
+        else    character.x = x
+        end
+
+        if      y > maxCharacterY then y = maxCharacterY
+        elseif  y < minCharacterY then y = minCharacterY   
+        else    character.y = y 
+        end
+
+        print(character.x)
+        print(x)
+        -- print(character.x)
+        -- print(x)
+        -- character.x = x 
+        -- character.y = y
 
 end
 
