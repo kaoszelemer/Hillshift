@@ -125,25 +125,25 @@ local function updateCharacterPosition(player)
 
 end
 
-function moveCharacterOnBoard(character, x, y)  
+function moveCharacterOnBoard(character, mX, mY)  
         
         local maxCharacterX = character.x + character.stepPoints
         local maxCharacterY = character.y + character.stepPoints
         local minCharacterX = character.x - character.stepPoints
         local minCharacterY = character.y - character.stepPoints    
 
-        if      x == character.x + 1 then character.x = x
-        elseif  x == character.x - 1 then character.x = x
-        elseif  x > character.x then character.x = maxCharacterX 
-        elseif  x < character.x then character.x = minCharacterX
-        else    character.x = x
+        if      mX == character.x + 1 then character.x = mX
+        elseif  mX == character.x - 1 then character.x = mX
+        elseif  mX > character.x + 1 then character.x = maxCharacterX 
+        elseif  mX < character.x - 1 then character.x = minCharacterX
+        else    character.x = mX
         end
 
-        if      y == character.y + 1 then character.y = y
-        elseif  y == character.y - 1 then character.y = y
-        elseif  y > character.y then character.y = maxCharacterY
-        elseif  y < character.y then character.y = minCharacterY   
-        else    character.y = y 
+        if      mY == character.y + 1 then character.y = mY
+        elseif  mY == character.y - 1 then character.y = mY
+        elseif  mY > character.y + 1 then character.y = maxCharacterY
+        elseif  mY < character.y - 1 then character.y = minCharacterY   
+        else    character.y = mY 
         end
 
 
