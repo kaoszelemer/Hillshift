@@ -57,7 +57,8 @@ function love.mousereleased(x, y, button, istouch, presses)
             if     playerOne[i].isHovered then playerOne[i].isSelected = true
                    selectedCharacter = playerOne[i]
 
-            elseif playerOne[i].isSelected then 
+            elseif playerOne[i].isSelected and playerOne[i].stepPoints ~= 0 then 
+
 
                     local cellMousePositionX = math.floor(mouseX / tileW)
                     local cellMousePositionY = math.floor(mouseY / tileH)
@@ -69,12 +70,15 @@ function love.mousereleased(x, y, button, istouch, presses)
                     end
 
                     if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false 
-                    and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true 
-                    then
-
+                    and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true then
+                
                     moveCharacterOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
                     playerOne[i].isSelected = false
+
+                    playerOne[i].stepPoints = playerOne[i].stepPoints - 1
                     end
+
+
                 
             else   playerOne[i].isSelected = false                       
             end        
@@ -84,7 +88,7 @@ function love.mousereleased(x, y, button, istouch, presses)
         if     playerTwo[i].isHovered then playerTwo[i].isSelected = true
                selectedCharacter = playerTwo[i]
 
-        elseif playerTwo[i].isSelected then 
+        elseif playerTwo[i].isSelected and playerTwo[i].stepPoints ~= 0 then 
 
                 local cellMousePositionX = math.floor(mouseX / tileW)
                 local cellMousePositionY = math.floor(mouseY / tileH)
@@ -101,6 +105,8 @@ function love.mousereleased(x, y, button, istouch, presses)
 
                 moveCharacterOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
                 playerTwo[i].isSelected = false
+
+                playerTwo[i].stepPoints = playerTwo[i].stepPoints - 1
                 end
             
         else   playerTwo[i].isSelected = false                        

@@ -126,37 +126,21 @@ local function updateCharacterPosition(player)
 end
 
 function moveCharacterOnBoard(character, mX, mY)  
-        
-        local maxCharacterX = character.x + character.stepPoints
-        local maxCharacterY = character.y + character.stepPoints
-        local minCharacterX = character.x - character.stepPoints
-        local minCharacterY = character.y - character.stepPoints    
+          
 
         if      mX == character.x + 1 then character.x = mX
         elseif  mX == character.x - 1 then character.x = mX
-        elseif  mX > character.x + 1 then character.x = maxCharacterX 
-        elseif  mX < character.x - 1 then character.x = minCharacterX
+        elseif  mX > character.x + 1 then character.isSelected = false
+        elseif  mX < character.x - 1 then character.isSelected = false
         else    character.x = mX
         end
 
         if      mY == character.y + 1 then character.y = mY
         elseif  mY == character.y - 1 then character.y = mY
-        elseif  mY > character.y + 1 then character.y = maxCharacterY
-        elseif  mY < character.y - 1 then character.y = minCharacterY   
+        elseif  mY >= character.y + 1 then character.isSelected = false
+        elseif  mY <= character.y - 1 then character.isSelected = false  
         else    character.y = mY 
         end
-
-
-    -- if boardGrid[character.x][character.y].isWalkable == false then
-
-    --     if      x > character.x then character.x = character.x
-    --     elseif  x < character.x then character.x = character.x
-    --     elseif  y > character.y then character.y = character.y
-    --     elseif  y > character.y then character.y = character.y
-    --     end
-
-    -- end
-
 
 
 end
