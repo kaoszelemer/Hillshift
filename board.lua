@@ -127,18 +127,13 @@ end
 
 function moveCharacterOnBoard(character, x, y)  
         
-    
-
         local maxCharacterX = character.x + character.stepPoints
         local maxCharacterY = character.y + character.stepPoints
         local minCharacterX = character.x - character.stepPoints
-        local minCharacterY = character.y - character.stepPoints
-
-        --ha a az mx egyel odebb van mint a cx akkor a cx az cx + 1
-    
+        local minCharacterY = character.y - character.stepPoints    
 
         if      x == character.x + 1 then character.x = x
-        elseif  x == character.x - 1 then character.x = y
+        elseif  x == character.x - 1 then character.x = x
         elseif  x > character.x then character.x = maxCharacterX 
         elseif  x < character.x then character.x = minCharacterX
         else    character.x = x
@@ -150,6 +145,18 @@ function moveCharacterOnBoard(character, x, y)
         elseif  y < character.y then character.y = minCharacterY   
         else    character.y = y 
         end
+
+
+    -- if boardGrid[character.x][character.y].isWalkable == false then
+
+    --     if      x > character.x then character.x = character.x
+    --     elseif  x < character.x then character.x = character.x
+    --     elseif  y > character.y then character.y = character.y
+    --     elseif  y > character.y then character.y = character.y
+    --     end
+
+    -- end
+
 
 
 end

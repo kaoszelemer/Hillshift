@@ -55,38 +55,59 @@ function love.mousereleased(x, y, button, istouch, presses)
     -- rögzítsük az adatot a játékosokban, hogy az egér felengedéssel kijelöltük-e őket éppen 
     for i = 1, 4 do
             if     playerOne[i].isHovered then playerOne[i].isSelected = true
-                   selectedCharacter = playerOne[i]  
-            else   playerOne[i].isSelected = false                          
-            end 
+                   selectedCharacter = playerOne[i]
+
+            elseif playerOne[i].isSelected then 
+
+                    local cellMousePositionX = math.floor(mouseX / tileW)
+                    local cellMousePositionY = math.floor(mouseY / tileH)
+
+                    if cellMousePositionX > 10 then cellMousePositionX = 10
+                    end
+
+                    if cellMousePositionY < 1 then cellMousePositionY = 1
+                    end
+
+                    if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false 
+                    and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true 
+                    then
+
+                    moveCharacterOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
+                    playerOne[i].isSelected = false
+                    end
+                
+            else   playerOne[i].isSelected = false                       
+            end        
     end
 
     for i = 1, 4 do
         if     playerTwo[i].isHovered then playerTwo[i].isSelected = true
-               selectedCharacter = playerTwo[i]  
-        else   playerTwo[i].isSelected = false                          
-        end 
-    
-    end
+               selectedCharacter = playerTwo[i]
 
+        elseif playerTwo[i].isSelected then 
 
+                local cellMousePositionX = math.floor(mouseX / tileW)
+                local cellMousePositionY = math.floor(mouseY / tileH)
 
+                if cellMousePositionX > 10 then cellMousePositionX = 10
+                end
 
+                if cellMousePositionY < 1 then cellMousePositionY = 1
+                end
 
-            local cellMousePositionX = math.floor(mouseX / tileW)
-            local cellMousePositionY = math.floor(mouseY / tileH)
+                if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false 
+                and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true 
+                then
 
-            if cellMousePositionX > 10 then cellMousePositionX = 10
-            end
-
-            if cellMousePositionY < 1 then cellMousePositionY = 1
-            end
-
-            if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false 
-            and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true 
-            then
-
-            moveCharacterOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
+                moveCharacterOnBoard(selectedCharacter, cellMousePositionX, cellMousePositionY)
+                playerTwo[i].isSelected = false
+                end
             
-            end 
+        else   playerTwo[i].isSelected = false                        
+        end        
+end
+   
+
+ 
 
 end
