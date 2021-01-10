@@ -89,8 +89,8 @@ end
 local function selectCharacterOnBoard(characterHover) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van    
     for index, currentChar in ipairs(characterHover) do
-        if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + tileW and
-            mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + tileH then
+        if  mouseX > characterHover[index].screenX and mouseX < characterHover[index].screenX + tileW  and
+            mouseY > characterHover[index].screenY and mouseY < characterHover[index].screenY + tileH  then
             characterHover[index].isHovered = true
         else
             characterHover[index].isHovered = false
@@ -127,28 +127,22 @@ end
 
 function moveCharacterOnBoard(character, x, y)  
         
+
         local maxCharacterX = character.x + character.stepPoints
         local maxCharacterY = character.y + character.stepPoints
         local minCharacterX = character.x - character.stepPoints
         local minCharacterY = character.y - character.stepPoints
 
-
-        if      x > maxCharacterX then x = maxCharacterX 
-        elseif  x < minCharacterX then y = minCharacterY
+        if      x > character.x and boardGrid[then character.x = maxCharacterX 
+        elseif  x < character.x then character.x = minCharacterX
         else    character.x = x
         end
 
-        if      y > maxCharacterY then y = maxCharacterY
-        elseif  y < minCharacterY then y = minCharacterY   
+        if      y > character.y then character.y = maxCharacterY
+        elseif  y < character.y then character.y = minCharacterY   
         else    character.y = y 
         end
 
-        print(character.x)
-        print(x)
-        -- print(character.x)
-        -- print(x)
-        -- character.x = x 
-        -- character.y = y
 
 end
 
