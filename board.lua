@@ -76,8 +76,9 @@ local function initPlayerDeck(playerTable, initCoordinates)
         elseif index == 4 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
         end
 
-        currentChar.screenX = (currentChar.x * tileW + tileW / 2) + offsetX
-        currentChar.screenY = (currentChar.y * tileH + tileW / 2) + offsetY
+        -- itt még fura az offset?
+        currentChar.screenX = (currentChar.x * tileW) + offsetX --eredetileg a currentcharhoz hozzaadta a tilW felét
+        currentChar.screenY = (currentChar.y * tileH) + offsetY
         -- adok nekik kezdőváltozókat
         currentChar.isHovered = false
         currentChar.isSelected = false
@@ -88,7 +89,8 @@ end
 
 
 local function selectCharacterOnBoard(character) 
-    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van    
+    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
+    --  ezt offsetelem screenX és screenY valtozoban
     for index, currentChar in ipairs(character) do
         if  mouseX > (character[index].screenX) and mouseX < ((character[index].screenX) + tileW) and
             mouseY > (character[index].screenY) and mouseY < ((character[index].screenY) + tileH) then
@@ -103,12 +105,13 @@ local function gridTestMouse(board)
 
     for index, rows in ipairs(board) do
         for _, cell in ipairs(rows) do -- _alulvonás azt jelenti hogy változó ami nem kell
+            --itt mouseX az eger ponotos helye, cell.x pedig a cellakoordinata
     
             if  mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and
                 mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH) + offsetY then
                 cell.isHovered = true
                 --for bugfixing purposes, egeret viszonyitani a cellakhoz
-                --print(cell.x .. "," .. cell.y)
+                print(cell.x .. "," .. cell.y)
                 --print(mouseX,mouseY)
             else
                 cell.isHovered = false
@@ -128,7 +131,6 @@ end
 
 function moveCharacterOnBoard(character, mX, mY)  
           
-
         if      mX == character.x + 1 then character.x = mX
         elseif  mX == character.x - 1 then character.x = mX
         elseif  mX >= character.x + 1 then character.isSelected = false
@@ -158,9 +160,13 @@ function testCharactersOnCell(player)
     for _, currentChar in ipairs(player) do
     
         boardGrid[currentChar.x][currentChar.y].isOccupied = true
+       
+        print(boardGrid[5][3].isOccupied)
     
     end
    
+    
+
 end
 
 
@@ -181,6 +187,7 @@ end
 
 local function drawStatsOnSideBarPlayerOne(player)
 
+
     love.graphics.setColor(charColor)
     love.graphics.setFont(statFont)
     love.graphics.print("PLAYER ONE", 200, 50)
@@ -189,6 +196,7 @@ local function drawStatsOnSideBarPlayerOne(player)
                 love.graphics.print(player[i].name, 200, 10 + i * 100)
                 love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 100)
                 love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 100)
+                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
                 if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
                 elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
                 end
@@ -208,7 +216,7 @@ local function drawStatsOnSideBarPlayerTwo(player)
                 love.graphics.print(player[i].name, 1000, 10 + i * 100)
                 love.graphics.print("SP: " .. player[i].stepPoints, 1000, 30 + i * 100)
                 love.graphics.print("AP: " .. player[i].actionPoints, 1000, 50 + i * 100)
-
+                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 1000, 90 + i * 100)
                 if     player[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 100)
                 elseif player[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 100)
                 end
