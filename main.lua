@@ -58,13 +58,44 @@ function love.draw()
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
-    -- rögzítsük az adatot a játékosokban, hogy az egér felengedéssel kijelöltük-e őket éppen 
-    
-           
-    cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) -- kiszámolom az egér és tile relációt X tengelyen
-    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH) -- kiszámolom az egér és tile relációt Y tengelyen
+    -- kiszámolom az egér és tile relációt X és Y tengelyen
+    cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
+    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH) 
     
     for i = 1, 4 do
+
+        --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
+        if  playerOne[i].isInStepState and playerOne[i].stepPoints ~= 0 then
+            playerOne[i].isMoving = true
+            movingCharacter = playerOne[i]
+        
+        --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani
+        
+        -- cellMousePositiont 1 és 10 közé limitálja
+        cellMousePositionX = math.min(math.max(cellMousePositionX, 1), 10)
+        cellMousePositionY = math.min(math.max(cellMousePositionY, 1), 10)
+        
+        --jarhato e a mezo, es foglalt-e
+        
+        -- ha foglalt e mező és járható
+            if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false
+                and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true
+            then
+                -- akkor meghívom a movecharacters fv-t(kiválasztott karaktr, egérX, egérY)
+                moveCharacterOnBoard(movingCharacter, cellMousePositionX, cellMousePositionY)
+                -- deszelektálom a karaktert
+                movingCharacter.isSelected = false
+                -- levonok a lépéspontjaiból egyet
+                movingCharacter.stepPoints = movingCharacter.stepPoints - 1
+                -- nincs lépésmódban
+                movingCharacter.isInStepState = false 
+            end
+        
+        playerOne[i].isSelected = false
+        
+        else
+        playerOne[i].isInStepState = false
+        end
 
             if playerOne[i].isActionMenuDrawn and playerOne[i].isHovered and playerOne[i].isSelected then
                 playerOne[i].isChoosing = true 
@@ -82,41 +113,13 @@ function love.mousereleased(x, y, button, istouch, presses)
                 selectedCharacter.isActionMenuDrawn = true -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
             else playerOne[i].isSelected = false            -- egyébként deszelektálom az összes karaktert
                  playerOne[i].isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
+                 playerOne[i].isInStepState = false
+                 playerOne[i].isInAttackState = false
             end
 
-
-          
-
              
-          --[[   if  playerOne[i].isInStepState and playerOne[i].stepPoints ~= 0 then  --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
-                print("in step state")
-               
-                playerOne[i].isMoving = true
-                movingCharacter = playerOne[i]
-                movingCharacter.isActionMenuDrawn = false
-                    --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani
-                   if cellMousePositionX >= 10 then cellMousePositionX = 10 -- ha több mint 10 az egér pozícióm akkor 10-re visszállítom klikknél
-                   end
-                   if cellMousePositionX <= 1 then cellMousePositionX = 1
-                   end
-                   if cellMousePositionY >= 10 then cellMousePositionY = 10
-                   end
-                   if cellMousePositionY <= 1 then cellMousePositionY = 1 -- ha kevesebb mint 1 az egér pozícióm akkor 1-re visszállítom klikknél
-                   end
-                    --jarhato e a mezo, es foglalt-e
-                    if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false    -- ha foglalt e mező és járható
-                    and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true then                                            
-                        moveCharacterOnBoard(movingCharacter, cellMousePositionX, cellMousePositionY) -- akkor meghívom a movecharacters fv-t(kiválasztott karaktr, egérX, egérY)
-                        movingCharacter.isSelected = false -- deszelektálom a karaktert
-                        movingCharacter.stepPoints = movingCharacter.stepPoints - 1 -- levonok a lépéspontjaiból egyet                   
-                        --movingCharacter.isInStepState = false -- nincs lépésmódban
-                    end
-                     playerOne[i].isSelected = false
-                else playerOne[i].isSelected = false
-                     playerOne[i].isInStepState = false
-            
-                end
 
+ --[[  
             if playerOne[i].isInAttackState and playerOne[i].actionPoints ~= 0 then
                 print("in attack state")
                 playerOne[i].isSelected = false

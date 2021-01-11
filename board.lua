@@ -80,6 +80,16 @@ local function initPlayerDeck(playerTable, initCoordinates)
     end
 end
 
+local function initBoard()
+
+    for index, row in ipairs(boardGrid) do
+        for _, cell in ipairs(row) do
+           cell.isOccupied = false
+        end
+    end
+
+end
+
 
 local function selectCharacterOnBoard(character) 
     --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
@@ -188,14 +198,7 @@ end
 
 function testCharactersOnCell(player)
 
-     
-    for index, row in ipairs(boardGrid) do
-        for _, cell in ipairs(row) do
-           cell.isOccupied = false
-        end
-    end
-
-  
+      
     for _, currentChar in ipairs(player) do
     
         boardGrid[currentChar.x][currentChar.y].isOccupied = true
@@ -233,15 +236,15 @@ local function drawStatsOnSideBarPlayerOne(player)
     love.graphics.print("PLAYER ONE", 200, 50)
         for index, value in ipairs(player) do
             for i = 1, #player do        
-                love.graphics.print(player[i].name, 200, 10 + i * 150)
-                love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 150)
-                love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 150)
-                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 150)
-                if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 150)
-                elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 150)
+                love.graphics.print(player[i].name, 200, 10 + i * 100)
+                love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 100)
+                love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 100)
+                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
+                if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
+                elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
                 end
-                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 110 + i * 150)
-                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 130 + i * 150)
+                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 110 + i * 100)
+                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 130 + i * 100)
                 end
             end
         end
@@ -331,9 +334,10 @@ function board:update(dt)
     updateCharacterPosition(playerOne)
     updateCharacterPosition(playerTwo)
     gridTestMouse(boardGrid)
+    initBoard()
     testCharactersOnCell(playerOne)
     testCharactersOnCell(playerTwo)
-    
+        
 end
 
 function board:draw()
