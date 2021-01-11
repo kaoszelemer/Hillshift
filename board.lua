@@ -2,16 +2,8 @@ board = {}
 
 tileW = 64
 tileH = 64
-local i = 1
-local j = 1
 local maxRow = 10
 local maxCol = 10
-local boardPicture
-local forestQuad
-local mountQuad
-local lakeQuad
-local fieldQuad
-local type
 
 ---Típustáblák definiálása
 boardType = {
@@ -84,6 +76,7 @@ local function initPlayerDeck(playerTable, initCoordinates)
         currentChar.isSelected = false
         currentChar.stepsDone = false
         currentChar.actionDone = false
+        currentChar.isActionMenuDrawn = false
     end
 end
 
@@ -111,7 +104,7 @@ local function gridTestMouse(board)
                 mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH) + offsetY then
                 cell.isHovered = true
                 --for bugfixing purposes, egeret viszonyitani a cellakhoz
-                print(cell.x .. "," .. cell.y)
+                --print(cell.x .. "," .. cell.y)
                 --print(mouseX,mouseY)
             else
                 cell.isHovered = false
@@ -129,21 +122,67 @@ local function updateCharacterPosition(player)
 
 end
 
+function chooseAction(character)
+   print("choose action lefutott")
+    for index, rows in ipairs(boardGrid) do
+        for _, cell in ipairs(rows) do 
+            if  mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW / 2) + offsetX and
+                mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH / 2) + offsetY then
+                 character.isInAttackState = true
+                 character.isActionMenuDrawn = false
+                 character.isInStepState = false
+
+            end
+
+                                  --1  * 32   64  + 18  80     ---  64  96 - --80 és 96                         
+                if   mouseX > ((cell.x * tileW) + tileW / 2) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and
+                                  --1  * 32   64   és  
+                     mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH / 2 + offsetY) then
+                     character.isInStepState = true
+                     character.isActionMenuDrawn = false
+                     character.isInAttackState = false
+            end
+        end
+    end         
+   
+       
+
+end
+
+local function drawActionMenu(player)
+    for i = 1,4 do
+        if player[i].isActionMenuDrawn == true then
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(actionMenuFont)
+            love.graphics.print("A", player[i].screenX, player[i].screenY)
+            love.graphics.print("S", player[i].screenX + (tileW - 20), player[i].screenY)
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+        end
+    end
+end
+
+
 function moveCharacterOnBoard(character, mX, mY)  
           
         if      mX == character.x + 1 then character.x = mX
         elseif  mX == character.x - 1 then character.x = mX
         elseif  mX >= character.x + 1 then character.isSelected = false
-        elseif  mX <= character.x - 1 then character.isSelected = false
-        else    character.x = mX
-        end
+        elseif  mX <= character.x - 1 then character.isSelected = false 
+      else    
+            
+            character.x = mX
+      end
 
-        if      mY == character.y + 1 then character.y = mY
+      if      mY == character.y + 1 then character.y = mY
         elseif  mY == character.y - 1 then character.y = mY
         elseif  mY >= character.y + 1 then character.isSelected = false
         elseif  mY <= character.y - 1 then character.isSelected = false  
-        else    character.y = mY
+     
+            
+            character.y = mY
         end
+     
 
 end
 
@@ -161,8 +200,7 @@ function testCharactersOnCell(player)
     
         boardGrid[currentChar.x][currentChar.y].isOccupied = true
        
-        print(boardGrid[5][3].isOccupied)
-    
+          
     end
    
     
@@ -170,14 +208,16 @@ function testCharactersOnCell(player)
 end
 
 
-local function drawCharactersOnBoard(drawPlayer)
+local function drawCharactersOnBoard(player)
     -- státuszok alapján beállítom a színeket
 
-     for index, currentChar in ipairs(drawPlayer) do
+     for index, currentChar in ipairs(player) do
 
-        if      drawPlayer[index].isHovered then
-                love.graphics.draw(drawPlayer[index].imageHover, drawPlayer[index].screenX, drawPlayer[index].screenY)
-        else    love.graphics.draw(drawPlayer[index].image, drawPlayer[index].screenX, drawPlayer[index].screenY)
+        if      currentChar.isHovered then
+                love.graphics.draw(currentChar.imageHover, currentChar.screenX, currentChar.screenY)
+                love.graphics.rectangle("line", (currentChar.x * tileW) + offsetX, (currentChar.y * tileH) + offsetY, tileW / 2, tileH / 2)
+                love.graphics.rectangle("line", ((currentChar.x * tileW) + tileW / 2) + offsetX, (currentChar.y * tileH) + offsetY, tileW / 2, tileH / 2)
+        else    love.graphics.draw(currentChar.image, currentChar.screenX, currentChar.screenY)
         end
     
       
@@ -193,12 +233,15 @@ local function drawStatsOnSideBarPlayerOne(player)
     love.graphics.print("PLAYER ONE", 200, 50)
         for index, value in ipairs(player) do
             for i = 1, #player do        
-                love.graphics.print(player[i].name, 200, 10 + i * 100)
-                love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 100)
-                love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 100)
-                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
-                if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
-                elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
+                love.graphics.print(player[i].name, 200, 10 + i * 150)
+                love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 150)
+                love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 150)
+                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 150)
+                if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 150)
+                elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 150)
+                end
+                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 110 + i * 150)
+                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 130 + i * 150)
                 end
             end
         end
@@ -213,13 +256,16 @@ local function drawStatsOnSideBarPlayerTwo(player)
         for index, value in ipairs(player) do
             for i = 1, #player do
                 
-                love.graphics.print(player[i].name, 1000, 10 + i * 100)
-                love.graphics.print("SP: " .. player[i].stepPoints, 1000, 30 + i * 100)
-                love.graphics.print("AP: " .. player[i].actionPoints, 1000, 50 + i * 100)
-                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 1000, 90 + i * 100)
-                if     player[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 100)
-                elseif player[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 100)
+                love.graphics.print(player[i].name, 1000, 10 + i * 120)
+                love.graphics.print("SP: " .. player[i].stepPoints, 1000, 30 + i * 120)
+                love.graphics.print("AP: " .. player[i].actionPoints, 1000, 50 + i * 120)
+                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 1000, 90 + i * 120)
+                if     player[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 120)
+                elseif player[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 120)
                 end
+                if player[i].isInAttackState then love.graphics.print("ATTACK", 500, 10)
+                elseif player[i].isInStepState then love.graphics.print("STEP", 500, 10)
+                end 
             end
         end
     love.graphics.setFont(font)
@@ -336,6 +382,10 @@ function board:draw()
 
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
+    drawActionMenu(playerOne)
+    drawActionMenu(playerTwo)
+
+
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
   
