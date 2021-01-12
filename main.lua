@@ -64,6 +64,34 @@ function love.mousereleased(x, y, button, istouch, presses)
     
     for i = 1, 4 do
 
+        if playerOne[i].isInAttackState and playerOne[i].actionPoints ~= 0 then
+            playerOne[i].isAttacking = true
+            attackingCharacter = playerOne[i]
+                --itt mégkell feltételnek hogy a másik karakter playere van-e ott (?)
+                for i=1, #boardGrid do
+                    for j=1, #boardGrid[i] do 
+                if  boardGrid[i][j].isOccupied then
+
+                enemyCharacter = playerTwo[i]
+                --meghivom az attakkaraktersz fuggvenyt
+                
+                
+                print("attakfuggveny helye")
+                --attack(attackingCharacter, enemyCharacter)
+            end
+        end
+               
+                --deszelektalom a karaktert
+               -- attackingCharacter.isSelected = false
+                --levonok a támadáspontjaiból egyet
+                --attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
+                --nincs támadásmódban
+                --attackingCharacter.isInAttackState = false
+            end 
+        else playerOne[i].isInAttackState = false
+        end
+
+
         --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
         if  playerOne[i].isInStepState and playerOne[i].stepPoints ~= 0 then
             playerOne[i].isMoving = true

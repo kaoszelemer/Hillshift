@@ -159,6 +159,21 @@ function chooseAction(character)
 
 end
 
+function attack(character, enemyCharacter)
+    dicePlayerOne = love.math.random(1, 6)
+    dicePlayerTwo = love.math.random(1, 6)
+    -- kiszámolom a karakterem attackját
+    character.attack = character.baseAttack + dicePlayerOne
+    -- kiszámolom a foglalt cellán álló karakter defense-ét
+    enemyCharacter.defense = enemyCharacter.baseDefense + dicePlayerTwo
+    -- kiszámolom a kettő összegét és levonok annyit a foglalt cellán álló karakter HP-jából
+    damage = character.attack - enemyCharacter.defense
+    enemyCharacter.baseHP = enemyCharacter.baseHP - damage
+
+    print("Csata:" .. character.baseAttack .. "+" ..  )
+
+end
+
 local function drawActionMenu(player)
     for i = 1,4 do
         if player[i].isActionMenuDrawn == true then
@@ -243,8 +258,8 @@ local function drawStatsOnSideBarPlayerOne(player)
                 if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
                 elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
                 end
-                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 110 + i * 100)
-                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 130 + i * 100)
+                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 70 + i * 100)
+                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 70 + i * 100)
                 end
             end
         end
