@@ -90,20 +90,6 @@ local function initBoard()
 
 end
 
-
-local function selectCharacterOnBoard(character) 
-    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
-    --  ezt offsetelem screenX és screenY valtozoban
-    for index, currentChar in ipairs(character) do
-        if  mouseX > (character[index].screenX) and mouseX < ((character[index].screenX) + tileW) and
-            mouseY > (character[index].screenY) and mouseY < ((character[index].screenY) + tileH) then
-            character[index].isHovered = true
-        else
-            character[index].isHovered = false
-        end
-    end
-end
-
 local function gridTestMouse(board)
 
     for index, rows in ipairs(board) do
@@ -125,12 +111,30 @@ end
 
 local function updateCharacterPosition(player)
 
- for index, currentChar in ipairs(player) do
-    currentChar.screenX = (currentChar.x * tileW) + offsetX
-    currentChar.screenY = (currentChar.y * tileH) + offsetY
- end
 
+    for index, currentChar in ipairs(player) do
+       currentChar.screenX = (currentChar.x * tileW) + offsetX
+       currentChar.screenY = (currentChar.y * tileH) + offsetY
+    end
+   
+   end
+
+local function selectCharacterOnBoard(character) 
+    --   mielott kirajzolom a karaktert meghatarozom a statuszat az alapjan hogy az egerem milyen pozícióban van 
+    --  ezt offsetelem screenX és screenY valtozoban
+    for index, currentChar in ipairs(character) do
+        if  mouseX > (character[index].screenX) and mouseX < ((character[index].screenX) + tileW) and
+            mouseY > (character[index].screenY) and mouseY < ((character[index].screenY) + tileH) then
+            character[index].isHovered = true
+        else
+            character[index].isHovered = false
+        end
+    end
 end
+
+
+
+
 
 function chooseAction(character)
     for index, rows in ipairs(boardGrid) do
@@ -159,42 +163,25 @@ function chooseAction(character)
 end
 
 function attack(character, enemy)
-    local dicePlayerOne = love.math.random(1, 6)
-    local dicePlayerTwo = love.math.random(1, 6)
     -- kiszámolom a karakterem attackját
-    character.attack = character.baseAttack + dicePlayerOne
-    
+    character.attack = character.baseAttack + getDiceRoll()
     -- kiszámolom a foglalt cellán álló karakter defense-ét
-    enemy.defense = enemy.baseDefense + dicePlayerTwo
+    enemy.defense = enemy.baseDefense + getDiceRoll()
     -- kiszámolom a kettő összegét és levonok annyit a foglalt cellán álló karakter HP-jából
-    damage = character.attack - enemy.defense
-    enemy.baseHP = enemy.baseHP + damage
+    damage = math.max(0, character.attack - enemy.defense) -- 0 és a másik paramtérer közül választom kia  nagyobt
+    enemy.baseHP = enemy.baseHP - damage
     print(enemy.name .. ": " .. enemy.baseHP)
 
-    print("Csata: " .. character.baseAttack .. " + " .. dicePlayerOne .. "-" .. enemy.defense .. " + " .. dicePlayerTwo .. " = " .. damage)
-
 end
 
-local function drawActionMenu(player)
-    for i = 1,4 do
-        if player[i].isActionMenuDrawn == true then
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(actionMenuFont)
-            love.graphics.print("A", player[i].screenX, player[i].screenY)
-            love.graphics.print("S", player[i].screenX + (tileW - 20), player[i].screenY)
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(statFont)
-        end
-    end
-end
 
 
 function moveCharacterOnBoard(character, mX, mY)  
           
         if      mX == character.x + 1 then character.x = mX
         elseif  mX == character.x - 1 then character.x = mX
-        elseif  mX >= character.x + 1 then character.isSelected = false
-        elseif  mX <= character.x - 1 then character.isSelected = false 
+        elseif  mX > character.x + 1 then character.isSelected = false
+        elseif  mX < character.x - 1 then character.isSelected = false 
       else    
             
             character.x = mX
@@ -202,9 +189,9 @@ function moveCharacterOnBoard(character, mX, mY)
 
       if      mY == character.y + 1 then character.y = mY
         elseif  mY == character.y - 1 then character.y = mY
-        elseif  mY >= character.y + 1 then character.isSelected = false
-        elseif  mY <= character.y - 1 then character.isSelected = false  
-     
+        elseif  mY > character.y + 1 then character.isSelected = false
+        elseif  mY < character.y - 1 then character.isSelected = false  
+        else
             
             character.y = mY
         end
@@ -213,24 +200,26 @@ function moveCharacterOnBoard(character, mX, mY)
 end
 
 function testCharactersOnCell(player)  
+
+
     for _, currentChar in ipairs(player) do    
         boardGrid[currentChar.x][currentChar.y].isOccupied = true          
     end
 end
 
-function diceRoll(player)
-
-
-    player.diceRoll = love.math.random(1, 6)
-
+function getDiceRoll()
+   local diceRoll = love.math.random(1, 6)
+   return diceRoll
 end
 
-function testAttackedCharacter(player, mX, mY)
+function getEnemyCharacter(player, mX, mY)
 
-    for _, currentChar in ipairs(player) do
-        if boardGrid[mX][mY].isHovered then currentChar.isAttacked = true 
-        else currentChar.isAttacked = false
-        end
+    for i = 1,4 do
+            if player[i].x == mX and player[i].y == mY then
+            local enemyCharacter = player[i]
+
+            return enemyCharacter
+            end 
     end
 
 end
@@ -260,11 +249,11 @@ local function drawStatsOnSideBarPlayerOne(player)
     love.graphics.print("PLAYER ONE", 200, 50)
         for index, value in ipairs(player) do
             for i = 1, #player do        
-                love.graphics.print(player[i].name, 200, i * 150)
-                love.graphics.print("SP: " .. player[i].stepPoints, 200, 10 + i * 150)
-                love.graphics.print("AP: " .. player[i].actionPoints, 200, 30 + i * 100)
-                love.graphics.print("HP: " .. player[i].baseHP, 200, 50 + i * 100)
-                love.graphics.print("DF: " .. player[i].baseDefense, 200, 70 + i * 100)
+                love.graphics.print(player[i].name, 200, i * 130)
+                love.graphics.print("SP: " .. player[i].stepPoints, 200, 10 + i * 130)
+                love.graphics.print("AP: " .. player[i].actionPoints, 200, 30 + i * 130)
+                love.graphics.print("HP: " .. player[i].baseHP, 200, 50 + i * 130)
+                love.graphics.print("DF: " .. player[i].baseDefense, 200, 70 + i * 130)
                -- love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
 
               --  if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
@@ -305,14 +294,27 @@ local function drawStatsOnSideBarPlayerTwo(player)
     love.graphics.setFont(font)
 end
 
-local function drawAttack(player)
+local function drawActionMenu(player)
+    for i = 1,4 do
+        if player[i].isActionMenuDrawn == true then
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(actionMenuFont)
+            love.graphics.print("A", player[i].screenX, player[i].screenY)
+            love.graphics.print("S", player[i].screenX + (tileW - 20), player[i].screenY)
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+        end
+    end
+end
+
+--[[ local function drawAttack(player)
 
   --  for _, currentChar in ipairs (player) do
    -- print("Your baseAttack: " .. currentChar.baseAttack .. "Your Dice Roll:" .. player.diceRoll .. "Your Attack: " .. currentChar.attack)
    -- end
 
 end
-
+ ]]
 
 function board:load()
 
@@ -374,11 +376,8 @@ function board:update(dt)
     updateCharacterPosition(playerTwo)
     gridTestMouse(boardGrid)
     initBoard()
-    diceRoll(playerOne)
-    diceRoll(playerTwo)
     testCharactersOnCell(playerOne)
     testCharactersOnCell(playerTwo)
-   
 end
 
 function board:draw()
@@ -433,7 +432,7 @@ function board:draw()
 
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
-    drawAttack(playerOne)
+    --drawAttack(playerOne)
 
    
 

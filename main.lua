@@ -68,18 +68,12 @@ function love.mousereleased(x, y, button, istouch, presses)
             playerOne[i].isAttacking = true
             attackingCharacter = playerOne[i]       
                 --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
-                if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == true then
-                    testAttackedCharacter(playerTwo, cellMousePositionX, cellMousePositionY)
-                                for _,  currentChar in ipairs(playerTwo) do
-                                if      playerTwo[i].isAttacked then enemyCharacter = playerTwo[i]
-                                    print(enemyCharacter.name)
-                                end
-                            end
-                    attack(attackingCharacter, enemyCharacter)
+                if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied then
+                    local enemy = getEnemyCharacter(playerTwo, cellMousePositionX, cellMousePositionY)
+                    attack(attackingCharacter, enemy)
                     attackingCharacter.isSelected = false
                     attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
                     attackingCharacter.isInAttackState = false
-                    enemyCharacter.isAttacked = false
                 end
                 attackingCharacter.isInAttackState = false
         else playerOne[i].isInAttackState = false
@@ -140,21 +134,6 @@ function love.mousereleased(x, y, button, istouch, presses)
                  playerOne[i].isInAttackState = false
             end
 
-             
-
- --[[  
-            if playerOne[i].isInAttackState and playerOne[i].actionPoints ~= 0 then
-                print("in attack state")
-                playerOne[i].isSelected = false
-                    --[[ playerOne[i].isAttacking = true
-                    attackingCharacter = playerOne[i]
-                    attackingCharacter.isActionMenuDrawn = false
-                    print("itt fog lefutni az attakfüggvény")
-                    attackingCharacter.isInAttackState = false ]]
-      --          playerOne[i].isInAttackState = false
-            --[[ else   playerOne[i].isSelected = false           -- ha bárhova klikkelek ami a fenti logikáknak nem felel meg és klikkelek akkor deszelektálom a karaktert
-                   playerOne[i].isActionMenuDrawn = false   ]]   
-        --    end       ]] 
     end
 
     for i = 1, 4 do
