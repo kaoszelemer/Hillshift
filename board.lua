@@ -50,7 +50,7 @@ cellQuadTable = {
 local function initPlayerDeck(playerTable, initCoordinates)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
     for index, currentChar in ipairs (characters) do local characterCopy = {}
-        for key, value in pairs(currentChar) do characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy charactercCopy.baseHP = 6 
+        for key, value in pairs(currentChar) do characterCopy[key] = value  -- ez ugyanaz mintha azt irtam volna hogy characterCopy.baseHP = 6 
         end
         table.insert(playerTable, characterCopy)
     end
@@ -133,7 +133,6 @@ local function updateCharacterPosition(player)
 end
 
 function chooseAction(character)
-   print("choose action lefutott")
     for index, rows in ipairs(boardGrid) do
         for _, cell in ipairs(rows) do 
             if  mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW / 2) + offsetX and
@@ -159,18 +158,20 @@ function chooseAction(character)
 
 end
 
-function attack(character, enemyCharacter)
-    dicePlayerOne = love.math.random(1, 6)
-    dicePlayerTwo = love.math.random(1, 6)
+function attack(character, enemy)
+    local dicePlayerOne = love.math.random(1, 6)
+    local dicePlayerTwo = love.math.random(1, 6)
     -- kiszámolom a karakterem attackját
     character.attack = character.baseAttack + dicePlayerOne
+    
     -- kiszámolom a foglalt cellán álló karakter defense-ét
-    enemyCharacter.defense = enemyCharacter.baseDefense + dicePlayerTwo
+    enemy.defense = enemy.baseDefense + dicePlayerTwo
     -- kiszámolom a kettő összegét és levonok annyit a foglalt cellán álló karakter HP-jából
-    damage = character.attack - enemyCharacter.defense
-    enemyCharacter.baseHP = enemyCharacter.baseHP - damage
+    damage = character.attack - enemy.defense
+    enemy.baseHP = enemy.baseHP + damage
+    print(enemy.name .. ": " .. enemy.baseHP)
 
-    print("Csata:" .. character.baseAttack .. "+" ..  )
+    print("Csata: " .. character.baseAttack .. " + " .. dicePlayerOne .. "-" .. enemy.defense .. " + " .. dicePlayerTwo .. " = " .. damage)
 
 end
 
@@ -211,20 +212,28 @@ function moveCharacterOnBoard(character, mX, mY)
 
 end
 
-function testCharactersOnCell(player)
-
-      
-    for _, currentChar in ipairs(player) do
-    
-        boardGrid[currentChar.x][currentChar.y].isOccupied = true
-       
-          
+function testCharactersOnCell(player)  
+    for _, currentChar in ipairs(player) do    
+        boardGrid[currentChar.x][currentChar.y].isOccupied = true          
     end
-   
-    
+end
+
+function diceRoll(player)
+
+
+    player.diceRoll = love.math.random(1, 6)
 
 end
 
+function testAttackedCharacter(player, mX, mY)
+
+    for _, currentChar in ipairs(player) do
+        if boardGrid[mX][mY].isHovered then currentChar.isAttacked = true 
+        else currentChar.isAttacked = false
+        end
+    end
+
+end
 
 local function drawCharactersOnBoard(player)
     -- státuszok alapján beállítom a színeket
@@ -251,15 +260,18 @@ local function drawStatsOnSideBarPlayerOne(player)
     love.graphics.print("PLAYER ONE", 200, 50)
         for index, value in ipairs(player) do
             for i = 1, #player do        
-                love.graphics.print(player[i].name, 200, 10 + i * 100)
-                love.graphics.print("SP: " .. player[i].stepPoints, 200, 30 + i * 100)
-                love.graphics.print("AP: " .. player[i].actionPoints, 200, 50 + i * 100)
-                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
-                if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
-                elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
-                end
-                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 70 + i * 100)
-                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 70 + i * 100)
+                love.graphics.print(player[i].name, 200, i * 150)
+                love.graphics.print("SP: " .. player[i].stepPoints, 200, 10 + i * 150)
+                love.graphics.print("AP: " .. player[i].actionPoints, 200, 30 + i * 100)
+                love.graphics.print("HP: " .. player[i].baseHP, 200, 50 + i * 100)
+                love.graphics.print("DF: " .. player[i].baseDefense, 200, 70 + i * 100)
+               -- love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
+
+              --  if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
+              --  elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
+              --  end
+                if player[i].isInAttackState then love.graphics.print("ATTACK", 200, 90 + i * 100)
+                elseif player[i].isInStepState then love.graphics.print("STEP", 200, 90 + i * 100)
                 end
             end
         end
@@ -274,19 +286,31 @@ local function drawStatsOnSideBarPlayerTwo(player)
         for index, value in ipairs(player) do
             for i = 1, #player do
                 
-                love.graphics.print(player[i].name, 1000, 10 + i * 120)
-                love.graphics.print("SP: " .. player[i].stepPoints, 1000, 30 + i * 120)
-                love.graphics.print("AP: " .. player[i].actionPoints, 1000, 50 + i * 120)
-                love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 1000, 90 + i * 120)
+                love.graphics.print(player[i].name, 1000, i * 130)
+                love.graphics.print("SP: " .. player[i].stepPoints, 1000, 10 + i * 130)
+                love.graphics.print("AP: " .. player[i].actionPoints, 1000, 30 + i * 130)
+                love.graphics.print("HP: " .. player[i].baseHP, 1000, 50 + i * 130)
+                love.graphics.print("DF: " .. player[i].baseDefense, 1000, 70 + i * 130)
+
+                --[[ love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 1000, 90 + i * 120)
+                
                 if     player[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 120)
                 elseif player[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 120)
-                end
-                if player[i].isInAttackState then love.graphics.print("ATTACK", 500, 10)
-                elseif player[i].isInStepState then love.graphics.print("STEP", 500, 10)
+                end ]]
+                if player[i].isInAttackState then love.graphics.print("ATTACK", 1000, 70 + i * 130)
+                elseif player[i].isInStepState then love.graphics.print("STEP", 1000, 70 + i * 130)
                 end 
             end
         end
     love.graphics.setFont(font)
+end
+
+local function drawAttack(player)
+
+  --  for _, currentChar in ipairs (player) do
+   -- print("Your baseAttack: " .. currentChar.baseAttack .. "Your Dice Roll:" .. player.diceRoll .. "Your Attack: " .. currentChar.attack)
+   -- end
+
 end
 
 
@@ -350,9 +374,11 @@ function board:update(dt)
     updateCharacterPosition(playerTwo)
     gridTestMouse(boardGrid)
     initBoard()
+    diceRoll(playerOne)
+    diceRoll(playerTwo)
     testCharactersOnCell(playerOne)
     testCharactersOnCell(playerTwo)
-        
+   
 end
 
 function board:draw()
@@ -407,7 +433,7 @@ function board:draw()
 
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
-  
+    drawAttack(playerOne)
 
    
 

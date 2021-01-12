@@ -24,6 +24,8 @@ charH = 32
 charW = 32
 --eger es egyeb interakciok valtozoi
 mouseX, mouseY = love.mouse.getPosition()
+--kiszámolom az egér és tile relációt X és Y tengelyen
+
 --betutipus beállítása
 font = love.graphics.newFont(32)
 love.graphics.setFont(font)
@@ -57,39 +59,32 @@ function love.draw()
     love.graphics.draw(mouseArrow, mouseX, mouseY)
 end
 
-function love.mousereleased(x, y, button, istouch, presses)
-    -- kiszámolom az egér és tile relációt X és Y tengelyen
+function love.mousereleased(x, y, button, istouch, presses) 
     cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
-    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH) 
-    
+    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)    
     for i = 1, 4 do
 
         if playerOne[i].isInAttackState and playerOne[i].actionPoints ~= 0 then
             playerOne[i].isAttacking = true
-            attackingCharacter = playerOne[i]
-                --itt mégkell feltételnek hogy a másik karakter playere van-e ott (?)
-                for i=1, #boardGrid do
-                    for j=1, #boardGrid[i] do 
-                if  boardGrid[i][j].isOccupied then
-
-                enemyCharacter = playerTwo[i]
-                --meghivom az attakkaraktersz fuggvenyt
-                
-                
-                print("attakfuggveny helye")
-                --attack(attackingCharacter, enemyCharacter)
-            end
-        end
-               
-                --deszelektalom a karaktert
-               -- attackingCharacter.isSelected = false
-                --levonok a támadáspontjaiból egyet
-                --attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
-                --nincs támadásmódban
-                --attackingCharacter.isInAttackState = false
-            end 
+            attackingCharacter = playerOne[i]       
+                --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
+                if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == true then
+                    testAttackedCharacter(playerTwo, cellMousePositionX, cellMousePositionY)
+                                for _,  currentChar in ipairs(playerTwo) do
+                                if      playerTwo[i].isAttacked then enemyCharacter = playerTwo[i]
+                                    print(enemyCharacter.name)
+                                end
+                            end
+                    attack(attackingCharacter, enemyCharacter)
+                    attackingCharacter.isSelected = false
+                    attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
+                    attackingCharacter.isInAttackState = false
+                    enemyCharacter.isAttacked = false
+                end
+                attackingCharacter.isInAttackState = false
         else playerOne[i].isInAttackState = false
         end
+    
 
 
         --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
