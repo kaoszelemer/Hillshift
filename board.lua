@@ -165,14 +165,14 @@ end
 function attack(character, enemy)
     -- kiszámolom a karakterem attackját
     enemy.drawDamage = true
+    character.drawDice = true
     character.diceRoll = getDiceRoll()
     enemy.diceRoll = getDiceRoll()
 
     character.attack = character.baseAttack + character.diceRoll
     -- kiszámolom a foglalt cellán álló karakter defense-ét
-    enemy.defense = enemy.baseDefense + enemy.diceRoll
     -- kiszámolom a kettő összegét és levonok annyit a foglalt cellán álló karakter HP-jából
-    damage = math.max(0, character.attack - enemy.defense) -- 0 és a másik paramtérer közül választom kia  nagyobt
+    damage = math.max(0, character.attack - enemy.baseDefense) -- 0 és a másik paramtérer közül választom kia  nagyobt
     enemy.baseHP = enemy.baseHP - damage
     print(enemy.name .. ": " .. enemy.baseHP)
 
@@ -319,7 +319,10 @@ local function drawDamage(player)
             love.graphics.setColor(selectedColor)
             love.graphics.setFont(font)            
                     love.graphics.print("-" .. damage, player[i].screenX + tileW / 4, player[i].screenY + tileH / 4)
+                    print(player[i].drawDice)
+                    if player[i].drawDice == true then
                     love.graphics.print("DICE: " .. player[i].diceRoll, 200, 500)
+                    end
             love.graphics.setFont(statFont)
             love.graphics.setColor(charColor)
          end

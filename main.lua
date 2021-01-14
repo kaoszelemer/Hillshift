@@ -133,6 +133,7 @@ function love.mousereleased(x, y, button, istouch, presses)
                  playerOne[i].isInStepState = false
                  playerOne[i].isInAttackState = false
                  playerOne[i].drawDamage = false
+                 playerOne[i].drawDice = false
             end
 
     end
@@ -210,6 +211,7 @@ function love.mousereleased(x, y, button, istouch, presses)
                  playerTwo[i].isInStepState = false
                  playerTwo[i].isInAttackState = false
                  playerTwo[i].drawDamage = false
+                 playerTwo[i].drawDice = false
             end
 
     end
