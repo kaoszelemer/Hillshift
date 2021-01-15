@@ -59,6 +59,7 @@ local function initPlayerDeck(playerTable, initCoordinates)
         local cardNumber = love.math.random(1, #playerTable)
         table.remove(playerTable, cardNumber)
     end
+
     -- beallítom a kezdőpozíciókat
     for index, currentChar in ipairs(playerTable) do
 
@@ -68,7 +69,9 @@ local function initPlayerDeck(playerTable, initCoordinates)
         elseif index == 4 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
         end
 
-        -- itt még fura az offset?
+        
+
+
         currentChar.screenX = (currentChar.x * tileW) + offsetX --eredetileg a currentcharhoz hozzaadta a tilW felét
         currentChar.screenY = (currentChar.y * tileH) + offsetY
         -- adok nekik kezdőváltozókat
@@ -77,6 +80,7 @@ local function initPlayerDeck(playerTable, initCoordinates)
         currentChar.stepsDone = false
         currentChar.actionDone = false
         currentChar.isActionMenuDrawn = false
+        currentChar.parentPlayer = playerTable
     end
 end
 
@@ -85,6 +89,7 @@ local function initBoard()
     for index, row in ipairs(boardGrid) do
         for _, cell in ipairs(row) do
            cell.isOccupied = false
+           cell.occupiedBy = nil
         end
     end
 
@@ -164,40 +169,41 @@ end
 
 function attack(character, enemy)
     -- kiszámolom a karakterem attackját
-    enemy.drawDamage = true
+    
     character.drawDice = true
-    character.diceRoll = getDiceRoll()
-    enemy.diceRoll = getDiceRoll()
+    local dr = getDiceRoll()
+    character.diceRoll = dr
 
-    character.attack = character.baseAttack + character.diceRoll
+    character.attack = character.baseAttack + dr
     -- kiszámolom a foglalt cellán álló karakter defense-ét
     -- kiszámolom a kettő összegét és levonok annyit a foglalt cellán álló karakter HP-jából
     damage = math.max(0, character.attack - enemy.baseDefense) -- 0 és a másik paramtérer közül választom kia  nagyobt
     enemy.baseHP = enemy.baseHP - damage
-    print(enemy.name .. ": " .. enemy.baseHP)
+    enemy.drawDamage = true
+
+    --debug
+    print("---****--- CSATA ----****----")
+    print(character.name .. " attacked " .. enemy.name)
+    print(character.name .. " AT is: " .. character.baseAttack .. " + Dice: " .. character.diceRoll)
+    print(enemy.name .. " DF is: " .. enemy.baseDefense)
+    print("Battle: "  .. character.attack .. " AT - " .. enemy.baseDefense .. " DF" )
+    print(character.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.")
+    print(enemy.name .. " remaining HP: " .. enemy.baseHP)
+    print("------------*HS*-------------")
+    
 
 end
 
 
 
-function moveCharacterOnBoard(character, mX, mY)  
-          
-        if      mX == character.x + 1 then character.x = mX
-        elseif  mX == character.x - 1 then character.x = mX
-        elseif  mX > character.x + 1 then character.isSelected = false
-        elseif  mX < character.x - 1 then character.isSelected = false 
-      else    
-            
-            character.x = mX
-      end
+function moveCharacterOnBoard(character, mX, mY)
 
-      if      mY == character.y + 1 then character.y = mY
-        elseif  mY == character.y - 1 then character.y = mY
-        elseif  mY > character.y + 1 then character.isSelected = false
-        elseif  mY < character.y - 1 then character.isSelected = false  
-        else
-            
-            character.y = mY
+        if      mX <= character.x + 1 and mX >= character.x - 1 and mY <= character.y + 1 and mY >= character.y - 1 then
+                character.x = mX 
+                character.y = mY  
+        elseif  mX > character.x + 1 or mY > character.y + 1 then character.isSelected = false
+        elseif  mX < character.x - 1 or mY < character.y - 1 then character.isSelected = false 
+
         end
      
 
@@ -207,8 +213,13 @@ function testCharactersOnCell(player)
 
 
     for _, currentChar in ipairs(player) do    
-        boardGrid[currentChar.x][currentChar.y].isOccupied = true          
+        boardGrid[currentChar.x][currentChar.y].isOccupied = true
+        boardGrid[currentChar.x][currentChar.y].occupiedBy = currentChar
     end
+
+  
+    
+
 end
 
 function getDiceRoll()
@@ -235,8 +246,8 @@ local function drawCharactersOnBoard(player)
 
         if      currentChar.isHovered then
                 love.graphics.draw(currentChar.imageHover, currentChar.screenX, currentChar.screenY)
-                love.graphics.rectangle("line", (currentChar.x * tileW) + offsetX, (currentChar.y * tileH) + offsetY, tileW / 2, tileH / 2)
-                love.graphics.rectangle("line", ((currentChar.x * tileW) + tileW / 2) + offsetX, (currentChar.y * tileH) + offsetY, tileW / 2, tileH / 2)
+                --love.graphics.rectangle("line", (currentChar.x * tileW) + offsetX, (currentChar.y * tileH) + offsetY, tileW / 2, tileH / 2)
+                --love.graphics.rectangle("line", ((currentChar.x * tileW) + tileW / 2) + offsetX, (currentChar.y * tileH) + offsetY, tileW / 2, tileH / 2)
         else    love.graphics.draw(currentChar.image, currentChar.screenX, currentChar.screenY)
         end
     
@@ -312,21 +323,19 @@ local function drawActionMenu(player)
     end
 end
 
-local function drawDamage(player)
+local function drawDamage(player, enemy)
 
     for i = 1, #player do
         if player[i].drawDamage == true then
             love.graphics.setColor(selectedColor)
             love.graphics.setFont(font)            
                     love.graphics.print("-" .. damage, player[i].screenX + tileW / 4, player[i].screenY + tileH / 4)
-                    print(player[i].drawDice)
-                    if player[i].drawDice == true then
-                    love.graphics.print("DICE: " .. player[i].diceRoll, 200, 500)
-                    end
-            love.graphics.setFont(statFont)
             love.graphics.setColor(charColor)
-         end
+            love.graphics.setFont(statFont)
+          
+        end
     end
+
 
 end
 
@@ -334,8 +343,17 @@ end
 
 function board:load()
 
-    playerOne = {}
-    playerTwo = {}
+    playerOne = {
+
+        name = "Player One",
+
+    }
+
+    playerTwo = {
+
+        name = "Player Two",
+
+    }
 
     -- létrehozom a kezdőpozíciók tábláját
 
@@ -369,6 +387,7 @@ function board:load()
                     type = selectedType,
                     isWalkable = true,
                     isOccupied = false,
+                
                     
                     
                 }                     
@@ -383,8 +402,6 @@ function board:load()
                 boardGrid[i][j].quad = quadSort[love.math.random(#quadSort)]
             end
         end
-        --- global a timerhez
-        drawTimer = 0
 
 end
 
@@ -454,7 +471,7 @@ function board:draw()
 
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
-    drawDamage(playerOne)
+    drawDamage(playerOne, playerTwo)
     drawDamage(playerTwo)
 
    

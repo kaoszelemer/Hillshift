@@ -69,7 +69,7 @@ function love.mousereleased(x, y, button, istouch, presses)
             attackingCharacter = playerOne[i]       
                 --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
                 if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied then
-                    local enemy = getEnemyCharacter(playerTwo, cellMousePositionX, cellMousePositionY)
+                    enemy = getEnemyCharacter(playerTwo, cellMousePositionX, cellMousePositionY)
                     attack(attackingCharacter, enemy)
                     attackingCharacter.isSelected = false
                     attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
