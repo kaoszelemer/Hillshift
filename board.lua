@@ -230,6 +230,8 @@ end
 function getEnemyCharacter(player, mX, mY)
 
     for i = 1,4 do
+
+            
             if player[i].x == mX and player[i].y == mY then
             local enemyCharacter = player[i]
 
