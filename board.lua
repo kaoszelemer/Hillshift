@@ -227,16 +227,16 @@ function getDiceRoll()
    return diceRoll
 end
 
-function getEnemyCharacter(player, mX, mY)
+function getEnemyCharacter(character, enemy, mX, mY)
 
     for i = 1,4 do
-
-            
-            if player[i].x == mX and player[i].y == mY then
-            local enemyCharacter = player[i]
-
+       if  (mX <= character.x + 1 and mX >= character.x - 1 and mY <= character.y + 1 and mY >= character.y - 1) 
+        and (enemy[i].x == mX and enemy[i].y == mY) then
+            local enemyCharacter = enemy[i]
             return enemyCharacter
-            end 
+        else
+            character.isSelected = false
+        end 
     end
 
 end

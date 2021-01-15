@@ -72,11 +72,13 @@ function love.mousereleased(x, y, button, istouch, presses)
                 if  clickedCell.isOccupied
                  and clickedCell.occupiedBy.parentPlayer ~= attackingCharacter.parentPlayer then
 
-                    enemy = getEnemyCharacter(playerTwo, cellMousePositionX, cellMousePositionY)
+                    local enemy = getEnemyCharacter(attackingCharacter, playerTwo, cellMousePositionX, cellMousePositionY)
+                    if enemy ~= nil then
                     attack(attackingCharacter, enemy)
                     attackingCharacter.isSelected = false
                     attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
                     attackingCharacter.isInAttackState = false
+                    end
                 end
                 attackingCharacter.isInAttackState = false
         else playerOne[i].isInAttackState = false
