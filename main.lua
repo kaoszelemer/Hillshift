@@ -100,7 +100,6 @@ local function clickAttackCharacter(player, enemyPlayer)
             local clickedCell =  boardGrid[cellMousePositionX][cellMousePositionY] 
                 --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
                 if  clickedCell.isOccupied and clickedCell.occupiedBy.parentPlayer ~= attackingCharacter.parentPlayer then
-                    clickedCell.isAttackable = true
                     local enemy = getEnemyCharacter(attackingCharacter, enemyPlayer, cellMousePositionX, cellMousePositionY)
                     if enemy ~= nil then
                     attack(attackingCharacter, enemy)

@@ -273,11 +273,24 @@ function spell(character, mX, mY)
     if character.id == 3 then
 
             if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
-                boardGrid[mX][mY].isFrozen = true        
+                boardGrid[mX][mY].isFrozen = true
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false 
+                end
+                if boardGrid[mX][mY].type == 2 then boardGrid[mX][mY].isWalkable = true
+                end
+
             elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
                 boardGrid[mX][mY].isFrozen = true
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false 
+                end
+                if boardGrid[mX][mY].type == 2 then boardGrid[mX][mY].isWalkable = true
+                end
             elseif mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then     
                 boardGrid[mX][mY].isFrozen = true
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false 
+                end
+                if boardGrid[mX][mY].type == 2 then boardGrid[mX][mY].isWalkable = true
+                end
             else character.isInSpellState = false
             end
     else character.isInSpellState = false
@@ -286,10 +299,16 @@ function spell(character, mX, mY)
     if character.id == 4 then 
         if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then
             print("blowing wind")
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false 
+            end
         elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
             print("blowing wind")
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false 
+            end
         elseif mX == character.x and (mY == character.y -1 or mY == character.y + 1) then
             print("blowing wind")
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false 
+            end
         else character.isInSpellState = false
         end
     end
@@ -314,8 +333,23 @@ function spell(character, mX, mY)
     if character.id == 6 then 
         if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
             boardGrid[mX][mY].isOnFire = true
+            if boardGrid[mX][mY].type == 2 then
+                boardGrid[mX][mY].isOnFire = false
+                boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
+                boardGrid[mX][mY].isWalkable = true
+            end
+            if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false 
+            end
+
         elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
             boardGrid[mX][mY].isOnFire = true
+            if boardGrid[mX][mY].type == 2 then
+                boardGrid[mX][mY].isOnFire = false
+                boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
+                boardGrid[mX][mY].isWalkable = true
+            end
+            if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false 
+            end
         else character.isInSpellState = false
         end
     else character.isInSpellState = false
@@ -511,13 +545,7 @@ local function drawValidAction(player, enemyPlayer)
                         if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
                         if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end  
                     end
-
-                    if currentChar.isInSpellState then
-
        
-
-           
-        
     end
 end
 
