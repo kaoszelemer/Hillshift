@@ -9,7 +9,7 @@ characters = {
         baseDefense = 6,
         baseAttack = 0,
         stepPoints = 10,
-        actionPoints = 10,
+        actionPoints = 40,
         image = love.graphics.newImage("/graphics/geognome.png"),
         imageHover = love.graphics.newImage("/graphics/geognomehover.png"),
 
@@ -25,7 +25,7 @@ characters = {
         baseDefense = 4,
         baseAttack = 3,
         stepPoints = 10,
-        actionPoints = 10,
+        actionPoints = 40,
         image = love.graphics.newImage("/graphics/druid.png"),
         imageHover = love.graphics.newImage("/graphics/druidHover.png"),
 
@@ -54,7 +54,7 @@ characters = {
         baseDefense = 4,
         baseAttack = 2,
         stepPoints = 10,
-        actionPoints = 6,
+        actionPoints = 40,
         image = love.graphics.newImage("/graphics/airelemental.png"),
         imageHover = love.graphics.newImage("/graphics/airelementalhover.png"),
 
@@ -68,7 +68,7 @@ characters = {
         baseDefense = 3,
         baseAttack = 2,
         stepPoints = 10,
-        actionPoints = 6,
+        actionPoints = 40,
         image = love.graphics.newImage("/graphics/alchemist.png"),
         imageHover = love.graphics.newImage("/graphics/alchemisthover.png"),
 
@@ -82,7 +82,7 @@ characters = {
         baseDefense = 4,
         baseAttack = 1,
         stepPoints = 10,
-        actionPoints = 3,
+        actionPoints = 40,
         image = love.graphics.newImage("/graphics/firemage.png"),
         imageHover = love.graphics.newImage("/graphics/firemagehover.png"),
 

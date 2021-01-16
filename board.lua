@@ -9,9 +9,21 @@ local maxCol = 10
 boardType = {
     "forest", "mount", "lake", "field"
 }
---Quadtáblák definiálása
---1. a tileset betöltése
-boardPicture = love.graphics.newImage("/graphics/tileset4.png")  -- placeholder tileset
+--tileset
+boardPicture = love.graphics.newImage("/graphics/tileset4.png")
+--icons
+attackIcon = love.graphics.newImage("graphics/attackicon.png")
+moveIcon = love.graphics.newImage("graphics/moveicon.png")
+spellIcon = love.graphics.newImage("graphics/spellicon.png")
+defenseIcon = love.graphics.newImage("graphics/shieldicon.png")
+--borders
+frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
+poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
+fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
+--validMove images
+validAttackImage = love.graphics.newImage("graphics/validattack.png")
+validStepImage = love.graphics.newImage("graphics/validstep.png")
+validSpellImage = love.graphics.newImage("graphics/validspell.png")
 --1a. a tileset változói
 local tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --2, a cella típusuk definiálása a quadokból   
@@ -90,6 +102,7 @@ local function initBoard()
         for _, cell in ipairs(row) do
            cell.isOccupied = false
            cell.occupiedBy = nil
+           cell.isAttackable = false
         end
     end
 
@@ -144,22 +157,46 @@ end
 function chooseAction(character)
     for index, rows in ipairs(boardGrid) do
         for _, cell in ipairs(rows) do 
+
+            -- BAl FELSO NEGYED - ATTACK STATE
             if  mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW / 2) + offsetX and
                 mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH / 2) + offsetY then
-                 character.isInAttackState = true
-                 character.isActionMenuDrawn = false
-                 character.isInStepState = false
+                    character.isInAttackState = true
+                    character.isActionMenuDrawn = false
+                    character.isInStepState = false
+                    character.isInSpellState = false
+                    character.isInDefenseState = false
 
             end
-
-                                  --1  * 32   64  + 18  80     ---  64  96 - --80 és 96                         
-                if   mouseX > ((cell.x * tileW) + tileW / 2) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and
-                                  --1  * 32   64   és  
-                     mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH / 2 + offsetY) then
-                     character.isInStepState = true
-                     character.isActionMenuDrawn = false
-                     character.isInAttackState = false
+            -- JOBB FELSÖ NEGYED - STEP STATE
+                            --1  * 32   64  + 18  80     ---  64  96 - --80 és 96                         
+            if  mouseX > ((cell.x * tileW) + tileW / 2) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and
+                mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH / 2 + offsetY) then
+                    character.isInStepState = true
+                    character.isActionMenuDrawn = false
+                    character.isInAttackState = false
+                    character.isInSpellState = false   
+                    character.isInDefenseState = false    
             end
+            -- BAL ALSO NEGYED - SPELL STATE
+            if   mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW / 2) + offsetX and
+                 mouseY > (cell.y * tileH) + (tileH / 2) + offsetY and mouseY < ((cell.y * tileH) + tileH) + offsetY then
+                    character.isInSpellState = true
+                    character.isActionMenuDrawn = false
+                    character.isInAttackState = false
+                    character.isInStepState = false
+                    character.isInDefenseState = false
+            end
+            -- JOBB ALSO NEGYED - DEFENSE STATE
+            if mouseX > ((cell.x * tileW) + tileW / 2) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and 
+               mouseY > ((cell.y * tileH) + tileH / 2) + offsetY and mouseY < ((cell.y * tileH) + tileH) + offsetY  then
+                    character.isInDefenseState = true
+                    character.isActionMenuDrawn = false
+                    character.isInAttackState = false
+                    character.isInStepState = false
+                    character.isInSpellState = false 
+            end
+                
         end
     end         
    
@@ -194,7 +231,96 @@ function attack(character, enemy)
 
 end
 
+function spell(character, mX, mY)
+    --geognome
+    if character.id == 1 then    
+        if      mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then
+                boardGrid[mX][mY].type = 3
+                boardGrid[mX][mY].isWalkable = true
+                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]               
+        elseif  mY == character.y and (mX == character.x - 1 or mY == character.y + 1) then
+                boardGrid[mX][mY].type = 3
+                boardGrid[mX][mY].isWalkable = true
+                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
+        elseif  mY == character.y and mX == character.x then
+                boardGrid[mX][mY].type = 3
+                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]              
+        else character.isInSpellState = false
+        end
+    else character.isInSpellState = false
+    end
+    
+    --druid
+    if character.id == 2 then
+        if      mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then
+            boardGrid[mX][mY].type = 1
+            boardGrid[mX][mY].isWalkable = true
+            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]        
+        elseif  mY == character.y and (mX == character.x - 1 or mY == character.y + 1) then
+            boardGrid[mX][mY].type = 1
+            boardGrid[mX][mY].isWalkable = true
+            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]
+        elseif  mY == character.y and mX == character.x then
+            boardGrid[mX][mY].type = 1
+            boardGrid[mX][mY].isWalkable = true
+            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]        
+        else character.isInSpellState = false
+        end
+   
+    else character.isInSpellState = false
+    end
+    --icewizard
+    if character.id == 3 then
 
+            if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
+                boardGrid[mX][mY].isFrozen = true        
+            elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
+                boardGrid[mX][mY].isFrozen = true
+            elseif mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then     
+                boardGrid[mX][mY].isFrozen = true
+            else character.isInSpellState = false
+            end
+    else character.isInSpellState = false
+    end
+    --airelemental
+    if character.id == 4 then 
+        if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then
+            print("blowing wind")
+        elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
+            print("blowing wind")
+        elseif mX == character.x and (mY == character.y -1 or mY == character.y + 1) then
+            print("blowing wind")
+        else character.isInSpellState = false
+        end
+    end
+    --alchemist
+    if character.id == 5 then
+            if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
+                boardGrid[mX][mY].isPoisoned = true
+
+            elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
+                boardGrid[mX][mY].isPoisoned = true
+
+            elseif  mX == character.x - 2 and (mY == character.y - 2 or mY == character.y + 2) then  
+                    boardGrid[mX][mY].isPoisoned = true
+
+            elseif mX == character.x + 2 and (mY == character.y - 2 or mY == character.y + 2)  then
+                    boardGrid[mX][mY].isPoisoned = true   
+            else character.isInSpellState = false
+            end
+    else character.isInSpellState = false
+    end
+    --firemage
+    if character.id == 6 then 
+        if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
+            boardGrid[mX][mY].isOnFire = true
+        elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
+            boardGrid[mX][mY].isOnFire = true
+        else character.isInSpellState = false
+        end
+    else character.isInSpellState = false
+    end  
+end
 
 function moveCharacterOnBoard(character, mX, mY)
 
@@ -215,6 +341,8 @@ function testCharactersOnCell(player)
     for _, currentChar in ipairs(player) do    
         boardGrid[currentChar.x][currentChar.y].isOccupied = true
         boardGrid[currentChar.x][currentChar.y].occupiedBy = currentChar
+        boardGrid[currentChar.x][currentChar.y].isAttackable = true
+
     end
 
   
@@ -279,6 +407,8 @@ local function drawStatsOnSideBarPlayerOne(player)
               --  end
                 if player[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
                 elseif player[i].isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
+                elseif player[i].isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
+                elseif player[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
                 end
             end
         end
@@ -317,15 +447,17 @@ local function drawActionMenu(player)
         if player[i].isActionMenuDrawn == true then
             love.graphics.setColor(charColor)
             love.graphics.setFont(actionMenuFont)
-            love.graphics.print("A", player[i].screenX, player[i].screenY)
-            love.graphics.print("S", player[i].screenX + (tileW - 20), player[i].screenY)
+            love.graphics.draw(attackIcon, player[i].screenX, player[i].screenY)
+            love.graphics.draw(moveIcon, player[i].screenX + (tileW - tileW / 2), player[i].screenY)
+            love.graphics.draw(spellIcon, player[i].screenX, player[i].screenY + (tileH - tileH / 2))
+            love.graphics.draw(defenseIcon, player[i].screenX + (tileW - tileW / 2), player[i].screenY + (tileH - tileH / 2))
             love.graphics.setColor(charColor)
             love.graphics.setFont(statFont)
         end
     end
 end
 
-local function drawDamage(player, enemy)
+local function drawDamage(player)
 
     for i = 1, #player do
         if player[i].drawDamage == true then
@@ -341,6 +473,53 @@ local function drawDamage(player, enemy)
 
 end
 
+local function drawModifier()
+    for index, rows in ipairs(boardGrid) do
+        for _, cell in ipairs(rows) do
+            if cell.isOnFire then love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            if cell.isFrozen then love.graphics.draw(frozenGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+        end
+    end
+end
+
+local function drawValidAction(player, enemyPlayer)
+    for i = 1,4 do
+       
+                local currentChar = player[i]
+                local enemyChar = enemyPlayer
+               
+                    if currentChar.isInStepState then
+                        if boardGrid[(currentChar.x + 1)][currentChar.y].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                        if boardGrid[(currentChar.x -1)][currentChar.y].isWalkable and boardGrid[(currentChar.x -1)][currentChar.y].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                        if boardGrid[currentChar.x][(currentChar.y + 1)].isWalkable and boardGrid[currentChar.x][(currentChar.y + 1)].isOccupied == false then   love.graphics.draw(validStepImage, currentChar.x * tileW + offsetX, (currentChar.y + 1)  * tileH + offsetY) end
+                        if boardGrid[currentChar.x][(currentChar.y - 1)].isWalkable  and boardGrid[currentChar.x][(currentChar.y - 1)].isOccupied == false then  love.graphics.draw(validStepImage, currentChar.x * tileW + offsetX, (currentChar.y - 1)  * tileH + offsetY) end
+                        if boardGrid[(currentChar.x + 1)][currentChar.y + 1].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y + 1].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y - 1].isWalkable and boardGrid[(currentChar.x - 1)][currentChar.y - 1].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end    
+                        if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y - 1].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isWalkable and boardGrid[(currentChar.x - 1)][currentChar.y + 1].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end    
+                       
+                    end
+
+                    if currentChar.isInAttackState then
+                        if boardGrid[(currentChar.x + 1)][currentChar.y].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                        if boardGrid[currentChar.x][(currentChar.y + 1)].isAttackable then love.graphics.draw(validAttackImage, currentChar.x * tileW + offsetX, (currentChar.y + 1)  * tileH + offsetY) end
+                        if boardGrid[currentChar.x][(currentChar.y - 1)].isAttackable then love.graphics.draw(validAttackImage, currentChar.x * tileW + offsetX, (currentChar.y - 1)  * tileH + offsetY) end
+                        if boardGrid[(currentChar.x + 1)][currentChar.y + 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y - 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end  
+                    end
+
+                    if currentChar.isInSpellState then
+
+       
+
+           
+        
+    end
+end
 
 
 function board:load()
@@ -464,17 +643,19 @@ function board:draw()
     end
 
     
-
+    drawModifier()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
     drawActionMenu(playerOne)
     drawActionMenu(playerTwo)
-
+    drawValidAction(playerOne, playerTwo)
+    drawValidAction(playerTwo, playerOne)
 
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawDamage(playerOne, playerTwo)
     drawDamage(playerTwo)
+    
 
    
 

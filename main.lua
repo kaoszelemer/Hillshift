@@ -34,6 +34,123 @@ statFont = love.graphics.newFont(12)
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 
+
+local function clickSelectCharacter(player)
+    for i = 1, 4 do
+        if  player[i].isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
+            player[i].isSelected = true  -- az adott karakter selected lesz
+            selectedCharacter = player[i] -- az adott karakter lesz a selectedPlayer
+            selectedCharacter.isActionMenuDrawn = true -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
+        else player[i].isSelected = false            -- egyébként deszelektálom az összes karaktert
+            player[i].isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
+            player[i].isInStepState = false
+            player[i].isInAttackState = false
+            player[i].drawDamage = false
+            player[i].drawDice = false
+        end
+    end     
+end
+
+local function clickChooseAction(player)
+    for i = 1, 4 do
+        if  player[i].isActionMenuDrawn and player[i].isHovered and player[i].isSelected then
+            player[i].isChoosing = true 
+            choosingCharacter = player[i]
+            chooseAction(choosingCharacter)
+        else player[i].isActionMenuDrawn = false
+            player[i].isInAttackState = false
+            player[i].isInStepState = false
+            player[i].isInSpellState = false
+            player[i].isInDefenseState = false
+        end
+    end
+end
+
+local function clickMoveCharacter(player)
+    for i = 1, 4 do
+        --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
+        if  player[i].isInStepState and player[i].stepPoints ~= 0 and (player[i].isInDefenseState == false or player[i].isDefending == false) then
+            player[i].isMoving = true
+            movingCharacter = player[i]
+            --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani  
+            --cellMousePositiont 1 és 10 közé limitálja
+            cellMousePositionX = math.min(math.max(cellMousePositionX, 1), 10)
+            cellMousePositionY = math.min(math.max(cellMousePositionY, 1), 10)   
+            if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true then
+                -- akkor meghívom a movecharacters fv-t(kiválasztott karaktr, egérX, egérY)
+                moveCharacterOnBoard(movingCharacter, cellMousePositionX, cellMousePositionY)
+                -- deszelektálom a karaktert
+                movingCharacter.isSelected = false
+                -- levonok a lépéspontjaiból egyet
+                movingCharacter.stepPoints = movingCharacter.stepPoints - 1
+                -- nincs lépésmódban
+                movingCharacter.isInStepState = false 
+            end 
+        player[i].isSelected = false  
+        else player[i].isInStepState = false
+        end
+    end
+end
+
+local function clickAttackCharacter(player, enemyPlayer)
+    for i = 1, 4 do
+        if player[i].isInAttackState and player[i].actionPoints ~= 0 and (player[i].isDefending == false or player[i].isInDefenseState == false) then
+            player[i].isAttacking = true
+            attackingCharacter = player[i]     
+            local clickedCell =  boardGrid[cellMousePositionX][cellMousePositionY] 
+                --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
+                if  clickedCell.isOccupied and clickedCell.occupiedBy.parentPlayer ~= attackingCharacter.parentPlayer then
+                    clickedCell.isAttackable = true
+                    local enemy = getEnemyCharacter(attackingCharacter, enemyPlayer, cellMousePositionX, cellMousePositionY)
+                    if enemy ~= nil then
+                    attack(attackingCharacter, enemy)
+                    attackingCharacter.isSelected = false
+                    attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
+                    attackingCharacter.isInAttackState = false
+                    end
+                end
+                attackingCharacter.isInAttackState = false
+        else player.isInAttackState = false
+        end
+    end
+end
+
+local function clickDefenseCharacter(player)
+    for i = 1,4 do
+        if player[i].isInDefenseState and player[i].actionPoints ~= 0 and player[i].isHovered then
+           player[i].isDefending = true
+           defendingCharacter = player[i]
+           defendingCharacter.baseDefense = defendingCharacter.baseDefense + 2
+           defendingCharacter.actionPoints = 0
+           defendingCharacter.stepPoints = 0
+           defendingCharacter.drawActionMenu = false
+           defendingCharacter.isInDefenseState = false
+           player[i].isSelected = false
+        else player[i].isInDefenseState = false
+        end
+    end
+end
+
+local function clickSpell(player)
+    local mX = cellMousePositionX
+    local mY = cellMousePositionY
+   
+    
+    for i = 1,4 do 
+        local hillShiftingCharacter = player[i]    
+                if hillShiftingCharacter.isInSpellState and hillShiftingCharacter.actionPoints ~= 0 and (hillShiftingCharacter.isDefending == false or hillShiftingCharacter.isInDefenseState) == false then
+                    spell(hillShiftingCharacter, mX,  mY)
+                    hillShiftingCharacter.actionPoints = hillShiftingCharacter.actionPoints - 1
+                    hillShiftingCharacter.isInSpellState = false
+                else hillShiftingCharacter.isInSpellState = false
+                end
+                
+            end
+
+        
+
+end
+
 function love.load()
     --board betoltese
     board:load()
@@ -60,166 +177,27 @@ function love.draw()
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
+
     cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
     cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)    
-    for i = 1, 4 do
 
-        if playerOne[i].isInAttackState and playerOne[i].actionPoints ~= 0 then
-            playerOne[i].isAttacking = true
-            attackingCharacter = playerOne[i]     
-            local clickedCell =  boardGrid[cellMousePositionX][cellMousePositionY] 
-                --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
-                if  clickedCell.isOccupied
-                 and clickedCell.occupiedBy.parentPlayer ~= attackingCharacter.parentPlayer then
-
-                    local enemy = getEnemyCharacter(attackingCharacter, playerTwo, cellMousePositionX, cellMousePositionY)
-                    if enemy ~= nil then
-                    attack(attackingCharacter, enemy)
-                    attackingCharacter.isSelected = false
-                    attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
-                    attackingCharacter.isInAttackState = false
-                    end
-                end
-                attackingCharacter.isInAttackState = false
-        else playerOne[i].isInAttackState = false
-        end
-    
+    -- PLAYER ONE
+    clickSpell(playerOne)
+    clickDefenseCharacter(playerOne)
+    clickAttackCharacter(playerOne, playerTwo)
+    clickMoveCharacter(playerOne)
+    clickChooseAction(playerOne)
+    clickSelectCharacter(playerOne)
+            
 
 
-        --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
-        if  playerOne[i].isInStepState and playerOne[i].stepPoints ~= 0 then
-            playerOne[i].isMoving = true
-            movingCharacter = playerOne[i]
-        
-        --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani
-        
-        -- cellMousePositiont 1 és 10 közé limitálja
-        cellMousePositionX = math.min(math.max(cellMousePositionX, 1), 10)
-        cellMousePositionY = math.min(math.max(cellMousePositionY, 1), 10)
-        
-        --jarhato e a mezo, es foglalt-e
-        
-        -- ha foglalt e mező és járható
-            if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false
-                and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true
-            then
-                -- akkor meghívom a movecharacters fv-t(kiválasztott karaktr, egérX, egérY)
-                moveCharacterOnBoard(movingCharacter, cellMousePositionX, cellMousePositionY)
-                -- deszelektálom a karaktert
-                movingCharacter.isSelected = false
-                -- levonok a lépéspontjaiból egyet
-                movingCharacter.stepPoints = movingCharacter.stepPoints - 1
-                -- nincs lépésmódban
-                movingCharacter.isInStepState = false 
-            end
-        
-        playerOne[i].isSelected = false
-        
-        else
-        playerOne[i].isInStepState = false
-        end
 
-            if playerOne[i].isActionMenuDrawn and playerOne[i].isHovered and playerOne[i].isSelected then
-                playerOne[i].isChoosing = true 
-                choosingCharacter = playerOne[i]
-                chooseAction(choosingCharacter)
-            else playerOne[i].isActionMenuDrawn = false
-                playerOne[i].isInAttackState = false
-                playerOne[i].isInStepState = false
-            end
-
-
-            if  playerOne[i].isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
-                playerOne[i].isSelected = true  -- az adott karakter selected lesz
-                selectedCharacter = playerOne[i] -- az adott karakter lesz a selectedPlayer
-                selectedCharacter.isActionMenuDrawn = true -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
-            else playerOne[i].isSelected = false            -- egyébként deszelektálom az összes karaktert
-                 playerOne[i].isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
-                 playerOne[i].isInStepState = false
-                 playerOne[i].isInAttackState = false
-                 playerOne[i].drawDamage = false
-                 playerOne[i].drawDice = false
-            end
-
-    end
-
-    -- innen player TWO
-
-    for i = 1, 4 do
-
-        if playerTwo[i].isInAttackState and playerTwo[i].actionPoints ~= 0 then
-            playerTwo[i].isAttacking = true
-            attackingCharacter = playerTwo[i]       
-                --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
-                if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied then
-                    local enemy = getEnemyCharacter(playerOne, cellMousePositionX, cellMousePositionY)
-                    attack(attackingCharacter, enemy)
-                    attackingCharacter.isSelected = false
-                    attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
-                    attackingCharacter.isInAttackState = false
-                end
-                attackingCharacter.isInAttackState = false
-        else playerTwo[i].isInAttackState = false
-        end
-    
-
-
-        --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
-        if  playerTwo[i].isInStepState and playerTwo[i].stepPoints ~= 0 then
-            playerTwo[i].isMoving = true
-            movingCharacter = playerTwo[i]
-        
-        --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani
-        
-        -- cellMousePositiont 1 és 10 közé limitálja
-        cellMousePositionX = math.min(math.max(cellMousePositionX, 1), 10)
-        cellMousePositionY = math.min(math.max(cellMousePositionY, 1), 10)
-        
-        --jarhato e a mezo, es foglalt-e
-        
-        -- ha foglalt e mező és járható
-            if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false
-                and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true
-            then
-                -- akkor meghívom a movecharacters fv-t(kiválasztott karaktr, egérX, egérY)
-                moveCharacterOnBoard(movingCharacter, cellMousePositionX, cellMousePositionY)
-                -- deszelektálom a karaktert
-                movingCharacter.isSelected = false
-                -- levonok a lépéspontjaiból egyet
-                movingCharacter.stepPoints = movingCharacter.stepPoints - 1
-                -- nincs lépésmódban
-                movingCharacter.isInStepState = false 
-            end
-        
-        playerTwo[i].isSelected = false
-        
-        else
-        playerTwo[i].isInStepState = false
-        end
-
-            if playerTwo[i].isActionMenuDrawn and playerTwo[i].isHovered and playerTwo[i].isSelected then
-                playerTwo[i].isChoosing = true 
-                choosingCharacter = playerTwo[i]
-                chooseAction(choosingCharacter)
-            else playerTwo[i].isActionMenuDrawn = false
-                playerTwo[i].isInAttackState = false
-                playerTwo[i].isInStepState = false
-            end
-
-
-            if  playerTwo[i].isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
-                playerTwo[i].isSelected = true  -- az adott karakter selected lesz
-                selectedCharacter = playerTwo[i] -- az adott karakter lesz a selectedPlayer
-                selectedCharacter.isActionMenuDrawn = true -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
-            else playerTwo[i].isSelected = false            -- egyébként deszelektálom az összes karaktert
-                 playerTwo[i].isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
-                 playerTwo[i].isInStepState = false
-                 playerTwo[i].isInAttackState = false
-                 playerTwo[i].drawDamage = false
-                 playerTwo[i].drawDice = false
-            end
-
-    end
-   
+    -- PLAYER TWO
+    clickSpell(playerTwo)
+    clickDefenseCharacter(playerOne)
+    clickAttackCharacter(playerTwo, playerOne) 
+    clickMoveCharacter(playerTwo)  
+    clickChooseAction(playerTwo)
+    clickSelectCharacter(playerTwo)  
 
 end
