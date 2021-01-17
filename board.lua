@@ -267,7 +267,7 @@ function spell(character, mX, mY)
             boardGrid[mX][mY].isWalkable = true
             boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]
             if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end        
-        elseif  mY == character.y and (mX == character.x - 1 or mY == character.y + 1) then
+        elseif  mY == character.y and (mX == character.x - 1 or mX == character.x + 1) then
             boardGrid[mX][mY].type = 1
             boardGrid[mX][mY].isWalkable = true
             boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]
@@ -558,6 +558,44 @@ local function drawValidAction(player, enemyPlayer)
                         if boardGrid[(currentChar.x - 1)][currentChar.y - 1].isOccupied and currentChar.x - 1 > 0 and currentChar.y - 1 > 0 and boardGrid[(currentChar.x - 1)][currentChar.y - 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer  then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
                         if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isOccupied and currentChar.x + 1 < 11 and currentChar.y - 1 > 0 and boardGrid[(currentChar.x + 1)][currentChar.y - 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
                         if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isOccupied and currentChar.x - 1 > 0 and currentChar.y + 1 < 11 and boardGrid[(currentChar.x - 1)][currentChar.y + 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end  
+                    end
+
+                    if currentChar.isInSpellState then
+                        if currentChar.id == 1 or currentChar.id == 2 then
+                            if currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y) * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y) * tileH + offsetY) end
+                            love.graphics.draw(validSpellImage, (currentChar.x) * tileW + offsetX, (currentChar.y) * tileH + offsetY)
+                        end
+    
+                        if currentChar.id == 3 or currentChar.id == 4 then
+                            if currentChar.x - 1 > 0 and currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 and currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                        end
+
+                        if currentChar.id == 5 then
+                            if currentChar.x - 1 > 0 and currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 and currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.x - 2 > 0 and currentChar.y - 2 > 0 then love.graphics.draw(validSpellImage, (currentChar.x - 2) * tileW + offsetX, (currentChar.y - 2) * tileH + offsetY) end
+                            if currentChar.x - 2 > 0 and currentChar.y + 2 < 11 then love.graphics.draw(validSpellImage, (currentChar.x - 2) * tileW + offsetX, (currentChar.y + 2) * tileH + offsetY) end
+                            if currentChar.x + 2 < 11 and currentChar.y - 2 > 0 then love.graphics.draw(validSpellImage, (currentChar.x + 2) * tileW + offsetX, (currentChar.y - 2) * tileH + offsetY) end
+                            if currentChar.x + 2 < 11 and currentChar.y + 2 < 11 then love.graphics.draw(validSpellImage, (currentChar.x + 2) * tileW + offsetX, (currentChar.y + 2) * tileH + offsetY) end
+                        end
+
+                        if currentChar.id == 6 then
+                            if currentChar.x - 1 > 0 and currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 and currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y - 1 > 0 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y + 1 < 11 then love.graphics.draw(validSpellImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                        end
+
                     end
 
        
