@@ -536,6 +536,7 @@ local function drawValidAction(player, enemyPlayer)
                 local enemyChar = enemyPlayer
                 local drawX = currentChar.x
                 local drawY = currentChar.y
+            
                
                     if currentChar.isInStepState then
                             if currentChar.x + 1 < 11 and boardGrid[(currentChar.x + 1)][currentChar.y].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
@@ -549,15 +550,16 @@ local function drawValidAction(player, enemyPlayer)
                     end
 
                     if currentChar.isInAttackState then
-                        if boardGrid[(currentChar.x + 1)][currentChar.y].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
-                        if boardGrid[(currentChar.x - 1)][currentChar.y].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
-                        if boardGrid[currentChar.x][(currentChar.y + 1)].isAttackable then love.graphics.draw(validAttackImage, currentChar.x * tileW + offsetX, (currentChar.y + 1)  * tileH + offsetY) end
-                        if boardGrid[currentChar.x][(currentChar.y - 1)].isAttackable then love.graphics.draw(validAttackImage, currentChar.x * tileW + offsetX, (currentChar.y - 1)  * tileH + offsetY) end
-                        if boardGrid[(currentChar.x + 1)][currentChar.y + 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
-                        if boardGrid[(currentChar.x - 1)][currentChar.y - 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
-                        if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
-                        if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isAttackable then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end  
+                        if boardGrid[(currentChar.x + 1)][currentChar.y].isOccupied == true and currentChar.x + 1 < 11 and boardGrid[(currentChar.x + 1)][currentChar.y].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                        if boardGrid[(currentChar.x -1)][currentChar.y].isOccupied and currentChar.x - 1 > 0 and boardGrid[(currentChar.x -1)][currentChar.y].occupiedBy.parentPlayer ~= currentChar.parentPlayer  then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                        if boardGrid[currentChar.x][(currentChar.y + 1)].isOccupied and currentChar.y + 1 < 11 and boardGrid[currentChar.x][(currentChar.y + 1)].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, currentChar.x * tileW + offsetX, (currentChar.y + 1)  * tileH + offsetY) end
+                        if boardGrid[currentChar.x][(currentChar.y - 1)].isOccupied and  currentChar.y - 1 > 0 and boardGrid[currentChar.x][(currentChar.y - 1)].occupiedBy.parentPlayer ~= currentChar.parentPlayer then  love.graphics.draw(validAttackImage, currentChar.x * tileW + offsetX, (drawY - 1)  * tileH + offsetY)  end
+                        if boardGrid[(currentChar.x + 1)][currentChar.y + 1].isOccupied and currentChar.x + 1 < 11 and currentChar.y + 1 < 11 and boardGrid[(currentChar.x + 1)][currentChar.y + 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y - 1].isOccupied and currentChar.x - 1 > 0 and currentChar.y - 1 > 0 and boardGrid[(currentChar.x - 1)][currentChar.y - 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer  then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isOccupied and currentChar.x + 1 < 11 and currentChar.y - 1 > 0 and boardGrid[(currentChar.x + 1)][currentChar.y - 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                        if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isOccupied and currentChar.x - 1 > 0 and currentChar.y + 1 < 11 and boardGrid[(currentChar.x - 1)][currentChar.y + 1].occupiedBy.parentPlayer ~= currentChar.parentPlayer then love.graphics.draw(validAttackImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end  
                     end
+
        
     end
 end
