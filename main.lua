@@ -38,9 +38,12 @@ mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 local function clickSelectCharacter(player)
     for i = 1, 4 do
         if  player[i].isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
-            player[i].isSelected = true  -- az adott karakter selected lesz
+            player[i].isSelected = true -- az adott karakter selected lesz
             selectedCharacter = player[i] -- az adott karakter lesz a selectedPlayer
-            selectedCharacter.isActionMenuDrawn = true -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
+            selectedCharacter.isActionMenuDrawn = true
+            player[i].drawBattle = false
+
+            -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
         else player[i].isSelected = false            -- egyébként deszelektálom az összes karaktert
             player[i].isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
             player[i].isInStepState = false
@@ -53,10 +56,13 @@ end
 
 local function clickChooseAction(player)
     for i = 1, 4 do
-        if  player[i].isActionMenuDrawn and player[i].isHovered and player[i].isSelected then
+        if  player[i].isActionMenuDrawn and player[i].isHovered and player[i].isSelected and player[i].isInAttackState == false
+        and player[i].isInSpellState == false and player[i].isInDefenseState == false then
             player[i].isChoosing = true 
             choosingCharacter = player[i]
             chooseAction(choosingCharacter)
+            choosingCharacter.drawBattle = false
+            player[i].isActionMenuDrawn = false
         else player[i].isActionMenuDrawn = false
             player[i].isInAttackState = false
             player[i].isInStepState = false
@@ -72,6 +78,7 @@ local function clickMoveCharacter(player)
         if  player[i].isInStepState and player[i].stepPoints ~= 0 and (player[i].isInDefenseState == false or player[i].isDefending == false) then
             player[i].isMoving = true
             movingCharacter = player[i]
+            movingCharacter.drawBattle = false
             --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani  
             --cellMousePositiont 1 és 10 közé limitálja
             cellMousePositionX = math.min(math.max(cellMousePositionX, 1), 10)
@@ -102,13 +109,16 @@ local function clickAttackCharacter(player, enemyPlayer)
                 if  clickedCell.isOccupied and clickedCell.occupiedBy.parentPlayer ~= attackingCharacter.parentPlayer then
                     local enemy = getEnemyCharacter(attackingCharacter, enemyPlayer, cellMousePositionX, cellMousePositionY)
                     if enemy ~= nil then
+                    attackingCharacter.drawBattle = true
                     attack(attackingCharacter, enemy)
                     attackingCharacter.isSelected = false
                     attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
                     attackingCharacter.isInAttackState = false
+                    enemy = nil
                     end
                 end
                 attackingCharacter.isInAttackState = false
+                
         else player.isInAttackState = false
         end
     end

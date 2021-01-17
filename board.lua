@@ -205,8 +205,7 @@ function chooseAction(character)
 end
 
 function attack(character, enemy)
-    -- kiszámolom a karakterem attackját
-    
+    -- kiszámolom a karakterem attackját 
     character.drawDice = true
     local dr = getDiceRoll()
     character.diceRoll = dr
@@ -217,7 +216,7 @@ function attack(character, enemy)
     damage = math.max(0, character.attack - enemy.baseDefense) -- 0 és a másik paramtérer közül választom kia  nagyobt
     enemy.baseHP = enemy.baseHP - damage
     enemy.drawDamage = true
-
+    character.drawBattle = true
     --debug
     print("---****--- CSATA ----****----")
     print(character.name .. " attacked " .. enemy.name)
@@ -343,24 +342,33 @@ function spell(character, mX, mY)
     if character.id == 6 then 
         if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
             boardGrid[mX][mY].isOnFire = true
-            if boardGrid[mX][mY].type == 2 then
+            if boardGrid[mX][mY].isFrozen then 
+                boardGrid[mX][mY].isFrozen = false 
                 boardGrid[mX][mY].isOnFire = false
-                boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
-                boardGrid[mX][mY].type = 1
-                boardGrid[mX][mY].isWalkable = true
-            end
-            if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false 
+                boardGrid[mX][mY].type = 2
+                boardGrid[mX][mY].quad = cellQuadTable.mount[love.math.random(1,4)]
+                boardGrid[mX][mY].isWalkable = false
+            elseif boardGrid[mX][mY].type == 2 then
+                    boardGrid[mX][mY].isOnFire = false
+                    boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
+                    boardGrid[mX][mY].type = 1
+                    boardGrid[mX][mY].isWalkable = true
+                
             end
 
         elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
             boardGrid[mX][mY].isOnFire = true
-            if boardGrid[mX][mY].type == 2 then
+            if boardGrid[mX][mY].isFrozen then 
+                boardGrid[mX][mY].isFrozen = false
                 boardGrid[mX][mY].isOnFire = false
-                boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
-                boardGrid[mX][mY].type = 1
-                boardGrid[mX][mY].isWalkable = true
-            end
-            if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false 
+                boardGrid[mX][mY].type = 2
+                boardGrid[mX][mY].quad = cellQuadTable.mount[love.math.random(1,4)]
+                boardGrid[mX][mY].isWalkable = false
+            elseif boardGrid[mX][mY].type == 2 then
+                    boardGrid[mX][mY].isOnFire = false
+                    boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
+                    boardGrid[mX][mY].type = 1
+                    boardGrid[mX][mY].isWalkable = true
             end
         else character.isInSpellState = false
         end
@@ -491,14 +499,12 @@ end
 local function drawActionMenu(player)
     for i = 1,4 do
         if player[i].isActionMenuDrawn == true then
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(actionMenuFont)
+            player.drawBattle = false
             love.graphics.draw(attackIcon, player[i].screenX, player[i].screenY)
             love.graphics.draw(moveIcon, player[i].screenX + (tileW - tileW / 2), player[i].screenY)
             love.graphics.draw(spellIcon, player[i].screenX, player[i].screenY + (tileH - tileH / 2))
             love.graphics.draw(defenseIcon, player[i].screenX + (tileW - tileW / 2), player[i].screenY + (tileH - tileH / 2))
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(statFont)
+        
         end
     end
 end
@@ -518,6 +524,60 @@ local function drawDamage(player)
 
 
 end
+
+local function drawBattleOnSidebar(player, enemyPlayer)
+   
+        for i = 1, 4 do
+            if player[i].drawBattle then
+            character = player[i]
+                            
+                            local enemy = getEnemyCharacter(character, enemyPlayer, cellMousePositionX, cellMousePositionY)
+                            if enemy ~= nil then
+                            love.graphics.setFont(statFont)
+                            love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
+                            love.graphics.print(character.name .. " attacked " .. enemy.name, 10, 620)
+                            love.graphics.print(character.name .. " AT is: " .. character.baseAttack .. " + Dice: " .. character.diceRoll, 10,640)
+                            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense, 10, 660)
+                            love.graphics.print("Battle: "  .. character.attack .. " AT - " .. enemy.baseDefense .. " DF" , 10, 680)
+                            love.graphics.print(character.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
+                            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
+                            love.graphics.print("------------*END OF THE BATTLE*-------------", 10, 740)
+                            love.graphics.setFont(font)
+                            end
+
+                    
+                    
+                
+            end
+        end
+     
+end
+
+local function drawBattleOnSidebarPlayerTwo(player, enemyPlayer)
+   
+    if drawBattle == true then
+        for i = 1, 4 do
+            if player[i].isAttacking then
+            character = player[i]
+            print(character.name)
+                            
+                            local enemy = getEnemyCharacter(character, enemyPlayer, cellMousePositionX, cellMousePositionY)
+                            love.graphics.setFont(statFont)
+                            love.graphics.print("---****--- CSATA ----****----", 50, 600)
+                            love.graphics.print(character.name .. " attacked " .. enemy.name, 50, 620)
+                            love.graphics.print(character.name .. " AT is: " .. character.baseAttack .. " + Dice: " .. character.diceRoll, 50,640)
+                            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense, 50, 660)
+                            love.graphics.print("Battle: "  .. character.attack .. " AT - " .. enemy.baseDefense .. " DF" , 50, 680)
+                            love.graphics.print(character.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 50, 700)
+                            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 50, 720)
+                            love.graphics.print("------------*HS*-------------", 50, 740)
+                            love.graphics.setFont(font)
+            end
+        end
+    end
+    
+end
+
 
 local function drawModifier()
     for index, rows in ipairs(boardGrid) do
@@ -734,8 +794,10 @@ function board:draw()
 
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
-    drawDamage(playerOne, playerTwo)
+    drawDamage(playerOne)
     drawDamage(playerTwo)
+    drawBattleOnSidebar(playerOne, playerTwo)
+    drawBattleOnSidebar(playerTwo, playerOne)
     
 
    
