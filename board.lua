@@ -232,19 +232,29 @@ function attack(character, enemy)
 end
 
 function spell(character, mX, mY)
+    -- board tipusok 1 - erdo 2- folyo 3- hefy 4- field
     --geognome
     if character.id == 1 then    
         if      mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then
                 boardGrid[mX][mY].type = 3
                 boardGrid[mX][mY].isWalkable = true
-                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]               
-        elseif  mY == character.y and (mX == character.x - 1 or mY == character.y + 1) then
+                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end             
+                if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end           
+                if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false end    
+        elseif  mY == character.y and (mX == character.x - 1 or mX == character.x + 1) then
                 boardGrid[mX][mY].type = 3
                 boardGrid[mX][mY].isWalkable = true
                 boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end             
+                if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end           
+                if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false end     
         elseif  mY == character.y and mX == character.x then
                 boardGrid[mX][mY].type = 3
-                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]              
+                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end             
+                if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end           
+                if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false end                   
         else character.isInSpellState = false
         end
     else character.isInSpellState = false
@@ -255,15 +265,18 @@ function spell(character, mX, mY)
         if      mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then
             boardGrid[mX][mY].type = 1
             boardGrid[mX][mY].isWalkable = true
-            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]        
+            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end        
         elseif  mY == character.y and (mX == character.x - 1 or mY == character.y + 1) then
             boardGrid[mX][mY].type = 1
             boardGrid[mX][mY].isWalkable = true
             boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end  
         elseif  mY == character.y and mX == character.x then
             boardGrid[mX][mY].type = 1
             boardGrid[mX][mY].isWalkable = true
-            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)]        
+            boardGrid[mX][mY].quad = cellQuadTable.forest[love.math.random(1,4)] 
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end        
         else character.isInSpellState = false
         end
    
@@ -274,10 +287,8 @@ function spell(character, mX, mY)
 
             if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then  
                 boardGrid[mX][mY].isFrozen = true
-                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false 
-                end
-                if boardGrid[mX][mY].type == 2 then boardGrid[mX][mY].isWalkable = true
-                end
+                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end
+                if boardGrid[mX][mY].type == 2 then boardGrid[mX][mY].isWalkable = true  end
 
             elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
                 boardGrid[mX][mY].isFrozen = true
@@ -298,17 +309,16 @@ function spell(character, mX, mY)
     --airelemental
     if character.id == 4 then 
         if      mX == character.x - 1 and (mY == character.y - 1 or mY == character.y + 1) then
-            print("blowing wind")
-            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false 
-            end
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false  end
+            if boardGrid[mX][mY].isOnFire then boardGrid[mX - 1][(mY + love.math.random(0,1))].isOnFire = true end
+
         elseif mX == character.x + 1 and (mY == character.y - 1 or mY == character.y + 1)  then
-            print("blowing wind")
-            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false 
-            end
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false  end
+            if boardGrid[mX][mY].isOnFire then boardGrid[mX + 1][(mY + love.math.random(0,1))].isOnFire = true end
+
         elseif mX == character.x and (mY == character.y -1 or mY == character.y + 1) then
-            print("blowing wind")
-            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false 
-            end
+            if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false  end
+            if boardGrid[mX][mY].isOnFire then boardGrid[mX][(mY + love.math.random(0,1))].isOnFire = true end
         else character.isInSpellState = false
         end
     end
@@ -336,6 +346,7 @@ function spell(character, mX, mY)
             if boardGrid[mX][mY].type == 2 then
                 boardGrid[mX][mY].isOnFire = false
                 boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
+                boardGrid[mX][mY].type = 1
                 boardGrid[mX][mY].isWalkable = true
             end
             if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false 
@@ -346,6 +357,7 @@ function spell(character, mX, mY)
             if boardGrid[mX][mY].type == 2 then
                 boardGrid[mX][mY].isOnFire = false
                 boardGrid[mX][mY].quad = cellQuadTable.field[love.math.random(1,4)]
+                boardGrid[mX][mY].type = 1
                 boardGrid[mX][mY].isWalkable = true
             end
             if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false 
@@ -522,17 +534,18 @@ local function drawValidAction(player, enemyPlayer)
        
                 local currentChar = player[i]
                 local enemyChar = enemyPlayer
+                local drawX = currentChar.x
+                local drawY = currentChar.y
                
                     if currentChar.isInStepState then
-                        if boardGrid[(currentChar.x + 1)][currentChar.y].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
-                        if boardGrid[(currentChar.x -1)][currentChar.y].isWalkable and boardGrid[(currentChar.x -1)][currentChar.y].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
-                        if boardGrid[currentChar.x][(currentChar.y + 1)].isWalkable and boardGrid[currentChar.x][(currentChar.y + 1)].isOccupied == false then   love.graphics.draw(validStepImage, currentChar.x * tileW + offsetX, (currentChar.y + 1)  * tileH + offsetY) end
-                        if boardGrid[currentChar.x][(currentChar.y - 1)].isWalkable  and boardGrid[currentChar.x][(currentChar.y - 1)].isOccupied == false then  love.graphics.draw(validStepImage, currentChar.x * tileW + offsetX, (currentChar.y - 1)  * tileH + offsetY) end
-                        if boardGrid[(currentChar.x + 1)][currentChar.y + 1].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y + 1].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
-                        if boardGrid[(currentChar.x - 1)][currentChar.y - 1].isWalkable and boardGrid[(currentChar.x - 1)][currentChar.y - 1].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end    
-                        if boardGrid[(currentChar.x + 1)][currentChar.y - 1].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y - 1].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
-                        if boardGrid[(currentChar.x - 1)][currentChar.y + 1].isWalkable and boardGrid[(currentChar.x - 1)][currentChar.y + 1].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end    
-                       
+                            if currentChar.x + 1 < 11 and boardGrid[(currentChar.x + 1)][currentChar.y].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 and boardGrid[(currentChar.x -1)][currentChar.y].isWalkable and boardGrid[(currentChar.x -1)][currentChar.y].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, currentChar.y  * tileH + offsetY) end
+                            if currentChar.y + 1 < 11 and boardGrid[currentChar.x][(currentChar.y + 1)].isWalkable and boardGrid[currentChar.x][(currentChar.y + 1)].isOccupied == false then   love.graphics.draw(validStepImage, currentChar.x * tileW + offsetX, (currentChar.y + 1)  * tileH + offsetY) end
+                            if currentChar.y - 1 > 0 and boardGrid[currentChar.x][(currentChar.y - 1)].isWalkable  and boardGrid[currentChar.x][(currentChar.y - 1)].isOccupied == false then  love.graphics.draw(validStepImage, currentChar.x * tileW + offsetX, (drawY - 1)  * tileH + offsetY) end
+                            if currentChar.x + 1 < 11 and currentChar.y + 1 < 11 and boardGrid[(currentChar.x + 1)][currentChar.y + 1].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y + 1].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 and currentChar.y - 1 > 0 and boardGrid[(currentChar.x - 1)][currentChar.y - 1].isWalkable and boardGrid[(currentChar.x - 1)][currentChar.y - 1].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end    
+                            if currentChar.x + 1 < 11 and currentChar.y - 1 > 0 and boardGrid[(currentChar.x + 1)][currentChar.y - 1].isWalkable and boardGrid[(currentChar.x + 1)][currentChar.y - 1].isOccupied == false then love.graphics.draw(validStepImage, (currentChar.x + 1) * tileW + offsetX, (currentChar.y - 1) * tileH + offsetY) end
+                            if currentChar.x - 1 > 0 and currentChar.y + 1 < 11 and boardGrid[(currentChar.x - 1)][currentChar.y + 1].isWalkable and boardGrid[(currentChar.x - 1)][currentChar.y + 1].isOccupied == false then  love.graphics.draw(validStepImage, (currentChar.x - 1) * tileW + offsetX, (currentChar.y + 1) * tileH + offsetY) end                    
                     end
 
                     if currentChar.isInAttackState then
