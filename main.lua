@@ -1,8 +1,12 @@
 -- HillShift - project started: 2021.01.01
 
 --require
+class = require('lib.30log')
+Character = require('Character')
+GeoGnome = require('GeoGnome')
 require ('board')
 require ('characters')
+
 --valtozok
 --altalanos valtozok
 width = 1280
@@ -35,44 +39,7 @@ statFont = love.graphics.newFont(12)
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 
 
-local function clickSelectCharacter(player)
-    for i = 1, 4 do
-        if  player[i].isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
-            player[i].isSelected = true -- az adott karakter selected lesz
-            selectedCharacter = player[i] -- az adott karakter lesz a selectedPlayer
-            selectedCharacter.isActionMenuDrawn = true
-            player[i].drawBattle = false
-
-            -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
-        else player[i].isSelected = false            -- egyébként deszelektálom az összes karaktert
-            player[i].isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
-            player[i].isInStepState = false
-            player[i].isInAttackState = false
-            player[i].drawDamage = false
-            player[i].drawDice = false
-        end
-    end     
-end
-
-local function clickChooseAction(player)
-    for i = 1, 4 do
-        if  player[i].isActionMenuDrawn and player[i].isHovered and player[i].isSelected and player[i].isInAttackState == false
-        and player[i].isInSpellState == false and player[i].isInDefenseState == false then
-            player[i].isChoosing = true 
-            choosingCharacter = player[i]
-            chooseAction(choosingCharacter)
-            choosingCharacter.drawBattle = false
-            player[i].isActionMenuDrawn = false
-        else player[i].isActionMenuDrawn = false
-            player[i].isInAttackState = false
-            player[i].isInStepState = false
-            player[i].isInSpellState = false
-            player[i].isInDefenseState = false
-        end
-    end
-end
-
-local function clickMoveCharacter(player)
+--[[ local function clickMoveCharacter(player)
     for i = 1, 4 do
         --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
         if  player[i].isInStepState and player[i].stepPoints ~= 0 and (player[i].isInDefenseState == false or player[i].isDefending == false) then
@@ -158,7 +125,7 @@ local function clickSpell(player)
 
         
 
-end
+end ]]
 
 function love.load()
     --board betoltese
@@ -185,28 +152,47 @@ function love.draw()
     love.graphics.draw(mouseArrow, mouseX, mouseY)
 end
 
+function love.mousemoved( x, y, dx, dy, istouch )
+
+    for _, currentChar in ipairs(playerOne.characters) do
+        currentChar:updateHover(x, y)
+    end
+
+end
+
 function love.mousereleased(x, y, button, istouch, presses) 
+
+    for _, currentChar in ipairs(playerOne.characters) do
+
+        currentChar:move(x, y)
+        currentChar:drawContextualMenu(x, y)
+        currentChar:click(x, y)
+    
+    end
+
 
     cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
     cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)    
 
+    
+
     -- PLAYER ONE
-    clickSpell(playerOne)
-    clickDefenseCharacter(playerOne)
-    clickAttackCharacter(playerOne, playerTwo)
-    clickMoveCharacter(playerOne)
-    clickChooseAction(playerOne)
-    clickSelectCharacter(playerOne)
+  --  clickSpell(playerOne)
+  --  clickDefenseCharacter(playerOne)
+  --  clickAttackCharacter(playerOne, playerTwo)
+  --  clickMoveCharacter(playerOne)
+   -- clickChooseAction(playerOne)
+   -- clickSelectCharacter(playerOne)
             
 
 
 
     -- PLAYER TWO
-    clickSpell(playerTwo)
-    clickDefenseCharacter(playerOne)
-    clickAttackCharacter(playerTwo, playerOne) 
-    clickMoveCharacter(playerTwo)  
-    clickChooseAction(playerTwo)
-    clickSelectCharacter(playerTwo)  
+  --  clickSpell(playerTwo)
+  --  clickDefenseCharacter(playerOne)
+ --   clickAttackCharacter(playerTwo, playerOne) 
+ --   clickMoveCharacter(playerTwo)  
+ --   clickChooseAction(playerTwo)
+ --   clickSelectCharacter(playerTwo)  
 
 end
