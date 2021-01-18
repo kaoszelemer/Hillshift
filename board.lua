@@ -59,38 +59,56 @@ cellQuadTable = {
     },
 }
 
-local function initPlayerDeck(player, initCoordinates)
+local function initPlayerDeck(player)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
 
-    table.insert(player.characters, GeoGnome(5, 1, playerOne))
-    table.insert(player.characters, Druid(5, 2, playerOne))
-    table.insert(player.characters, IceWizard(6, 1, playerOne))
-    table.insert(player.characters, Alchemist(6, 2, playerOne))
-    table.insert(player.characters, AirElemental(5, 9, playerOne))
-    table.insert(player.characters, FireMage(6, 9, playerOne))
-    table.insert(player.characters, FireMage(5, 10, playerOne))
-    table.insert(player.characters, Alchemist(6, 10, playerOne))
-
-   
+    table.insert(player.characters, GeoGnome(5, 1, player))
+    table.insert(player.characters, Druid(5, 2, player))
+    table.insert(player.characters, IceWizard(6, 1, player))
+    table.insert(player.characters, Alchemist(6, 2, player))
+    table.insert(player.characters, AirElemental(5, 9, player))
+    table.insert(player.characters, FireMage(6, 9, player))
     
-    --amig a playertable hossza nem 4 kiveszek 2 lapot
-   --[[  while #playerTable ~= 4 do     
-        local cardNumber = love.math.random(1, #playerTable)
-        table.remove(playerTable, cardNumber)
-    end ]]
 
-    -- beallítom a kezdőpozíciókat
-    --[[ for index, currentChar in ipairs(player.characters) do
+    while #player.characters ~= 4 do     
+        local cardNumber = love.math.random(1, #player.characters)
+        table.remove(player.characters, cardNumber)
+    end 
 
-        if     index == 1 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-        elseif index == 2 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-        elseif index == 3 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
-        elseif index == 4 then currentChar.x, currentChar.y = initCoordinates[index][1], initCoordinates[index][2]
+        for i, currentChar in ipairs(player.characters) do
+            if      i == 1 then 
+                    currentChar.x = 5
+                    currentChar.y = 1
+            elseif  i == 2 then
+                    currentChar.x = 5
+                    currentChar.y = 2
+            elseif  i == 3 then
+                    currentChar.x = 6
+                    currentChar.y = 1
+            elseif  i == 4 then
+                    currentChar.x = 6
+                    currentChar.y = 2
+            end
+        end
+        for i, currentChar in ipairs(playerTwo.characters) do
+            if      i == 1 then 
+                    currentChar.x = 5
+                    currentChar.y = 10
+            elseif  i == 2 then
+                    currentChar.x = 5
+                    currentChar.y = 9
+            elseif  i == 3 then
+                    currentChar.x = 6
+                    currentChar.y = 10
+            elseif  i == 4 then
+                    currentChar.x = 6
+                    currentChar.y = 9
+            end
         end
 
-        
 
 
+    --[[
         currentChar.screenX = (currentChar.x * tileW) + offsetX --eredetileg a currentcharhoz hozzaadta a tilW felét
         currentChar.screenY = (currentChar.y * tileH) + offsetY
         -- adok nekik kezdőváltozókat
@@ -448,16 +466,16 @@ function board:load()
     playerTwo = {
 
         name = "Player Two",
+        characters = {}
 
     }
 
     -- létrehozom a kezdőpozíciók tábláját
 
-    local initPlayerCoordinatesPlayerOne = {{5,1},{5,2},{6,1},{6,2}}
-    local initPlayerCoordinatesPlayerTwo = {{5,9},{5,10},{6,9},{6,10}}
+   
 
- initPlayerDeck(playerOne, initPlayerCoordinatesPlayerOne)
-  --  initPlayerDeck(playerTwo, initPlayerCoordinatesPlayerTwo)
+ initPlayerDeck(playerOne)
+ initPlayerDeck(playerTwo)
 
 
     boardGrid = {}
@@ -559,7 +577,7 @@ function board:draw()
     
     --drawModifier()
     drawCharactersOnBoard(playerOne)
-   -- drawCharactersOnBoard(playerTwo)
+    drawCharactersOnBoard(playerTwo)
   --  drawActionMenu(playerOne)
    --[[ drawActionMenu(playerTwo)
     drawValidAction(playerOne, playerTwo)

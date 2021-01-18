@@ -63,13 +63,14 @@ local Character = class("Character")
         end
     end
 
+
     function Character:click(x, y)
 
         if  self.isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
             self.isSelected = true -- az adott karakter selected lesz
             self.isActionMenuDrawn = true
             self.drawBattle = false
-            --  <--- ez eddig van itt amig nincsenek kesz a cella klakszok
+            print(self.parentPlayer.name .. " - " .. self.name)
 
             -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
         else self.isSelected = false            -- egyébként deszelektálom az összes karaktert
@@ -122,13 +123,14 @@ local Character = class("Character")
 
     function Character:move(x, y)
 
-        if  self.isInStepState and self.stepPoints ~= 0 and (self.isInDefenseState == false or self.isDefending == false) then
-        
-            local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
-            local  mouseCellCoordinateY = math.floor((y / tileH) - offsetY / tileH)
-            local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
-            local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
+        local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
+        local  mouseCellCoordinateY = math.floor((y / tileH) - offsetY / tileH)
+        local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
+        local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
 
+
+        if self.isInStepState and self.stepPoints ~= 0 and (self.isInDefenseState == false or self.isDefending == false) then
+        
             if boardGrid[mx][my].isWalkable and boardGrid[mx][my].isOccupied == false then      
                 
                 if  (mx == self.x + 1 and my == self.y) then 
@@ -213,6 +215,9 @@ local Character = class("Character")
  
 
     function Character:attack(x, y)
+    
+
+
         if self.isInAttackState and self.actionPoints ~= 0 and (self.isDefending == false or self.isInDefenseState == false) then
 
             local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
@@ -220,7 +225,7 @@ local Character = class("Character")
             local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
             local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
             local clickedCell =  boardGrid[mx][my] 
-               if  clickedCell.isOccupied and self.parentPlayer ~= self.parentPlayer then
+               if  clickedCell.isOccupied  then  -- and self.parentPlayer ~= self.parentPlayer
                     print(clickedCell.isOccupied)
                     if  (mx <= self.x + 1 and mx >= self.x - 1 and my <= self.y + 1 and my >= self.y - 1) 
                      and (self.x == mx and self.my == my) then -- itt a self.x es a self.y a player two x-e és y-ja

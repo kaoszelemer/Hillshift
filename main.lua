@@ -98,6 +98,9 @@ function love.mousemoved( x, y, dx, dy, istouch )
     for _, currentChar in ipairs(playerOne.characters) do
         currentChar:updateHover(x, y)
     end
+    for _, currentChar in ipairs(playerTwo.characters) do
+        currentChar:updateHover(x, y)
+    end
 
 end
 
@@ -112,6 +115,16 @@ function love.mousereleased(x, y, button, istouch, presses)
         currentChar:click(x, y)
         
     
+    end
+
+    for _, currentChar in ipairs(playerTwo.characters) do
+        
+        currentChar:attack(x, y)
+        currentChar:defend(x, y)
+        currentChar:move(x, y)
+        currentChar:drawContextualMenu(x, y)
+        currentChar:click(x, y)
+
     end
 
 
