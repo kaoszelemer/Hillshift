@@ -2,6 +2,8 @@
 
 --require
 class = require('lib.30log')
+Cell = require('Cell')
+Forest = require('Forest')
 Character = require('Character')
 GeoGnome = require('GeoGnome')
 Druid = require('Druid')
@@ -11,7 +13,7 @@ Alchemist = require('Alchemist')
 FireMage = require('FireMage')
 
 require ('board')
-require ('characters')
+
 
 --valtozok
 --altalanos valtozok
@@ -98,9 +100,6 @@ function love.mousemoved( x, y, dx, dy, istouch )
     for _, currentChar in ipairs(playerOne.characters) do
         currentChar:updateHover(x, y)
     end
-    for _, currentChar in ipairs(playerTwo.characters) do
-        currentChar:updateHover(x, y)
-    end
 
 end
 
@@ -108,24 +107,12 @@ function love.mousereleased(x, y, button, istouch, presses)
 
     for _, currentChar in ipairs(playerOne.characters) do
         
-        currentChar:attack(x, y)
-        currentChar:defend(x, y)
-        currentChar:move(x, y)
-        currentChar:drawContextualMenu(x, y)
-        currentChar:click(x, y)
+        if currentChar.isHovered then currentChar:click(x, y) end
         
     
     end
 
-    for _, currentChar in ipairs(playerTwo.characters) do
-        
-        currentChar:attack(x, y)
-        currentChar:defend(x, y)
-        currentChar:move(x, y)
-        currentChar:drawContextualMenu(x, y)
-        currentChar:click(x, y)
 
-    end
 
 
     cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 

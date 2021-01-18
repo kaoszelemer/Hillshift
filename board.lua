@@ -25,7 +25,7 @@ validAttackImage = love.graphics.newImage("graphics/validattack.png")
 validStepImage = love.graphics.newImage("graphics/validstep.png")
 validSpellImage = love.graphics.newImage("graphics/validspell.png")
 --1a. a tileset változói
-local tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
+tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --2, a cella típusuk definiálása a quadokból   
 cellQuadTable = {
 
@@ -62,12 +62,12 @@ cellQuadTable = {
 local function initPlayerDeck(player)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
 
-    table.insert(player.characters, GeoGnome(5, 1, player))
-    table.insert(player.characters, Druid(5, 2, player))
-    table.insert(player.characters, IceWizard(6, 1, player))
-    table.insert(player.characters, Alchemist(6, 2, player))
-    table.insert(player.characters, AirElemental(5, 9, player))
-    table.insert(player.characters, FireMage(6, 9, player))
+    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, Druid(player))
+    table.insert(player.characters, IceWizard(player))
+    table.insert(player.characters, Alchemist(player))
+    table.insert(player.characters, AirElemental(player))
+    table.insert(player.characters, FireMage(player))
     
 
     while #player.characters ~= 4 do     
@@ -75,7 +75,7 @@ local function initPlayerDeck(player)
         table.remove(player.characters, cardNumber)
     end 
 
-        for i, currentChar in ipairs(player.characters) do
+    --[[     for i, currentChar in ipairs(player.characters) do
             if      i == 1 then 
                     currentChar.x = 5
                     currentChar.y = 1
@@ -104,7 +104,7 @@ local function initPlayerDeck(player)
                     currentChar.x = 6
                     currentChar.y = 9
             end
-        end
+        end ]]
 
 
 
@@ -475,57 +475,47 @@ function board:load()
    
 
  initPlayerDeck(playerOne)
- initPlayerDeck(playerTwo)
+ --initPlayerDeck(playerTwo)
+
+  
 
 
     boardGrid = {}
         
-        for i = 1, maxRow do boardGrid[i] = {}
-            for j = 1, maxCol do 
+        for x = 1, maxRow do boardGrid[x] = {}
+            for y = 1, maxCol do 
                 --start mezők beállítása
-                if      i == 5 and j == 1 or i == 5 and j == 2 or
-                        i == 6 and j == 1 or i == 6 and j == 2 or
-                        i == 5 and j == 9 or i == 6 and j == 9 or
-                        i == 5 and j == 10 or i == 6 and j == 10 then 
+                if      x == 5 and y == 1 or x == 5 and y == 2 or
+                        x == 6 and y == 1 or x == 6 and y == 2 or
+                        x == 5 and y == 9 or x == 6 and y == 9 or
+                        x == 5 and y == 10 or x == 6 and y == 10 then 
                             selectedType = 4
                 -- egyébként legyen random
                 else    selectedType = love.math.random(1, #boardType)
                 end
                 -- a mezők adatai itt kerülnek be a táblázatba
-                boardGrid[i][j] = {
+                boardGrid[x][y] = Forest(x, y)        
 
-                    id = "R" .. i .. "C" .. j,
-                    num = i,
-                    x = i,
-                    y = j, 
-                    type = selectedType,
-                    isWalkable = true,
-                    isOccupied = false,
-                
-                    
-                    
-                }                     
-                
-                if selectedType == 2 then
-                    boardGrid[i][j].isWalkable = false
-                end
-
-                local cellType = boardGrid[i][j].type
-                local cellTypeString = boardType[cellType]
-                local quadSort = cellQuadTable[cellTypeString]
-                boardGrid[i][j].quad = quadSort[love.math.random(#quadSort)]
             end
         end
 
 
-        boardGrid[5][1].isOccupied = true
-        boardGrid[6][1].isOccupied = true
-        boardGrid[5][2].isOccupied = true
-        boardGrid[6][2].isOccupied = true
-        boardGrid[5][9].isOccupied = true
-        boardGrid[6][9].isOccupied = true
-        boardGrid[6][10].isOccupied = true
-        boardGrid[5][10].isOccupied = true
+        for i, currentChar in ipairs(playerOne.characters) do
+            if     i == 1 then currentChar:move(5, 1)
+            elseif i == 2 then currentChar:move(5, 2)
+            elseif i == 3 then currentChar:move(6, 1)
+            elseif i == 4 then currentChar:move(6, 2)
+            end
+        end
+
+        for i, currentChar in ipairs(playerTwo.characters) do
+            if     i == 1 then currentChar:move(5, 9)
+            elseif i == 2 then currentChar:move(5, 10)
+            elseif i == 3 then currentChar:move(6, 9)
+            elseif i == 4 then currentChar:move(6, 10)
+            end
+        end
+
 
 end
 
@@ -577,7 +567,7 @@ function board:draw()
     
     --drawModifier()
     drawCharactersOnBoard(playerOne)
-    drawCharactersOnBoard(playerTwo)
+   -- drawCharactersOnBoard(playerTwo)
   --  drawActionMenu(playerOne)
    --[[ drawActionMenu(playerTwo)
     drawValidAction(playerOne, playerTwo)

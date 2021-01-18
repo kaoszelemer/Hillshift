@@ -1,15 +1,18 @@
 local Character = class("Character")
 
-    function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, x, y, parentPlayer)
+    function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer)
         self.baseHP = baseHP
         self.baseDefense = baseDefense
         self.baseAttack = baseAttack
         self.id = id
         self.image = image
         self.imageHover = imageHover
-        self.x = x
-        self.y = y
         self.parentPlayer = parentPlayer
+        self.isWalkable = {
+            Forest = true,
+            Mount = true,
+            Field = true,
+        }
     end
 
     function Character:draw()
@@ -27,35 +30,34 @@ local Character = class("Character")
             love.graphics.draw(defenseIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2))     
         end
 
-        if self.isInStepState then
-            if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isWalkable and boardGrid[(self.x + 1)][self.y].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-            if self.x - 1 > 0 and boardGrid[(self.x -1)][self.y].isWalkable and boardGrid[(self.x -1)][self.y].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-            if self.y + 1 < 11 and boardGrid[self.x][(self.y + 1)].isWalkable and boardGrid[self.x][(self.y + 1)].isOccupied == false then   love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
-            if self.y - 1 > 0 and boardGrid[self.x][(self.y - 1)].isWalkable  and boardGrid[self.x][(self.y - 1)].isOccupied == false then  love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY) end
-            if self.x + 1 < 11 and self.y + 1 < 11 and boardGrid[(self.x + 1)][self.y + 1].isWalkable and boardGrid[(self.x + 1)][self.y + 1].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
-            if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[(self.x - 1)][self.y - 1].isWalkable and boardGrid[(self.x - 1)][self.y - 1].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end    
-            if self.x + 1 < 11 and self.y - 1 > 0 and boardGrid[(self.x + 1)][self.y - 1].isWalkable and boardGrid[(self.x + 1)][self.y - 1].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
-            if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isWalkable and boardGrid[(self.x - 1)][self.y + 1].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
+        if self.isInStepState then 
+            if self.x + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y].class.name] and boardGrid[(self.x + 1)][self.y].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
+            if self.x - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y].class.name] and boardGrid[(self.x -1)][self.y].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
+            if self.y + 1 < 11 and self.isWalkable[boardGrid[(self.y + 1)][self.y].class.name] and boardGrid[self.x][(self.y + 1)].isOccupied == false then   love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
+            if self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y].class.name] and boardGrid[self.x][(self.y - 1)].isOccupied == false then  love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY) end
+            if self.x + 1 < 11 and self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y + 1].class.name] and boardGrid[(self.x + 1)][self.y + 1].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
+            if self.x - 1 > 0 and self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y - 1].class.name]  and boardGrid[(self.x - 1)][self.y - 1].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end    
+            if self.x + 1 < 11 and self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x + 1)][self.y - 1].class.name] and boardGrid[(self.x + 1)][self.y - 1].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
+            if self.x - 1 > 0 and self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x - 1)][self.y + 1].class.name] and boardGrid[(self.x - 1)][self.y + 1].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
         end
-
 
 
         if self.isInAttackState then
-            if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isOccupied and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-            if self.x - 1 > 0 and boardGrid[(self.x -1)][self.y].isOccupied and boardGrid[(self.x -1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer  then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-            if self.y + 1 < 11 and boardGrid[self.x][(self.y + 1)].isOccupied and boardGrid[self.x][(self.y + 1)].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
-            if self.y - 1 > 0 and boardGrid[self.x][(self.y - 1)].isOccupied and boardGrid[self.x][(self.y - 1)].occupiedBy.parentPlayer ~= self.parentPlayer then  love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY)  end
-            if self.x + 1 < 11 and self.y + 1 < 11 and boardGrid[(self.x + 1)][self.y + 1].isOccupied and boardGrid[(self.x + 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
-            if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[(self.x - 1)][self.y - 1].isOccupied and boardGrid[(self.x - 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
-            if self.x + 1 < 11 and self.y - 1 > 0 and boardGrid[(self.x + 1)][self.y - 1].isOccupied and boardGrid[(self.x + 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
-            if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied and boardGrid[(self.x - 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
-        end
+            if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isOccupied and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
+            if self.x - 1 > 0 and boardGrid[(self.x -1)][self.y].isOccupied and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and  boardGrid[(self.x -1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer  then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
+            if self.y + 1 < 11 and boardGrid[self.x][(self.y + 1)].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[self.x][(self.y + 1)].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
+            if self.y - 1 > 0 and boardGrid[self.x][(self.y - 1)].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[self.x][(self.y - 1)].occupiedBy.parentPlayer ~= self.parentPlayer then  love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY)  end
+            if self.x + 1 < 11 and self.y + 1 < 11 and boardGrid[(self.x + 1)][self.y + 1].isOccupied and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and  boardGrid[(self.x + 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
+            if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[(self.x - 1)][self.y - 1].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x - 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
+            if self.x + 1 < 11 and self.y - 1 > 0 and boardGrid[(self.x + 1)][self.y - 1].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x + 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
+            if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x - 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
+        end 
     end
    
 
-    function Character:updateHover(x, y)
-        local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
-        local  mouseCellCoordinateY = math.floor((y / tileH) - offsetY / tileH)
+    function Character:updateHover(mX, mY)
+        local  mouseCellCoordinateX = math.floor((mX / tileW) - offsetX / tileW) 
+        local  mouseCellCoordinateY = math.floor((mY / tileH) - offsetY / tileH)
         if  mouseCellCoordinateX == self.x and mouseCellCoordinateY == self.y then
             self.isHovered = true
         else
@@ -64,13 +66,12 @@ local Character = class("Character")
     end
 
 
-    function Character:click(x, y)
+    function Character:click(mX, mY)
 
         if  self.isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
             self.isSelected = true -- az adott karakter selected lesz
             self.isActionMenuDrawn = true
             self.drawBattle = false
-            print(self.parentPlayer.name .. " - " .. self.name)
 
             -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
         else self.isSelected = false            -- egyébként deszelektálom az összes karaktert
@@ -79,124 +80,57 @@ local Character = class("Character")
             self.isInAttackState = false
             self.drawDamage = false
             self.drawDice = false
-        end   
-    end
-
-    function Character:drawContextualMenu(x, y)
-        if  self.isActionMenuDrawn and self.isHovered and self.isSelected and self.isInAttackState == false
-         and self.isInSpellState == false and self.isInDefenseState == false then
-
-            local cx = self.x * tileW + offsetX
-            local cy = self.y * tileH + offsetY
-                -- BAl FELSO NEGYED - ATTACK STATE
-                if  x > cx and x < cx + tileW / 2 and  y > cy and y < cy + tileH / 2 then
-                        self.isInAttackState = true
-                        self.isActionMenuDrawn = false
-                end
-                -- JOBB FELSÖ NEGYED - STEP STATE                       
-                if  x > cx + tileW / 2 and x < cx + tileW and y > cy and y < cy + tileH / 2 then
-                        self.isInStepState = true
-                        self.isActionMenuDrawn = false
-                end
-                -- BAL ALSO NEGYED - SPELL STATE
-                if   x > cx and x < cx + tileW / 2 and y > cy + (tileH / 2) and y < cy + tileH then
-                        self.isInSpellState = true
-                        self.isActionMenuDrawn = false     
-                end
-                -- JOBB ALSO NEGYED - DEFENSE STATE
-                if x > cx + tileW / 2 and x < cx + tileW and  y > cy + tileH / 2 and y < cy + tileH then
-                        self.isInDefenseState = true
-                        self.isActionMenuDrawn = false
-                end
-            
-            self.drawBattle = false
-           
-        else 
-           -- self.isActionMenuDrawn = false
-            self.isInAttackState = false
-            self.isInStepState = false
-            self.isInSpellState = false
-            self.isInDefenseState = false
         end
 
+        if  self.isActionMenuDrawn and self.isHovered and self.isSelected and self.isInAttackState == false
+        and self.isInSpellState == false and self.isInDefenseState == false then
+
+            self:chooseActionMenu(mX, mY)
+        else 
+            -- self.isActionMenuDrawn = false
+             self.isInAttackState = false
+             self.isInStepState = false
+             self.isInSpellState = false
+             self.isInDefenseState = false
+         end
+ 
+     
+
+
     end
+
+    function Character:chooseActionMenu(x, y)
+        local cx = self.x * tileW + offsetX
+        local cy = self.y * tileH + offsetY
+            -- BAl FELSO NEGYED - ATTACK STATE
+            if  x > cx and x < cx + tileW / 2 and  y > cy and y < cy + tileH / 2 then
+                    self.isInAttackState = true
+                    self.isActionMenuDrawn = false
+            end
+            -- JOBB FELSÖ NEGYED - STEP STATE                       
+            if  x > cx + tileW / 2 and x < cx + tileW and y > cy and y < cy + tileH / 2 then
+                    self.isInStepState = true
+                    self.isActionMenuDrawn = false
+            end
+            -- BAL ALSO NEGYED - SPELL STATE
+            if   x > cx and x < cx + tileW / 2 and y > cy + (tileH / 2) and y < cy + tileH then
+                    self.isInSpellState = true
+                    self.isActionMenuDrawn = false     
+            end
+            -- JOBB ALSO NEGYED - DEFENSE STATE
+            if x > cx + tileW / 2 and x < cx + tileW and  y > cy + tileH / 2 and y < cy + tileH then
+                    self.isInDefenseState = true
+                    self.isActionMenuDrawn = false
+            end
+        
+        self.drawBattle = false
+    end
+           
+       
 
     function Character:move(x, y)
-
-        local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
-        local  mouseCellCoordinateY = math.floor((y / tileH) - offsetY / tileH)
-        local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
-        local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
-
-
-        if self.isInStepState and self.stepPoints ~= 0 and (self.isInDefenseState == false or self.isDefending == false) then
-        
-            if boardGrid[mx][my].isWalkable and boardGrid[mx][my].isOccupied == false then      
-                
-                if  (mx == self.x + 1 and my == self.y) then 
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (mx == self.x - 1 and my == self.y) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (my == self.y - 1 and mx == self.x) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (my == self.y + 1 and mx == self.x) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (mx == self.x + 1 and my == self.y + 1) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (mx == self.x - 1 and my == self.y - 1) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (mx == self.x + 1 and my == self.y - 1) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self
-                elseif (mx == self.x - 1 and my == self.y + 1) then
-                    boardGrid[self.x][self.y].isOccupied = false
-                    self.x = mx
-                    self.y = my
-                    boardGrid[mx][my].isOccupied = true
-                    boardGrid[mx][my].occupiedBy = self             
-
-                end
-            
-                
-                
-            elseif  mx > self.x + 1  then self.isInStepState = false
-            elseif  mx < self.x - 1  then self.isInStepState = false
-            elseif  my < self.y - 1  then self.isInStepState = false
-            elseif  my > self.y + 1 then self.isInStepState = false 
-            end 
-             
-        else self.isInStepState = false
-        end
-    
-
-
+        self.x = x
+        self.y = y
     end
 
 
@@ -216,8 +150,6 @@ local Character = class("Character")
 
     function Character:attack(x, y)
     
-
-
         if self.isInAttackState and self.actionPoints ~= 0 and (self.isDefending == false or self.isInDefenseState == false) then
 
             local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
@@ -225,36 +157,44 @@ local Character = class("Character")
             local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
             local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
             local clickedCell =  boardGrid[mx][my] 
-               if  clickedCell.isOccupied  then  -- and self.parentPlayer ~= self.parentPlayer
-                    print(clickedCell.isOccupied)
-                    if  (mx <= self.x + 1 and mx >= self.x - 1 and my <= self.y + 1 and my >= self.y - 1) 
-                     and (self.x == mx and self.my == my) then -- itt a self.x es a self.y a player two x-e és y-ja
-                        local enemy = self -- itt az enemi a player two aktualis karaktere lenne
-           
-                    else
-                    self.isSelected = false
-                    end 
-
-                        if enemy ~= nil then
+               
+            if  clickedCell.isOccupied and clickedCell.occupiedBy.parentPlayer ~= self.parentPlayer and clickedCell.occupiedBy ~= nil then
+                    -- itt az enemi a player two aktualis karaktere lenne
+                    enemy = clickedCell.occupiedBy
+            
+                    if enemy ~= nil then
+                        print("enemy is: " .. enemy.baseDefense)
+                        self.drawBattle = true    
                             self.drawBattle = true    
-                            self.drawDice = true
-                            local dr = getDiceRoll()
-                            self.diceRoll = dr
-                            self.attack = self.baseAttack + dr
-                            damage = math.max(0, self.attack - enemy.baseDefense)
-                            enemy.baseHP = enemy.baseHP - damage
-                            enemy.drawDamage = true
-                            self.drawBattle = true
-                            self.isSelected = false
-                            self.actionPoints = self.actionPoints - 1
-                            self.isInAttackState = false
-                            enemy = nil
-                        end
-                end
-                self.isInAttackState = false
+                        self.drawBattle = true    
+                        self.drawDice = true
+                        local dr = getDiceRoll()
+                        self.diceRoll = dr
+                        self.rolledAttack = self.baseAttack + dr
+                        damage = math.max(0, self.rolledAttack - enemy.baseDefense)
+                        enemy.baseHP = enemy.baseHP - damage
+                        enemy.drawDamage = true
+                        self.drawBattle = true
+                        self.isSelected = false
+                        --self.actionPoints = self.actionPoints - 1
+                        self.isInAttackState = false
+                        print("---****------ BATTLE COMMENCES ----****--------")
+                        print(self.name .. " attacked " .. enemy.name)
+                        print(self.name .. " AT is: " .. self.baseAttack .. " + Dice: " .. self.diceRoll)
+                        print(self.name .. " DF is: " .. enemy.baseDefense)
+                        print("Battle: "  .. self.rolledAttack .. " AT - " .. enemy.baseDefense .. " DF" )
+                        print(self.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.")
+                        print(enemy.name .. " remaining HP: " .. enemy.baseHP)
+                        print("------------*END OF THE BATTLE*-------------")
+                        enemy = nil
+                        self.isInAttackState = false
+                    end
                 
+            else    self.isInAttackState = false
+            end
         else self.isInAttackState = false
         end
+        self.isInAttackState = false
     end
 
 return Character
