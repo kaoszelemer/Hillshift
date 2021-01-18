@@ -4,6 +4,12 @@
 class = require('lib.30log')
 Character = require('Character')
 GeoGnome = require('GeoGnome')
+Druid = require('Druid')
+IceWizard = require('IceWizard')
+AirElemental = require('AirElemental')
+Alchemist = require('Alchemist')
+FireMage = require('FireMage')
+
 require ('board')
 require ('characters')
 
@@ -104,6 +110,7 @@ function love.mousereleased(x, y, button, istouch, presses)
         currentChar:move(x, y)
         currentChar:drawContextualMenu(x, y)
         currentChar:click(x, y)
+        
     
     end
 

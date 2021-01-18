@@ -62,11 +62,16 @@ cellQuadTable = {
 local function initPlayerDeck(player, initCoordinates)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
 
-    table.insert(player.characters, GeoGnome(4, 7, playerOne))
-    table.insert(player.characters, GeoGnome(2, 6, playerTwo))
-    
+    table.insert(player.characters, GeoGnome(5, 1, playerOne))
+    table.insert(player.characters, Druid(5, 2, playerOne))
+    table.insert(player.characters, IceWizard(6, 1, playerOne))
+    table.insert(player.characters, Alchemist(6, 2, playerOne))
+    table.insert(player.characters, AirElemental(5, 9, playerOne))
+    table.insert(player.characters, FireMage(6, 9, playerOne))
+    table.insert(player.characters, FireMage(5, 10, playerOne))
+    table.insert(player.characters, Alchemist(6, 10, playerOne))
 
-
+   
     
     --amig a playertable hossza nem 4 kiveszek 2 lapot
    --[[  while #playerTable ~= 4 do     
@@ -98,63 +103,8 @@ local function initPlayerDeck(player, initCoordinates)
     end ]]
 end
 
-local function initBoard()
 
-    for index, row in ipairs(boardGrid) do
-        for _, cell in ipairs(row) do
-           cell.isOccupied = false
-           cell.occupiedBy = nil
-           cell.isAttackable = false
-        end
-    end
-
-end
-
-local function gridTestMouse(board)
-
-    for index, rows in ipairs(board) do
-        for _, cell in ipairs(rows) do -- _alulvonás azt jelenti hogy változó ami nem kell
-            --itt mouseX az eger ponotos helye, cell.x pedig a cellakoordinata
-    
-            if  mouseX > (cell.x * tileW) + offsetX and mouseX < ((cell.x * tileW) + tileW) + offsetX and
-                mouseY > (cell.y * tileH) + offsetY and mouseY < ((cell.y * tileH) + tileH) + offsetY then
-                cell.isHovered = true
-                --for bugfixing purposes, egeret viszonyitani a cellakhoz
-                --print(cell.x .. "," .. cell.y)
-                --print(mouseX,mouseY)
-            else
-                cell.isHovered = false
-            end
-        end
-    end
-end
-
-local function updateCharacterPosition(player)
-
-
-    for index, currentChar in ipairs(player) do
-       currentChar.screenX = (currentChar.x * tileW) + offsetX
-       currentChar.screenY = (currentChar.y * tileH) + offsetY
-    end
-   
-   end
-
---[[ local function selectCharacterOnBoard(player) 
-    
-    for index, currentChar in ipairs(player.characters) do
-       currentChar:updateHover()
-    end
-end ]]
-
-
-
-
-
-
-
-
-
-function spell(character, mX, mY)
+   function spell(character, mX, mY)
     -- board tipusok 1 - erdo 2- folyo 3- hefy 4- field
     --geognome
     if character.id == 1 then    
@@ -301,31 +251,13 @@ function spell(character, mX, mY)
 end
 
 
-function testCharactersOnCell(player)  
-
-
-    for _, currentChar in ipairs(player) do    
-        boardGrid[currentChar.x][currentChar.y].isOccupied = true
-        boardGrid[currentChar.x][currentChar.y].occupiedBy = currentChar
-    end
-
-  
-    
-
-end
 
 function getDiceRoll()
    local diceRoll = love.math.random(1, 6)
    return diceRoll
 end
 
-function getEnemyCharacter(character, enemy, mX, mY)
 
-    for i = 1,4 do
-       
-    end
-
-end
 
 local function drawCharactersOnBoard(player)
     -- státuszok alapján beállítom a színeket
@@ -567,20 +499,19 @@ function board:load()
             end
         end
 
+
+        boardGrid[5][1].isOccupied = true
+        boardGrid[6][1].isOccupied = true
+        boardGrid[5][2].isOccupied = true
+        boardGrid[6][2].isOccupied = true
+        boardGrid[5][9].isOccupied = true
+        boardGrid[6][9].isOccupied = true
+        boardGrid[6][10].isOccupied = true
+        boardGrid[5][10].isOccupied = true
+
 end
 
 function board:update(dt)
- --   selectCharacterOnBoard(playerOne)
- --   selectCharacterOnBoard(playerTwo)
-    updateCharacterPosition(playerOne)
-    updateCharacterPosition(playerTwo)
-    gridTestMouse(boardGrid)
-    initBoard()
-    testCharactersOnCell(playerOne)
-    testCharactersOnCell(playerTwo)
-
-    
-
 end
 
 function board:draw()

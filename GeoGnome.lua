@@ -8,4 +8,4 @@ local GeoGnome = Character:extend("GeoGnome")
     function GeoGnome:draw()
         Character.draw(self)
     end
-return GeoGnome--
+return GeoGnome

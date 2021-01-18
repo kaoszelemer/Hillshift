@@ -51,8 +51,6 @@ local Character = class("Character")
             if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied and boardGrid[(self.x - 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
         end
     end
-
-
    
 
     function Character:updateHover(x, y)
@@ -66,10 +64,12 @@ local Character = class("Character")
     end
 
     function Character:click(x, y)
+
         if  self.isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
             self.isSelected = true -- az adott karakter selected lesz
             self.isActionMenuDrawn = true
             self.drawBattle = false
+            --  <--- ez eddig van itt amig nincsenek kesz a cella klakszok
 
             -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
         else self.isSelected = false            -- egyébként deszelektálom az összes karaktert
@@ -121,25 +121,80 @@ local Character = class("Character")
     end
 
     function Character:move(x, y)
-     
 
         if  self.isInStepState and self.stepPoints ~= 0 and (self.isInDefenseState == false or self.isDefending == false) then
-            self.isMoving = true
+        
             local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
             local  mouseCellCoordinateY = math.floor((y / tileH) - offsetY / tileH)
             local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
             local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
-            if  boardGrid[mx][my].isOccupied == false and self.isMoving and boardGrid[mx][my].isWalkable then
-                if      mx == self.x + 1 or mx == self.x - 1 or my == self.y + 1 or my == self.y - 1 then
-                        self.x = mx 
-                        self.y = my  
-                elseif  mx > self.x + 1 or my > self.y + 1 then character.isSelected = false
-                elseif  mx < self.x - 1 or my < self.y - 1 then character.isSelected = false 
+
+            if boardGrid[mx][my].isWalkable and boardGrid[mx][my].isOccupied == false then      
+                
+                if  (mx == self.x + 1 and my == self.y) then 
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (mx == self.x - 1 and my == self.y) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (my == self.y - 1 and mx == self.x) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (my == self.y + 1 and mx == self.x) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (mx == self.x + 1 and my == self.y + 1) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (mx == self.x - 1 and my == self.y - 1) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (mx == self.x + 1 and my == self.y - 1) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self
+                elseif (mx == self.x - 1 and my == self.y + 1) then
+                    boardGrid[self.x][self.y].isOccupied = false
+                    self.x = mx
+                    self.y = my
+                    boardGrid[mx][my].isOccupied = true
+                    boardGrid[mx][my].occupiedBy = self             
+
                 end
+            
+                
+                
+            elseif  mx > self.x + 1  then self.isInStepState = false
+            elseif  mx < self.x - 1  then self.isInStepState = false
+            elseif  my < self.y - 1  then self.isInStepState = false
+            elseif  my > self.y + 1 then self.isInStepState = false 
             end 
+             
         else self.isInStepState = false
         end
     
+
+
     end
 
 
