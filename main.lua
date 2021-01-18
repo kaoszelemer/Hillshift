@@ -39,73 +39,8 @@ statFont = love.graphics.newFont(12)
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 
 
---[[ local function clickMoveCharacter(player)
-    for i = 1, 4 do
-        --egyébként ha bármelyik játékos kiválasztva és nem 0 a lépéspontja akkor
-        if  player[i].isInStepState and player[i].stepPoints ~= 0 and (player[i].isInDefenseState == false or player[i].isDefending == false) then
-            player[i].isMoving = true
-            movingCharacter = player[i]
-            movingCharacter.drawBattle = false
-            --feltételek hogy ne tudjunk kimenni a pályáról és kikattintani  
-            --cellMousePositiont 1 és 10 közé limitálja
-            cellMousePositionX = math.min(math.max(cellMousePositionX, 1), 10)
-            cellMousePositionY = math.min(math.max(cellMousePositionY, 1), 10)   
-            if  boardGrid[cellMousePositionX][cellMousePositionY].isOccupied == false and boardGrid[cellMousePositionX][cellMousePositionY].isWalkable == true then
-                -- akkor meghívom a movecharacters fv-t(kiválasztott karaktr, egérX, egérY)
-                moveCharacterOnBoard(movingCharacter, cellMousePositionX, cellMousePositionY)
-                -- deszelektálom a karaktert
-                movingCharacter.isSelected = false
-                -- levonok a lépéspontjaiból egyet
-                movingCharacter.stepPoints = movingCharacter.stepPoints - 1
-                -- nincs lépésmódban
-                movingCharacter.isInStepState = false 
-            end 
-        player[i].isSelected = false  
-        else player[i].isInStepState = false
-        end
-    end
-end
 
-local function clickAttackCharacter(player, enemyPlayer)
-    for i = 1, 4 do
-        if player[i].isInAttackState and player[i].actionPoints ~= 0 and (player[i].isDefending == false or player[i].isInDefenseState == false) then
-            player[i].isAttacking = true
-            attackingCharacter = player[i]     
-            local clickedCell =  boardGrid[cellMousePositionX][cellMousePositionY] 
-                --itt még lehetne még egy feltétel hogy a másik karakter playere van-e ott (?)
-                if  clickedCell.isOccupied and clickedCell.occupiedBy.parentPlayer ~= attackingCharacter.parentPlayer then
-                    local enemy = getEnemyCharacter(attackingCharacter, enemyPlayer, cellMousePositionX, cellMousePositionY)
-                    if enemy ~= nil then
-                    attackingCharacter.drawBattle = true
-                    attack(attackingCharacter, enemy)
-                    attackingCharacter.isSelected = false
-                    attackingCharacter.actionPoints = attackingCharacter.actionPoints - 1
-                    attackingCharacter.isInAttackState = false
-                    enemy = nil
-                    end
-                end
-                attackingCharacter.isInAttackState = false
-                
-        else player.isInAttackState = false
-        end
-    end
-end
-
-local function clickDefenseCharacter(player)
-    for i = 1,4 do
-        if player[i].isInDefenseState and player[i].actionPoints ~= 0 and player[i].isHovered then
-           player[i].isDefending = true
-           defendingCharacter = player[i]
-           defendingCharacter.baseDefense = defendingCharacter.baseDefense + 2
-           defendingCharacter.actionPoints = 0
-           defendingCharacter.stepPoints = 0
-           defendingCharacter.drawActionMenu = false
-           defendingCharacter.isInDefenseState = false
-           player[i].isSelected = false
-        else player[i].isInDefenseState = false
-        end
-    end
-end
+--[[
 
 local function clickSpell(player)
     local mX = cellMousePositionX
@@ -163,7 +98,9 @@ end
 function love.mousereleased(x, y, button, istouch, presses) 
 
     for _, currentChar in ipairs(playerOne.characters) do
-
+        
+        currentChar:attack(x, y)
+        currentChar:defend(x, y)
         currentChar:move(x, y)
         currentChar:drawContextualMenu(x, y)
         currentChar:click(x, y)
