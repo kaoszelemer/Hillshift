@@ -46,7 +46,8 @@ statFont = love.graphics.newFont(12)
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 
-
+--aktualis kijelolt karakter
+selectedChar = nil
 
 --[[
 
@@ -112,31 +113,9 @@ function love.mousereleased(x, y, button, istouch, presses)
     
     end
 
-
-
-
     cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
-    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)    
-
+    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)
     
-
-    -- PLAYER ONE
-  --  clickSpell(playerOne)
-  --  clickDefenseCharacter(playerOne)
-  --  clickAttackCharacter(playerOne, playerTwo)
-  --  clickMoveCharacter(playerOne)
-   -- clickChooseAction(playerOne)
-   -- clickSelectCharacter(playerOne)
-            
-
-
-
-    -- PLAYER TWO
-  --  clickSpell(playerTwo)
-  --  clickDefenseCharacter(playerOne)
- --   clickAttackCharacter(playerTwo, playerOne) 
- --   clickMoveCharacter(playerTwo)  
- --   clickChooseAction(playerTwo)
- --   clickSelectCharacter(playerTwo)  
+    boardGrid[cellMousePositionX][cellMousePositionY]:click()
 
 end

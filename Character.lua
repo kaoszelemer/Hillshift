@@ -31,18 +31,34 @@ local Character = class("Character")
         end
 
         if self.isInStepState then 
-            if self.x + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y].class.name] and boardGrid[(self.x + 1)][self.y].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-            if self.x - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y].class.name] and boardGrid[(self.x -1)][self.y].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-            if self.y + 1 < 11 and self.isWalkable[boardGrid[(self.y + 1)][self.y].class.name] and boardGrid[self.x][(self.y + 1)].isOccupied == false then   love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
-            if self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y].class.name] and boardGrid[self.x][(self.y - 1)].isOccupied == false then  love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY) end
-            if self.x + 1 < 11 and self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y + 1].class.name] and boardGrid[(self.x + 1)][self.y + 1].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
-            if self.x - 1 > 0 and self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y - 1].class.name]  and boardGrid[(self.x - 1)][self.y - 1].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end    
-            if self.x + 1 < 11 and self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x + 1)][self.y - 1].class.name] and boardGrid[(self.x + 1)][self.y - 1].isOccupied == false then love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
-            if self.x - 1 > 0 and self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x - 1)][self.y + 1].class.name] and boardGrid[(self.x - 1)][self.y + 1].isOccupied == false then  love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
+            if self.x + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y].class.name] and not boardGrid[(self.x + 1)][self.y].isOccupied then
+                love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) 
+            end
+            if self.x - 1 > 0 and self.isWalkable[boardGrid[self.x - 1][self.y].class.name] and not boardGrid[self.x - 1][self.y].isOccupied then 
+                love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY)
+            end
+            if self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x)][self.y + 1].class.name] and not boardGrid[self.x][(self.y + 1)].isOccupied then 
+                love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) 
+            end
+            if self.y - 1 > 0 and self.isWalkable[boardGrid[self.x][self.y - 1].class.name] and not boardGrid[self.x][(self.y - 1)].isOccupied then 
+                love.graphics.draw(validStepImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY) 
+            end
+            if self.x + 1 < 11 and self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y + 1].class.name] and not boardGrid[(self.x + 1)][self.y + 1].isOccupied  then
+                love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) 
+            end
+            if self.x - 1 > 0 and self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x - 1)][self.y - 1].class.name]  and not boardGrid[(self.x - 1)][self.y - 1].isOccupied then
+                love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) 
+            end    
+            if self.x + 1 < 11 and self.y - 1 > 0 and self.isWalkable[boardGrid[(self.x + 1)][self.y - 1].class.name] and not boardGrid[(self.x + 1)][self.y - 1].isOccupied then 
+                love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) 
+            end
+            if self.x - 1 > 0 and self.y + 1 < 11 and self.isWalkable[boardGrid[(self.x - 1)][self.y + 1].class.name] and not boardGrid[(self.x - 1)][self.y + 1].isOccupied then 
+                love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) 
+            end
         end
 
 
-        if self.isInAttackState then
+       --[[  if self.isInAttackState then
             if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isOccupied and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
             if self.x - 1 > 0 and boardGrid[(self.x -1)][self.y].isOccupied and boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and  boardGrid[(self.x -1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer  then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
             if self.y + 1 < 11 and boardGrid[self.x][(self.y + 1)].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[self.x][(self.y + 1)].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
@@ -51,7 +67,7 @@ local Character = class("Character")
             if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[(self.x - 1)][self.y - 1].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x - 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y - 1 > 0 and boardGrid[(self.x + 1)][self.y - 1].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x + 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= nil and boardGrid[(self.x - 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
-        end 
+        end  ]]
     end
    
 
@@ -68,57 +84,50 @@ local Character = class("Character")
 
     function Character:click(mX, mY)
 
-        if  self.isHovered then   -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
-            self.isSelected = true -- az adott karakter selected lesz
-            self.isActionMenuDrawn = true
-            self.drawBattle = false
 
-            -- engedély az akciómenü rajzoláshoz a selectedPlayer esetén
-        else self.isSelected = false            -- egyébként deszelektálom az összes karaktert
-            self.isActionMenuDrawn = false -- akciómenü eltűnik az összes karakternél
-            self.isInStepState = false
-            self.isInAttackState = false
-            self.drawDamage = false
-            self.drawDice = false
-        end
+    if  self.isActionMenuDrawn and self.isHovered and self.isSelected and self.isInAttackState == false
+    and self.isInSpellState == false and self.isInDefenseState == false and self.isInStepState == false then
+        self:chooseActionMenu(mX, mY)
+    else 
+        self.isInAttackState = false
+        self.isInStepState = false
+        self.isInSpellState = false
+        self.isInDefenseState = false
+    end
 
-        if  self.isActionMenuDrawn and self.isHovered and self.isSelected and self.isInAttackState == false
-        and self.isInSpellState == false and self.isInDefenseState == false then
+    if  not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then
+        board:resetAllCharacterStates(playerOne, playerTwo)
+    end
 
-            self:chooseActionMenu(mX, mY)
-        else 
-            -- self.isActionMenuDrawn = false
-             self.isInAttackState = false
-             self.isInStepState = false
-             self.isInSpellState = false
-             self.isInDefenseState = false
-         end
- 
-     
-
+    if  self.isHovered and not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then  -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
+        self.isSelected = true
+        selectedChar = self
+        self.isActionMenuDrawn = true
+        self.drawBattle = false
+    end
 
     end
 
-    function Character:chooseActionMenu(x, y)
+    function Character:chooseActionMenu(mx, my)
         local cx = self.x * tileW + offsetX
         local cy = self.y * tileH + offsetY
             -- BAl FELSO NEGYED - ATTACK STATE
-            if  x > cx and x < cx + tileW / 2 and  y > cy and y < cy + tileH / 2 then
+            if  mx > cx and mx < cx + tileW / 2 and  my > cy and my < cy + tileH / 2 then
                     self.isInAttackState = true
                     self.isActionMenuDrawn = false
             end
             -- JOBB FELSÖ NEGYED - STEP STATE                       
-            if  x > cx + tileW / 2 and x < cx + tileW and y > cy and y < cy + tileH / 2 then
+            if  mx > cx + tileW / 2 and mx < cx + tileW and my > cy and my < cy + tileH / 2 then
                     self.isInStepState = true
                     self.isActionMenuDrawn = false
             end
             -- BAL ALSO NEGYED - SPELL STATE
-            if   x > cx and x < cx + tileW / 2 and y > cy + (tileH / 2) and y < cy + tileH then
+            if   mx > cx and mx < cx + tileW / 2 and my > cy + (tileH / 2) and my < cy + tileH then
                     self.isInSpellState = true
                     self.isActionMenuDrawn = false     
             end
             -- JOBB ALSO NEGYED - DEFENSE STATE
-            if x > cx + tileW / 2 and x < cx + tileW and  y > cy + tileH / 2 and y < cy + tileH then
+            if mx > cx + tileW / 2 and mx < cx + tileW and  my > cy + tileH / 2 and my < cy + tileH then
                     self.isInDefenseState = true
                     self.isActionMenuDrawn = false
             end
@@ -129,8 +138,12 @@ local Character = class("Character")
        
 
     function Character:move(x, y)
-        self.x = x
-        self.y = y
+        if self.x and self.y then
+            boardGrid[self.x][self.y].isOccupied = false
+        end
+            self.x = x
+            self.y = y
+            boardGrid[self.x][self.y].isOccupied = true          
     end
 
 

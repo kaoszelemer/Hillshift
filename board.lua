@@ -453,6 +453,39 @@ local function drawValidAction(player, enemyPlayer)
     end
 end
 
+function board:resetAllCharacterStates(playerone, playertwo)
+
+    for _, currentChar in ipairs(playerone.characters) do
+        currentChar.isSelected = false
+        currentChar.isActionMenuDrawn = false
+        currentChar.isSelected = false            -- egyébként deszelektálom az összes karaktert
+        currentChar.isInStepState = false
+        currentChar.isInAttackState = false
+        currentChar.isInDefenseState = false
+        currentChar.isInSpellState = false
+        currentChar.drawDamage = false
+        currentChar.drawDice = false
+    end
+
+    for _, currentChar in ipairs(playertwo.characters) do
+        currentChar.isSelected = false
+        currentChar.isActionMenuDrawn = false
+        currentChar.isSelected = false            -- egyébként deszelektálom az összes karaktert
+        currentChar.isInStepState = false
+        currentChar.isInAttackState = false
+        currentChar.isInSpellState = false
+        currentChar.isInDefenseState = false
+        currentChar.drawDamage = false
+        currentChar.drawDice = false 
+    end
+
+    selectedChar = nil
+
+end
+
+
+
+
 
 function board:load()
 

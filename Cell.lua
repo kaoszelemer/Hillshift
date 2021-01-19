@@ -7,5 +7,16 @@ function Cell:init(x, y, isWalkable, quad)
     self.quad = quad
 end
 
+function Cell:click()
+        if selectedChar.isInStepState and not self.isOccupied then
+            
+
+            selectedChar:move(self.x, self.y)
+            board:resetAllCharacterStates(playerOne, playerTwo)
+        end
+
+end
+
+
 
 return Cell
