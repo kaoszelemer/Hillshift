@@ -63,11 +63,11 @@ local function initPlayerDeck(player)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
 
     table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, Druid(player))
-    table.insert(player.characters, IceWizard(player))
-    table.insert(player.characters, Alchemist(player))
-    table.insert(player.characters, AirElemental(player))
-    table.insert(player.characters, FireMage(player))
+    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, GeoGnome(player))
     
 
     while #player.characters ~= 4 do     
@@ -508,7 +508,7 @@ function board:load()
    
 
  initPlayerDeck(playerOne)
- --initPlayerDeck(playerTwo)
+ initPlayerDeck(playerTwo)
 
   
 
@@ -518,8 +518,8 @@ function board:load()
         for x = 1, maxRow do boardGrid[x] = {}
             for y = 1, maxCol do 
                 --start mezők beállítása
-                if      x == 5 and y == 1 or x == 5 and y == 2 or
-                        x == 6 and y == 1 or x == 6 and y == 2 or
+                if      x == 5 and y == 1 or x == 5 and y == 1 or
+                        x == 6 and y == 1 or x == 6 and y == 1 or
                         x == 5 and y == 9 or x == 6 and y == 9 or
                         x == 5 and y == 10 or x == 6 and y == 10 then 
                             selectedType = 4
@@ -534,10 +534,10 @@ function board:load()
 
 
         for i, currentChar in ipairs(playerOne.characters) do
-            if     i == 1 then currentChar:move(5, 1)
-            elseif i == 2 then currentChar:move(5, 2)
-            elseif i == 3 then currentChar:move(6, 1)
-            elseif i == 4 then currentChar:move(6, 2)
+            if     i == 1 then currentChar:move(5, 5)
+            elseif i == 2 then currentChar:move(5, 6)
+            elseif i == 3 then currentChar:move(6, 5)
+            elseif i == 4 then currentChar:move(6, 6)
             end
         end
 
@@ -600,7 +600,7 @@ function board:draw()
     
     --drawModifier()
     drawCharactersOnBoard(playerOne)
-   -- drawCharactersOnBoard(playerTwo)
+    drawCharactersOnBoard(playerTwo)
   --  drawActionMenu(playerOne)
    --[[ drawActionMenu(playerTwo)
     drawValidAction(playerOne, playerTwo)

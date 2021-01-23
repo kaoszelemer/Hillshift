@@ -102,11 +102,22 @@ function love.mousemoved( x, y, dx, dy, istouch )
         currentChar:updateHover(x, y)
     end
 
+    for _, currentChar in ipairs(playerTwo.characters) do
+        currentChar:updateHover(x, y)
+    end
+
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
 
     for _, currentChar in ipairs(playerOne.characters) do
+        
+        if currentChar.isHovered then currentChar:click(x, y) end
+        
+    
+    end
+
+    for _, currentChar in ipairs(playerTwo.characters) do
         
         if currentChar.isHovered then currentChar:click(x, y) end
         
