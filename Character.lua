@@ -32,7 +32,7 @@ local Character = class("Character")
 
         if self.isInStepState then 
             if self.x + 1 < 11 and self.isWalkable[boardGrid[(self.x + 1)][self.y].class.name] and not boardGrid[(self.x + 1)][self.y].isOccupied then
-                love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) 
+                love.graphics.draw(validStepImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY)
             end
             if self.x - 1 > 0 and self.isWalkable[boardGrid[self.x - 1][self.y].class.name] and not boardGrid[self.x - 1][self.y].isOccupied then 
                 love.graphics.draw(validStepImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY)
@@ -102,8 +102,8 @@ local Character = class("Character")
     if  self.isHovered and not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then  -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
         self.isSelected = true
         selectedChar = self
-        self.isActionMenuDrawn = true
-        self.drawBattle = false
+        selectedChar.isActionMenuDrawn = true
+        selectedChar.drawBattle = false
     end
 
     end
