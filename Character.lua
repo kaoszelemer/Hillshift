@@ -59,15 +59,38 @@ function Character:draw()
 
 
     if self.isInAttackState then
-        if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isOccupied then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-        if self.x - 1 > 0 and boardGrid[(self.x -1)][self.y].isOccupied then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
-        if self.y + 1 < 11 and boardGrid[self.x][(self.y + 1)].isOccupied then love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
-        if self.y - 1 > 0 and boardGrid[self.x][(self.y - 1)].isOccupied then  love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY)  end
-        if self.x + 1 < 11 and self.y + 1 < 11 and boardGrid[(self.x + 1)][self.y + 1].isOccupied then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
-        if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[(self.x - 1)][self.y - 1].isOccupied then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
-        if self.x + 1 < 11 and self.y - 1 > 0 and boardGrid[(self.x + 1)][self.y - 1].isOccupied then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
-        if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
-    end 
+        if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer  then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
+        if self.x - 1 > 0 and boardGrid[(self.x -1)][self.y].isOccupied and  boardGrid[(self.x - 1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, self.y  * tileH + offsetY) end
+        if self.y + 1 < 11 and boardGrid[self.x][(self.y + 1)].isOccupied and  boardGrid[(self.x)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y + 1)  * tileH + offsetY) end
+        if self.y - 1 > 0 and boardGrid[self.x][(self.y - 1)].isOccupied and  boardGrid[(self.x)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then  love.graphics.draw(validAttackImage, self.x * tileW + offsetX, (self.y - 1)  * tileH + offsetY)  end
+        if self.x + 1 < 11 and self.y + 1 < 11 and boardGrid[(self.x + 1)][self.y + 1].isOccupied and  boardGrid[(self.x + 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
+        if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[(self.x - 1)][self.y - 1].isOccupied and  boardGrid[(self.x - 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
+        if self.x + 1 < 11 and self.y - 1 > 0 and boardGrid[(self.x + 1)][self.y - 1].isOccupied and  boardGrid[(self.x + 1)][self.y - 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
+        if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied and  boardGrid[(self.x - 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
+    end
+
+    if selectedChar and self.drawAttack then
+        
+        local enemy = selectedChar
+        local character = self
+        if enemy ~= nil then
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+            love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
+            love.graphics.print(self.name .. " attacked " .. enemy.name, 10, 620)
+            love.graphics.print(self.name .. " AT is: " .. self.baseAttack .. " + Dice: " .. self.diceRoll, 10,640)
+            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense, 10, 660)
+            love.graphics.print("Battle: "  .. self.rolledAttack .. " AT - " .. enemy.baseDefense .. " DF" , 10, 680)
+            love.graphics.print(self.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
+            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
+            love.graphics.print("------------*END OF THE BATTLE*-------------", 10, 740)
+            love.graphics.setFont(font)
+            love.graphics.setColor(selectedColor)
+            love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
+            love.graphics.setColor(charColor)
+        end
+    end
+
 end
 
 
@@ -83,32 +106,34 @@ end
 
 
 function Character:click(mX, mY)
-    if self.isHovered and selectedChar and selectedChar.isInAttackState then
-        local currentChar = self
-        local enemy = selectedChar
-        self:attack(self, selectedChar)
+    if self.isHovered and selectedChar and selectedChar.isInAttackState and selectedChar.parentPlayer ~= self.parentPlayer then
+        selectedChar:attack(self)
+        self.drawAttack = false
     end
  
 
-    if  self.isActionMenuDrawn and self.isHovered and self.isSelected and self.isInAttackState == false
-    and self.isInSpellState == false and self.isInDefenseState == false and self.isInStepState == false then
-        self:chooseActionMenu(mX, mY)
+    if  selectedChar and selectedChar.isActionMenuDrawn and selectedChar.isHovered and selectedChar.isSelected and selectedChar.isInAttackState == false
+    and selectedChar.isInSpellState == false and selectedChar.isInDefenseState == false and selectedChar.isInStepState == false then
+        selectedChar:chooseActionMenu(mX, mY)
     else 
         self.isInAttackState = false
         self.isInStepState = false
         self.isInSpellState = false
         self.isInDefenseState = false
+        self.drawAttack = false
     end
 
     if  not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then
         board:resetAllCharacterStates(playerOne, playerTwo)
+        self.drawAttack = false
     end
 
     if  self.isHovered and not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then  -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
         self.isSelected = true
         selectedChar = self
+        selectedChar.drawAttack = false
         selectedChar.isActionMenuDrawn = true
-        selectedChar.drawBattle = false
+        
     end
    
  
@@ -147,10 +172,12 @@ end
 function Character:move(x, y)
     if self.x and self.y then
         boardGrid[self.x][self.y].isOccupied = false
+        boardGrid[self.x][self.y].occupiedBy = nil
     end
         self.x = x
         self.y = y
-        boardGrid[self.x][self.y].isOccupied = true        
+        boardGrid[self.x][self.y].isOccupied = true
+        boardGrid[self.x][self.y].occupiedBy = self      
 end
 
 
@@ -168,58 +195,20 @@ function Character:defend()
 end
 
 
-function Character:attack(player, enemy)
-
-    if self.isInAttackState then
-
-        local  mouseCellCoordinateX = math.floor((x / tileW) - offsetX / tileW) 
-        local  mouseCellCoordinateY = math.floor((y / tileH) - offsetY / tileH)
-        local mx = math.min(math.max(mouseCellCoordinateX, 1), 10)
-        local my = math.min(math.max(mouseCellCoordinateY, 1), 10)
-        local clickedCell =  boardGrid[mx][my] 
-        print("inattackstate")
-
-        if self.parentPlayer == clickedCell.parentPlayer then
-            print("h")
-        end
-            
-        if  clickedCell.isOccupied and clickedCell.occupiedBy.parentPlayer ~= self.parentPlayer and clickedCell.occupiedBy ~= nil then
-                -- itt az enemi a player two aktualis karaktere lenne
-                enemy = clickedCell.occupiedBy
-        
-                if enemy ~= nil then
-                    print("enemy is: " .. enemy.baseDefense)
-                    self.drawBattle = true    
-                        self.drawBattle = true    
-                    self.drawBattle = true    
-                    self.drawDice = true
-                    local dr = getDiceRoll()
-                    self.diceRoll = dr
-                    self.rolledAttack = self.baseAttack + dr
-                    damage = math.max(0, self.rolledAttack - enemy.baseDefense)
-                    enemy.baseHP = enemy.baseHP - damage
-                    enemy.drawDamage = true
-                    self.drawBattle = true
-                    self.isSelected = false
-                    --self.actionPoints = self.actionPoints - 1
-                    self.isInAttackState = false
-                    print("---****------ BATTLE COMMENCES ----****--------")
-                    print(self.name .. " attacked " .. enemy.name)
-                    print(self.name .. " AT is: " .. self.baseAttack .. " + Dice: " .. self.diceRoll)
-                    print(self.name .. " DF is: " .. enemy.baseDefense)
-                    print("Battle: "  .. self.rolledAttack .. " AT - " .. enemy.baseDefense .. " DF" )
-                    print(self.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.")
-                    print(enemy.name .. " remaining HP: " .. enemy.baseHP)
-                    print("------------*END OF THE BATTLE*-------------")
-                    enemy = nil
-                    self.isInAttackState = false
-                end
-            
-        else    self.isInAttackState = false
-        end
-    else self.isInAttackState = false
-    end
+function Character:attack(enemy)
+  
+    local dr = getDiceRoll()
+    self.drawAttack = true
+    self.diceRoll = dr
+    self.rolledAttack = self.baseAttack + dr
+    damage = math.max(0, self.rolledAttack - enemy.baseDefense)
+    enemy.baseHP = enemy.baseHP - damage
+    self.isSelected = false
+    --self.actionPoints = self.actionPoints - 1
     self.isInAttackState = false
+   
+    enemy = nil
+
 end
 
 return Character

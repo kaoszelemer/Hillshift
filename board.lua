@@ -62,6 +62,7 @@ cellQuadTable = {
 local function initPlayerDeck(player)
     --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
 
+
     table.insert(player.characters, GeoGnome(player))
     table.insert(player.characters, GeoGnome(player))
     table.insert(player.characters, GeoGnome(player))
@@ -285,107 +286,61 @@ local function drawCharactersOnBoard(player)
 
 end
 
-local function drawStatsOnSideBarPlayerOne(player)
+local function drawStatsOnSideBarPlayerOne(playerone)
 
 
     love.graphics.setColor(charColor)
     love.graphics.setFont(statFont)
-    love.graphics.print("PLAYER ONE", 200, 50)
-        for index, value in ipairs(player) do
-            for i = 1, #player do        
-                love.graphics.print(player[i].name, 200, 10 + i * 100)
-                love.graphics.print("SP: " .. player[i].stepPoints, 200, 25 + i * 100)
-                love.graphics.print("AP: " .. player[i].actionPoints, 200, 40 + i * 100)
-                love.graphics.print("HP: " .. player[i].baseHP, 200, 55 + i * 100)
-                love.graphics.print("DF: " .. player[i].baseDefense, 200, 70 + i * 100)
-                love.graphics.print("AT: " .. player[i].baseAttack, 200, 85 + i * 100)
-               -- love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 200, 90 + i * 100)
+    love.graphics.print(playerone.name, 200, 50)
+        for index, value in ipairs(playerone.characters) do
+            for i = 1, #playerone.characters do        
+                love.graphics.print(playerone.characters[i].name, 200, 10 + i * 100)
+             --   love.graphics.print("SP: " ..  playerone.characters[i].stepPoints, 200, 25 + i * 100)
+             --   love.graphics.print("AP: " ..  playerone.characters[i].actionPoints, 200, 40 + i * 100)
+                love.graphics.print("HP: " ..  playerone.characters[i].baseHP, 200, 55 + i * 100)
+                love.graphics.print("DF: " ..  playerone.characters[i].baseDefense, 200, 70 + i * 100)
+                love.graphics.print("AT: " ..  playerone.characters[i].baseAttack, 200, 85 + i * 100)
+               -- love.graphics.print("x: " ..  playerone.characters[i].x .. "y: " ..  playerone.characters[i].y, 200, 90 + i * 100)
 
-              --  if     player[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
-              --  elseif player[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
+              --  if      playerone.characters[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
+              --  elseif  playerone.characters[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
               --  end
-                if player[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
-                elseif player[i].isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
-                elseif player[i].isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
-                elseif player[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
+                if  playerone.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
+                elseif  playerone.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
+                elseif  playerone.characters[i].isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
+                elseif  playerone.characters[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
                 end
             end
         end
     love.graphics.setFont(font)
 end
 
-local function drawStatsOnSideBarPlayerTwo(player)
+local function drawStatsOnSideBarPlayerTwo(playertwo)
 
     love.graphics.setColor(charColor)
     love.graphics.setFont(statFont)
-    love.graphics.print("PLAYER TWO", 1000, 50)
-        for index, value in ipairs(player) do
-            for i = 1, #player do
+    love.graphics.print(playertwo.name, 1000, 50)
+        for index, value in ipairs(playertwo.characters) do
+            for i = 1, #playertwo.characters do
                 
-                love.graphics.print(player[i].name, 1000, 10 + i * 100)
-                love.graphics.print("SP: " .. player[i].stepPoints, 1000, 25 + i * 100)
-                love.graphics.print("AP: " .. player[i].actionPoints, 1000, 40 + i * 100)
-                love.graphics.print("HP: " .. player[i].baseHP, 1000, 55 + i * 100)
-                love.graphics.print("DF: " .. player[i].baseDefense, 1000, 70 + i * 100)
-                love.graphics.print("AT: " .. player[i].baseAttack, 1000, 85 + i * 100)
-                --[[ love.graphics.print("x: " .. player[i].x .. "y: " .. player[i].y, 1000, 90 + i * 120)
+                love.graphics.print( playertwo.characters[i].name, 1000, 10 + i * 100)
+             --   love.graphics.print("SP: " ..  playertwo.characters[i].stepPoints, 1000, 25 + i * 100)
+             --   love.graphics.print("AP: " ..  playertwo.characters[i].actionPoints, 1000, 40 + i * 100)
+                love.graphics.print("HP: " ..  playertwo.characters[i].baseHP, 1000, 55 + i * 100)
+                love.graphics.print("DF: " ..  playertwo.characters[i].baseDefense, 1000, 70 + i * 100)
+                love.graphics.print("AT: " ..  playertwo.characters[i].baseAttack, 1000, 85 + i * 100)
+                --[[ love.graphics.print("x: " ..  playertwo.characters[i].x .. "y: " ..  playertwo.characters[i].y, 1000, 90 + i * 120)
                 
-                if     player[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 120)
-                elseif player[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 120)
+                if      playertwo.characters[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 120)
+                elseif  playertwo.characters[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 120)
                 end ]]
-                if player[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2 ) + 200, 10)
-                elseif player[i].isInStepState then love.graphics.print("STEP MODE", (width / 2 ) + 200, 10)
+                if  playertwo.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2 ) + 200, 10)
+                elseif  playertwo.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2 ) + 200, 10)
                 end 
             end
         end
     love.graphics.setFont(font)
 end
-
-
-local function drawDamage(player)
-
-    for i = 1, #player do
-        if player[i].drawDamage == true then
-            love.graphics.setColor(selectedColor)
-            love.graphics.setFont(font)            
-                    love.graphics.print("-" .. damage, player[i].screenX + tileW / 4, player[i].screenY + tileH / 4)
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(statFont)
-          
-        end
-    end
-
-
-end
-
-local function drawBattleOnSidebar(player, enemyPlayer)
-   
-        for i = 1, 4 do
-            if player[i].drawBattle then
-            character = player[i]
-                            
-                            local enemy = getEnemyCharacter(character, enemyPlayer, cellMousePositionX, cellMousePositionY)
-                            if enemy ~= nil then
-                            love.graphics.setFont(statFont)
-                            love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
-                            love.graphics.print(character.name .. " attacked " .. enemy.name, 10, 620)
-                            love.graphics.print(character.name .. " AT is: " .. character.baseAttack .. " + Dice: " .. character.diceRoll, 10,640)
-                            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense, 10, 660)
-                            love.graphics.print("Battle: "  .. character.attack .. " AT - " .. enemy.baseDefense .. " DF" , 10, 680)
-                            love.graphics.print(character.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
-                            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
-                            love.graphics.print("------------*END OF THE BATTLE*-------------", 10, 740)
-                            love.graphics.setFont(font)
-                            end
-
-                    
-                    
-                
-            end
-        end
-     
-end
-
 
 
 local function drawModifier()
@@ -458,24 +413,20 @@ function board:resetAllCharacterStates(playerone, playertwo)
     for _, currentChar in ipairs(playerone.characters) do
         currentChar.isSelected = false
         currentChar.isActionMenuDrawn = false
-        currentChar.isSelected = false            -- egyébként deszelektálom az összes karaktert
         currentChar.isInStepState = false
         currentChar.isInAttackState = false
         currentChar.isInDefenseState = false
         currentChar.isInSpellState = false
-        currentChar.drawDamage = false
         currentChar.drawDice = false
     end
 
     for _, currentChar in ipairs(playertwo.characters) do
         currentChar.isSelected = false
         currentChar.isActionMenuDrawn = false
-        currentChar.isSelected = false            -- egyébként deszelektálom az összes karaktert
         currentChar.isInStepState = false
         currentChar.isInAttackState = false
         currentChar.isInSpellState = false
         currentChar.isInDefenseState = false
-        currentChar.drawDamage = false
         currentChar.drawDice = false 
     end
 
@@ -510,6 +461,9 @@ function board:load()
  initPlayerDeck(playerOne)
  initPlayerDeck(playerTwo)
 
+ for index, currentChar in ipairs(playerOne) do
+  print(currentChar.parentPlayer)
+end
   
 
 
@@ -602,19 +556,9 @@ function board:draw()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
   --  drawActionMenu(playerOne)
-   --[[ drawActionMenu(playerTwo)
-    drawValidAction(playerOne, playerTwo)
-    drawValidAction(playerTwo, playerOne)
-
+ 
     drawStatsOnSideBarPlayerOne(playerOne)
-    drawStatsOnSideBarPlayerTwo(playerTwo)
-    drawDamage(playerOne)
-    drawDamage(playerTwo)
-    drawBattleOnSidebar(playerOne, playerTwo)
-    drawBattleOnSidebar(playerTwo, playerOne) ]]
-    
-
-   
+    drawStatsOnSideBarPlayerTwo(playerTwo)   
 
 end
 
