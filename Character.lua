@@ -78,8 +78,8 @@ function Character:draw()
             love.graphics.setFont(statFont)
             love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
             love.graphics.print(self.name .. " attacked " .. enemy.name, 10, 620)
-            love.graphics.print(self.name .. " AT is: " .. self.baseAttack .. " + Dice: " .. self.diceRoll, 10,640)
-            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense, 10, 660)
+            love.graphics.print(self.name .. " AT is: " .. self.baseAttack .. " + Dice: " .. self.diceRoll .. " + CM: " .. boardGrid[self.x][self.y].attackModifier , 10,640)
+            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense .. " + CM: " .. boardGrid[enemy.x][enemy.y].defenseModifier , 10, 660)
             love.graphics.print("Battle: "  .. self.rolledAttack .. " AT - " .. enemy.baseDefense .. " DF" , 10, 680)
             love.graphics.print(self.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
             love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
@@ -133,9 +133,10 @@ function Character:click(mX, mY)
         selectedChar = self
         selectedChar.drawAttack = false
         selectedChar.isActionMenuDrawn = true
-        
+        print(boardGrid[self.x][self.y].attackModifier)
     end
    
+    
  
 
 end
@@ -196,18 +197,19 @@ end
 
 
 function Character:attack(enemy)
-  
+  if self.isInAttackState then
     local dr = getDiceRoll()
     self.drawAttack = true
     self.diceRoll = dr
-    self.rolledAttack = self.baseAttack + dr
-    damage = math.max(0, self.rolledAttack - enemy.baseDefense)
+    self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
+    damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier))
     enemy.baseHP = enemy.baseHP - damage
     self.isSelected = false
     --self.actionPoints = self.actionPoints - 1
     self.isInAttackState = false
    
     enemy = nil
+  end
 
 end
 

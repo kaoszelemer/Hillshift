@@ -62,11 +62,11 @@ cellQuadTable = {
 local function initPlayerDeck(player)
 
     table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, AirElemental(player))
+    table.insert(player.characters, Alchemist(player))
+    table.insert(player.characters, FireMage(player))
+    table.insert(player.characters, Druid(player))
+    table.insert(player.characters, IceWizard(player))
     
 
     while #player.characters ~= 4 do     

@@ -1,15 +1,16 @@
 local Cell = class("Cell")
 
-function Cell:init(x, y, isWalkable, quad)
+function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier)
     self.x = x
     self.y = y
     self.isWalkable = isWalkable
     self.quad = quad
+    self.attackModifier = attackModifier
+    self.defenseModifier = defenseModifier
 end
 
 function Cell:click()
         if selectedChar and selectedChar.isInStepState and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
-            
             if self.x + 1 < 11 and (self.x == selectedChar.x + 1 and self.y == selectedChar.y) then
                 selectedChar:move(self.x, self.y)
             
