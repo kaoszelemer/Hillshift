@@ -6,8 +6,8 @@ local maxRow = 10
 local maxCol = 10
 
 ---Típustáblák definiálása
-boardType = {
-    "forest", "mount", "lake", "field"
+cellType = {
+    Forest, Mount, Lake, Field
 }
 --tileset
 boardPicture = love.graphics.newImage("/graphics/tileset4.png")
@@ -60,8 +60,6 @@ cellQuadTable = {
 }
 
 local function initPlayerDeck(player)
-    --létrehozok egy táblát 6 lappal amit kiosztok a karaktereknek
-
 
     table.insert(player.characters, GeoGnome(player))
     table.insert(player.characters, GeoGnome(player))
@@ -74,56 +72,11 @@ local function initPlayerDeck(player)
     while #player.characters ~= 4 do     
         local cardNumber = love.math.random(1, #player.characters)
         table.remove(player.characters, cardNumber)
-    end 
+    end
 
-    --[[     for i, currentChar in ipairs(player.characters) do
-            if      i == 1 then 
-                    currentChar.x = 5
-                    currentChar.y = 1
-            elseif  i == 2 then
-                    currentChar.x = 5
-                    currentChar.y = 2
-            elseif  i == 3 then
-                    currentChar.x = 6
-                    currentChar.y = 1
-            elseif  i == 4 then
-                    currentChar.x = 6
-                    currentChar.y = 2
-            end
-        end
-        for i, currentChar in ipairs(playerTwo.characters) do
-            if      i == 1 then 
-                    currentChar.x = 5
-                    currentChar.y = 10
-            elseif  i == 2 then
-                    currentChar.x = 5
-                    currentChar.y = 9
-            elseif  i == 3 then
-                    currentChar.x = 6
-                    currentChar.y = 10
-            elseif  i == 4 then
-                    currentChar.x = 6
-                    currentChar.y = 9
-            end
-        end ]]
-
-
-
-    --[[
-        currentChar.screenX = (currentChar.x * tileW) + offsetX --eredetileg a currentcharhoz hozzaadta a tilW felét
-        currentChar.screenY = (currentChar.y * tileH) + offsetY
-        -- adok nekik kezdőváltozókat
-        currentChar.isHovered = false
-        currentChar.isSelected = false
-        currentChar.stepsDone = false
-        currentChar.actionDone = false
-        currentChar.isActionMenuDrawn = false
-        currentChar.parentPlayer = playerTable
-    end ]]
 end
 
-
-   function spell(character, mX, mY)
+function spell(character, mX, mY)
     -- board tipusok 1 - erdo 2- folyo 3- hefy 4- field
     --geognome
     if character.id == 1 then    
@@ -269,14 +222,10 @@ end
     end  
 end
 
-
-
 function getDiceRoll()
    local diceRoll = love.math.random(1, 6)
    return diceRoll
 end
-
-
 
 local function drawCharactersOnBoard(player)
     -- státuszok alapján beállítom a színeket
@@ -341,7 +290,6 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         end
     love.graphics.setFont(font)
 end
-
 
 local function drawModifier()
     for index, rows in ipairs(boardGrid) do
@@ -434,8 +382,85 @@ function board:resetAllCharacterStates(playerone, playertwo)
 
 end
 
+local function initBoardgrid()
+    for x = 1, maxRow do boardGrid[x] = {}
+        for y = 1, maxCol do 
+            --start mezők beállítása  
+            if      x == 5 and y == 1 or x == 5 and y == 2 or
+                    x == 6 and y == 1 or x == 6 and y == 2 or
+                    x == 5 and y == 9 or x == 6 and y == 9 or
+                    x == 5 and y == 10 or x == 6 and y == 10 then 
+                    
+                    selectedType = 4
+            -- egyébként legyen random
+            else    selectedType = love.math.random(1, #cellType)           
+            end
+            -- a mezők adatai itt kerülnek be a táblázatba
+            if      selectedType == 1 then boardGrid[x][y] = Forest(x, y)
+            elseif  selectedType == 2 then boardGrid[x][y] = Mount(x, y) 
+            elseif  selectedType == 3 then boardGrid[x][y] = Lake(x, y)    
+            elseif  selectedType == 4 then boardGrid[x][y] = Field(x, y)
+            end
 
+        end
+    end
+end
 
+local function moveCharactersToStartingPosition()
+    for i, currentChar in ipairs(playerOne.characters) do
+        if     i == 1 then currentChar:move(5, 1)
+        elseif i == 2 then currentChar:move(5, 2)
+        elseif i == 3 then currentChar:move(6, 1)
+        elseif i == 4 then currentChar:move(6, 2)
+        end
+    end
+
+    for i, currentChar in ipairs(playerTwo.characters) do
+        if     i == 1 then currentChar:move(5, 9)
+        elseif i == 2 then currentChar:move(5, 10)
+        elseif i == 3 then currentChar:move(6, 9)
+        elseif i == 4 then currentChar:move(6, 10)
+        end
+    end
+end
+
+local function drawRectanglesIfHoveredOrOccupied()
+      
+  -- kirajzolom a táblát
+  for i=1, #boardGrid do
+    for j=1, #boardGrid[i] do
+        local currentCell = boardGrid[i][j] 
+        local currentTileX = (currentCell.x) * tileW
+        local currentTileY = (currentCell.y) * tileH
+
+        if boardGrid[i][j].isHovered == true then
+        love.graphics.setLineWidth(8)
+        love.graphics.setColor(hoverColor)
+        love.graphics.rectangle("line", currentTileX + offsetX , currentTileY + offsetY, tileW, tileH)
+        love.graphics.setColor(charColor)
+        love.graphics.setLineWidth(1)
+        end
+
+        if boardGrid[i][j].isOccupied == true then
+            love.graphics.setLineWidth(3)
+            love.graphics.setColor(charColor)
+            love.graphics.rectangle("line", currentTileX + offsetX, currentTileY + offsetY, tileW, tileH)
+            love.graphics.setColor(charColor)
+            love.graphics.setLineWidth(1)
+        end
+       
+        end
+    end
+end
+
+local function drawBoardGrid()
+    for x = 1, 10 do
+        for y = 1, 10 do 
+            local cell = boardGrid[x][y]
+            love.graphics.draw(boardPicture, cell.quad, cell.x * tileW + offsetX, cell.y * tileH  + offsetY)
+        end
+    end
+end
 
 
 function board:load()
@@ -454,55 +479,11 @@ function board:load()
 
     }
 
-    -- létrehozom a kezdőpozíciók tábláját
-
-   
-
- initPlayerDeck(playerOne)
- initPlayerDeck(playerTwo)
-
- for index, currentChar in ipairs(playerOne) do
-  print(currentChar.parentPlayer)
-end
-  
-
-
-    boardGrid = {}
-        
-        for x = 1, maxRow do boardGrid[x] = {}
-            for y = 1, maxCol do 
-                --start mezők beállítása
-                if      x == 5 and y == 1 or x == 5 and y == 1 or
-                        x == 6 and y == 1 or x == 6 and y == 1 or
-                        x == 5 and y == 9 or x == 6 and y == 9 or
-                        x == 5 and y == 10 or x == 6 and y == 10 then 
-                            selectedType = 4
-                -- egyébként legyen random
-                else    selectedType = love.math.random(1, #boardType)
-                end
-                -- a mezők adatai itt kerülnek be a táblázatba
-                boardGrid[x][y] = Forest(x, y)        
-
-            end
-        end
-
-
-        for i, currentChar in ipairs(playerOne.characters) do
-            if     i == 1 then currentChar:move(5, 5)
-            elseif i == 2 then currentChar:move(5, 6)
-            elseif i == 3 then currentChar:move(6, 5)
-            elseif i == 4 then currentChar:move(6, 6)
-            end
-        end
-
-        for i, currentChar in ipairs(playerTwo.characters) do
-            if     i == 1 then currentChar:move(5, 9)
-            elseif i == 2 then currentChar:move(5, 10)
-            elseif i == 3 then currentChar:move(6, 9)
-            elseif i == 4 then currentChar:move(6, 10)
-            end
-        end
-
+    initPlayerDeck(playerOne)
+    initPlayerDeck(playerTwo)
+    boardGrid = {}        
+    initBoardgrid()
+    moveCharactersToStartingPosition()
 
 end
 
@@ -510,55 +491,21 @@ function board:update(dt)
 end
 
 function board:draw()
-  
-  -- kirajzolom a táblát
-    for i=1, #boardGrid do
-        for j=1, #boardGrid[i] do 
-           
-            --random cellák változói
-            local currentCell = boardGrid[i][j] 
-            local currentType = boardType[currentCell.type]
-            local currentTileX = (currentCell.x) * tileW
-            local currentTileY = (currentCell.y) * tileH
-
-
-            if boardGrid[i][j].isHovered == true then
-            love.graphics.setLineWidth(3)
-            love.graphics.setColor(hoverColor)
-            love.graphics.rectangle("line", currentTileX + offsetX , currentTileY + offsetY, tileW, tileH)
-            love.graphics.setColor(charColor)
-            love.graphics.setLineWidth(1)
-            end
-
-            if boardGrid[i][j].isOccupied == true then
-                love.graphics.setLineWidth(3)
-                love.graphics.setColor(charColor)
-                love.graphics.rectangle("line", currentTileX + offsetX, currentTileY + offsetY, tileW, tileH)
-                love.graphics.setColor(charColor)
-                love.graphics.setLineWidth(1)
-            end
-
-           
-           
-            love.graphics.draw(boardPicture, currentCell.quad, currentTileX + offsetX, currentTileY + offsetY)
-            
-        
-            
-        -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
-        -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
-
-
-        end
-    end
-
     
+
     --drawModifier()
+    drawBoardGrid()
     drawCharactersOnBoard(playerOne)
-    drawCharactersOnBoard(playerTwo)
-  --  drawActionMenu(playerOne)
- 
+    drawCharactersOnBoard(playerTwo) 
     drawStatsOnSideBarPlayerOne(playerOne)
-    drawStatsOnSideBarPlayerTwo(playerTwo)   
+    drawStatsOnSideBarPlayerTwo(playerTwo)
+    drawRectanglesIfHoveredOrOccupied()
+  
+
+ 
+    -- for debugging:
+    -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
+    -- love.graphics.print(currentCell.x .. "," .. currentCell.y, currentCell.x*tileW, currentCell.y*tileH)
 
 end
 
