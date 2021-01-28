@@ -79,31 +79,6 @@ end
 function spell(character, mX, mY)
     -- board tipusok 1 - erdo 2- folyo 3- hefy 4- field
     --geognome
-    if character.id == 1 then    
-        if      mX == character.x and (mY == character.y - 1 or mY == character.y + 1) then
-                boardGrid[mX][mY].type = 3
-                boardGrid[mX][mY].isWalkable = true
-                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
-                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end             
-                if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end           
-                if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false end    
-        elseif  mY == character.y and (mX == character.x - 1 or mX == character.x + 1) then
-                boardGrid[mX][mY].type = 3
-                boardGrid[mX][mY].isWalkable = true
-                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
-                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end             
-                if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end           
-                if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false end     
-        elseif  mY == character.y and mX == character.x then
-                boardGrid[mX][mY].type = 3
-                boardGrid[mX][mY].quad = cellQuadTable.lake[love.math.random(1,4)]
-                if boardGrid[mX][mY].isOnFire then boardGrid[mX][mY].isOnFire = false end             
-                if boardGrid[mX][mY].isPoisoned then boardGrid[mX][mY].isPoisoned = false end           
-                if boardGrid[mX][mY].isFrozen then boardGrid[mX][mY].isFrozen = false end                   
-        else character.isInSpellState = false
-        end
-    else character.isInSpellState = false
-    end
     
     --druid
     if character.id == 2 then

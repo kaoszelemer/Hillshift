@@ -123,21 +123,27 @@ function Character:click(mX, mY)
         self.drawAttack = false
     end
 
-    if  not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then
+    if  (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState)) or not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then
         board:resetAllCharacterStates(playerOne, playerTwo)
         self.drawAttack = false
     end
 
-    if  self.isHovered and not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then  -- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
+-- ha nem vagyok semmilyen kulonleges stateben akkor ki tudjak valasztan masik karaktert
+-- selectedChar and selectedChar ~= self  ha nem ugyanarra a karakterre nyomok mint a kivalasztott karakter akkor a resetallfaszom nem fut le hanem megy a tovabb a fuggveny
+
+
+
+    if  self.isHovered and (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState)) then-- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
         self.isSelected = true
         selectedChar = self
         selectedChar.drawAttack = false
         selectedChar.isActionMenuDrawn = true
-        print(boardGrid[self.x][self.y].attackModifier)
     end
-   
+
+
+    -- ha a kivalasztott karakterem spell stateban van es valaki masra kattintok akkor ne valassza ki a valaki mast hanem fusson le a spell
+              --  selectedChar           selectedChar.isInSpellState             self            
     
- 
 
 end
 
@@ -197,19 +203,21 @@ end
 
 
 function Character:attack(enemy)
-  if self.isInAttackState then
-    local dr = getDiceRoll()
-    self.drawAttack = true
-    self.diceRoll = dr
-    self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
-    damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier))
-    enemy.baseHP = enemy.baseHP - damage
-    self.isSelected = false
-    --self.actionPoints = self.actionPoints - 1
-    self.isInAttackState = false
-   
-    enemy = nil
-  end
+    if self.isInAttackState then
+        local dr = getDiceRoll()
+        self.drawAttack = true
+        self.diceRoll = dr
+        self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
+        damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier))
+        enemy.baseHP = enemy.baseHP - damage
+        self.isSelected = false
+        --self.actionPoints = self.actionPoints - 1
+        self.isInAttackState = false
+        enemy = nil
+    end
+end
+
+function Character:spell(targetCell)
 
 end
 
