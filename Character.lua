@@ -123,7 +123,7 @@ function Character:click(mX, mY)
         self.drawAttack = false
     end
 
-    if  (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState)) or not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState then
+    if  (selectedChar and not selectedChar.isInAttackState and not selectedChar.isInSpellState) and (not self.isInAttackState and not self.isInDefenseState and not self.isInSpellState and not self.isInStepState) then
         board:resetAllCharacterStates(playerOne, playerTwo)
         self.drawAttack = false
     end
