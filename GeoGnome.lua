@@ -7,11 +7,21 @@ end
 
 function GeoGnome:spell(targetCell)
 
-    if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
-    or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
-    or (targetCell.y == self.y and targetCell.x == self.x) then
-            boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)                
-    end
+   
+        if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
+        or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
+        or (targetCell.y == self.y and targetCell.x == self.x) then
+                if boardGrid[targetCell.x][targetCell.y].isOccupied then
+                    setOccupied = true
+                end
+
+                boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
+                
+                if setOccupied then
+                    boardGrid[targetCell.x][targetCell.y].isOccupied = true
+                    setOccupied = false
+                end      
+        end
 
 end
 

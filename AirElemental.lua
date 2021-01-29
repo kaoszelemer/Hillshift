@@ -7,7 +7,7 @@ end
 function AirElemental:spell(targetCell)   
 
     if      (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
-
+        
         if boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
             boardGrid[self.x][self.y - 1].occupiedBy:move(self.x, self.y - 2)
         end

@@ -6,7 +6,7 @@ function Lake:init(x, y)
         x, 
         y, 
         false, 
-        love.graphics.newQuad(0, 64, tileW, tileH, tilesetW, tilesetH),
+        love.graphics.newQuad(128, 64, tileW, tileH, tilesetW, tilesetH),
         0,
         0)
 end

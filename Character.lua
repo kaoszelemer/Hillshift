@@ -58,6 +58,8 @@ function Character:draw()
         end
     end
 
+    
+
 
     if self.isInAttackState then
         if self.x + 1 < 11 and boardGrid[(self.x + 1)][self.y].isOccupied and  boardGrid[(self.x + 1)][self.y].occupiedBy.parentPlayer ~= self.parentPlayer  then love.graphics.draw(validAttackImage, (self.x + 1) * tileW + offsetX, self.y  * tileH + offsetY) end
