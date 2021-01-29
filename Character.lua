@@ -12,6 +12,7 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
         Forest = true,
         Mount = true,
         Field = true,
+        Ice = true,
     }
 end
 

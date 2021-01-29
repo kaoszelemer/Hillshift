@@ -147,15 +147,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
     love.graphics.setFont(font)
 end
 
-local function drawModifier()
-    for index, rows in ipairs(boardGrid) do
-        for _, cell in ipairs(rows) do
-            if cell.isOnFire then love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-            if cell.isFrozen then love.graphics.draw(frozenGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-        end
-    end
-end
+
 
 local function drawValidAction(player, enemyPlayer)
     for i = 1,4 do
@@ -314,6 +306,9 @@ local function drawBoardGrid()
         for y = 1, 10 do 
             local cell = boardGrid[x][y]
             love.graphics.draw(boardPicture, cell.quad, cell.x * tileW + offsetX, cell.y * tileH  + offsetY)
+            if cell.isOnFire then love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            if cell.isFrozen then love.graphics.draw(frozenGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
         end
     end
 end
