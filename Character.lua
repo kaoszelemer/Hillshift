@@ -219,6 +219,11 @@ end
     
 
 function Character:move(x, y)
+    if x >= 10 then x = 10 end
+    if x <= 0 then x = 1 end
+    if y >= 10 then y = 10 end
+    if y <= 0 then y = 1 end
+
     if self.x and self.y then
         boardGrid[self.x][self.y].isOccupied = false
         boardGrid[self.x][self.y].occupiedBy = nil

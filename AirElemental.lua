@@ -5,13 +5,17 @@ function AirElemental:init(parentPlayer)
 end
 
 function AirElemental:spell(targetCell)
+    local chanceOfBurning = love.math.random()
+    local fireSpread = 1
 
-    local fireSpread = love.math.random(0, 2)
+    if  chanceOfBurning < 0.75 then
+        fireSpread = 2
+    end
 
   ------------------------------------------------------------------------------------------------------------------------
                                                 -- Karaktertől képernyő teteje felé
 
-    if  (targetCell.x - 1 > 0 or targetCell.x + 1 <= 10 or targetCell.y - 1 > 0) and (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
+    if (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
 
         if  (self.x - 2 > 0 and self.y - 2 > 0) or (self.x + 2 <= 10 and self.y - 2 > 0) then
             if  (self.x - 1 > 0 and self.y - 1 > 0) or (self.x + 1 <= 10 and self.y - 1 > 0) then
@@ -79,7 +83,7 @@ function AirElemental:spell(targetCell)
                                             -- karaktertől a képernyő alja felé
 
 
-    if   (targetCell.x - 1 > 0 or targetCell.x + 1 <= 10 or targetCell.y + 1 <= 10) and (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
+    if (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
 
         if  (self.x - 2 > 0 and self.y + 2 <= 10) or (self.x + 2 <= 10 and self.y + 2 <= 10) then
             if  (self.x - 1 > 0 and self.y + 1 <= 10) or (self.x + 1 <= 10 and self.y + 1 <= 10) then
