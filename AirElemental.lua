@@ -4,61 +4,141 @@ function AirElemental:init(parentPlayer)
                 love.graphics.newImage("/graphics/airelementalhover.png"), parentPlayer)
 end
 
-function AirElemental:spell(targetCell)   
+function AirElemental:spell(targetCell)
 
-    if      (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
+    local fireSpread = love.math.random(0, 2)
+
+  ------------------------------------------------------------------------------------------------------------------------
+                                                -- Karaktertől képernyő teteje felé
+
+    if  (targetCell.x - 1 > 0 or targetCell.x + 1 <= 10 or targetCell.y - 1 > 0) and (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
+
+        if  (self.x - 2 > 0 and self.y - 2 > 0) or (self.x + 2 <= 10 and self.y - 2 > 0) then
+            if  (self.x - 1 > 0 and self.y - 1 > 0) or (self.x + 1 <= 10 and self.y - 1 > 0) then
+
+                if boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
+                        boardGrid[self.x][self.y - 1].occupiedBy:move(self.x, self.y - 2)
+                end
         
-        if boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
-            boardGrid[self.x][self.y - 1].occupiedBy:move(self.x, self.y - 2)
-        end
+                if boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
+                        boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
+                end
 
-        if boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
-            boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
-        end
-
-        if boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
-            boardGrid[self.x + 1][self.y - 1].occupiedBy:move(self.x + 2, self.y - 2)
+                if boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
+                        boardGrid[self.x + 1][self.y - 1].occupiedBy:move(self.x + 2, self.y - 2)
+                end
+            end
         end
 
         if boardGrid[self.x][self.y - 1].isPoisoned then boardGrid[self.x][self.y - 1].isPoisoned = false end
         if boardGrid[self.x - 1][self.y - 1].isPoisoned then boardGrid[self.x - 1][self.y - 1].isPoisoned = false end
         if boardGrid[self.x + 1][self.y - 1].isPoisoned then boardGrid[self.x + 1][self.y - 1].isPoisoned = false end
 
-        local fireSpread = love.math.random(0, 2)
+        if boardGrid[self.x][self.y - 1].isOnFire then 
+            if not boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
+                boardGrid[self.x][self.y - fireSpread].isOnFire = true
+            end
+            if boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
+                boardGrid[self.x][self.y - fireSpread] = Field(self.x, self.y - fireSpread) 
+            end
+            if boardGrid[self.x][self.y - fireSpread]:instanceOf(Ice) then
+                boardGrid[self.x][self.y - fireSpread] = Lake(self.x, self.y - fireSpread) 
+            end
+        end
 
-        if boardGrid[self.x][self.y - 1].isOnFire then boardGrid[self.x][self.y - fireSpread].isOnFire = true end
-        if boardGrid[self.x - 1][self.y - 1].isOnFire then boardGrid[self.x - 2][self.y - fireSpread].isOnFire = true end
-        if boardGrid[self.x + 1][self.y - 1].isOnFire then boardGrid[self.x + 2][self.y - fireSpread].isOnFire = true end
+        if boardGrid[self.x - 1][self.y - 1].isOnFire then
+            if not boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                boardGrid[self.x - fireSpread][self.y - fireSpread].isOnFire = true
+            end
+            if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                boardGrid[self.x - fireSpread][self.y - fireSpread] = Field(self.x - fireSpread, self.y - fireSpread) 
+            end 
+            if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
+                boardGrid[self.x - fireSpread][self.y - fireSpread] = Lake(self.x - fireSpread, self.y - fireSpread) 
+            end 
+        end
 
+        if boardGrid[self.x + 1][self.y - 1].isOnFire then
+            if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
+                boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
+            end 
+            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y - fireSpread)
+            end
+            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
+                boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y - fireSpread)
+            end
+        end
 
 
 
     else self.isInSpellState = false
     end
 
-    if      (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
+   ------------------------------------------------------------------------------------------------------------------------
+                                            -- karaktertől a képernyő alja felé
 
-        if boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].occupiedBy then
-            boardGrid[self.x][self.y + 1].occupiedBy:move(self.x, self.y + 2)
-        end
 
-        if boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
-            boardGrid[self.x - 1][self.y + 1].occupiedBy:move(self.x - 2, self.y + 2)
-        end
+    if   (targetCell.x - 1 > 0 or targetCell.x + 1 <= 10 or targetCell.y + 1 <= 10) and (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
 
-        if boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
-            boardGrid[self.x + 1][self.y + 1].occupiedBy:move(self.x + 2, self.y + 2)
-        end
+        if  (self.x - 2 > 0 and self.y + 2 <= 10) or (self.x + 2 <= 10 and self.y + 2 <= 10) then
+            if  (self.x - 1 > 0 and self.y + 1 <= 10) or (self.x + 1 <= 10 and self.y + 1 <= 10) then
+
+            
+                if boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].occupiedBy then
+                    boardGrid[self.x][self.y + 1].occupiedBy:move(self.x, self.y + 2)
+                end
+        
+                if boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                    boardGrid[self.x - 1][self.y + 1].occupiedBy:move(self.x - 2, self.y + 2)
+                end
+
+                if boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                    boardGrid[self.x + 1][self.y + 1].occupiedBy:move(self.x + 2, self.y + 2) 
+                end
+            end
+
+     end
 
         if boardGrid[self.x][self.y + 1].isPoisoned then boardGrid[self.x][self.y + 1].isPoisoned = false end
         if boardGrid[self.x - 1][self.y + 1].isPoisoned then boardGrid[self.x - 1][self.y + 1].isPoisoned = false end
         if boardGrid[self.x + 1][self.y + 1].isPoisoned then boardGrid[self.x + 1][self.y + 1].isPoisoned = false end
 
-        local fireSpread = love.math.random(0, 2)
+        if boardGrid[self.x][self.y + 1].isOnFire then 
+            if not boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
+                boardGrid[self.x][self.y + fireSpread].isOnFire = true
+            end
+            if boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
+                boardGrid[self.x][self.y + fireSpread] = Field(self.x, self.y + fireSpread) 
+            end
+            if boardGrid[self.x][self.y + fireSpread]:instanceOf(Ice) then
+                boardGrid[self.x][self.y + fireSpread] = Lake(self.x, self.y + fireSpread) 
+            end
+        end
 
-        if boardGrid[self.x][self.y + 1].isOnFire then boardGrid[self.x][self.y + fireSpread].isOnFire = true end
-        if boardGrid[self.x - 1][self.y + 1].isOnFire then boardGrid[self.x - 2][self.y + fireSpread].isOnFire = true end
-        if boardGrid[self.x + 1][self.y + 1].isOnFire then boardGrid[self.x + 2][self.y + fireSpread].isOnFire = true end
+        if boardGrid[self.x - 1][self.y + 1].isOnFire then
+            if not boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
+                boardGrid[self.x - fireSpread][self.y + fireSpread].isOnFire = true
+            end
+            if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
+                boardGrid[self.x - fireSpread][self.y + fireSpread] = Field(self.x - fireSpread, self.y + fireSpread) 
+            end 
+            if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Ice) then 
+                boardGrid[self.x - fireSpread][self.y + fireSpread] = Lake(self.x - fireSpread, self.y + fireSpread) 
+            end 
+        end
+
+        if boardGrid[self.x + 1][self.y + 1].isOnFire then
+            if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
+                boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
+            end 
+            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y + fireSpread)
+            end
+            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
+                boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y + fireSpread)
+            end
+        end
 
     else self.isInSpellState = false
     end

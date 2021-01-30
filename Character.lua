@@ -226,7 +226,8 @@ function Character:move(x, y)
         self.x = x
         self.y = y
         boardGrid[self.x][self.y].isOccupied = true
-        boardGrid[self.x][self.y].occupiedBy = self      
+        boardGrid[self.x][self.y].occupiedBy = self
+      
 end
 
 
