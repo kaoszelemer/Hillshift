@@ -9,34 +9,29 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier)
     self.defenseModifier = defenseModifier
 end
 
+function Cell:moveSelectedCharIfValidOffset(ox, oy)
+
+    if ((selectedChar.x + ox <= 10 and selectedChar.x + ox > 0) and (self.x == selectedChar.x + ox and self.y == selectedChar.y + oy)) or
+       ((selectedChar.y + oy <= 10 and selectedChar.y + oy > 0) and (self.y == selectedChar.y + oy and self.y == selectedChar.y + oy)) then
+        selectedChar:move(self.x, self.y)
+    end
+      
+end
+
+
 function Cell:click()
     
+ 
+
    -- if not selectedChar then return end -- ha nincs selectedChar akkor le se fut a egész
 
     if selectedChar and selectedChar.isInStepState and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
-        if self.x + 1 <= 10 and (self.x == selectedChar.x + 1 and self.y == selectedChar.y) then
-            selectedChar:move(self.x, self.y)
-        
-        elseif self.x - 1 > 0 and  (self.x == selectedChar.x - 1 and self.y == selectedChar.y) then 
-            selectedChar:move(self.x, self.y)
-        
-        elseif self.y + 1 <= 10 and  (self.x == selectedChar.x and self.y == selectedChar.y + 1) then 
-            selectedChar:move(self.x, self.y)
-        
-        elseif self.y - 1 > 0 and (self.x == selectedChar.x and self.y == selectedChar.y - 1) then 
-            selectedChar:move(self.x, self.y)
-        
-        elseif (self.x + 1 <= 10 and self.y + 1 <= 10) and (self.x == selectedChar.x + 1 and self.y == selectedChar.y + 1) then
-            selectedChar:move(self.x, self.y) 
-        
-        elseif self.x - 1 > 0 and self.y - 1 > 0 and (self.x == selectedChar.x - 1 and self.y == selectedChar.y - 1) then
-            selectedChar:move(self.x, self.y)
-            
-        elseif self.x + 1 <= 10 and self.y - 1 > 0 and (self.x == selectedChar.x + 1 and self.y == selectedChar.y - 1) then 
-            selectedChar:move(self.x, self.y)
-        
-        elseif self.x - 1 > 0 and self.y + 1 <= 10 and (self.x == selectedChar.x - 1 and self.y == selectedChar.y + 1) then 
-            selectedChar:move(self.x, self.y)
+        for x = -1, 1 do
+            for y = -1, 1 do
+                if x ~= 0 or y ~= 0 then 
+                    self:moveSelectedCharIfValidOffset(x, y)
+                end
+            end
         end
         
         board:resetAllCharacterStates(playerOne, playerTwo)

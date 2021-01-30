@@ -73,7 +73,6 @@ function Character:draw()
     end
 
     if selectedChar and self.drawAttack then
-        
         local enemy = selectedChar
         local character = self
         if enemy ~= nil then
@@ -91,6 +90,7 @@ function Character:draw()
             love.graphics.setColor(selectedColor)
             love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
             love.graphics.setColor(charColor)
+            selectedChar.drawAttack = false
         end
     end
 
@@ -178,7 +178,6 @@ function Character:click(mX, mY)
     if  self.isHovered and (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState)) then-- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
         self.isSelected = true
         selectedChar = self
-        selectedChar.drawAttack = false
         selectedChar.isActionMenuDrawn = true
     end
 
@@ -219,10 +218,7 @@ end
     
 
 function Character:move(x, y)
-    if x >= 10 then x = 10 end
-    if x <= 0 then x = 1 end
-    if y >= 10 then y = 10 end
-    if y <= 0 then y = 1 end
+   
 
     if self.x and self.y then
         boardGrid[self.x][self.y].isOccupied = false
@@ -230,6 +226,10 @@ function Character:move(x, y)
     end
         self.x = x
         self.y = y
+        if self.x >= 10 then self.x = 10 end
+        if self.x <= 0 then self.x = 1 end
+        if self.y >= 10 then self.y = 10 end
+        if self.y <= 0 then self.y = 1 end
         boardGrid[self.x][self.y].isOccupied = true
         boardGrid[self.x][self.y].occupiedBy = self
       
