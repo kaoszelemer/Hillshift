@@ -28,7 +28,7 @@ function AirElemental:spell(targetCell)
                         boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
                 end
 
-                if boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
+                if boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x + 2][self.y - 2].occupiedBy then
                         boardGrid[self.x + 1][self.y - 1].occupiedBy:move(self.x + 2, self.y - 2)
                 end
             end
