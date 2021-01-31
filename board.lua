@@ -86,7 +86,7 @@ end
 local function drawCharactersOnBoard(player)
     -- státuszok alapján beállítom a színeket
     for _, currentChar in ipairs(player.characters) do
-        currentChar:draw()
+     currentChar:draw()
     end
 
 end
@@ -256,6 +256,12 @@ local function drawBoardGrid()
     end
 end
 
+function die(enemy)
+
+   
+
+end
+
 
 function board:load()
 
@@ -289,6 +295,7 @@ function board:draw()
 
     --drawModifier()
     drawBoardGrid()
+
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo) 
     drawStatsOnSideBarPlayerOne(playerOne)

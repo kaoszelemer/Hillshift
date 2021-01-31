@@ -90,7 +90,10 @@ function Character:draw()
             love.graphics.setColor(selectedColor)
             love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
             love.graphics.setColor(charColor)
-            selectedChar.drawAttack = false
+
+
+            enemy.drawAttack = false
+            character.drawAttack = false
         end
     end
 
@@ -150,13 +153,13 @@ end
 function Character:click(mX, mY)
     if self.isHovered and selectedChar and selectedChar.isInAttackState and selectedChar.parentPlayer ~= self.parentPlayer then
         selectedChar:attack(self)
-        self.drawAttack = false
     end
  
 
     if  selectedChar and selectedChar.isActionMenuDrawn and selectedChar.isHovered and selectedChar.isSelected and selectedChar.isInAttackState == false
     and selectedChar.isInSpellState == false and selectedChar.isInDefenseState == false and selectedChar.isInStepState == false then
         selectedChar:chooseActionMenu(mX, mY)
+        
     else 
         self.isInAttackState = false
         self.isInStepState = false
@@ -170,13 +173,12 @@ function Character:click(mX, mY)
         self.drawAttack = false
     end
 
--- ha nem vagyok semmilyen kulonleges stateben akkor ki tudjak valasztan masik karaktert
--- selectedChar and selectedChar ~= self  ha nem ugyanarra a karakterre nyomok mint a kivalasztott karakter akkor a resetallfaszom nem fut le hanem megy a tovabb a fuggveny
+    -- ha nem vagyok semmilyen kulonleges stateben akkor ki tudjak valasztan masik karaktert
+    -- selectedChar and selectedChar ~= self  ha nem ugyanarra a karakterre nyomok mint a kivalasztott karakter akkor a resetallfaszom nem fut le hanem megy a tovabb a fuggveny
 
-
-
-    if  self.isHovered and (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState)) then-- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
+    if  self.isHovered and (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState and not selectedChar.isInAttackState)) then-- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
         self.isSelected = true
+        self.drawAttack = false
         selectedChar = self
         selectedChar.isActionMenuDrawn = true
     end
@@ -191,6 +193,7 @@ end
 function Character:chooseActionMenu(mx, my)
     local cx = self.x * tileW + offsetX
     local cy = self.y * tileH + offsetY
+
         -- BAl FELSO NEGYED - ATTACK STATE
         if  mx > cx and mx < cx + tileW / 2 and  my > cy and my < cy + tileH / 2 then
                 self.isInAttackState = true
@@ -249,6 +252,16 @@ function Character:defend()
         end
 end
 
+function Character:kill()
+ 
+    for index, currentChar in ipairs(self.parentPlayer.characters) do
+        if self == currentChar then
+            boardGrid[self.x][self.y].isOccupied = false
+            table.remove(self.parentPlayer.characters, index)
+        end   
+    end
+
+end
 
 function Character:attack(enemy)
     if self.isInAttackState then
@@ -258,12 +271,14 @@ function Character:attack(enemy)
         self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
         damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier))
         enemy.baseHP = enemy.baseHP - damage
+        if enemy.baseHP <= 0 then enemy:kill() end
         self.isSelected = false
         --self.actionPoints = self.actionPoints - 1
         self.isInAttackState = false
         enemy = nil
     end
 end
+
 
 function Character:spell(targetCell)
 
