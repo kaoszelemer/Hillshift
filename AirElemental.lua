@@ -17,22 +17,18 @@ function AirElemental:spell(targetCell)
 
     if (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
 
-        if  (self.x - 2 > 0 and self.y - 2 > 0) or (self.x + 2 <= 10 and self.y - 2 > 0) then
-            if  (self.x - 1 > 0 and self.y - 1 > 0) or (self.x + 1 <= 10 and self.y - 1 > 0) then
-
-                if boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
+                if (self.y - 2 > 0) and boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
                         boardGrid[self.x][self.y - 1].occupiedBy:move(self.x, self.y - 2)
                 end
         
-                if boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
+                if (self.x - 2 > 0 and self.y - 2 > 0) and boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
                         boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
                 end
 
-                if boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x + 2][self.y - 2].occupiedBy then
+                if (self.x + 2 <= 10 and self.y - 2 > 0) and boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x + 2][self.y - 2].occupiedBy then
                         boardGrid[self.x + 1][self.y - 1].occupiedBy:move(self.x + 2, self.y - 2)
                 end
-            end
-        end
+  
 
         if boardGrid[self.x][self.y - 1].isPoisoned then boardGrid[self.x][self.y - 1].isPoisoned = false end
         if boardGrid[self.x - 1][self.y - 1].isPoisoned then boardGrid[self.x - 1][self.y - 1].isPoisoned = false end
@@ -84,25 +80,19 @@ function AirElemental:spell(targetCell)
 
 
     if (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
-
-        if  (self.x - 2 > 0 and self.y + 2 <= 10) or (self.x + 2 <= 10 and self.y + 2 <= 10) then
-            if  (self.x - 1 > 0 and self.y + 1 <= 10) or (self.x + 1 <= 10 and self.y + 1 <= 10) then
-
             
-                if boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].occupiedBy then
+                if (self.y + 2 <= 10) and boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].occupiedBy then
                     boardGrid[self.x][self.y + 1].occupiedBy:move(self.x, self.y + 2)
                 end
         
-                if boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                if (self.x - 2 > 0 and self.y + 2 <= 10) and boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
                     boardGrid[self.x - 1][self.y + 1].occupiedBy:move(self.x - 2, self.y + 2)
                 end
 
-                if boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                if (self.x + 2 <= 10 and self.y + 2 <= 10) and boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
                     boardGrid[self.x + 1][self.y + 1].occupiedBy:move(self.x + 2, self.y + 2) 
                 end
-            end
 
-     end
 
         if boardGrid[self.x][self.y + 1].isPoisoned then boardGrid[self.x][self.y + 1].isPoisoned = false end
         if boardGrid[self.x - 1][self.y + 1].isPoisoned then boardGrid[self.x - 1][self.y + 1].isPoisoned = false end

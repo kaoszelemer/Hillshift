@@ -130,7 +130,9 @@ function love.mousereleased(x, y, button, istouch, presses)
 
     cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
     cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)
+    local mx = math.min(math.max(cellMousePositionX, 1), 11)
+    local my = math.min(math.max(cellMousePositionY, 1), 11)
     
-    boardGrid[cellMousePositionX][cellMousePositionY]:click()
+    boardGrid[mx][my]:click()
 
 end
