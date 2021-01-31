@@ -35,7 +35,7 @@ function Alchemist:spell(targetCell)
 
         else self.isInSpellState = false
         end
-
+--------
         if  (self.x - 1 > 0 and self.x - 2 > 0) and (self.y + 1 <= 10 and self.y + 2 <= 10) and
             (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or
             (targetCell.x == self.x - 2 and targetCell.y == self.y + 2) then
@@ -49,7 +49,7 @@ function Alchemist:spell(targetCell)
 
         else self.isInSpellState = false
         end
-
+----------
         if  (self.x + 1 <= 10 and self.x + 2 <= 10) and (self.y + 1 <= 10 and self.y + 2 <= 10) and
             (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) or 
             (targetCell.x == self.x + 2 and targetCell.y == self.y + 2) then

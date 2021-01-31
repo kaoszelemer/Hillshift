@@ -62,10 +62,37 @@ local function endTurn()
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar.stepPoints = 1
         currentChar.actionPoints = 1
-    end
-    
-  
+        local cell = boardGrid[currentChar.x][currentChar.y]
+        if cell.isFrozen then
+            currentChar.stepPoints = 0
+        elseif cell.isOnFire then
+            currentChar.baseHP = currentChar.baseHP - 2
+        elseif cell.isPoisoned then
+            currentChar.baseDefense = currentChar.baseDefense - 1
+            currentChar.baseAttack = currentChar.baseAttack - 1
+        elseif cell:instanceOf(Lake) then
+            currentChar.actionPoints = 0
+        end
 
+        if currentChar.baseHP <= 0 then currentChar:kill() end
+    end
+
+    for _, currentChar in ipairs(inactivePlayer.characters) do
+        local cell = boardGrid[currentChar.x][currentChar.y]
+        if cell.isFrozen then
+            currentChar.stepPoints = 0
+        elseif cell.isOnFire then
+            currentChar.baseHP = currentChar.baseHP - 2
+        elseif cell.isPoisoned then
+            currentChar.baseDefense = currentChar.baseDefense - 1
+            currentChar.baseAttack = currentChar.baseAttack - 1
+        elseif cell:instanceOf(Lake) then
+            currentChar.actionPoints = 0
+        end
+
+        if currentChar.baseHP <= 0 then currentChar:kill() end
+
+    end
 end
 
 function love.load()
