@@ -34,39 +34,46 @@ function AirElemental:spell(targetCell)
         if boardGrid[self.x - 1][self.y - 1].isPoisoned then boardGrid[self.x - 1][self.y - 1].isPoisoned = false end
         if boardGrid[self.x + 1][self.y - 1].isPoisoned then boardGrid[self.x + 1][self.y - 1].isPoisoned = false end
 
-        if boardGrid[self.x][self.y - 1].isOnFire then 
-            if not boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
-                boardGrid[self.x][self.y - fireSpread].isOnFire = true
-            end
-            if boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
-                boardGrid[self.x][self.y - fireSpread] = Field(self.x, self.y - fireSpread) 
-            end
-            if boardGrid[self.x][self.y - fireSpread]:instanceOf(Ice) then
-                boardGrid[self.x][self.y - fireSpread] = Lake(self.x, self.y - fireSpread) 
+        if self.y - fireSpread > 0 then
+            if boardGrid[self.x][self.y - 1].isOnFire then 
+                if not boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x][self.y - fireSpread].isOnFire = true
+                end
+                if boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x][self.y - fireSpread] = Field(self.x, self.y - fireSpread) 
+                end
+                if boardGrid[self.x][self.y - fireSpread]:instanceOf(Ice) then
+                    boardGrid[self.x][self.y - fireSpread] = Lake(self.x, self.y - fireSpread) 
+                end
             end
         end
 
-        if boardGrid[self.x - 1][self.y - 1].isOnFire then
-            if not boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
-                boardGrid[self.x - fireSpread][self.y - fireSpread].isOnFire = true
+
+        if self.x - fireSpread > 0 and self.y - fireSpread > 0 then
+            if boardGrid[self.x - 1][self.y - 1].isOnFire then
+                if not boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x - fireSpread][self.y - fireSpread].isOnFire = true
+                end
+                if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x - fireSpread][self.y - fireSpread] = Field(self.x - fireSpread, self.y - fireSpread) 
+                end 
+                if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
+                    boardGrid[self.x - fireSpread][self.y - fireSpread] = Lake(self.x - fireSpread, self.y - fireSpread) 
+                end 
             end
-            if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
-                boardGrid[self.x - fireSpread][self.y - fireSpread] = Field(self.x - fireSpread, self.y - fireSpread) 
-            end 
-            if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
-                boardGrid[self.x - fireSpread][self.y - fireSpread] = Lake(self.x - fireSpread, self.y - fireSpread) 
-            end 
         end
 
-        if boardGrid[self.x + 1][self.y - 1].isOnFire then
-            if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
-                boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
-            end 
-            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
-                boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y - fireSpread)
-            end
-            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
-                boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y - fireSpread)
+        if self.x + fireSpread <= 10 and self.y - fireSpread > 0 then
+            if boardGrid[self.x + 1][self.y - 1].isOnFire then
+                if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
+                end 
+                if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y - fireSpread)
+                end
+                if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
+                    boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y - fireSpread)
+                end
             end
         end
 
@@ -97,40 +104,46 @@ function AirElemental:spell(targetCell)
         if boardGrid[self.x][self.y + 1].isPoisoned then boardGrid[self.x][self.y + 1].isPoisoned = false end
         if boardGrid[self.x - 1][self.y + 1].isPoisoned then boardGrid[self.x - 1][self.y + 1].isPoisoned = false end
         if boardGrid[self.x + 1][self.y + 1].isPoisoned then boardGrid[self.x + 1][self.y + 1].isPoisoned = false end
-
-        if boardGrid[self.x][self.y + 1].isOnFire then 
-            if not boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
-                boardGrid[self.x][self.y + fireSpread].isOnFire = true
-            end
-            if boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
-                boardGrid[self.x][self.y + fireSpread] = Field(self.x, self.y + fireSpread) 
-            end
-            if boardGrid[self.x][self.y + fireSpread]:instanceOf(Ice) then
-                boardGrid[self.x][self.y + fireSpread] = Lake(self.x, self.y + fireSpread) 
+        
+        if self.y + fireSpread <= 10 then
+            if boardGrid[self.x][self.y + 1].isOnFire then 
+                if not boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x][self.y + fireSpread].isOnFire = true
+                end
+                if boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x][self.y + fireSpread] = Field(self.x, self.y + fireSpread) 
+                end
+                if boardGrid[self.x][self.y + fireSpread]:instanceOf(Ice) then
+                    boardGrid[self.x][self.y + fireSpread] = Lake(self.x, self.y + fireSpread) 
+                end
             end
         end
 
-        if boardGrid[self.x - 1][self.y + 1].isOnFire then
-            if not boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
-                boardGrid[self.x - fireSpread][self.y + fireSpread].isOnFire = true
+        if self.x - fireSpread > 0 and self.y + fireSpread <= 10 then
+            if boardGrid[self.x - 1][self.y + 1].isOnFire then
+                if not boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x - fireSpread][self.y + fireSpread].isOnFire = true
+                end
+                if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x - fireSpread][self.y + fireSpread] = Field(self.x - fireSpread, self.y + fireSpread) 
+                end 
+                if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Ice) then 
+                    boardGrid[self.x - fireSpread][self.y + fireSpread] = Lake(self.x - fireSpread, self.y + fireSpread) 
+                end 
             end
-            if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
-                boardGrid[self.x - fireSpread][self.y + fireSpread] = Field(self.x - fireSpread, self.y + fireSpread) 
-            end 
-            if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Ice) then 
-                boardGrid[self.x - fireSpread][self.y + fireSpread] = Lake(self.x - fireSpread, self.y + fireSpread) 
-            end 
         end
 
-        if boardGrid[self.x + 1][self.y + 1].isOnFire then
-            if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
-                boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
-            end 
-            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
-                boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y + fireSpread)
-            end
-            if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
-                boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y + fireSpread)
+        if self.x + fireSpread <= 10 and self.y + fireSpread <= 10 then
+            if boardGrid[self.x + 1][self.y + 1].isOnFire then
+                if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
+                end 
+                if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y + fireSpread)
+                end
+                if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
+                    boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y + fireSpread)
+                end
             end
         end
 
