@@ -72,32 +72,6 @@ function Character:draw()
         if self.x - 1 > 0 and self.y + 1 < 11 and boardGrid[(self.x - 1)][self.y + 1].isOccupied and  boardGrid[(self.x - 1)][self.y + 1].occupiedBy.parentPlayer ~= self.parentPlayer then love.graphics.draw(validAttackImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end 
     end
 
-    if selectedChar and self.drawAttack then
-        local enemy = selectedChar
-        local character = self
-        if enemy ~= nil then
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(statFont)
-            love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
-            love.graphics.print(self.name .. " attacked " .. enemy.name, 10, 620)
-            love.graphics.print(self.name .. " AT is: " .. self.baseAttack .. " + Dice: " .. self.diceRoll .. " + CM: " .. boardGrid[self.x][self.y].attackModifier , 10,640)
-            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense .. " + CM: " .. boardGrid[enemy.x][enemy.y].defenseModifier , 10, 660)
-            love.graphics.print("Battle: "  .. self.rolledAttack .. " AT - " .. enemy.baseDefense .. " DF" , 10, 680)
-            love.graphics.print(self.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
-            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
-            love.graphics.print("------------*END OF THE BATTLE*-------------", 10, 740)
-            love.graphics.setFont(font)
-            love.graphics.setColor(selectedColor)
-            love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
-            love.graphics.setColor(charColor)
-
-
-            enemy.drawAttack = false
-            character.drawAttack = false
-        end
-    end
-
-
     if self.isInSpellState then
     if self.id == 1 or self.id == 5 then
         if self.y + 1 < 11 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
@@ -269,12 +243,12 @@ end
 function Character:attack(enemy)
     if self.isInAttackState then
         local dr = getDiceRoll()
-        self.drawAttack = true
         self.diceRoll = dr
         self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
         damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier))
         enemy.baseHP = enemy.baseHP - damage
         if enemy.baseHP <= 0 then enemy:kill() end
+        enableDrawAttack(self, enemy)
         self.isSelected = false
         --self.actionPoints = self.actionPoints - 1
         self.isInAttackState = false

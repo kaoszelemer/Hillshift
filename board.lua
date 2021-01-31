@@ -26,7 +26,6 @@ validStepImage = love.graphics.newImage("graphics/validstep.png")
 validSpellImage = love.graphics.newImage("graphics/validspell.png")
 --
 endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
-
 --1a. a tileset változói
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --2, a cella típusuk definiálása a quadokból   
@@ -266,9 +265,39 @@ local function drawEndTurnButton()
 
 end
 
-function die(enemy)
+function enableDrawAttack(character, enemy)
 
-   
+    drawAttack = true
+    drawnAttackingCharacter = character
+    drawnEnemyCharacter = enemy
+
+    timerStart = love.timer.getTime()
+    timerStop = 3
+
+end
+
+function drawAttackOnBoard()
+    --- tablanak kene kirajzolni
+    if drawAttack then
+        local enemy = drawnEnemyCharacter
+        local character = drawnAttackingCharacter
+        if enemy ~= nil then
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+            love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
+            love.graphics.print(character.name .. " attacked " .. enemy.name, 10, 620)
+            love.graphics.print(character.name .. " AT is: " .. character.baseAttack .. " + Dice: " .. character.diceRoll .. " + CM: " .. boardGrid[character.x][character.y].attackModifier , 10,640)
+            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense .. " + CM: " .. boardGrid[enemy.x][enemy.y].defenseModifier , 10, 660)
+            love.graphics.print("Battle: "  .. character.rolledAttack .. " AT - " .. enemy.baseDefense .. " DF" , 10, 680)
+            love.graphics.print(character.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
+            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
+            love.graphics.print("------------*END OF THE BATTLE*-------------", 10, 740)
+            love.graphics.setFont(font)
+            love.graphics.setColor(selectedColor)
+            love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
+            love.graphics.setColor(charColor)
+        end
+    end
 
 end
 
@@ -298,6 +327,11 @@ function board:load()
 end
 
 function board:update(dt)
+
+    if drawAttack and love.timer.getTime() - timerStart >= timerStop then
+        drawAttack = false
+    end
+
 end
 
 function board:draw()
@@ -311,6 +345,7 @@ function board:draw()
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
+    drawAttackOnBoard()
   
 
  
