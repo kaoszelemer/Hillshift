@@ -102,8 +102,8 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         for index, value in ipairs(playerone.characters) do
             for i = 1, #playerone.characters do        
                 love.graphics.print(playerone.characters[i].name, 200, 10 + i * 100)
-             --   love.graphics.print("SP: " ..  playerone.characters[i].stepPoints, 200, 25 + i * 100)
-             --   love.graphics.print("AP: " ..  playerone.characters[i].actionPoints, 200, 40 + i * 100)
+                love.graphics.print("SP: " ..  playerone.characters[i].stepPoints, 200, 25 + i * 100)
+                love.graphics.print("AP: " ..  playerone.characters[i].actionPoints, 200, 40 + i * 100)
                 love.graphics.print("HP: " ..  playerone.characters[i].baseHP, 200, 55 + i * 100)
                 love.graphics.print("DF: " ..  playerone.characters[i].baseDefense, 200, 70 + i * 100)
                 love.graphics.print("AT: " ..  playerone.characters[i].baseAttack, 200, 85 + i * 100)
@@ -112,10 +112,13 @@ local function drawStatsOnSideBarPlayerOne(playerone)
               --  if      playerone.characters[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
               --  elseif  playerone.characters[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
               --  end
-                if  playerone.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
+               --[[  if  playerone.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
                 elseif  playerone.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
                 elseif  playerone.characters[i].isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
                 elseif  playerone.characters[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
+                end ]]
+                if playerone == activePlayer then
+                    love.graphics.print("PLAYER ONE'S TURN", (width / 2) - 200, 750)
                 end
             end
         end
@@ -131,8 +134,8 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
             for i = 1, #playertwo.characters do
                 
                 love.graphics.print( playertwo.characters[i].name, 1000, 10 + i * 100)
-             --   love.graphics.print("SP: " ..  playertwo.characters[i].stepPoints, 1000, 25 + i * 100)
-             --   love.graphics.print("AP: " ..  playertwo.characters[i].actionPoints, 1000, 40 + i * 100)
+                love.graphics.print("SP: " ..  playertwo.characters[i].stepPoints, 1000, 25 + i * 100)
+                love.graphics.print("AP: " ..  playertwo.characters[i].actionPoints, 1000, 40 + i * 100)
                 love.graphics.print("HP: " ..  playertwo.characters[i].baseHP, 1000, 55 + i * 100)
                 love.graphics.print("DF: " ..  playertwo.characters[i].baseDefense, 1000, 70 + i * 100)
                 love.graphics.print("AT: " ..  playertwo.characters[i].baseAttack, 1000, 85 + i * 100)
@@ -141,9 +144,12 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                 if      playertwo.characters[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 120)
                 elseif  playertwo.characters[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 120)
                 end ]]
-                if  playertwo.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2 ) + 200, 10)
+                --[[ if  playertwo.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2 ) + 200, 10)
                 elseif  playertwo.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2 ) + 200, 10)
-                end 
+                end ]]
+                if playertwo == activePlayer then
+                    love.graphics.print("PLAYER TWO'S TURN", (width / 2) - 200, 750)
+                end
             end
         end
     love.graphics.setFont(font)
@@ -262,7 +268,7 @@ end
 
 local function drawEndTurnButton()
 
-
+ 
     love.graphics.draw(endTurnButtonImage, 10, 500)
 
 end

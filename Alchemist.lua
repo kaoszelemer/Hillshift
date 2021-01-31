@@ -14,10 +14,13 @@ function Alchemist:spell(targetCell)
             
                 boardGrid[self.x - 1][self.y - 1].isPoisoned = true
                 boardGrid[self.x - 2][self.y - 2].isPoisoned = true
-        
+                poisoningTurn = turnCounter
+
         elseif (self.x - 1 > 0 and self.y - 1 > 0) and (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) then
                 
                 boardGrid[self.x - 1][self.y - 1].isPoisoned = true
+                poisoningTurn = turnCounter
+
 
         else self.isInSpellState = false
         end
@@ -28,10 +31,14 @@ function Alchemist:spell(targetCell)
 
                 boardGrid[self.x + 1][self.y - 1].isPoisoned = true
                 boardGrid[self.x + 2][self.y - 2].isPoisoned = true
+                poisoningTurn = turnCounter
+
 
         elseif (self.x + 1 <= 10 and self.y - 1 > 0) and (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
                 
                 boardGrid[self.x + 1][self.y - 1].isPoisoned = true
+                poisoningTurn = turnCounter
+
 
         else self.isInSpellState = false
         end
@@ -42,10 +49,14 @@ function Alchemist:spell(targetCell)
 
                 boardGrid[self.x - 1][self.y + 1].isPoisoned = true
                 boardGrid[self.x - 2][self.y + 2].isPoisoned = true
+                poisoningTurn = turnCounter
+
 
         elseif (self.x - 1 > 0 and self.y + 1 <= 10) and (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) then
 
                 boardGrid[self.x - 1][self.y + 1].isPoisoned = true
+                poisoningTurn = turnCounter
+
 
         else self.isInSpellState = false
         end
@@ -56,10 +67,13 @@ function Alchemist:spell(targetCell)
 
                 boardGrid[self.x + 1][self.y + 1].isPoisoned = true
                 boardGrid[self.x + 2][self.y + 2].isPoisoned = true
+                poisoningTurn = turnCounter
+
 
         elseif (self.x + 1 <= 10 and self.y + 1 <= 10) and (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
                 
                 boardGrid[self.x + 1][self.y + 1].isPoisoned = true
+                poisoningTurn = turnCounter
 
         else self.isInSpellState = false
         end

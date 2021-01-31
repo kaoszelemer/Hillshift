@@ -30,6 +30,7 @@ offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
 
+turnCounter = 0
 
 --karakterek valtozoi
 charColor = {1, 1, 1}
@@ -54,15 +55,41 @@ mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 selectedChar = nil
 
 local function endTurn()
-
+    turnCounter = turnCounter + 1
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
+
+    for index, row in ipairs(boardGrid) do
+        for _, cell in ipairs(row) do
+
+            if cell.isPoisoned and turnCounter - poisoningTurn == 3 then
+                cell.isPoisoned = false
+            end
+
+            if cell.isOnFire and turnCounter - fireTurn == 2 then
+               cell.isOnFire = false
+            end
+        
+            if cell.isOnFire and cell:instanceOf(Forest) then
+                if cell.isOccupied then occupyCell = true end
+                boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
+                if occupyCell then boardGrid[cell.x][cell.y].isOccupied = true end
+                cell.isOnFire = false
+            end
+
+        end
+    end
+
+  
 
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar.stepPoints = 1
         currentChar.actionPoints = 1
         local cell = boardGrid[currentChar.x][currentChar.y]
+
+       
+
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
