@@ -58,6 +58,11 @@ local function endTurn()
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
+
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar.stepPoints = 1
+        currentChar.actionPoints = 1
+    end
     
   
 

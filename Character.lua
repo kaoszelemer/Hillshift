@@ -1,6 +1,6 @@
 local Character = class("Character")
 
-function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer)
+function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer, actionPoints, stepPoints)
     self.baseHP = baseHP
     self.baseDefense = baseDefense
     self.baseAttack = baseAttack
@@ -8,6 +8,8 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
     self.image = image
     self.imageHover = imageHover
     self.parentPlayer = parentPlayer
+    self.actionPoints = actionPoints
+    self.stepPoints = stepPoints
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -199,20 +201,22 @@ end
 
 function Character:move(x, y)
    
-
-    if self.x and self.y then
-        boardGrid[self.x][self.y].isOccupied = false
-        boardGrid[self.x][self.y].occupiedBy = nil
+    if self.stepPoints ~= 0 then
+        if self.x and self.y then
+            boardGrid[self.x][self.y].isOccupied = false
+            boardGrid[self.x][self.y].occupiedBy = nil
+        end
+            self.x = x
+            self.y = y
+            if self.x >= 10 then self.x = 10 end
+            if self.x <= 0 then self.x = 1 end
+            if self.y >= 10 then self.y = 10 end
+            if self.y <= 0 then self.y = 1 end
+            boardGrid[self.x][self.y].isOccupied = true
+            boardGrid[self.x][self.y].occupiedBy = self
+            self.stepPoints = self.stepPoints - 1
     end
-        self.x = x
-        self.y = y
-        if self.x >= 10 then self.x = 10 end
-        if self.x <= 0 then self.x = 1 end
-        if self.y >= 10 then self.y = 10 end
-        if self.y <= 0 then self.y = 1 end
-        boardGrid[self.x][self.y].isOccupied = true
-        boardGrid[self.x][self.y].occupiedBy = self
-      
+   
 end
 
 
@@ -241,7 +245,7 @@ function Character:kill()
 end
 
 function Character:attack(enemy)
-    if self.isInAttackState then
+    if self.isInAttackState and self.actionPoints ~= 0 then
         local dr = getDiceRoll()
         self.diceRoll = dr
         self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
@@ -250,7 +254,7 @@ function Character:attack(enemy)
         if enemy.baseHP <= 0 then enemy:kill() end
         enableDrawAttack(self, enemy)
         self.isSelected = false
-        --self.actionPoints = self.actionPoints - 1
+        self.actionPoints = self.actionPoints - 1
         self.isInAttackState = false
         enemy = nil
     end
@@ -258,7 +262,6 @@ end
 
 
 function Character:spell(targetCell)
-
 end
 
 return Character

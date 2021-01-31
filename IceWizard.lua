@@ -1,11 +1,12 @@
 local IceWizard = Character:extend("IceWizard")
     function IceWizard:init(parentPlayer)
         Character.init(self, 8, 5, 0, 3, love.graphics.newImage("/graphics/icewizard.png"), 
-                    love.graphics.newImage("/graphics/icewizardhover.png"), parentPlayer)
+                    love.graphics.newImage("/graphics/icewizardhover.png"), parentPlayer, 1, 1)
     end
 
 function IceWizard:spell(targetCell)
 
+    if self.actionPoints ~= 0 then
     if      (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
 
         if self.y - 1 > 0 then
@@ -65,6 +66,9 @@ function IceWizard:spell(targetCell)
        
     else self.isInSpellState = false
     end
+    end
+    self.actionPoints = self.actionPoints - 1
+
 end
 
 

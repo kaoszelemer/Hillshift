@@ -2,11 +2,12 @@ local GeoGnome = Character:extend("GeoGnome")
 
 function GeoGnome:init(parentPlayer)
     Character.init(self, 10, 6, 0, 1, love.graphics.newImage("/graphics/geognome.png"), 
-                love.graphics.newImage("/graphics/geognomehover.png"), parentPlayer)
+                love.graphics.newImage("/graphics/geognomehover.png"), parentPlayer, 1, 1)
 end
 
 function GeoGnome:spell(targetCell)
 
+    if self.actionPoints ~= 0 then
    
         if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
         or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
@@ -22,6 +23,9 @@ function GeoGnome:spell(targetCell)
                     setOccupied = false
                 end      
         end
+    end
+    self.actionPoints = self.actionPoints - 1
+
 
 end
 

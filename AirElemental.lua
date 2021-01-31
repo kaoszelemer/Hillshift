@@ -1,7 +1,7 @@
 local AirElemental = Character:extend("AirElemental")
 function AirElemental:init(parentPlayer)
     Character.init(self, 7, 4, 2, 4, love.graphics.newImage("/graphics/airelemental.png"), 
-                love.graphics.newImage("/graphics/airelementalhover.png"), parentPlayer)
+                love.graphics.newImage("/graphics/airelementalhover.png"), parentPlayer, 1, 1)
 end
 
 function AirElemental:spell(targetCell)
@@ -12,21 +12,28 @@ function AirElemental:spell(targetCell)
         fireSpread = 2
     end
 
+    if self.actionPoints ~= 0 then
   ------------------------------------------------------------------------------------------------------------------------
                                                 -- Karaktertől képernyő teteje felé
 
     if (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
 
                 if (self.y - 2 > 0) and boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
+                        boardGrid[self.x][self.y - 1].occupiedBy.stepPoints = boardGrid[self.x][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x][self.y - 1].occupiedBy:move(self.x, self.y - 2)
+                        
                 end
         
                 if (self.x - 2 > 0 and self.y - 2 > 0) and boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
+                        boardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints = oardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
+                        
                 end
 
                 if (self.x + 2 <= 10 and self.y - 2 > 0) and boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x + 2][self.y - 2].occupiedBy then
+                        boardGrid[self.x + 1][self.y - 1].occupiedBy.stepPoints = boardGrid[self.x + 1][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x + 1][self.y - 1].occupiedBy:move(self.x + 2, self.y - 2)
+                     
                 end
   
 
@@ -89,15 +96,20 @@ function AirElemental:spell(targetCell)
     if (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
             
                 if (self.y + 2 <= 10) and boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].occupiedBy then
+                    boardGrid[self.x][self.y + 1].occupiedBy.stepPoints = boardGrid[self.x][self.y + 1].occupiedBy.stepPoints + 1
                     boardGrid[self.x][self.y + 1].occupiedBy:move(self.x, self.y + 2)
+                    
                 end
         
                 if (self.x - 2 > 0 and self.y + 2 <= 10) and boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                    boardGrid[self.x - 1][self.y + 1].occupiedBy.stepPoints = boardGrid[self.x - 1][self.y + 1].occupiedBy.stepPoints + 1
                     boardGrid[self.x - 1][self.y + 1].occupiedBy:move(self.x - 2, self.y + 2)
+                    
                 end
 
                 if (self.x + 2 <= 10 and self.y + 2 <= 10) and boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
-                    boardGrid[self.x + 1][self.y + 1].occupiedBy:move(self.x + 2, self.y + 2) 
+                    boardGrid[self.x + 1][self.y + 1].occupiedBy.stepPoints = boardGrid[self.x + 1][self.y + 1].occupiedBy.stepPoints + 1
+                    boardGrid[self.x + 1][self.y + 1].occupiedBy:move(self.x + 2, self.y + 2)
                 end
 
 
@@ -149,7 +161,8 @@ function AirElemental:spell(targetCell)
 
     else self.isInSpellState = false
     end
-
+    end
+    self.actionPoints = self.actionPoints - 1
 
 end
     

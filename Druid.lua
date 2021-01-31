@@ -1,10 +1,11 @@
 local Druid = Character:extend("Druid")
     function Druid:init(parentPlayer)
         Character.init(self, 6, 4, 3, 5, love.graphics.newImage("/graphics/druid.png"), 
-                    love.graphics.newImage("/graphics/druidhover.png"), parentPlayer)
+                    love.graphics.newImage("/graphics/druidhover.png"), parentPlayer, 1, 1)
     end
 
     function Druid:spell(targetCell)
+        if self.actionPoints ~= 0 then
         local occupyFirstCell
         local occupySecondCell
         local occupyThirdCell
@@ -153,7 +154,8 @@ local Druid = Character:extend("Druid")
 
         else self.isInSpellState = false                       
         end
-    
+    end
+    self.actionPoints = self.actionPoints - 1
     end
     
 return Druid
