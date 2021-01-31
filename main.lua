@@ -53,7 +53,15 @@ mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 --aktualis kijelolt karakter
 selectedChar = nil
 
+local function endTurn()
 
+    oldPlayer = activePlayer
+    activePlayer = inactivePlayer
+    inactivePlayer = oldPlayer
+    
+  
+
+end
 
 function love.load()
     --board betoltese
@@ -109,11 +117,19 @@ function love.mousereleased(x, y, button, istouch, presses)
     
     end
 
-    cellMousePositionX = math.floor((mouseX / tileW) - offsetX / tileW) 
-    cellMousePositionY = math.floor((mouseY / tileH) - offsetY / tileH)
-    local mx = math.min(math.max(cellMousePositionX, 1), 11)
-    local my = math.min(math.max(cellMousePositionY, 1), 11)
+    local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
+    local my = math.floor((mouseY / tileH) - offsetY / tileH)
+    -- itt meghivom mindenkepp a cella klikkejt akkor is ha nem oda kattintok, ezt majd ki kell javitani
+
+    if (mx < 10 and mx > 1) and (my < 10 and my > 1) then
+        boardGrid[mx][my]:click()
+    end
+
+    if (x > 10 and x < 74) and (y > 500 and y < 564) then
+        
+        endTurn()
+
+    end
     
-    boardGrid[mx][my]:click()
 
 end

@@ -24,6 +24,9 @@ fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
 validAttackImage = love.graphics.newImage("graphics/validattack.png")
 validStepImage = love.graphics.newImage("graphics/validstep.png")
 validSpellImage = love.graphics.newImage("graphics/validspell.png")
+--
+endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
+
 --1a. a tileset változói
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --2, a cella típusuk definiálása a quadokból   
@@ -256,6 +259,13 @@ local function drawBoardGrid()
     end
 end
 
+local function drawEndTurnButton()
+
+
+    love.graphics.draw(endTurnButtonImage, 10, 500)
+
+end
+
 function die(enemy)
 
    
@@ -295,7 +305,7 @@ function board:draw()
 
     --drawModifier()
     drawBoardGrid()
-
+    drawEndTurnButton()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo) 
     drawStatsOnSideBarPlayerOne(playerOne)
