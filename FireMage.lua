@@ -4,27 +4,43 @@ local FireMage = Character:extend("FireMage")
                     love.graphics.newImage("/graphics/firemagehover.png"), parentPlayer)
     end
 
-    function FireMage:spell(targetCell)
+function FireMage:spell(targetCell)
 
-        if  (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
-    
+    if  (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
+
+        if self.x - 1 > 0 and self.y - 1 > 0 then
+
             boardGrid[self.x - 1][self.y - 1].isOnFire = true
-            boardGrid[self.x + 1][self.y - 1].isOnFire = true
 
             if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
                 boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
                 boardGrid[self.x - 1][self.y - 1].isOnFire = false
             end
 
-           if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
-               boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
-               boardGrid[self.x + 1][self.y - 1].isOnFire = false
-           end
-
             if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then 
                 boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
                 boardGrid[self.x - 1][self.y - 1].isFrozen = false
+            end
 
+            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
+                boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                boardGrid[self.x - 1][self.y - 1].isOnFire = false
+            end
+
+            if boardGrid[self.x - 1][self.y - 1].isFrozen then 
+                boardGrid[self.x - 1][self.y - 1].isFrozen = false
+                boardGrid[self.x - 1][self.y - 1].isOnFire = false 
+            end 
+
+        end
+
+        if self.x + 1 <= 10 and self.y - 1 > 0 then
+
+            boardGrid[self.x + 1][self.y - 1].isOnFire = true
+
+            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
+                boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
+                boardGrid[self.x + 1][self.y - 1].isOnFire = false
             end
 
             if boardGrid[self.x + 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y - 1].isFrozen then 
@@ -32,85 +48,85 @@ local FireMage = Character:extend("FireMage")
                 boardGrid[self.x + 1][self.y - 1].isFrozen = false
             end
 
-           if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
-               boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
-               boardGrid[self.x + 1][self.y - 1].isOnFire = false
-
-           end
-
-           if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then 
-               boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
-               boardGrid[self.x + 1][self.y - 1].isOnFire = false
-           end
-
-            if boardGrid[self.x - 1][self.y - 1].isFrozen then 
-                boardGrid[self.x - 1][self.y - 1].isFrozen = false
-                boardGrid[self.x - 1][self.y - 1].isOnFire = false 
-            end 
+            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then 
+                boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                boardGrid[self.x + 1][self.y - 1].isOnFire = false
+            end
 
             if boardGrid[self.x + 1][self.y - 1].isFrozen then 
                 boardGrid[self.x + 1][self.y - 1].isFrozen = false 
                 boardGrid[self.x + 1][self.y - 1].isOnFire = false 
             end
-            
-            self.isInSpellState = false
-          
 
-        else self.isInSpellState = false
         end
-    
-        if      (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
-    
-            boardGrid[self.x - 1][self.y + 1].isOnFire = true
-            boardGrid[self.x + 1][self.y + 1].isOnFire = true
+        
+        self.isInSpellState = false
+        
 
-            if boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
+    else self.isInSpellState = false
+    end
+
+    if  (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
+
+        if self.x - 1 > 0 and self.y + 1 <= 10 then
+
+            boardGrid[self.x - 1][self.y + 1].isOnFire = true
+        
+            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
                 boardGrid[self.x - 1][self.y + 1] = Field(self.x - 1, self.y + 1)
                 boardGrid[self.x - 1][self.y + 1].isOnFire = false
-           end
+            end
 
-           if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
-               boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
-               boardGrid[self.x + 1][self.y + 1].isOnFire = false
-           end
-            
-            if boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
+            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
                 boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
                 boardGrid[self.x - 1][self.y + 1].isFrozen = false
             end
 
+
+            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
+                boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                boardGrid[self.x - 1][self.y + 1].isOnFire = false
+            end
+
+            if  boardGrid[self.x - 1][self.y + 1].isFrozen then
+                boardGrid[self.x - 1][self.y + 1].isFrozen = false 
+                boardGrid[self.x - 1][self.y + 1].isOnFire = false 
+            end 
+            
+        end
+
+
+        if self.x + 1 <= 10 and self.y + 1 <= 10 then 
+
+            boardGrid[self.x + 1][self.y + 1].isOnFire = true
+            
+            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
+                boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
+                boardGrid[self.x + 1][self.y + 1].isOnFire = false
+            end
+            
             if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then 
                 boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
                 boardGrid[self.x + 1][self.y + 1].isFrozen = false
             end
 
-
-           if boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
-               boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
-               boardGrid[self.x + 1][self.y + 1].isOnFire = false
-
-           end
-
-           if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
-               boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
-               boardGrid[self.x + 1][self.y + 1].isOnFire = false
-           end
-
-            if boardGrid[self.x - 1][self.y + 1].isFrozen then
-                 boardGrid[self.x - 1][self.y + 1].isFrozen = false 
-                 boardGrid[self.x - 1][self.y + 1].isOnFire = false 
-            end 
+            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
+                boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                boardGrid[self.x + 1][self.y + 1].isOnFire = false
+            end
 
             if boardGrid[self.x + 1][self.y + 1].isFrozen then 
                 boardGrid[self.x + 1][self.y + 1].isFrozen = false 
                 boardGrid[self.x + 1][self.y + 1].isOnFire = false 
             end
-            
-            self.isInSpellState = false
-         
-            
-        else self.isInSpellState = false
+    
         end
+
+        self.isInSpellState = false
+        
+        
+    else self.isInSpellState = false
     end
+end
    
 return FireMage
