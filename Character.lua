@@ -151,7 +151,10 @@ end
 
 
 function Character:click(mX, mY)
-    if self.isHovered and selectedChar and selectedChar.isInAttackState and selectedChar.parentPlayer ~= self.parentPlayer then
+
+
+   
+    if selectedChar and selectedChar.isInAttackState and selectedChar.parentPlayer ~= self.parentPlayer then
         selectedChar:attack(self)
     end
  
@@ -176,7 +179,7 @@ function Character:click(mX, mY)
     -- ha nem vagyok semmilyen kulonleges stateben akkor ki tudjak valasztan masik karaktert
     -- selectedChar and selectedChar ~= self  ha nem ugyanarra a karakterre nyomok mint a kivalasztott karakter akkor a resetallfaszom nem fut le hanem megy a tovabb a fuggveny
 
-    if  self.isHovered and (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState and not selectedChar.isInAttackState)) then-- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
+    if  self.parentPlayer == activePlayer and self.isHovered and (selectedChar == nil or (selectedChar and not selectedChar.isInSpellState and not selectedChar.isInAttackState)) then-- ha az akciomenu nincs kirajzolva és a karakter felett vagyok és klikkelek akkor
         self.isSelected = true
         self.drawAttack = false
         selectedChar = self

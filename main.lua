@@ -53,32 +53,13 @@ mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 --aktualis kijelolt karakter
 selectedChar = nil
 
---[[
 
-local function clickSpell(player)
-    local mX = cellMousePositionX
-    local mY = cellMousePositionY
-   
-    
-    for i = 1,4 do 
-        local hillShiftingCharacter = player[i]    
-                if hillShiftingCharacter.isInSpellState and hillShiftingCharacter.actionPoints ~= 0 and (hillShiftingCharacter.isDefending == false or hillShiftingCharacter.isInDefenseState) == false then
-                    spell(hillShiftingCharacter, mX,  mY)
-                    hillShiftingCharacter.actionPoints = hillShiftingCharacter.actionPoints - 1
-                    hillShiftingCharacter.isInSpellState = false
-                else hillShiftingCharacter.isInSpellState = false
-                end
-                
-            end
-
-        
-
-end ]]
 
 function love.load()
     --board betoltese
     board:load()
-    
+    activePlayer = playerOne
+    inactivePlayer = playerTwo
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(0,0,0)
@@ -102,29 +83,29 @@ end
 
 function love.mousemoved( x, y, dx, dy, istouch )
 
-    for _, currentChar in ipairs(playerOne.characters) do
+    for _, currentChar in ipairs(activePlayer.characters) do
         currentChar:updateHover(x, y)
     end
 
-    for _, currentChar in ipairs(playerTwo.characters) do
+    for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar:updateHover(x, y)
     end
+
+   
 
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
 
-    for _, currentChar in ipairs(playerOne.characters) do
+    for _, currentChar in ipairs(activePlayer.characters) do
         
-        if currentChar.isHovered then currentChar:click(x, y) end
-        
+        if currentChar.isHovered then currentChar:click(x, y) end  
     
     end
 
-    for _, currentChar in ipairs(playerTwo.characters) do
+    for _, currentChar in ipairs(inactivePlayer.characters) do
         
-        if currentChar.isHovered then currentChar:click(x, y) end
-        
+        if currentChar.isHovered then currentChar:click(x, y) end  
     
     end
 
