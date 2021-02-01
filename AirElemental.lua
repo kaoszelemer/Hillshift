@@ -18,19 +18,19 @@ function AirElemental:spell(targetCell)
 
     if (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
 
-                if (self.y - 2 > 0) and boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].occupiedBy then
+                if (self.y - 2 > 0) and boardGrid[self.x][self.y - 1].isOccupied and not boardGrid[self.x][self.y - 2].isOccupied then
                         boardGrid[self.x][self.y - 1].occupiedBy.stepPoints = boardGrid[self.x][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x][self.y - 1].occupiedBy:move(self.x, self.y - 2)
                         
                 end
         
-                if (self.x - 2 > 0 and self.y - 2 > 0) and boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
+                if (self.x - 2 > 0 and self.y - 2 > 0) and boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].isOccupied then
                         boardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints = boardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
                         
                 end
 
-                if (self.x + 2 <= 10 and self.y - 2 > 0) and boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x + 2][self.y - 2].occupiedBy then
+                if (self.x + 2 <= 10 and self.y - 2 > 0) and boardGrid[self.x + 1][self.y - 1].isOccupied and not boardGrid[self.x + 2][self.y - 2].isOccupied then
                         boardGrid[self.x + 1][self.y - 1].occupiedBy.stepPoints = boardGrid[self.x + 1][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x + 1][self.y - 1].occupiedBy:move(self.x + 2, self.y - 2)
                      
@@ -95,19 +95,19 @@ function AirElemental:spell(targetCell)
 
     if (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
             
-                if (self.y + 2 <= 10) and boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].occupiedBy then
+                if (self.y + 2 <= 10) and boardGrid[self.x][self.y + 1].isOccupied and not boardGrid[self.x][self.y + 2].isOccupied then
                     boardGrid[self.x][self.y + 1].occupiedBy.stepPoints = boardGrid[self.x][self.y + 1].occupiedBy.stepPoints + 1
                     boardGrid[self.x][self.y + 1].occupiedBy:move(self.x, self.y + 2)
                     
                 end
         
-                if (self.x - 2 > 0 and self.y + 2 <= 10) and boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                if (self.x - 2 > 0 and self.y + 2 <= 10) and boardGrid[self.x - 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].isOccupied then
                     boardGrid[self.x - 1][self.y + 1].occupiedBy.stepPoints = boardGrid[self.x - 1][self.y + 1].occupiedBy.stepPoints + 1
                     boardGrid[self.x - 1][self.y + 1].occupiedBy:move(self.x - 2, self.y + 2)
                     
                 end
 
-                if (self.x + 2 <= 10 and self.y + 2 <= 10) and boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].occupiedBy then
+                if (self.x + 2 <= 10 and self.y + 2 <= 10) and boardGrid[self.x + 1][self.y + 1].isOccupied and not boardGrid[self.x - 2][self.y + 2].isOccupied then
                     boardGrid[self.x + 1][self.y + 1].occupiedBy.stepPoints = boardGrid[self.x + 1][self.y + 1].occupiedBy.stepPoints + 1
                     boardGrid[self.x + 1][self.y + 1].occupiedBy:move(self.x + 2, self.y + 2)
                 end
