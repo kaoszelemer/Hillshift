@@ -13,7 +13,10 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
 
     if ((selectedChar.x + ox <= 10 and selectedChar.x + ox > 0) and (self.x == selectedChar.x + ox and self.y == selectedChar.y + oy)) or
        ((selectedChar.y + oy <= 10 and selectedChar.y + oy > 0) and (self.y == selectedChar.y + oy and self.y == selectedChar.y + oy)) then
-        selectedChar:move(self.x, self.y)
+            if selectedChar.x + ox == self.x and
+                selectedChar.y + oy == self.y then
+                selectedChar:move(self.x, self.y)
+            end
     end
       
 end
