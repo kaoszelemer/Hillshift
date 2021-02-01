@@ -118,7 +118,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                 elseif  playerone.characters[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
                 end ]]
                 if playerone == activePlayer then
-                    love.graphics.print("PLAYER ONE'S TURN", (width / 2) - 200, 750)
+                    love.graphics.print("PLAYER ONE'S TURN - TURN: #" .. turnCounter, (width / 2) - 200, 750)
                 end
             end
         end
@@ -148,7 +148,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                 elseif  playertwo.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2 ) + 200, 10)
                 end ]]
                 if playertwo == activePlayer then
-                    love.graphics.print("PLAYER TWO'S TURN", (width / 2) - 200, 750)
+                    love.graphics.print("PLAYER TWO'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 200, 750)
                 end
             end
         end
