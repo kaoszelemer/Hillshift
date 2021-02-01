@@ -164,7 +164,6 @@ function board:resetAllCharacterStates(playerone, playertwo)
         currentChar.isInAttackState = false
         currentChar.isInDefenseState = false
         currentChar.isInSpellState = false
-        currentChar.drawDice = false
     end
 
     for _, currentChar in ipairs(playertwo.characters) do
@@ -174,7 +173,6 @@ function board:resetAllCharacterStates(playerone, playertwo)
         currentChar.isInAttackState = false
         currentChar.isInSpellState = false
         currentChar.isInDefenseState = false
-        currentChar.drawDice = false 
     end
 
     selectedChar = nil

@@ -119,6 +119,8 @@ local function endTurn()
 
         if currentChar.baseHP <= 0 then currentChar:kill() end
 
+        board:resetAllCharacterStates(activePlayer, inactivePlayer)
+
     end
 end
 
