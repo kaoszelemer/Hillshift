@@ -111,16 +111,16 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     love.graphics.print(playerone.name .. " - IT'S YOUR TURN", pxp, 50)
                     love.graphics.setLineWidth(2)
                     love.graphics.setColor(charColor)
-                    love.graphics.rectangle("line", pxp, 10 + i * 100, 90, 90)
+                    love.graphics.rectangle("line", pxp - 128, 10 + i * 100, 210, 128)
                     love.graphics.setColor(charColor)
                     love.graphics.setLineWidth(1)
                     love.graphics.print("PLAYER ONE'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, 10)
 
-                    love.graphics.setLineWidth(2)
+                 --[[    love.graphics.setLineWidth(2)
                     love.graphics.setColor(charColor)
                     love.graphics.rectangle("line", pxp - 96, i * 108, 64, 64)
                     love.graphics.setColor(charColor)
-                    love.graphics.setLineWidth(1)
+                    love.graphics.setLineWidth(1) ]]
                     
                     love.graphics.setFont(pointFont)
                     love.graphics.print("SP: " ..  playerone.characters[i].stepPoints, pxp - 112, 64 + i * 110)
@@ -185,7 +185,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 end
 
 local function drawStatsOnSideBarPlayerTwo(playertwo)
-    local pxp = width / 6 * 4.7
+    local pxp = width / 6 * 4.6
 
     love.graphics.setColor(charColor)
     love.graphics.setFont(statFont)
@@ -198,25 +198,25 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     love.graphics.print(playertwo.name .. " - IT'S YOUR TURN", pxp, 50)
                     love.graphics.setLineWidth(2)
                     love.graphics.setColor(charColor)
-                    love.graphics.rectangle("line", pxp, 10 + i * 100, 90, 90)
+                    love.graphics.rectangle("line", pxp - 10, 10 + i * 100, 200, 128)
                     love.graphics.setColor(charColor)
                     love.graphics.setLineWidth(1)
                     love.graphics.print("PLAYER TWO'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, 10)
 
-                    love.graphics.setLineWidth(2)
+                  --[[   love.graphics.setLineWidth(2)
                     love.graphics.setColor(charColor)
                     love.graphics.rectangle("line", pxp + 128, i * 108, 64, 64)
                     love.graphics.setColor(charColor)
                     love.graphics.setLineWidth(1)
-
+ ]]
                     love.graphics.setFont(pointFont)
-                    love.graphics.print("SP: " ..  playertwo.characters[i].stepPoints, pxp + 116, 64 + i * 110)
-                    love.graphics.print("AP: " ..  playertwo.characters[i].actionPoints, pxp + 172, 64 + i * 110)
+                    love.graphics.print("SP: " ..  playertwo.characters[i].stepPoints, pxp + 52, 64 + i * 110)
+                    love.graphics.print("AP: " ..  playertwo.characters[i].actionPoints, pxp + 108, 64 + i * 110)
                     love.graphics.setFont(statFont)
     
                 end
 
-                love.graphics.draw(playertwo.characters[i].image, pxp + 128, i * 108)
+                love.graphics.draw(playertwo.characters[i].image, pxp + 64, 10 + i * 108)
         
 
                 love.graphics.print( playertwo.characters[i].name, pxp, 10 + i * 100)
@@ -381,7 +381,7 @@ local function drawEndTurnButton()
 
 
     love.graphics.draw(endTurnButtonImage, width / 2 + 200, 10)
-    
+
    if isEndTurnButtonClicked then
     love.graphics.draw(endTurnButtonClickedImage, width / 2 + 200, 10) 
    end

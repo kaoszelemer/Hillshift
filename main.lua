@@ -203,7 +203,7 @@ function love.mousereleased(x, y, button, istouch, presses)
     end
 
     if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
-        isEndTurnButtonClicked = true
+      --  isEndTurnButtonClicked = true
         endTurn()
 
     end
