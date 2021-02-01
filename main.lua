@@ -68,17 +68,17 @@ local function endTurn()
     for index, row in ipairs(boardGrid) do
         for _, cell in ipairs(row) do
 
-            if cell.isPoisoned and turnCounter - poisoningTurn == 2 then
+            if cell.isPoisoned and turnCounter - poisoningTurn == 3 then
                 cell.isPoisoned = false
                 cell.defenseModifier = cell.defenseModifier + 3
                 cell.attackModifier = cell.attackModifier + 1
             end
 
-            if cell.isOnFire and turnCounter - fireTurn == 2 then
+            if cell.isOnFire and turnCounter - fireTurn == 3 then
                cell.isOnFire = false
             end
 
-            if cell.isFrozen and turnCounter - freezeTurn == 2 then
+            if cell.isFrozen and turnCounter - freezeTurn == 3 then
                 cell.isFrozen = false
             end
         
