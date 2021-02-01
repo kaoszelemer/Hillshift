@@ -59,22 +59,32 @@ local function endTurn()
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
+    local occupyCell
 
+
+        ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
     for index, row in ipairs(boardGrid) do
         for _, cell in ipairs(row) do
 
-            if cell.isPoisoned and turnCounter - poisoningTurn == 3 then
+            if cell.isPoisoned and turnCounter - poisoningTurn == 2 then
                 cell.isPoisoned = false
             end
 
             if cell.isOnFire and turnCounter - fireTurn == 2 then
                cell.isOnFire = false
             end
+
+            if cell.isFrozen and turnCounter - freezeTurn == 2 then
+                cell.isFrozen = false
+            end
         
             if cell.isOnFire and cell:instanceOf(Forest) then
                 if cell.isOccupied then occupyCell = true end
                 boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
-                if occupyCell then boardGrid[cell.x][cell.y].isOccupied = true end
+                if occupyCell then 
+                    boardGrid[cell.x][cell.y].isOccupied = true
+                    occupyCell = false
+                end
                 cell.isOnFire = false
             end
 
@@ -82,37 +92,40 @@ local function endTurn()
     end
 
   
+        ----------- EZ TÖRTÉNIK AZ INAKTÍVPLAYERREL (MERT Ő VOLT A RÉGI JÁTÉKOS) ------------------
 
-    for _, currentChar in ipairs(activePlayer.characters) do
+    for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.stepPoints = 1
         currentChar.actionPoints = 1
         local cell = boardGrid[currentChar.x][currentChar.y]
 
-       
-
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
             currentChar.baseHP = currentChar.baseHP - 2
         elseif cell.isPoisoned then
-            currentChar.baseDefense = currentChar.baseDefense - 1
-            currentChar.baseAttack = currentChar.baseAttack - 1
+            currentChar.baseDefense = cell.defenseModifier - 3
+            currentChar.baseAttack = cell.attackModifier - 1
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
-
         if currentChar.baseHP <= 0 then currentChar:kill() end
+      
     end
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
+
+            ----------- EZ TÖRTÉNIK AZ AKTÍVPLAYERREL MERT Ő AZ ÚJ JÁTÉKOS ------------------
+
+
+    for _, currentChar in ipairs(activePlayer.characters) do
         local cell = boardGrid[currentChar.x][currentChar.y]
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
             currentChar.baseHP = currentChar.baseHP - 2
         elseif cell.isPoisoned then
-            currentChar.baseDefense = currentChar.baseDefense - 1
-            currentChar.baseAttack = currentChar.baseAttack - 1
+            cell.defenseModifier = cell.defenseModifier - 3
+            cell.attackModifier  = cell.attackModifier - 1
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
@@ -182,7 +195,7 @@ function love.mousereleased(x, y, button, istouch, presses)
     local my = math.floor((mouseY / tileH) - offsetY / tileH)
     -- itt meghivom mindenkepp a cella klikkejt akkor is ha nem oda kattintok, ezt majd ki kell javitani
 
-    if (mx < 10 and mx > 1) and (my < 10 and my > 1) then
+    if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
         boardGrid[mx][my]:click()
     end
 

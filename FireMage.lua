@@ -5,6 +5,8 @@ local FireMage = Character:extend("FireMage")
     end
 
 function FireMage:spell(targetCell)
+
+
  if self.actionPoints ~= 0 then
     if  (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
 
