@@ -235,9 +235,7 @@ end
 
 
 function Character:defend(cell)
-    print("defending")
-    if self.isInDefenseState and self.actionPoints ~= 0 and self.isHovered then
-        
+    if self.isInDefenseState and self.actionPoints ~= 0 and self.isHovered then   
         cell.defenseModifier = cell.defenseModifier + 2
         self.actionPoints = 0
         self.stepPoints = 0
