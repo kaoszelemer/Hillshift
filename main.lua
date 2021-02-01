@@ -47,6 +47,8 @@ mouseX, mouseY = love.mouse.getPosition()
 font = love.graphics.newFont(32)
 love.graphics.setFont(font)
 statFont = love.graphics.newFont(12)
+pointFont = love.graphics.newFont(16)
+littleFont = love.graphics.newFont(8)
 
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
@@ -68,6 +70,8 @@ local function endTurn()
 
             if cell.isPoisoned and turnCounter - poisoningTurn == 2 then
                 cell.isPoisoned = false
+                cell.defenseModifier = cell.defenseModifier + 3
+                cell.attackModifier = cell.attackModifier + 1
             end
 
             if cell.isOnFire and turnCounter - fireTurn == 2 then
@@ -90,7 +94,6 @@ local function endTurn()
 
         end
     end
-
   
         ----------- EZ TÖRTÉNIK AZ INAKTÍVPLAYERREL (MERT Ő VOLT A RÉGI JÁTÉKOS) ------------------
 
@@ -104,8 +107,8 @@ local function endTurn()
         elseif cell.isOnFire then
             currentChar.baseHP = currentChar.baseHP - 2
         elseif cell.isPoisoned then
-            currentChar.baseDefense = cell.defenseModifier - 3
-            currentChar.baseAttack = cell.attackModifier - 1
+            cell.defenseModifier = cell.defenseModifier - 3
+            cell.attackModifier = cell.attackModifier - 1
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
@@ -199,8 +202,8 @@ function love.mousereleased(x, y, button, istouch, presses)
         boardGrid[mx][my]:click()
     end
 
-    if (x > 10 and x < 74) and (y > 500 and y < 564) then
-        
+    if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
+        isEndTurnButtonClicked = true
         endTurn()
 
     end
