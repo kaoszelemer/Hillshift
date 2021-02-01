@@ -25,7 +25,7 @@ function AirElemental:spell(targetCell)
                 end
         
                 if (self.x - 2 > 0 and self.y - 2 > 0) and boardGrid[self.x - 1][self.y - 1].isOccupied and not boardGrid[self.x - 2][self.y - 2].occupiedBy then
-                        boardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints = oardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints + 1
+                        boardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints = boardGrid[self.x - 1][self.y - 1].occupiedBy.stepPoints + 1
                         boardGrid[self.x - 1][self.y - 1].occupiedBy:move(self.x - 2, self.y - 2)
                         
                 end
