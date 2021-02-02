@@ -6,10 +6,6 @@ local Druid = Character:extend("Druid")
 
     function Druid:spell(targetCell)
         if self.actionPoints ~= 0 then
-        local occupyFirstCell
-        local occupySecondCell
-        local occupyThirdCell
-        local occupyFourthCell
         
         local burnFirstCell
         local burnSecondCell
@@ -32,17 +28,12 @@ local Druid = Character:extend("Druid")
 
             if self.y - 1 > 0 then
 
-                if boardGrid[self.x][self.y - 1].isOccupied == true then  occupyFirstCell = true end
                 if boardGrid[self.x][self.y - 1].isOnFire == true then  burnFirstCell = true end
                 if boardGrid[self.x][self.y - 1].isPoisoned == true then poisonFirstCell = true end
                 if boardGrid[self.x][self.y - 1].isFrozen == true then freezeFirstCell = true end
                
                     boardGrid[self.x][self.y - 1] = Forest(self.x, self.y - 1)
                       
-                if occupyFirstCell == true then 
-                    boardGrid[self.x][self.y - 1].isOccupied = true
-                    occupyFirstCell = false 
-                end
             
                 if burnFirstCell == true then 
                     boardGrid[self.x][self.y - 1].isOnFire = true
@@ -60,19 +51,15 @@ local Druid = Character:extend("Druid")
                 end
             end
             
-            if self.y + 1 < 10 then
+            if self.y + 1 <= 10 then
 
-                if boardGrid[self.x][self.y + 1].isOccupied == true then  occupySecondCell = true end
                 if boardGrid[self.x][self.y + 1].isOnFire == true then  burnSecondCell = true end
                 if boardGrid[self.x][self.y + 1].isPoisoned == true then poisonSecondCell = true end
                 if boardGrid[self.x][self.y + 1].isFrozen == true then freezeSecondCell = true end
                
                     boardGrid[self.x][self.y + 1] = Forest(self.x, self.y + 1)
                       
-                if occupySecondCell == true then 
-                    boardGrid[self.x][self.y + 1].isOccupied = true
-                    occupySecondCell = false 
-                end
+              
             
                 if burnSecondCell == true then 
                     boardGrid[self.x][self.y + 1].isOnFire = true
@@ -92,17 +79,13 @@ local Druid = Character:extend("Druid")
 
             if self.x - 1 > 0 then
 
-                if boardGrid[self.x - 1][self.y].isOccupied == true then  occupyThirdCell = true end
                 if boardGrid[self.x - 1][self.y].isOnFire == true then  burnThirdCell = true end
                 if boardGrid[self.x - 1][self.y].isPoisoned == true then poisonThirdCell = true end
                 if boardGrid[self.x - 1][self.y].isFrozen == true then freezeThirdCell = true end
                
                     boardGrid[self.x - 1][self.y] = Forest(self.x - 1, self.y)
                       
-                if occupyThirdCell == true then 
-                    boardGrid[self.x - 1][self.y].isOccupied = true
-                    occupyThirdCell = false 
-                end
+              
             
                 if burnThirdCell == true then 
                     boardGrid[self.x - 1][self.y].isOnFire = true
@@ -122,17 +105,11 @@ local Druid = Character:extend("Druid")
 
             if self.x + 1 <= 10 then
 
-                if boardGrid[self.x + 1][self.y].isOccupied == true then  occupyFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isOnFire == true then  burnFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isPoisoned == true then poisonFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isFrozen == true then freezeFourthCell = true end
                
                     boardGrid[self.x + 1][self.y] = Forest(self.x + 1, self.y)
-                      
-                if occupyFourthCell == true then 
-                    boardGrid[self.x + 1][self.y].isOccupied = true
-                    occupyFourthCell = false 
-                end
             
                 if burnFourthCell == true then 
                     boardGrid[self.x + 1][self.y].isOnFire = true

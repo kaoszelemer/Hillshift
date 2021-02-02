@@ -82,7 +82,33 @@ local function initPlayerDeck(player)
 
 end
 
+local function testBoardForOccupy(activeplayer, inactiveplayer)
 
+    for x = 1, 10 do
+        for y = 1, 10 do
+
+            for index, currentChar in ipairs(activeplayer.characters) do
+                if boardGrid[x][y].x == currentChar.x and boardGrid[x][y].y == currentChar.y then
+                        boardGrid[x][y].isOccupied = true
+                        boardGrid[x][y].occupiedBy = currentChar
+                end
+            end
+
+
+            for index, currentChar in ipairs(inactiveplayer.characters) do
+                if boardGrid[x][y].x == currentChar.x and boardGrid[x][y].y == currentChar.y then
+                    boardGrid[x][y].isOccupied = true
+                    boardGrid[x][y].occupiedBy = currentChar
+                end
+            end
+
+
+            
+        end
+    end
+
+
+end
 
 function getDiceRoll()
    local diceRoll = love.math.random(1, 6)
@@ -377,6 +403,7 @@ local function drawBoardGrid()
     end
 end
 
+
 local function drawEndTurnButton()
 
 
@@ -455,6 +482,8 @@ function board:update(dt)
     if drawAttack and love.timer.getTime() - timerStart >= timerStop then
         drawAttack = false
     end
+
+    testBoardForOccupy(activePlayer, inactivePlayer)
 
 end
 

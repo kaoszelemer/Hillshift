@@ -61,8 +61,6 @@ local function endTurn()
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
-    local occupyCell
-
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
     for index, row in ipairs(boardGrid) do
@@ -83,12 +81,7 @@ local function endTurn()
             end
         
             if cell.isOnFire and cell:instanceOf(Forest) then
-                if cell.isOccupied then occupyCell = true end
                 boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
-                if occupyCell then 
-                    boardGrid[cell.x][cell.y].isOccupied = true
-                    occupyCell = false
-                end
                 cell.isOnFire = false
             end
 
