@@ -15,6 +15,8 @@ IceWizard = require('classes.characters.IceWizard')
 AirElemental = require('classes.characters.AirElemental')
 Alchemist = require('classes.characters.Alchemist')
 FireMage = require('classes.characters.FireMage')
+Event = require('classes.events.Event')
+Event001 = require('classes.events.Event001')
 
 require ('board')
 
@@ -29,8 +31,9 @@ offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 
 statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
-
+-- counters
 turnCounter = 0
+stepCounter = 0
 
 --karakterek valtozoi
 charColor = {1, 1, 1}

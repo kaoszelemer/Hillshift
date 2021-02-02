@@ -1,6 +1,6 @@
 local Event = class("Event")
 
-function Cell:init(x, y, backgroundImage, image, name, id, flavorText, text, isGood)
+function Event:init(x, y, backgroundImage, image, name, id, flavorText, text, isGood)
     self.x = x
     self.y = y
     self.backgroundImage = backgroundImage
@@ -11,5 +11,6 @@ function Cell:init(x, y, backgroundImage, image, name, id, flavorText, text, isG
     text = text
     self.isGood = isGood
 end
+
 
 return Event
