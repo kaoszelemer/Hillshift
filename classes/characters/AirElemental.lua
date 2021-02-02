@@ -147,14 +147,14 @@ function AirElemental:spell(targetCell)
 
         if self.x + fireSpread <= 10 and self.y + fireSpread <= 10 then
             if boardGrid[self.x + 1][self.y + 1].isOnFire then
-                if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
-                    boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
+                if not boardGrid[self.x + fireSpread][self.y + fireSpread]:instanceOf(Lake) then
+                    boardGrid[self.x + fireSpread][self.y + fireSpread].isOnFire = true
                 end 
-                if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
-                    boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y + fireSpread)
+                if boardGrid[self.x + fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
+                    boardGrid[self.x + fireSpread][self.y + fireSpread] = Field(self.x + fireSpread, self.y + fireSpread)
                 end
-                if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Ice) then 
-                    boardGrid[self.x + fireSpread][self.y - fireSpread] = Lake(self.x + fireSpread, self.y + fireSpread)
+                if boardGrid[self.x + fireSpread][self.y + fireSpread]:instanceOf(Ice) then 
+                    boardGrid[self.x + fireSpread][self.y + fireSpread] = Lake(self.x + fireSpread, self.y + fireSpread)
                 end
             end
         end
