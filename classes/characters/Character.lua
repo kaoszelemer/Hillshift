@@ -229,7 +229,7 @@ function Character:move(x, y)
             boardGrid[self.x][self.y].isOccupied = true
             boardGrid[self.x][self.y].occupiedBy = self
             self.stepPoints = self.stepPoints - 1
-            stepCounter = stepCounter + 1
+
     end
    
 end

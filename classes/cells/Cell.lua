@@ -15,6 +15,8 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
             if selectedChar.x + ox == self.x and
                 selectedChar.y + oy == self.y then
                 selectedChar:move(self.x, self.y)
+                stepCounter = stepCounter + 1
+                if stepCounter == 6 then stepCounter = 1 end
             end
     end
       
@@ -30,9 +32,16 @@ function Cell:click()
             for y = -1, 1 do
                if x ~= 0 or y ~= 0 then 
                     self:moveSelectedCharIfValidOffset(x, y)
-               end
+                end
+            
             end
         end
+
+                    local eventDice = getDiceRoll()
+                    print(stepCounter .. "-" .. eventDice)
+                    if stepCounter == eventDice then
+                        Event:enableEvent()
+                    end
         
         board:resetAllCharacterStates(playerOne, playerTwo)
     end

@@ -27,9 +27,16 @@ fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
 validAttackImage = love.graphics.newImage("graphics/validattack.png")
 validStepImage = love.graphics.newImage("graphics/validstep.png")
 validSpellImage = love.graphics.newImage("graphics/validspell.png")
---
+--Endturn button
 endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
 endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicked.png")
+--Event UI
+eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
+
+
+
+
+
 --1a. a tileset változói
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --2, a cella típusuk definiálása a quadokból   
@@ -416,6 +423,15 @@ local function drawEndTurnButton()
 
 end
 
+local function drawEventOnBoard()
+
+        Event:drawCurrentEvent()
+end
+
+function drawEventOnBackground()
+        Event001:drawEventStuff()
+end
+
 function enableDrawAttack(character, enemy)
 
     drawAttack = true
@@ -499,7 +515,11 @@ function board:draw()
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
-  
+
+
+    -----EVENT RAJZOLÁS
+    drawEventOnBoard()
+    drawEventOnBackground()
 
  
     -- for debugging:

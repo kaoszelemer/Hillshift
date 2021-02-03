@@ -59,6 +59,10 @@ mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 --aktualis kijelolt karakter
 selectedChar = nil
 
+--event tábla
+
+eventTable = {}
+
 local function endTurn()
     turnCounter = turnCounter + 1
     oldPlayer = activePlayer
@@ -141,6 +145,7 @@ end
 function love.load()
     --board betoltese
     board:load()
+    Event:initEventTable()
     activePlayer = playerOne
     inactivePlayer = playerTwo
     --beallitasok
@@ -203,8 +208,17 @@ function love.mousereleased(x, y, button, istouch, presses)
     if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
       --  isEndTurnButtonClicked = true
         endTurn()
-
     end
+
+print((width / 4 + offsetX) + 302)
+    if  --enableEvent == true and
+        x > (width / 4 + offsetX) + 250 and x < (width / 4 + offsetX) + 302 and
+        y > (height / 4 + offsetY) + 260 and y < ((height / 4 + offsetY) + 310) then
+            print("confirm")
+            Event:confirmEventWithClick()
+            
+    end
+
     
 
 end
