@@ -130,6 +130,16 @@ local function drawCharactersOnBoard(player)
 
 end
 
+local function drawStepCounterAndEventDice()
+
+    if stepCounter > 0 then
+        love.graphics.setFont(statFont)
+        love.graphics.print("Event closing in:", width / 2 - 50, 30)
+        love.graphics.print("StepCounter: " .. stepCounter .. " - " .. "Event Dice:" .. eventDice, width / 2 - 100, 50)
+    end
+
+end
+
 local function drawStatsOnSideBarPlayerOne(playerone)
     local pxp = width / 6
 
@@ -520,6 +530,7 @@ function board:draw()
     -----EVENT RAJZOLÁS
     drawEventOnBoard()
     drawEventOnBackground()
+    drawStepCounterAndEventDice()
 
  
     -- for debugging:

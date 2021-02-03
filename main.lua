@@ -17,6 +17,21 @@ Alchemist = require('classes.characters.Alchemist')
 FireMage = require('classes.characters.FireMage')
 Event = require('classes.events.Event')
 Event001 = require('classes.events.Event001')
+Event002 = require('classes.events.Event002')
+Event003 = require('classes.events.Event003')
+Event004 = require('classes.events.Event004')
+Event005 = require('classes.events.Event005')
+Event006 = require('classes.events.Event006')
+Event007 = require('classes.events.Event007')
+Event008 = require('classes.events.Event008')
+Event009 = require('classes.events.Event009')
+Event010 = require('classes.events.Event010')
+Event011 = require('classes.events.Event011')
+Event012 = require('classes.events.Event012')
+Event013 = require('classes.events.Event013')
+Event014 = require('classes.events.Event014')
+
+
 
 require ('board')
 
@@ -33,7 +48,7 @@ statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
-stepCounter = 0
+stepCounter = -10 -- hogy az elején ne dobjon egyből eventet
 
 --karakterek valtozoi
 charColor = {1, 1, 1}
@@ -210,11 +225,9 @@ function love.mousereleased(x, y, button, istouch, presses)
         endTurn()
     end
 
-print((width / 4 + offsetX) + 302)
     if  --enableEvent == true and
         x > (width / 4 + offsetX) + 250 and x < (width / 4 + offsetX) + 302 and
         y > (height / 4 + offsetY) + 260 and y < ((height / 4 + offsetY) + 310) then
-            print("confirm")
             Event:confirmEventWithClick()
             
     end

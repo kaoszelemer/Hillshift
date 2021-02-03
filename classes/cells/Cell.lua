@@ -37,10 +37,11 @@ function Cell:click()
             end
         end
 
-                    local eventDice = getDiceRoll()
+                    eventDice = getDiceRoll()
                     print(stepCounter .. "-" .. eventDice)
                     if stepCounter == eventDice then
                         Event:enableEvent()
+                        stepCounter = -10
                     end
         
         board:resetAllCharacterStates(playerOne, playerTwo)
