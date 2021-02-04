@@ -2,7 +2,7 @@ local Event011 = Event:extend("Event011")
 
 function Event011:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event011image.png"),
         "Purity",
         11,
         "... use handcrafted soap only ...",

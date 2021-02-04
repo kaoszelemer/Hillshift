@@ -2,7 +2,7 @@ local Event005 = Event:extend("Event005")
 
 function Event005:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event005image.png"),
         "Sudden Death",
         5,
         "... sometimes it's too quick ...",

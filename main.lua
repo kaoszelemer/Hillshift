@@ -48,7 +48,8 @@ statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
-stepCounter = -10 -- hogy az elején ne dobjon egyből eventet
+nextTurnBeforeEvent = love.math.random(10, 20)
+stepCounter = 0 - nextTurnBeforeEvent -- hogy az elején ne dobjon egyből eventet
 
 --karakterek valtozoi
 charColor = {1, 1, 1}

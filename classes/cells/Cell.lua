@@ -41,7 +41,7 @@ function Cell:click()
                     print(stepCounter .. "-" .. eventDice)
                     if stepCounter == eventDice then
                         Event:enableEvent()
-                        stepCounter = -10
+                        stepCounter = 0 - nextTurnBeforeEvent
                     end
         
         board:resetAllCharacterStates(playerOne, playerTwo)

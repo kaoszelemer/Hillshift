@@ -2,7 +2,7 @@ local Event014 = Event:extend("Event014")
 
 function Event014:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event014image.png"),
         "Teleport",
         14,
         "... when you drink so much ...",
@@ -15,7 +15,7 @@ end
 function Event014:drawEventStuff()
 if self.enableDraw then
         love.graphics.setFont(statFont)
-        love.graphics.draw(self.image, width / 4 + offsetX + 76, height / 4 + offsetY + 110)
+        love.graphics.draw(self.image, width / 4 + offsetX + 56, height / 4 + offsetY + 90)
         love.graphics.print(self.name, width / 4 + offsetX + 56, height / 4 + offsetY + 26)
         love.graphics.print(self.id, width / 4 + offsetX + 270, height / 4 + offsetY + 26)
         love.graphics.print(self.flavorText, width / 4 + offsetX + 38, height / 4 + offsetY + 276)

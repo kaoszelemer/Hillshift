@@ -2,7 +2,7 @@ local Event006 = Event:extend("Event006")
 
 function Event006:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event006image.png"),
         "Ice Age",
         6,
         "... brr, i'm freezing ...",

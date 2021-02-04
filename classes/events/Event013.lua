@@ -2,7 +2,7 @@ local Event013 = Event:extend("Event013")
 
 function Event013:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event013image.png"),
         "Sickness",
         13,
         "... thats like 2020 ...",

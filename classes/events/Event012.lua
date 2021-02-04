@@ -2,7 +2,7 @@ local Event012 = Event:extend("Event012")
 
 function Event012:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event012image.png"),
         "Great Weakening",
         12,
         "... now you can't flex ...",

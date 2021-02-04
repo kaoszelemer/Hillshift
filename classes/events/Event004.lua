@@ -2,7 +2,7 @@ local Event004 = Event:extend("Event004")
 
 function Event004:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event004image.png"),
         "World Peace",
         4,
         "...Gandhi would be proud...",

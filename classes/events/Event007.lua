@@ -2,7 +2,7 @@ local Event007 = Event:extend("Event007")
 
 function Event007:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/event001image.png"),
+        love.graphics.newImage("/graphics/event002image.png"),
         "Healer Born",
         7,
         "... and he loves you ...",
