@@ -2,7 +2,7 @@ local Event043 = Event:extend("Event043")
 
 function Event043:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event043image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Better Chance",
         43,
         "... do not open lootboxes ...",
@@ -28,18 +28,22 @@ end
 function Event043:eventFunction()
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
+    for x = 1, 10 do
+        for y = 1,10 do
+            for _, currentChar in ipairs(activePlayer.characters) do
+                if boardGrid[x][y].occupiedBy == boardGrid[x][y].currentChar then
+                    boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 2
+                    boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 1
+                end
+            end
+            for _, currentChar in ipairs(inactivePlayer.characters) do
+                if boardGrid[x][y].occupiedBy == boardGrid[x][y].currentChar then
+                    boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 2
+                    boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 1
+                end
+            end
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        end
     end
 
 

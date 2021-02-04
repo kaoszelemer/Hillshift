@@ -2,7 +2,7 @@ local Event055 = Event:extend("Event055")
 
 function Event055:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event055image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Spilled Poison",
         55,
         "... safety glasses are mandatory ...",
@@ -28,18 +28,10 @@ end
 function Event055:eventFunction()
 
 
+  
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        boardGrid[currentChar.x][currentChar.y].isPoisoned = true
+        poisoningTurn = turnCounter
     end
 
 

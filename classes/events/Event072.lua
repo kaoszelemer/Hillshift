@@ -2,7 +2,7 @@ local Event072 = Event:extend("Event072")
 
 function Event072:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event072image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Timeslip",
         72,
         "... never understood timezones ...",
@@ -27,20 +27,11 @@ end
 
 function Event072:eventFunction()
 
+ 
+  fireTurn = fireTurn - 1
+  poisoningTurn = poisoningTurn - 1
+  freezeTurn = freezeTurn - 1
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
 
 
 end

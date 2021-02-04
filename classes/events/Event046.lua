@@ -2,11 +2,11 @@ local Event046 = Event:extend("Event046")
 
 function Event046:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event046image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Longevity",
         46,
         "... now it will take longer, or not? ...",
-        "10*HP, 10*DF, 10*AT",
+        "10*HP, 2*DF, 10AT",
         1
     )
 end
@@ -29,17 +29,32 @@ function Event046:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        currentChar.baseHP = currentChar.baseHP * 10
+        if currentChar.baseAttack <= 0 then
+            currentChar.baseAttack = 1
+        end
+
+        if currentChar.baseDefense <= 0 then
+            currentChar.baseDefense = 1
+        end
+
+        currentChar.baseAttack = 10
+        currentChar.baseDefense = currentChar.baseDefense * 2
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        currentChar.baseHP = currentChar.baseHP * 10
+        if currentChar.baseAttack <= 0 then
+            currentChar.baseAttack = 1
+        end
+
+        if currentChar.baseDefense <= 0 then
+            currentChar.baseDefense = 1
+        end
+
+        currentChar.baseAttack = 10
+        currentChar.baseDefense = currentChar.baseDefense * 2
+      
     end
 
 

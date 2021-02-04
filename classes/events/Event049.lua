@@ -2,7 +2,7 @@ local Event049 = Event:extend("Event049")
 
 function Event049:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event049image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Coordinate Geometry",
         49,
         "... was that an X or a Y ...",
@@ -29,17 +29,13 @@ function Event049:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
         currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        currentChar:move(currentChar.y, currentChar.x)
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
         currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        currentChar:move(currentChar.y, currentChar.x)
     end
 
 

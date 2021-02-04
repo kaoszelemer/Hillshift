@@ -2,7 +2,7 @@ local Event045 = Event:extend("Event045")
 
 function Event045:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event045image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Nasty Wormholes",
         45,
         "... couldn't you find a more disgusting name ...",
@@ -27,13 +27,6 @@ end
 
 function Event045:eventFunction()
 
-
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         local rndCellX = love.math.random(1,10)

@@ -2,7 +2,7 @@ local Event053 = Event:extend("Event053")
 
 function Event053:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event053image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Backfire",
         53,
         "... my hands ...",
@@ -29,17 +29,8 @@ function Event053:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        boardGrid[currentChar.x][currentChar.y].isOnFire = true
+        fireTurn = turnCounter
     end
 
 

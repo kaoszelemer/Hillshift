@@ -2,7 +2,7 @@ local Event056 = Event:extend("Event056")
 
 function Event056:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event056image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Pool Building",
         56,
         "... we gonna need some rubber boots ...",
@@ -29,17 +29,7 @@ function Event056:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        boardGrid[currentChar.x][currentChar.y] = Lake(currentChar.x, currentChar.y)
     end
 
 

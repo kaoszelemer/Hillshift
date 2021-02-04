@@ -56,7 +56,7 @@ Event037 = require('classes.events.Event037')
 Event038 = require('classes.events.Event038')
 Event039 = require('classes.events.Event039')
 Event040 = require('classes.events.Event040')
---[[ Event041 = require('classes.events.Event041')
+Event041 = require('classes.events.Event041')
 Event042 = require('classes.events.Event042')
 Event043 = require('classes.events.Event043')
 Event044 = require('classes.events.Event044')
@@ -91,7 +91,7 @@ Event072 = require('classes.events.Event072')
 Event073 = require('classes.events.Event073')
 Event074 = require('classes.events.Event074')
 Event075 = require('classes.events.Event075')
- ]]
+
 
 
 require ('board')
@@ -110,7 +110,10 @@ actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
 nextTurnBeforeEvent = love.math.random(10, 20)
-stepCounter = 0 -- nextTurnBeforeEvent -- hogy az elején ne dobjon egyből eventet
+stepCounter = 0 - nextTurnBeforeEvent -- hogy az elején ne dobjon egyből eventet
+fireTurn = 0
+poisoningTurn = 0
+freezeTurn = 0
 
 --karakterek valtozoi
 charColor = {1, 1, 1}

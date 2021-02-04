@@ -2,7 +2,7 @@ local Event047 = Event:extend("Event047")
 
 function Event047:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event047image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Quickness",
         47,
         "... you should finish this ...",
@@ -29,17 +29,11 @@ function Event047:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        currentChar.baseHP = 1
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        currentChar.baseHP = 1
     end
 
 

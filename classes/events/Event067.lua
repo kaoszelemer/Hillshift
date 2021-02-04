@@ -2,11 +2,11 @@ local Event067 = Event:extend("Event067")
 
 function Event067:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event067image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Landslide",
         67,
         "... tony howk's pro slider ...",
-        "all Cells slide x+1",
+        "all Cells are Mounts",
         1
     )
 end
@@ -26,21 +26,18 @@ end
 end
 
 function Event067:eventFunction()
+local newX
+local newY
+    for x = 1, 10 do
+        for y = 1, 10 do
+            oldx = boardGrid[x][y].x
 
+            boardGrid[x][y] = Mount(x, y)
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        end
     end
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
+  
 
 
 end

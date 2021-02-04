@@ -2,7 +2,7 @@ local Event070 = Event:extend("Event070")
 
 function Event070:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event070image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Energy Boost",
         70,
         "... Blue Cow gives you wings ...",
@@ -27,20 +27,17 @@ end
 
 function Event070:eventFunction()
 
+    local randomChar = love.math.random(1, #activePlayer.characters)
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+
+    for i, currentChar in ipairs(activePlayer.characters) do
+        if i == randomChar then
+            currentChar.stepPoints = currentChar.stepPoints + 1
+            currentChar.actionPoints = currentChar.actionPoints + 1
+
+        end
     end
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
 
 
 end
