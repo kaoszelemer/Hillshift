@@ -2,7 +2,7 @@ local Event031 = Event:extend("Event031")
 
 function Event031:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event031image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Great Earthquake",
         31,
         "... we are in Japan ...",
@@ -28,19 +28,16 @@ end
 function Event031:eventFunction()
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+    for x = 1, 10  do
+        for y = 1,10 do
+
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+
+                boardGrid[rndCellX][rndCellY] = Mount(rndCellX, rndCellY)
+        end
     end
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
 
 
 end

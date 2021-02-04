@@ -30,68 +30,68 @@ Event011 = require('classes.events.Event011')
 Event012 = require('classes.events.Event012')
 Event013 = require('classes.events.Event013')
 Event014 = require('classes.events.Event014')
-Event001 = require('classes.events.Event015')
-Event006 = require('classes.events.Event016')
-Event007 = require('classes.events.Event017')
-Event008 = require('classes.events.Event018')
-Event009 = require('classes.events.Event019')
-Event010 = require('classes.events.Event020')
-Event001 = require('classes.events.Event021')
-Event002 = require('classes.events.Event022')
-Event003 = require('classes.events.Event023')
-Event004 = require('classes.events.Event024')
-Event005 = require('classes.events.Event025')
-Event006 = require('classes.events.Event026')
-Event007 = require('classes.events.Event027')
-Event008 = require('classes.events.Event028')
-Event009 = require('classes.events.Event029')
-Event010 = require('classes.events.Event030')
-Event001 = require('classes.events.Event031')
-Event002 = require('classes.events.Event032')
-Event003 = require('classes.events.Event033')
-Event004 = require('classes.events.Event034')
-Event005 = require('classes.events.Event035')
-Event006 = require('classes.events.Event036')
-Event007 = require('classes.events.Event037')
-Event008 = require('classes.events.Event038')
-Event009 = require('classes.events.Event039')
-Event010 = require('classes.events.Event040')
-Event001 = require('classes.events.Event041')
-Event002 = require('classes.events.Event042')
-Event003 = require('classes.events.Event043')
-Event004 = require('classes.events.Event044')
-Event005 = require('classes.events.Event045')
-Event006 = require('classes.events.Event046')
-Event007 = require('classes.events.Event047')
-Event008 = require('classes.events.Event048')
-Event009 = require('classes.events.Event049')
-Event010 = require('classes.events.Event050')
-Event001 = require('classes.events.Event051')
-Event002 = require('classes.events.Event052')
-Event003 = require('classes.events.Event053')
-Event004 = require('classes.events.Event054')
-Event005 = require('classes.events.Event055')
-Event006 = require('classes.events.Event056')
-Event007 = require('classes.events.Event057')
-Event008 = require('classes.events.Event058')
-Event009 = require('classes.events.Event059')
-Event010 = require('classes.events.Event060')
-Event001 = require('classes.events.Event061')
-Event002 = require('classes.events.Event062')
-Event003 = require('classes.events.Event063')
-Event004 = require('classes.events.Event064')
-Event005 = require('classes.events.Event065')
-Event006 = require('classes.events.Event066')
-Event007 = require('classes.events.Event067')
-Event008 = require('classes.events.Event068')
-Event009 = require('classes.events.Event069')
-Event010 = require('classes.events.Event070')
-Event001 = require('classes.events.Event071')
-Event002 = require('classes.events.Event072')
-Event003 = require('classes.events.Event073')
-Event004 = require('classes.events.Event074')
-Event005 = require('classes.events.Event075')
-
+Event015 = require('classes.events.Event015')
+Event016 = require('classes.events.Event016')
+Event017 = require('classes.events.Event017')
+Event018 = require('classes.events.Event018')
+Event019 = require('classes.events.Event019')
+Event020 = require('classes.events.Event020')
+Event021 = require('classes.events.Event021')
+Event022 = require('classes.events.Event022')
+Event023 = require('classes.events.Event023')
+Event024 = require('classes.events.Event024')
+Event025 = require('classes.events.Event025')
+Event026 = require('classes.events.Event026')
+Event027 = require('classes.events.Event027')
+Event028 = require('classes.events.Event028')
+Event029 = require('classes.events.Event029')
+Event030 = require('classes.events.Event030')
+Event031 = require('classes.events.Event031')
+Event032 = require('classes.events.Event032')
+Event033 = require('classes.events.Event033')
+Event034 = require('classes.events.Event034')
+Event035 = require('classes.events.Event035')
+Event036 = require('classes.events.Event036')
+Event037 = require('classes.events.Event037')
+Event038 = require('classes.events.Event038')
+Event039 = require('classes.events.Event039')
+Event040 = require('classes.events.Event040')
+--[[ Event041 = require('classes.events.Event041')
+Event042 = require('classes.events.Event042')
+Event043 = require('classes.events.Event043')
+Event044 = require('classes.events.Event044')
+Event045 = require('classes.events.Event045')
+Event046 = require('classes.events.Event046')
+Event047 = require('classes.events.Event047')
+Event048 = require('classes.events.Event048')
+Event049 = require('classes.events.Event049')
+Event050 = require('classes.events.Event050')
+Event051 = require('classes.events.Event051')
+Event052 = require('classes.events.Event052')
+Event053 = require('classes.events.Event053')
+Event054 = require('classes.events.Event054')
+Event055 = require('classes.events.Event055')
+Event056 = require('classes.events.Event056')
+Event057 = require('classes.events.Event057')
+Event058 = require('classes.events.Event058')
+Event059 = require('classes.events.Event059')
+Event060 = require('classes.events.Event060')
+Event061 = require('classes.events.Event061')
+Event062 = require('classes.events.Event062')
+Event063 = require('classes.events.Event063')
+Event064 = require('classes.events.Event064')
+Event065 = require('classes.events.Event065')
+Event066 = require('classes.events.Event066')
+Event067 = require('classes.events.Event067')
+Event068 = require('classes.events.Event068')
+Event069 = require('classes.events.Event069')
+Event070 = require('classes.events.Event070')
+Event071 = require('classes.events.Event071')
+Event072 = require('classes.events.Event072')
+Event073 = require('classes.events.Event073')
+Event074 = require('classes.events.Event074')
+Event075 = require('classes.events.Event075')
+ ]]
 
 
 require ('board')
@@ -110,7 +110,7 @@ actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
 nextTurnBeforeEvent = love.math.random(10, 20)
-stepCounter = 0 - nextTurnBeforeEvent -- hogy az elején ne dobjon egyből eventet
+stepCounter = 0 -- nextTurnBeforeEvent -- hogy az elején ne dobjon egyből eventet
 
 --karakterek valtozoi
 charColor = {1, 1, 1}
@@ -179,6 +179,14 @@ local function endTurn()
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.stepPoints = 1
         currentChar.actionPoints = 1
+        if currentChar.stepPointModify then 
+            currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
+            currentChar.stepPointModify = false
+        end
+        if currentChar.actionPointModify then 
+            currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
+            currentChar.actionPointModify = false
+        end
         local cell = boardGrid[currentChar.x][currentChar.y]
 
         if cell.isFrozen then
@@ -200,6 +208,14 @@ local function endTurn()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
+        if currentChar.stepPointModify then 
+            currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
+            currentChar.stepPointModify = false
+        end
+        if currentChar.actionPointModify then 
+            currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
+            currentChar.actionPointModify = false
+        end
         local cell = boardGrid[currentChar.x][currentChar.y]
         if cell.isFrozen then
             currentChar.stepPoints = 0

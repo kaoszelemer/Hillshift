@@ -2,11 +2,11 @@ local Event020 = Event:extend("Event020")
 
 function Event020:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event020image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Ice Skate Park",
         20,
         "... i never knew how to do that ...",
-        "RND Lakes are ICE",
+        "ALL Lakes are ICE",
         1
     )
 end
@@ -29,9 +29,7 @@ function Event020:eventFunction()
 
     for x = 1, 10 do
         for y = 1,10 do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) end
+            if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Ice(x, y) end
         end
     end
     

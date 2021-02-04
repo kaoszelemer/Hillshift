@@ -2,7 +2,7 @@ local Event017 = Event:extend("Event017")
 
 function Event017:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event017image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Mushroom DNA",
         17,
         "... everywhere i step, there is a tree ...",

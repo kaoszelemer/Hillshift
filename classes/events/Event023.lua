@@ -2,7 +2,7 @@ local Event023 = Event:extend("Event023")
 
 function Event023:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event023image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Friendly Wormhole",
         23,
         "... where i am? ...",

@@ -37,7 +37,7 @@ function Cell:click()
             end
         end
 
-                    eventDice = getDiceRoll()
+                    eventDice = 1 --getDiceRoll()
                     print(stepCounter .. "-" .. eventDice)
                     if stepCounter == eventDice then
                         Event:enableEvent()

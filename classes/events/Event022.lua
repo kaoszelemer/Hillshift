@@ -2,7 +2,7 @@ local Event022 = Event:extend("Event022")
 
 function Event022:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event022image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Start Over",
         22,
         "... tabula rasa ...",
@@ -34,56 +34,36 @@ function Event022:eventFunction()
   freezeTurn = 0
   poisoningTurn = 0
 
-  for _, currentChar in ipairs(activePlayer.characters) do
-    currentChar.stepPoints = currentChar.stepPoints + 1
-    if currentChar.id == 1 then
-      currentChar:move(5, 1)
+  for i, currentChar in ipairs(playerOne.characters) do
+    if     i == 1 then currentChar:move(5, 1)
+    elseif i == 2 then currentChar:move(5, 2)
+    elseif i == 3 then currentChar:move(6, 1)
+    elseif i == 4 then currentChar:move(6, 2)
     end
-    if currentChar.id == 2 then
-      currentChar:move(5, 2)
-    end
-    if currentChar.id == 3 then
-      currentChar:move(6, 1)
-    end
-    if currentChar.id == 4 then
-      currentChar:move(6, 2)
-    end
+    currentChar.stepPoints = 1
+    currentChar.actionPoints = 1
+  end
 
-end
-
-for _, currentChar in ipairs(inactivePlayer.characters) do
-    currentChar.stepPoints = currentChar.stepPoints + 1
-
-    if currentChar.id == 1 then
-      currentChar:move(5, 9)
+for i, currentChar in ipairs(playerTwo.characters) do
+    if     i == 1 then currentChar:move(5, 9)
+    elseif i == 2 then currentChar:move(5, 10)
+    elseif i == 3 then currentChar:move(6, 9)
+    elseif i == 4 then currentChar:move(6, 10)
     end
-    if currentChar.id == 2 then
-      currentChar:move(5, 10)
-    end
-    if currentChar.id == 3 then
-      currentChar:move(6, 9)
-    end
-    if currentChar.id == 4 then
-      currentChar:move(6, 10)
-    end
+    currentChar.stepPoints = 1
+    currentChar.actionPoints = 1
 end
 
 for x = 1, 10 do
   for y = 1,10 do
       if boardGrid[x][y].isPoisoned then boardGrid[x][y].isPoisoned = false end
-        boardGrid[x][y].isOnFire then boardGrid[x][y].isOnFire = false end
-        boardGrid[x][y].isFrozen then boardGrid[x][y].isFrozen = false end
+      if  boardGrid[x][y].isOnFire then boardGrid[x][y].isOnFire = false end
+      if  boardGrid[x][y].isFrozen then boardGrid[x][y].isFrozen = false end
          
 
       
   end
 end
-  
-  
-
-    
-
-
 
 end
     

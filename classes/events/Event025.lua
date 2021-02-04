@@ -2,7 +2,7 @@ local Event025 = Event:extend("Event025")
 
 function Event025:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event025image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Deforesting",
         25,
         "... chop-chop ...",
@@ -32,7 +32,7 @@ function Event025:eventFunction()
         for y = 1,10 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
-            boardGrid[rndCellX][rndCellY]:instanceOf(Forest) = Field(rndCellX, rndCellY)
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
         end
     end
 

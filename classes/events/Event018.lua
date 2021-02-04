@@ -2,7 +2,7 @@ local Event018 = Event:extend("Event018")
 
 function Event018:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event018image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Flamethrower",
         18,
         "... MWHAHAHAHA ...",

@@ -2,7 +2,7 @@ local Event036 = Event:extend("Event036")
 
 function Event036:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event036image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Medium Foresting",
         36,
         "... the shadow of the trees are growing ...",
@@ -28,18 +28,15 @@ end
 function Event036:eventFunction()
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
+ 
+    for x = 1, 10, 2  do
+        for y = 1,10, 2 do
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+
+                boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
+        end
     end
 
 

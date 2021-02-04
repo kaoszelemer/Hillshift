@@ -2,7 +2,7 @@ local Event034 = Event:extend("Event034")
 
 function Event034:init()
     Event.init(self,
-        love.graphics.newImage("/graphics/Event034image.png"),
+        love.graphics.newImage("/graphics/Event014image.png"),
         "Great Flooding",
         34,
         "... no, i said thats enough water ...",
@@ -28,20 +28,16 @@ end
 function Event034:eventFunction()
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
+ 
+    for x = 1, 10  do
+        for y = 1,10 do
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
-    end
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
 
+                boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
+        end
+    end
 
 end
     
