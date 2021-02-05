@@ -28,23 +28,14 @@ end
 function Event043:eventFunction()
 
 
-    for x = 1, 10 do
-        for y = 1,10 do
             for _, currentChar in ipairs(activePlayer.characters) do
-                if boardGrid[x][y].occupiedBy == boardGrid[x][y].currentChar then
-                    boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 2
-                    boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 1
-                end
+                    boardGrid[currentChar.x][currentChar.y].attackModifier = boardGrid[currentChar.x][currentChar.y].attackModifier + 2
+                    boardGrid[currentChar.x][currentChar.y].defenseModifier = boardGrid[currentChar.x][currentChar.y].defenseModifier + 1
             end
             for _, currentChar in ipairs(inactivePlayer.characters) do
-                if boardGrid[x][y].occupiedBy == boardGrid[x][y].currentChar then
-                    boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 2
-                    boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 1
-                end
+                    boardGrid[currentChar.x][currentChar.y].attackModifier = boardGrid[currentChar.x][currentChar.y].attackModifier + 2
+                    boardGrid[currentChar.x][currentChar.y].defenseModifier = boardGrid[currentChar.x][currentChar.y].defenseModifier + 1
             end
-
-        end
-    end
 
 
 end

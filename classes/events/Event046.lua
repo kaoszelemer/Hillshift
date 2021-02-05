@@ -6,7 +6,7 @@ function Event046:init()
         "Longevity",
         46,
         "... now it will take longer, or not? ...",
-        "10*HP, 2*DF, 10AT",
+        "2*HP, 2*DF, 10AT",
         1
     )
 end
@@ -29,7 +29,7 @@ function Event046:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP * 10
+        currentChar.baseHP = currentChar.baseHP * 2
         if currentChar.baseAttack <= 0 then
             currentChar.baseAttack = 1
         end
@@ -43,7 +43,7 @@ function Event046:eventFunction()
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP * 10
+        currentChar.baseHP = currentChar.baseHP * 2
         if currentChar.baseAttack <= 0 then
             currentChar.baseAttack = 1
         end

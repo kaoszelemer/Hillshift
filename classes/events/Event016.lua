@@ -28,12 +28,10 @@ end
 function Event016:eventFunction()
 
 
-    for x = 1, 10 do
-        for y = 1,10 do
+    for x = 1, (love.math.random(1, 100)) do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
-        end
     end
 
 

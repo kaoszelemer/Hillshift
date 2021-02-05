@@ -6,7 +6,7 @@ function Event029:init()
         "Little Earthquake",
         29,
         "... we are in China ...",
-        "20 RND Cells are Mount",
+        "10 RND Cells are Mount",
         1
     )
 end
@@ -30,14 +30,12 @@ function Event029:eventFunction()
 
 
 
-    for x = 1, 10, 3  do
-        for y = 1,10, 3 do
+    for x = 1, 10  do
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Mount(rndCellX, rndCellY)
-        end
     end
 
 

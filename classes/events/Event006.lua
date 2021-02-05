@@ -29,13 +29,11 @@ function Event006:eventFunction()
 
    
 
-    for x = 1, 10 do
-        for y = 1,10 do
+    for x = 1, 40 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             boardGrid[rndCellX][rndCellY].isFrozen = true
             freezeTurn = turnCounter
-        end
     end
 
     for x = 1, 10 do

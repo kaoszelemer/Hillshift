@@ -6,7 +6,7 @@ function Event051:init()
         "Boredness",
         51,
         "... but implenting events took a loong time ...",
-        "Next event is -40 steps away",
+        "Next event is -20 steps away",
         1
     )
 end
@@ -27,7 +27,7 @@ end
 
 function Event051:eventFunction()
 
-    stepCounter = stepCounter - 40
+    stepCounter = stepCounter - 20
 
 
 end

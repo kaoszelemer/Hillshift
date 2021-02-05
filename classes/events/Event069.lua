@@ -6,7 +6,7 @@ function Event069:init()
         "Leg Cramps",
         69,
         "... you should do yoga ...",
-        "Remaining characters 0SP",
+        "YOUR characters 0SP",
         1
     )
 end

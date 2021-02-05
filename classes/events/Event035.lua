@@ -6,7 +6,7 @@ function Event035:init()
         "Little Foresting",
         35,
         "... i like the shadow of trees ...",
-        "20 RND Cells are Forest",
+        "10 RND Cells are Forest",
         1
     )
 end
@@ -28,14 +28,13 @@ end
 function Event035:eventFunction()
 
 
-    for x = 1, 10, 3  do
-        for y = 1,10, 3 do
+    for x = 1, 10  do
+   
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
-        end
     end
 
 

@@ -29,13 +29,14 @@ function Event013:eventFunction()
 
 
     for _, currentChar in ipairs(playerOne.characters) do
-
         currentChar.baseHP = currentChar.baseHP - 2
+        if currentChar.baseHP <= 0 then currentChar:kill() end
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
 
         currentChar.baseHP = currentChar.baseHP - 2
+        if currentChar.baseHP <= 0 then currentChar:kill() end
     end
 
 

@@ -1,6 +1,6 @@
 local IceWizard = Character:extend("IceWizard")
     function IceWizard:init(parentPlayer)
-        Character.init(self, 8, 5, 0, 3, love.graphics.newImage("/graphics/icewizard.png"), 
+        Character.init(self, 10, 4, 0, 3, love.graphics.newImage("/graphics/icewizard.png"), 
                     love.graphics.newImage("/graphics/icewizardhover.png"), parentPlayer, 1, 1)
     end
 
@@ -12,8 +12,6 @@ function IceWizard:spell(targetCell)
         if self.y - 1 > 0 then
 
             if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then boardGrid[self.x][self.y - 1] = Ice(self.x, self.y - 1) end
-               boardGrid[self.x][self.y - 1].isFrozen = true
-               freezeTurn = turnCounter
             if boardGrid[self.x][self.y - 1].isOnFire then boardGrid[self.x][self.y - 1].isOnFire = false end
 
         end
@@ -21,8 +19,6 @@ function IceWizard:spell(targetCell)
         if self.x - 1 > 0 and self.y - 1 > 0 then
            
             if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then boardGrid[self.x - 1][self.y - 1] = Ice(self.x - 1, self.y - 1) end
-               boardGrid[self.x - 1][self.y - 1].isFrozen = true
-               freezeTurn = turnCounter
             if boardGrid[self.x - 1][self.y - 1].isOnFire then boardGrid[self.x - 1][self.y - 1].isOnFire = false end 
 
         end
@@ -30,8 +26,6 @@ function IceWizard:spell(targetCell)
         if self.x + 1 <= 10 and self.y - 1 > 0 then
 
             if  boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then boardGrid[self.x + 1][self.y - 1] = Ice(self.x + 1, self.y - 1) end  
-                boardGrid[self.x + 1][self.y - 1].isFrozen = true
-                freezeTurn = turnCounter
             if  boardGrid[self.x + 1][self.y - 1].isOnFire then boardGrid[self.x + 1][self.y - 1].isOnFire = false end
 
         end
@@ -46,8 +40,6 @@ function IceWizard:spell(targetCell)
         if self.y + 1 <= 10 then
 
             if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then boardGrid[self.x][self.y + 1] = Ice(self.x, self.y + 1) end
-               boardGrid[self.x][self.y + 1].isFrozen = true
-               freezeTurn = turnCounter
             if boardGrid[self.x][self.y + 1].isOnFire then boardGrid[self.x][self.y + 1].isOnFire = false end
 
         end
@@ -55,8 +47,6 @@ function IceWizard:spell(targetCell)
         if self.x - 1 > 0 and self.y + 1 <= 10 then
            
             if boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then boardGrid[self.x - 1][self.y + 1] = Ice(self.x - 1, self.y + 1) end
-               boardGrid[self.x - 1][self.y + 1].isFrozen = true
-               freezeTurn = turnCounter
             if boardGrid[self.x - 1][self.y + 1].isOnFire then boardGrid[self.x - 1][self.y + 1].isOnFire = false end 
 
         end
@@ -64,8 +54,6 @@ function IceWizard:spell(targetCell)
         if self.x + 1 <= 10 and self. y + 1 <= 10 then
 
             if  boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then boardGrid[self.x + 1][self.y + 1] = Ice(self.x + 1, self.y + 1) end  
-                boardGrid[self.x + 1][self.y + 1].isFrozen = true
-                freezeTurn = turnCounter
             if  boardGrid[self.x + 1][self.y + 1].isOnFire then boardGrid[self.x + 1][self.y + 1].isOnFire = false end
 
         end

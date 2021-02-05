@@ -6,7 +6,7 @@ function Event032:init()
         "Little Flooding",
         32,
         "... a little water would be nice ...",
-        "20 RND Cells are Lake",
+        "10 RND Cells are Lake",
         1
     )
 end
@@ -28,14 +28,12 @@ end
 function Event032:eventFunction()
 
 
-    for x = 1, 10, 3  do
-        for y = 1,10, 3 do
+    for x = 1, 10  do
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
-        end
     end
 
 

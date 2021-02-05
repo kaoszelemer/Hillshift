@@ -6,7 +6,7 @@ function Event037:init()
         "Great Foresting",
         37,
         "... would we ever find the way out? ...",
-        "60 RND Cells are Forest",
+        "30 RND Cells are Forest",
         1
     )
 end
@@ -29,14 +29,12 @@ function Event037:eventFunction()
 
 
 
-    for x = 1, 10  do
-        for y = 1,10 do
+    for x = 1, 30  do
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
-        end
     end
 
 

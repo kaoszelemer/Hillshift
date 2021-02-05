@@ -7,6 +7,7 @@ Forest = require('classes.cells.Forest')
 Lake = require('classes.cells.Lake')
 Mount = require('classes.cells.Mount')
 Field = require('classes.cells.Field')
+BurntField = require('classes.cells.BurntField')
 Ice = require('classes.cells.Ice')
 Character = require('classes.characters.Character')
 GeoGnome = require('classes.characters.GeoGnome')
@@ -109,11 +110,12 @@ statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
-nextTurnBeforeEvent = love.math.random(10, 20)
-stepCounter = 0 - nextTurnBeforeEvent -- hogy az elején ne dobjon egyből eventet
+nextTurnBeforeEvent = love.math.random(5, 15)
+stepCounter = 0 - nextTurnBeforeEvent - love.math.random(7, 10)-- hogy az elején ne dobjon egyből eventet
 fireTurn = 0
 poisoningTurn = 0
 freezeTurn = 0
+burntFieldTimer = 0
 
 --karakterek valtozoi
 charColor = {1, 1, 1}
@@ -143,7 +145,7 @@ selectedChar = nil
 
 eventTable = {}
 
-local function endTurn()
+function endTurn()
     turnCounter = turnCounter + 1
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
@@ -164,14 +166,23 @@ local function endTurn()
                cell.isOnFire = false
             end
 
+            if cell.isBurntField and turnCounter - burntFieldTimer == 3 then
+                cell.isBurntField = false
+                boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
+            end
+
+            if cell.isFrozen and turnCounter - freezeTurn == 3 then
+                cell.isFrozen = false
+            end
+
             if cell.isFrozen and turnCounter - freezeTurn == 3 then
                 cell.isFrozen = false
             end
         
             if cell.isOnFire and cell:instanceOf(Forest) then
-                if boardGrid[cell.x][cell.y].isOnFire then burnCell = true end
-                boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
-                if burnCell then boardGrid[cell.x][cell.y].isOnFire = true end
+                    boardGrid[cell.x][cell.y] = BurntField(cell.x, cell.y)
+                    boardGrid[cell.x][cell.y].isBurntField = true
+                    burntFieldTimer = turnCounter
             end
 
         end
@@ -196,6 +207,8 @@ local function endTurn()
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
             currentChar.baseHP = currentChar.baseHP - 2
+        elseif cell.isBurntField then
+            currentChar.baseHP = currentChar.baseHP - 1
         elseif cell.isPoisoned then
             cell.defenseModifier = cell.defenseModifier - 3
             cell.attackModifier = cell.attackModifier - 1
@@ -224,6 +237,8 @@ local function endTurn()
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
             currentChar.baseHP = currentChar.baseHP - 2
+        elseif cell.isBurntField then
+            currentChar.baseHP = currentChar.baseHP - 1
         elseif cell.isPoisoned then
             cell.defenseModifier = cell.defenseModifier - 3
             cell.attackModifier  = cell.attackModifier - 1

@@ -6,7 +6,7 @@ function Event025:init()
         "Deforesting",
         25,
         "... chop-chop ...",
-        "RND Forests are Fields",
+        "ALL Forests are Fields",
         1
     )
 end
@@ -32,7 +32,7 @@ function Event025:eventFunction()
         for y = 1,10 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
+            if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = Field(x, y) end
         end
     end
 

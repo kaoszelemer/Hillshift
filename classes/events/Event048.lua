@@ -28,30 +28,24 @@ end
 function Event048:eventFunction()
 
 
-    for x = 1, 10 do
-        for y = 1,10 do
+    for i = 1, 8 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             boardGrid[rndCellX][rndCellY].isPoisoned = true
             poisoningTurn = turnCounter
-        end
     end
-    for x = 1, 10 do
-        for y = 1,10 do
+    for i = 1, 8 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             boardGrid[rndCellX][rndCellY].isFrozen = true
             freezeTurn = turnCounter
-        end
     end
-    for x = 1, 10 do
-        for y = 1,10 do
+    for i = 1, 8 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end
             boardGrid[rndCellX][rndCellY].isOnFire = true
             fireTurn = turnCounter
-        end
     end
 
 

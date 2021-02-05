@@ -15,6 +15,7 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
         Mount = true,
         Field = true,
         Ice = true,
+        BurntField = true,
     }
 end
 

@@ -4,7 +4,7 @@ function Event059:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
         "Peaseant Holiday",
-        14,
+        59,
         "... reap whats reapable ...",
         "YOUR Characters Cells are Fields",
         1

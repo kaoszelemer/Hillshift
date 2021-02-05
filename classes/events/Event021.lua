@@ -29,14 +29,10 @@ function Event021:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
         currentChar.baseHP = math.floor(currentChar.baseHP / 2)
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
         currentChar.baseHP = math.floor(currentChar.baseHP / 2)
     end
 

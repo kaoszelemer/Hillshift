@@ -4,9 +4,9 @@ function Event040:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
         "Great Deforesting",
-        60,
+        40,
         "... global warming is a lie, said everyone ...",
-        "60 RND Cells are Fields",
+        "30 RND Cells are Fields",
         1
     )
 end
@@ -28,14 +28,12 @@ end
 function Event040:eventFunction()
 
 
-    for x = 1, 10 do
-        for y = 1,10 do
+    for x = 1, 30 do
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY)
-        end
     end
 
 end

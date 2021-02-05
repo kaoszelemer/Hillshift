@@ -6,7 +6,7 @@ function Event068:init()
         "Fear",
         68,
         "... i want mommy ...",
-        "Remaining CHARACTERS 0AP",
+        "Your Characters 0AP",
         1
     )
 end

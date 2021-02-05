@@ -6,7 +6,7 @@ function Event067:init()
         "Landslide",
         67,
         "... tony howk's pro slider ...",
-        "all Cells are Mounts",
+        "Mounts are Fields",
         1
     )
 end
@@ -26,13 +26,11 @@ end
 end
 
 function Event067:eventFunction()
-local newX
-local newY
+
     for x = 1, 10 do
         for y = 1, 10 do
-            oldx = boardGrid[x][y].x
 
-            boardGrid[x][y] = Mount(x, y)
+            if boardGrid[x][y]:instanceOf(Mount) then boardGrid[x][y] = Mount(x, y) end
 
         end
     end

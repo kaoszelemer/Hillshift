@@ -6,7 +6,7 @@ function Event030:init()
         "Medium Earthquake",
         30,
         "... we are in Fiji ...",
-        "40 RND Cells are Mount",
+        "20 RND Cells are Mount",
         1
     )
 end
@@ -28,14 +28,14 @@ end
 function Event030:eventFunction()
 
 
-    for x = 1, 10, 2  do
-        for y = 1,10, 2 do
+    for x = 1, 20  do
+   
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Mount(rndCellX, rndCellY)
-        end
+   
     end
 
 

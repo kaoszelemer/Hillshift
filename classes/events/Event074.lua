@@ -29,14 +29,13 @@ function Event074:eventFunction()
 
 
    
-    for x = 1, 10  do
-        for y = 1,10 do
+    for x = 1, 60  do
 
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY)
-        end
+       
     end
 end
     

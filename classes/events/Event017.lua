@@ -28,13 +28,11 @@ end
 function Event017:eventFunction()
 
 
-    for x = 1, 10 do
-        for y = 1,10 do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
-        end
-    end
+    for x = 1, (love.math.random(1, 100)) do
+        rndCellX = love.math.random(1, 10)
+        rndCellY = love.math.random(1, 10)
+        boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
+end
 
 
 end

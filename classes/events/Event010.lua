@@ -29,8 +29,7 @@ function Event010:eventFunction()
 
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseDefense = currentChar.baseAttack + 1  
-
+        currentChar.baseAttack = currentChar.baseAttack + 1  
     end
 
 

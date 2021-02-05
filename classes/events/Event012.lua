@@ -5,7 +5,7 @@ function Event012:init()
         love.graphics.newImage("/graphics/event012image.png"),
         "Great Weakening",
         12,
-        "... now you can't flex ...",
+        "... Cthuthuthlu is here ...",
         "ALL Characters -2DF",
         0
     )
