@@ -275,12 +275,28 @@ function newTurn()
 
 end
 
+local function selectStartingPlayer()
+   
+        startingDicePlayerOne = love.math.random(1, 6)
+        startingDicePlayerTwo = love.math.random(1, 6)
+
+        if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
+
+        if rndPlayer == 1 then
+            activePlayer = playerOne
+            inactivePlayer = playerTwo
+        else
+            activePlayer = playerTwo
+            inactivePlayer = playerOne
+        end
+   
+end
+
 function love.load()
     --board betoltese
     board:load()
     Event:initEventTable()
-    activePlayer = playerOne
-    inactivePlayer = playerTwo
+    selectStartingPlayer()
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(0,0,0)
