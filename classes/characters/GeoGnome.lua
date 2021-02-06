@@ -10,13 +10,14 @@ function GeoGnome:spell(targetCell)
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
             or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
-            or (targetCell.y == self.y and targetCell.x == self.x) then            
+            or (targetCell.y == self.y and targetCell.x == self.x) then   
+                self.actionPoints = self.actionPoints - 1
+         
 
                     boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
 
             end
         
-        self.actionPoints = self.actionPoints - 1
     end
 
 

@@ -8,6 +8,7 @@ function IceWizard:spell(targetCell)
 
     if self.actionPoints ~= 0 then
     if      (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
+        self.actionPoints = self.actionPoints - 1
 
         if self.y - 1 > 0 then
 
@@ -43,6 +44,7 @@ function IceWizard:spell(targetCell)
     end
 
     if      (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
+        self.actionPoints = self.actionPoints - 1
 
         if self.y + 1 <= 10 then
 
@@ -74,7 +76,6 @@ function IceWizard:spell(targetCell)
     else self.isInSpellState = false
     end
     end
-    self.actionPoints = self.actionPoints - 1
 
 end
 

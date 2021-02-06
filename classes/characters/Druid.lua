@@ -25,6 +25,8 @@ local Druid = Character:extend("Druid")
         if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) or
            (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1)) or
            (targetCell.y == self.y and targetCell.x == self.x) then
+            self.actionPoints = self.actionPoints - 1
+
 
             if self.y - 1 > 0 then
 
@@ -132,7 +134,6 @@ local Druid = Character:extend("Druid")
         else self.isInSpellState = false                       
         end
     end
-    self.actionPoints = self.actionPoints - 1
     end
     
 return Druid
