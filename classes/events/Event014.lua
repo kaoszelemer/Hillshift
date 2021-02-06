@@ -31,15 +31,19 @@ function Event014:eventFunction()
     for _, currentChar in ipairs(activePlayer.characters) do
         local rndCellX = love.math.random(1,10)
         local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        if not boardGrid[rndCellX][rndCellY].isOccupied then
+            currentChar.stepPoints = currentChar.stepPoints + 1
+            currentChar:move(rndCellX, rndCellY)
+        end
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         local rndCellX = love.math.random(1,10)
         local rndCellY = love.math.random(1,10)
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(rndCellX, rndCellY)
+        if not boardGrid[rndCellX][rndCellY].isOccupied then
+                currentChar.stepPoints = currentChar.stepPoints + 1
+                currentChar:move(rndCellX, rndCellY)
+        end
     end
 
 
