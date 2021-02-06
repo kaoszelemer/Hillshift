@@ -239,7 +239,9 @@ end
 
 
 function Character:defend(cell)
-    if self.isInDefenseState and self.actionPoints ~= 0 and self.isHovered then   
+    if self.isInDefenseState and self.actionPoints ~= 0 and self.isHovered then
+        self.turnDefenseModifier = self.turnDefenseModifier + 2
+        defenseCounter = turnCounter
         self.actionPoints = 0
         self.stepPoints = 0
         self.drawActionMenu = false

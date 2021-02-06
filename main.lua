@@ -110,6 +110,7 @@ statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
+defenseCounter = 0
 nextTurnBeforeEvent = love.math.random(5, 15)
 stepCounter = 0 - nextTurnBeforeEvent - love.math.random(7, 10)-- hogy az elején ne dobjon egyből eventet
 fireTurn = 0
@@ -237,10 +238,12 @@ function endTurn()
         end
         local cell = boardGrid[currentChar.x][currentChar.y]
 
-        if not cell.isPoisoned then
+        if not cell.isPoisoned or turnCounter - defenseCounter ~= 2 then
             currentChar.turnDefenseModifier = 0
             currentChar.turnAttackModifier = 0
         end
+
+        print(currentChar.turnDefenseModifier)
 
         if cell.isFrozen then
             currentChar.stepPoints = 0
