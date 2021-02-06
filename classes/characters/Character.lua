@@ -1,6 +1,6 @@
 local Character = class("Character")
 
-function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier)
+function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
     self.baseHP = baseHP
     self.baseDefense = baseDefense
     self.baseAttack = baseAttack
@@ -12,6 +12,8 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
     self.stepPoints = stepPoints
     self.turnAttackModifier = turnAttackModifier
     self.turnDefenseModifier = turnDefenseModifier
+    self.defenseCounter = defenseCounter
+    self.defenseState = defenseState
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -35,7 +37,12 @@ function Character:draw()
         if self.actionPoints ~= 0 then love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) end
         if self.actionPoints ~= 0 then love.graphics.draw(defenseIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2)) end   
     end
-   
+
+    if self.enableDefendDraw then
+        self.isActionMenuDrawn = false
+        love.graphics.draw(defendedCellIcon, self.x * tileW + offsetX, self.y * tileH + offsetY)
+    end
+
 
 end
 
@@ -127,6 +134,7 @@ function Character:drawValidIcons()
 end
 
 
+
 function Character:updateHover(mX, mY)
     local  mouseCellCoordinateX = math.floor((mX / tileW) - offsetX / tileW) 
     local  mouseCellCoordinateY = math.floor((mY / tileH) - offsetY / tileH)
@@ -140,9 +148,12 @@ end
 
 function Character:click(mX, mY)
 
-    if selectedChar and selectedChar.isInDefenseState  then
+    if not self.enableDefendDraw and selectedChar and selectedChar.isInDefenseState  then
             local cell = boardGrid[self.x][ self.y]
             selectedChar:defend(cell)
+            self.enableDefendDraw = true
+            self.defenseState = true
+            self.drawActionMenu = false
     end
 
    
@@ -248,12 +259,11 @@ end
 
 
 function Character:defend(cell)
-    if self.isInDefenseState and self.actionPoints ~= 0 and self.isHovered then
+    if self.defenseState and self.actionPoints ~= 0 and self.isHovered then
         self.turnDefenseModifier = self.turnDefenseModifier + 2
-        defenseCounter = turnCounter
+        self.defenseCounter = turnCounter
         self.actionPoints = 0
         self.stepPoints = 0
-        self.drawActionMenu = false
         self.isSelected = false
     else self.isInDefenseState = false
     end
@@ -273,8 +283,8 @@ end
 function Character:attack(enemy)
     if self.isInAttackState and self.actionPoints ~= 0 then
 
-        if boardGrid[self.x][self.y].isPoisoned then self.turnAttackModifier = -1 end
-        if boardGrid[enemy.x][enemy.y].isPoisoned then enemy.turnDefenseModifier = -3 end
+        if boardGrid[self.x][self.y].isPoisoned then self.turnAttackModifier = self.turnAttackModifier - 1 end
+        if boardGrid[enemy.x][enemy.y].isPoisoned then enemy.turnDefenseModifier = self.turnAttackModifier - 3 end
 
 
         local dr = getDiceRoll()

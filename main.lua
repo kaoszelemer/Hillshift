@@ -193,6 +193,7 @@ function endTurn()
         ----------- EZ TÖRTÉNIK AZ INAKTÍVPLAYERREL (MERT Ő VOLT A RÉGI JÁTÉKOS) ------------------
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
+        currentChar.defenseCounter = 0
         currentChar.stepPoints = 1
         currentChar.actionPoints = 1
         if currentChar.stepPointModify then 
@@ -203,14 +204,18 @@ function endTurn()
             currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
             currentChar.actionPointModify = false
         end
-
-    
-
+        if currentChar.defenseState then
+            currentChar.defenseCounter = currentChar.defenseCounter + 1
+        end
+        
         local cell = boardGrid[currentChar.x][currentChar.y]
 
         if not cell.isPoisoned then
             currentChar.turnDefenseModifier = 0
             currentChar.turnAttackModifier = 0
+        end
+        if currentChar.defenseState then
+            currentChar.turnDefenseModifier = 2
         end
 
         if cell.isFrozen then
@@ -231,6 +236,7 @@ function endTurn()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
+     
         if currentChar.stepPointModify then 
             currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
             currentChar.stepPointModify = false
@@ -241,12 +247,15 @@ function endTurn()
         end
         local cell = boardGrid[currentChar.x][currentChar.y]
 
-        if not cell.isPoisoned or turnCounter - defenseCounter ~= 2 then
+        if  currentChar.defenseState and turnCounter - currentChar.defenseCounter >= 1 then
+            currentChar.defenseCounter = 0
+            currentChar.enableDefendDraw = false
+            currentChar.defenseState = false
+            currentChar.isInDefenseState = false
             currentChar.turnDefenseModifier = 0
             currentChar.turnAttackModifier = 0
         end
 
-        print(currentChar.turnDefenseModifier)
 
         if cell.isFrozen then
             currentChar.stepPoints = 0
@@ -268,7 +277,6 @@ end
 function newTurn()
 
         if eventTurnCounter == nextTurnBeforeEvent then
-            print(eventTurnCounter)
             Event:enableEvent()
             eventTurnCounter = 0 - nextTurnBeforeEvent
         end    
@@ -336,7 +344,6 @@ function love.mousereleased(x, y, button, istouch, presses)
 
     if not enableEvent then
         for _, currentChar in ipairs(activePlayer.characters) do
-            print(enableEvent)
             if currentChar.isHovered then currentChar:click(x, y) end  
         
         end

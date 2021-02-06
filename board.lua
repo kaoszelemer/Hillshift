@@ -19,6 +19,7 @@ defenseIcon = love.graphics.newImage("graphics/shieldicon.png")
 fireIcon = love.graphics.newImage("graphics/fireicon.png")
 frozenIcon = love.graphics.newImage("graphics/frozenicon.png")
 poisonIcon = love.graphics.newImage("graphics/poisonicon.png")
+defendedCellIcon = love.graphics.newImage("graphics/defendedcellicon.png")
 --borders
 frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
 poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
@@ -309,7 +310,7 @@ function board:resetAllCharacterStates(playerone, playertwo)
         currentChar.isActionMenuDrawn = false
         currentChar.isInStepState = false
         currentChar.isInAttackState = false
-        currentChar.isInDefenseState = false
+      --  currentChar.isInDefenseState = false
         currentChar.isInSpellState = false
     end
 
@@ -319,7 +320,7 @@ function board:resetAllCharacterStates(playerone, playertwo)
         currentChar.isInStepState = false
         currentChar.isInAttackState = false
         currentChar.isInSpellState = false
-        currentChar.isInDefenseState = false
+      --  currentChar.isInDefenseState = false
     end
 
     selectedChar = nil
@@ -438,6 +439,8 @@ local function drawEventOnBoard()
 
         Event:drawCurrentEvent()
 end
+
+
 
 function drawEventOnBackground()
         Event001:drawEventStuff()
