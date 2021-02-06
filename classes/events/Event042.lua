@@ -30,10 +30,10 @@ function Event042:eventFunction()
 
   
             for _, currentChar in ipairs(activePlayer.characters) do
-                    boardGrid[currentChar.x][currentChar.y].attackModifier = boardGrid[currentChar.x][currentChar.y].attackModifier + 3
+                    currentChar.turnAttackModifier = currentChar.turnAttackModifier + 3
             end
             for _, currentChar in ipairs(inactivePlayer.characters) do
-                    boardGrid[currentChar.x][currentChar.y].attackModifier = boardGrid[currentChar.x][currentChar.y].attackModifier + 3
+                    currentChar.turnAttackModifier = currentChar.turnAttackModifier + 3
             end
 
      

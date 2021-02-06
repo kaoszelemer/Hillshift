@@ -110,9 +110,11 @@ statFont = love.graphics.newFont(12)
 actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
+
+nextTurnBeforeEvent = love.math.random(8, 11)
+eventTurnCounter = 0
+
 defenseCounter = 0
-nextTurnBeforeEvent = love.math.random(5, 15)
-stepCounter = 0 - nextTurnBeforeEvent - love.math.random(7, 10)-- hogy az elején ne dobjon egyből eventet
 fireTurn = 0
 poisoningTurn = 0
 freezeTurn = 0
@@ -148,6 +150,7 @@ eventTable = {}
 
 function endTurn()
     turnCounter = turnCounter + 1
+    eventTurnCounter = eventTurnCounter + 1
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
@@ -262,6 +265,16 @@ function endTurn()
     end
 end
 
+function newTurn()
+
+        if eventTurnCounter == nextTurnBeforeEvent then
+            print(eventTurnCounter)
+            Event:enableEvent()
+            eventTurnCounter = 0 - nextTurnBeforeEvent
+        end    
+
+end
+
 function love.load()
     --board betoltese
     board:load()
@@ -305,32 +318,35 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses) 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
+    if not enableEvent then
+        for _, currentChar in ipairs(activePlayer.characters) do
+            print(enableEvent)
+            if currentChar.isHovered then currentChar:click(x, y) end  
         
-        if currentChar.isHovered then currentChar:click(x, y) end  
-    
-    end
+        end
 
-    for _, currentChar in ipairs(inactivePlayer.characters) do
+        for _, currentChar in ipairs(inactivePlayer.characters) do
+            
+            if currentChar.isHovered then currentChar:click(x, y) end  
         
-        if currentChar.isHovered then currentChar:click(x, y) end  
-    
+        end
+
+        local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
+        local my = math.floor((mouseY / tileH) - offsetY / tileH)
+
+        if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
+            boardGrid[mx][my]:click()
+        end
+
+        if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
+        --  isEndTurnButtonClicked = true
+            endTurn()
+            newTurn()
+        end
+
     end
 
-    local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
-    local my = math.floor((mouseY / tileH) - offsetY / tileH)
-    -- itt meghivom mindenkepp a cella klikkejt akkor is ha nem oda kattintok, ezt majd ki kell javitani
-
-    if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
-        boardGrid[mx][my]:click()
-    end
-
-    if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
-      --  isEndTurnButtonClicked = true
-        endTurn()
-    end
-
-    if  --enableEvent == true and
+    if enableEvent and
         x > (width / 4 + offsetX) + 250 and x < (width / 4 + offsetX) + 302 and
         y > (height / 4 + offsetY) + 260 and y < ((height / 4 + offsetY) + 310) then
             Event:confirmEventWithClick()

@@ -107,6 +107,7 @@ function Event:confirmEventWithClick()
     end
 
   enableEvent = false
+  eventTurnCounter = 0
 
   
 

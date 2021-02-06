@@ -32,7 +32,7 @@ endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
 endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicked.png")
 --Event UI
 eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
-
+eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
 
 
 
@@ -130,15 +130,6 @@ local function drawCharactersOnBoard(player)
 
 end
 
-local function drawStepCounterAndEventDice()
-
-    if stepCounter > 0 then
-        love.graphics.setFont(statFont)
-        love.graphics.print("Event closing in:", width / 2 - 50, 30)
-        love.graphics.print("StepCounter: " .. stepCounter .. " - " .. "Event Dice:" .. eventDice, width / 2 - 100, 50)
-    end
-
-end
 
 local function drawStatsOnSideBarPlayerOne(playerone)
     local pxp = width / 6
@@ -433,6 +424,16 @@ local function drawEndTurnButton()
 
 end
 
+local function drawWarningForNextEvent()
+
+    if eventTurnCounter >= nextTurnBeforeEvent - 2 then
+        love.graphics.setFont(statFont)
+        love.graphics.draw(eventWarningImage, width / 2 - 64, 30)
+    end
+
+end
+
+
 local function drawEventOnBoard()
 
         Event:drawCurrentEvent()
@@ -531,7 +532,7 @@ function board:draw()
     -----EVENT RAJZOLÁS
     drawEventOnBoard()
     drawEventOnBackground()
-    drawStepCounterAndEventDice()
+    drawWarningForNextEvent()
 
  
     -- for debugging:

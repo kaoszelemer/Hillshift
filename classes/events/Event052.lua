@@ -27,7 +27,7 @@ end
 
 function Event052:eventFunction()
 
- stepCounter = 0
+ nextTurnBeforeEvent = -3
     
 
 
