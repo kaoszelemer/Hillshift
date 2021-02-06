@@ -158,8 +158,6 @@ function endTurn()
 
             if cell.isPoisoned and turnCounter - poisoningTurn == 3 then
                 cell.isPoisoned = false
-                cell.defenseModifier = cell.defenseModifier + 3
-                cell.attackModifier = cell.attackModifier + 1
             end
 
             if cell.isOnFire and turnCounter - fireTurn == 3 then
@@ -201,7 +199,15 @@ function endTurn()
             currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
             currentChar.actionPointModify = false
         end
+
+    
+
         local cell = boardGrid[currentChar.x][currentChar.y]
+
+        if not cell.isPoisoned then
+            currentChar.turnDefenseModifier = 0
+            currentChar.turnAttackModifier = 0
+        end
 
         if cell.isFrozen then
             currentChar.stepPoints = 0
@@ -209,9 +215,6 @@ function endTurn()
             currentChar.baseHP = currentChar.baseHP - 2
         elseif cell.isBurntField then
             currentChar.baseHP = currentChar.baseHP - 1
-        elseif cell.isPoisoned then
-            cell.defenseModifier = cell.defenseModifier - 3
-            cell.attackModifier = cell.attackModifier - 1
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
@@ -233,15 +236,18 @@ function endTurn()
             currentChar.actionPointModify = false
         end
         local cell = boardGrid[currentChar.x][currentChar.y]
+
+        if not cell.isPoisoned then
+            currentChar.turnDefenseModifier = 0
+            currentChar.turnAttackModifier = 0
+        end
+
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
             currentChar.baseHP = currentChar.baseHP - 2
         elseif cell.isBurntField then
             currentChar.baseHP = currentChar.baseHP - 1
-        elseif cell.isPoisoned then
-            cell.defenseModifier = cell.defenseModifier - 3
-            cell.attackModifier  = cell.attackModifier - 1
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end

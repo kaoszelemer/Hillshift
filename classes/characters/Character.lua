@@ -1,6 +1,6 @@
 local Character = class("Character")
 
-function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer, actionPoints, stepPoints)
+function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier)
     self.baseHP = baseHP
     self.baseDefense = baseDefense
     self.baseAttack = baseAttack
@@ -10,6 +10,8 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
     self.parentPlayer = parentPlayer
     self.actionPoints = actionPoints
     self.stepPoints = stepPoints
+    self.turnAttackModifier = turnAttackModifier
+    self.turnDefenseModifier = turnDefenseModifier
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -238,7 +240,6 @@ end
 
 function Character:defend(cell)
     if self.isInDefenseState and self.actionPoints ~= 0 and self.isHovered then   
-        cell.defenseModifier = cell.defenseModifier + 2
         self.actionPoints = 0
         self.stepPoints = 0
         self.drawActionMenu = false
@@ -260,10 +261,15 @@ end
 
 function Character:attack(enemy)
     if self.isInAttackState and self.actionPoints ~= 0 then
+
+        if boardGrid[self.x][self.y].isPoisoned then self.turnAttackModifier = -1 end
+        if boardGrid[enemy.x][enemy.y].isPoisoned then enemy.turnDefenseModifier = -3 end
+
+
         local dr = getDiceRoll()
         self.diceRoll = dr
-        self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier
-        damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier))
+        self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
+        damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
         enemy.baseHP = enemy.baseHP - damage
         if enemy.baseHP <= 0 then enemy:kill() end
         enableDrawAttack(self, enemy)

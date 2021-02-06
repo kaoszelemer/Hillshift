@@ -1,7 +1,7 @@
 local FireMage = Character:extend("FireMage")
     function FireMage:init(parentPlayer)
         Character.init(self, 14, 3, 2, 6, love.graphics.newImage("/graphics/firemage.png"), 
-                    love.graphics.newImage("/graphics/firemagehover.png"), parentPlayer, 1, 1)
+                    love.graphics.newImage("/graphics/firemagehover.png"), parentPlayer, 1, 1, 0, 0)
     end
 
 function FireMage:spell(targetCell)

@@ -6,7 +6,7 @@ function Event041:init()
         "Fortress",
         41,
         "... now we need a Team ...",
-        "YOUR Characters CELL DF Modifier +3",
+        "YOUR Characters TURN DF Modifier +3",
         1
     )
 end
@@ -31,7 +31,7 @@ function Event041:eventFunction()
     
             for _, currentChar in ipairs(activePlayer.characters) do
            
-                    boardGrid[currentChar.x][currentChar.y].defenseModifier = boardGrid[currentChar.x][currentChar.y].defenseModifier + 3
+                    currentChar.turnDefenseModifier = currentChar.turnDefenseModifier + 3
 
             end
            

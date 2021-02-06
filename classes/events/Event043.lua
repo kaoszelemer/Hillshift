@@ -6,7 +6,7 @@ function Event043:init()
         "Better Chance",
         43,
         "... do not open lootboxes ...",
-        "ALL Characters +1DF mod, +2AT mod",
+        "ALL Characters TDM: +1DF, TAM: +2AT ",
         1
     )
 end
@@ -29,12 +29,12 @@ function Event043:eventFunction()
 
 
             for _, currentChar in ipairs(activePlayer.characters) do
-                    boardGrid[currentChar.x][currentChar.y].attackModifier = boardGrid[currentChar.x][currentChar.y].attackModifier + 2
-                    boardGrid[currentChar.x][currentChar.y].defenseModifier = boardGrid[currentChar.x][currentChar.y].defenseModifier + 1
+                    boardGrid[currentChar.x][currentChar.y].turnAttackModifier = boardGrid[currentChar.x][currentChar.y].turnAttackModifier + 2
+                    boardGrid[currentChar.x][currentChar.y].turnDefenseModifier = boardGrid[currentChar.x][currentChar.y].turnDefenseModifier + 1
             end
             for _, currentChar in ipairs(inactivePlayer.characters) do
-                    boardGrid[currentChar.x][currentChar.y].attackModifier = boardGrid[currentChar.x][currentChar.y].attackModifier + 2
-                    boardGrid[currentChar.x][currentChar.y].defenseModifier = boardGrid[currentChar.x][currentChar.y].defenseModifier + 1
+                    boardGrid[currentChar.x][currentChar.y].turnAttackModifier = boardGrid[currentChar.x][currentChar.y].turnAttackModifier + 2
+                    boardGrid[currentChar.x][currentChar.y].turnDefenseModifier = boardGrid[currentChar.x][currentChar.y].turnDefenseModifier + 1
             end
 
 
