@@ -185,6 +185,12 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                             love.graphics.setColor(charColor)
                         end
 
+                        if cell:instanceOf(BurntField) then
+                            love.graphics.setColor(selectedColor)
+                            love.graphics.draw(fireIcon, pxp - 128, (i * 100) + 76)
+                            love.graphics.print("-1HP TURN END", pxp - 200, 10 + (i * 128))
+                            love.graphics.setColor(charColor)
+                        end
 
 
                     end
@@ -298,6 +304,13 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                             if cell:instanceOf(Forest) then
                                 love.graphics.setColor(greenColor)
                                 love.graphics.print("+1 DF", pxp + 35, 70 + (i * 100))
+                                love.graphics.setColor(charColor)
+                            end
+
+                            if cell:instanceOf(BurntField) then
+                                love.graphics.setColor(selectedColor)
+                                love.graphics.draw(fireIcon, pxp + 192, (i * 100) + 76)
+                                love.graphics.print("-1 HP TURN END", pxp + 228, i * 100 + 88)
                                 love.graphics.setColor(charColor)
                             end
 
