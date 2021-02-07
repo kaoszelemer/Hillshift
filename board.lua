@@ -303,6 +303,43 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
     love.graphics.setFont(font)
 end
 
+
+function drawPossibleDamageOnEnemyCharacter()
+    local attacker
+    local enemy
+  
+        for _, currentChar in ipairs(activePlayer.characters) do
+
+            if currentChar.isInAttackState then
+                attacker = currentChar
+            end
+
+        end
+
+        for _, currentChar in ipairs(inactivePlayer.characters) do
+
+            if currentChar.isHovered then
+                enemy = currentChar
+            end
+
+        end
+
+            if enemy ~= nil and attacker ~= nil then
+                
+            local minDamage = math.max(0, (1 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+            local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+
+          
+                love.graphics.setFont(pointFont)
+                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY, 40, 18)
+                love.graphics.setColor(selectedColor)
+                love.graphics.print(minDamage .. " - " .. maxDamage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
+                love.graphics.setFont(statFont)
+                love.graphics.setColor(charColor)
+            end
+
+end
+
 function board:resetAllCharacterStates(playerone, playertwo)
 
     for _, currentChar in ipairs(playerone.characters) do
@@ -526,6 +563,7 @@ function board:draw()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
     Character:drawValidIcons()
+    drawPossibleDamageOnEnemyCharacter()
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()

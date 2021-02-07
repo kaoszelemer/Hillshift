@@ -162,6 +162,8 @@ function endTurn()
 
             if cell.isPoisoned and turnCounter - poisoningTurn == 3 then
                 cell.isPoisoned = false
+                cell.attackModifier = cell.attackModifier + 1
+                cell.defenseModifier = cell.defenseModifier + 3
             end
 
             if cell.isOnFire and turnCounter - fireTurn == 3 then
@@ -278,7 +280,7 @@ function newTurn()
 
         if eventTurnCounter == nextTurnBeforeEvent then
             Event:enableEvent()
-            eventTurnCounter = 0 - nextTurnBeforeEvent
+            eventTurnCounter = 0
         end    
 
 end
@@ -328,12 +330,14 @@ end
 
 function love.mousemoved( x, y, dx, dy, istouch )
 
+   
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar:updateHover(x, y)
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar:updateHover(x, y)
+        currentChar:enablePossibleDamageDraw()
     end
 
    

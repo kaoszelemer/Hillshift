@@ -145,6 +145,33 @@ function Character:updateHover(mX, mY)
     end
 end
 
+function Character:enablePossibleDamageDraw()
+
+    local attacker
+    local enemy
+  
+        for _, currentChar in ipairs(activePlayer.characters) do
+
+            if currentChar.isInAttackState then
+                attacker = currentChar
+            end
+
+        end
+
+        for _, currentChar in ipairs(inactivePlayer.characters) do
+
+            if currentChar.isHovered then
+                enemy = currentChar
+            end
+
+        end
+
+        if enemy ~= nil then
+           isPossibleDamageDrawn = true
+        end
+
+
+end
 
 function Character:click(mX, mY)
 
@@ -282,10 +309,6 @@ end
 
 function Character:attack(enemy)
     if self.isInAttackState and self.actionPoints ~= 0 then
-
-        if boardGrid[self.x][self.y].isPoisoned then self.turnAttackModifier = self.turnAttackModifier - 1 end
-        if boardGrid[enemy.x][enemy.y].isPoisoned then enemy.turnDefenseModifier = self.turnAttackModifier - 3 end
-
 
         local dr = getDiceRoll()
         self.diceRoll = dr
