@@ -50,6 +50,47 @@ function Character:draw()
 
 end
 
+function Character:drawHealthBar()
+
+    
+
+    for _, currentChar in ipairs(activePlayer.characters) do
+        if currentChar.isHovered then
+            local healthBarMaxWidth = 3
+            local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
+            if healthBarWidth < 10 then
+                love.graphics.setColor(selectedColor)
+                love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
+                love.graphics.setColor(charColor)
+            else 
+                love.graphics.setColor(greenColor)
+                love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
+                love.graphics.setColor(charColor) 
+            end
+        end
+    end
+
+    for _, currentChar in ipairs(inactivePlayer.characters) do
+        if currentChar.isHovered then
+            local healthBarMaxWidth = 3
+            local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
+            if healthBarWidth < 10 then
+                love.graphics.setColor(selectedColor)
+                love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 6)
+                love.graphics.setColor(charColor)
+            else
+                love.graphics.setColor(greenColor)
+                love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
+                love.graphics.setColor(charColor) 
+            end
+        end
+    end
+
+    
+
+
+end
+
 function Character:drawValidIcons()
 
     for _, currentChar in ipairs(activePlayer.characters) do
