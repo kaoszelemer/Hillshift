@@ -331,7 +331,7 @@ end
 
 
 function Character:defend(cell)
-    if self.iceSlide ~= nil and self.defenseState and self.actionPoints ~= 0 and self.isHovered then
+    if self.defenseState and self.actionPoints ~= 0 and self.isHovered then
         self.turnDefenseModifier = self.turnDefenseModifier + 2
         self.defenseCounter = turnCounter
         self.actionPoints = 0
@@ -353,7 +353,7 @@ function Character:kill()
 end
 
 function Character:attack(enemy)
-    if self.iceSlide ~= nil and self.isInAttackState and self.actionPoints ~= 0 then
+    if self.isInAttackState and self.actionPoints ~= 0 then
 
         local dr = getDiceRoll()
         self.diceRoll = dr
