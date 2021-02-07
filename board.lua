@@ -232,7 +232,14 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                 love.graphics.draw(playerone.characters[i].image, pxp - 96, i * 108)
 
                 love.graphics.print(playerone.characters[i].name, pxp, 10 + i * 100)
-                 love.graphics.print("HP: " ..  playerone.characters[i].baseHP, pxp, 55 + i * 100)
+
+                if playerone.characters[i].baseHP <= 3 then
+                    love.graphics.setColor(selectedColor)
+                 love.graphics.print("HP: " ..  playerone.characters[i].baseHP .. "!!!", pxp, 55 + i * 100)
+                    love.graphics.setColor(charColor)
+                else
+                love.graphics.print("HP: " ..  playerone.characters[i].baseHP, pxp, 55 + i * 100)
+                end
                 love.graphics.print("DF: " ..  playerone.characters[i].baseDefense, pxp, 70 + i * 100)
                 love.graphics.print("AT: " ..  playerone.characters[i].baseAttack, pxp, 85 + i * 100)
                -- love.graphics.print("x: " ..  playerone.characters[i].x .. "y: " ..  playerone.characters[i].y, 200, 90 + i * 100)
@@ -360,7 +367,13 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                         love.graphics.print( playertwo.characters[i].name, pxp, 10 + i * 100)
 
+                        if playertwo.characters[i].baseHP <= 3 then
+                            love.graphics.setColor(selectedColor)
+                         love.graphics.print("HP: " ..  playertwo.characters[i].baseHP .. "!!!", pxp, 55 + i * 100)
+                            love.graphics.setColor(charColor)
+                        else
                         love.graphics.print("HP: " ..  playertwo.characters[i].baseHP, pxp, 55 + i * 100)
+                        end
                         love.graphics.print("DF: " ..  playertwo.characters[i].baseDefense, pxp, 70 + i * 100)
                         love.graphics.print("AT: " ..  playertwo.characters[i].baseAttack, pxp, 85 + i * 100)
                         --[[ love.graphics.print("x: " ..  playertwo.characters[i].x .. "y: " ..  playertwo.characters[i].y, 1000, 90 + i * 120)
