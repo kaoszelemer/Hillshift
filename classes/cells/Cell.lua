@@ -15,15 +15,25 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
             if selectedChar.x + ox == self.x and
                 selectedChar.y + oy == self.y then
                 selectedChar:move(self.x, self.y)
+                if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
+                    self:iceSlide(selectedChar)
+                end
+                if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) == false then
+                    selectedChar.actionPoints = selectedChar.actionPoints + 1
+                end
+
             end
     end
       
 end
 
+function Cell:iceSlide(selectedChar)
+end
+
 
 function Cell:click()
     
-   -- if not selectedChar then return end -- ha nincs selectedChar akkor le se fut a egész
+   -- if not selectedChar then return end -- ha nincs selectedChar akkor le se fut a egésZ
 
     if selectedChar and selectedChar.isInStepState and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
         for x = -1, 1 do
@@ -31,7 +41,6 @@ function Cell:click()
                if x ~= 0 or y ~= 0 then 
                     self:moveSelectedCharIfValidOffset(x, y)
                 end
-            
             end
         end   
         
@@ -44,9 +53,6 @@ function Cell:click()
         selectedChar.isInSpellState = false
 
     end
-
-
-
 
 end
 
