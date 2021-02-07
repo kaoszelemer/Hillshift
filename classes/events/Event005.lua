@@ -6,7 +6,7 @@ function Event005:init()
         "Sudden Death",
         5,
         "... sometimes it's too quick ...",
-        "RND enemy HP is 1",
+        "RND enemy HP \nis halved",
         0
     )
 end
@@ -32,7 +32,7 @@ function Event005:eventFunction()
     for index, currentChar in ipairs(inactivePlayer.characters) do
 
         if index == randomEnemyIndex then
-            currentChar.baseHP = 1
+            currentChar.baseHP = math.floor(currentChar.baseHP / 2)
         end
 
     end

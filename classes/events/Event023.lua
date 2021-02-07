@@ -6,7 +6,7 @@ function Event023:init()
         "Friendly Wormhole",
         23,
         "... where i am? ...",
-        "your RND char teleports to RND Cell",
+        "your RND char \nteleports to RND Cell",
         1
     )
 end
@@ -30,8 +30,8 @@ function Event023:eventFunction()
 
     local randomChar = love.math.random(1, #activePlayer.characters)
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        if randomChar == currentChar.id then
+    for index, currentChar in ipairs(activePlayer.characters) do
+        if randomChar == index then
                 local rndCellX = love.math.random(1,10)
                 local rndCellY = love.math.random(1,10)
             if not boardGrid[rndCellX][rndCellY].isOccupied then

@@ -6,7 +6,7 @@ function Event042:init()
         "PPPARTY",
         42,
         "... now ATTACK! ...",
-        "ALL Characters AT modifier +3",
+        "ALL Characters \nAT modifier +3",
         1
     )
 end

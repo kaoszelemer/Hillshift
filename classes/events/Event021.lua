@@ -6,7 +6,7 @@ function Event021:init()
         "Keedair Plague",
         21,
         "... thanks for the name ...",
-        "ALL Characters HP halved",
+        "ALL Characters \nHP halved",
         1
     )
 end

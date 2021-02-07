@@ -6,7 +6,7 @@ function Event001:init()
         "Armageddon",
         1,
         "... burn, burn, burn ...",
-        "All cellls are on fire.",
+        "All cellls are on \nfire.",
         0
     )
 end
@@ -33,6 +33,9 @@ function Event001:eventFunction()
         for y = 1, 10 do
 
             boardGrid[x][y].isOnFire = true
+            if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Field(x, y) end
+            if boardGrid[x][y]:instanceOf(Ice) then boardGrid[x][y] = Lake(x, y) end
+            if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = BurntField(x, y) end
             fireTurn = turnCounter
            
 

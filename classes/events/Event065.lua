@@ -6,7 +6,7 @@ function Event065:init()
         "Enemy Foresters Gather",
         65,
         "... and they are on trance ...",
-        "ENEMY Characters Cells are Forests",
+        "ENEMY Characters Cells \nare Forests",
         1
     )
 end

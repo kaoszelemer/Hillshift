@@ -6,7 +6,7 @@ function Event061:init()
         "Enemy Spilled Poison",
         61,
         "... you shoulda wear some safety glasses ...",
-        "ENEMY Characters Cells are Poisoned",
+        "ENEMY Characters Cells \nare Poisoned",
         1
     )
 end

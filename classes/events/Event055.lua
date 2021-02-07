@@ -6,7 +6,7 @@ function Event055:init()
         "Spilled Poison",
         55,
         "... safety glasses are mandatory ...",
-        "YOUR Characters Cells are poisoned",
+        "YOUR Characters Cells \nare poisoned",
         1
     )
 end

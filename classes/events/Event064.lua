@@ -6,7 +6,7 @@ function Event064:init()
         "Enemy Hill Shifting",
         64,
         "... where do that name came from ...",
-        "ENEMY Characters Cells are Mounts",
+        "ENEMY Characters Cells \nare Mounts",
         1
     )
 end

@@ -3,10 +3,10 @@ local Event046 = Event:extend("Event046")
 function Event046:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
-        "Longevity",
+        "The Burning",
         46,
-        "... now it will take longer, or not? ...",
-        "2*HP, 2*DF, 10AT",
+        "... the smell of napalm ...",
+        "All forests are \nBurnt fields",
         1
     )
 end
@@ -28,33 +28,10 @@ end
 function Event046:eventFunction()
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP * 2
-        if currentChar.baseAttack <= 0 then
-            currentChar.baseAttack = 1
+   for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = BurntField(x, y) end
         end
-
-        if currentChar.baseDefense <= 0 then
-            currentChar.baseDefense = 1
-        end
-
-        currentChar.baseAttack = 10
-        currentChar.baseDefense = currentChar.baseDefense * 2
-    end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP * 2
-        if currentChar.baseAttack <= 0 then
-            currentChar.baseAttack = 1
-        end
-
-        if currentChar.baseDefense <= 0 then
-            currentChar.baseDefense = 1
-        end
-
-        currentChar.baseAttack = 10
-        currentChar.baseDefense = currentChar.baseDefense * 2
-      
     end
 
 

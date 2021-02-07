@@ -6,7 +6,7 @@ function Event056:init()
         "Pool Building",
         56,
         "... we gonna need some rubber boots ...",
-        "YOUR Characters Cells are Lakes",
+        "YOUR Characters Cells \nare Lakes",
         1
     )
 end

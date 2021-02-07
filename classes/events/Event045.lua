@@ -6,7 +6,7 @@ function Event045:init()
         "Nasty Wormholes",
         45,
         "... couldn't you find a more disgusting name ...",
-        "ENEMY Characters teleports to RND Cell",
+        "ENEMY Characters \nteleports to RND Cell",
         1
     )
 end

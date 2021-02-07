@@ -6,7 +6,7 @@ function Event008:init()
         "Chaotic Blessing",
         8,
         "... now fight ...",
-        "ALL Characters +2AT +2DF",
+        "ALL Characters \n+2AT +2DF",
         1
     )
 end

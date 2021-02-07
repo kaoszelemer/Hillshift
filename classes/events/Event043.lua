@@ -6,7 +6,7 @@ function Event043:init()
         "Better Chance",
         43,
         "... do not open lootboxes ...",
-        "ALL Characters TDM: +1DF, TAM: +2AT ",
+        "ALL Characters \nTDM: +1DF, TAM: +2AT ",
         1
     )
 end

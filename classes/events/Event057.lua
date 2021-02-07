@@ -6,7 +6,7 @@ function Event057:init()
         "Hill Shifting",
         57,
         "... elemental plains of MJOERG ...",
-        "YOUR Characters Cells are Mounts",
+        "YOUR Characters Cells \nare Mounts",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event049:init()
         "Coordinate Geometry",
         49,
         "... was that an X or a Y ...",
-        "Character coordinates are switched",
+        "Character coordinates \nare switched",
         1
     )
 end

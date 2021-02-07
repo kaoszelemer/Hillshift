@@ -6,7 +6,7 @@ function Event062:init()
         "Enemy Refrigerator",
         62,
         "... the light is coming from the cold ...",
-        "ENEMY Characters Cells are Frozen",
+        "ENEMY Characters Cells \nare Frozen",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event072:init()
         "Timeslip",
         72,
         "... never understood timezones ...",
-        "ALL Cell modifiers -1 Turn",
+        "ALL Cell modifiers \n-1 Turn",
         1
     )
 end

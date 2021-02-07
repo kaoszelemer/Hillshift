@@ -112,6 +112,7 @@ actionMenuFont = love.graphics.newFont(24)
 turnCounter = 0
 
 nextTurnBeforeEvent = love.math.random(8, 11)
+nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
 defenseCounter = 0
@@ -141,7 +142,7 @@ littleFont = love.graphics.newFont(8)
 
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
-
+endGameImage = love.graphics.newImage("graphics/endgame.png")
 --aktualis kijelolt karakter
 selectedChar = nil
 
@@ -279,10 +280,21 @@ end
 
 function newTurn()
 
-        if eventTurnCounter == nextTurnBeforeEvent then
+        if eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             Event:enableEvent()
             eventTurnCounter = 0
+            nextTurnBeforeEventModifier = 0
         end    
+
+end
+
+function enableEndGame()
+
+    if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 then
+    drawEndGame = true
+    end
+
+
 
 end
 
@@ -319,6 +331,7 @@ function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
+    enableEndGame()
     
 
 end
@@ -327,6 +340,22 @@ function love.draw()
     board:draw()
     love.graphics.setColor(charColor)
     love.graphics.draw(mouseArrow, mouseX, mouseY)
+    
+    if drawEndGame then
+        love.graphics.draw(endGameImage, boardGrid[1][1].x * tileW + offsetX, boardGrid[1][1].y * tileH + offsetY)
+        love.graphics.setFont(actionMenuFont)
+        love.graphics.setColor(selectedColor)
+        if #activePlayer.characters == 0 then
+            love.graphics.print(inactivePlayer.name, 160 + offsetX, 500 + offsetY)
+        else
+            love.graphics.print(activePlayer.name, 160 + offsetX, 500 + offsetY)
+        end
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(charColor)
+
+    end
+
+
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )

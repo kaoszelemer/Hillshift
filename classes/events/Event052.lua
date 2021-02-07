@@ -27,7 +27,7 @@ end
 
 function Event052:eventFunction()
 
- nextTurnBeforeEvent = -3
+ nextTurnBeforeEventModifier = -8
     
 
 

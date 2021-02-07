@@ -6,7 +6,7 @@ function Event048:init()
         "Chaotic Chaos",
         48,
         "... Kaosz Elemer is the greatest ...",
-        "RND Poison, RND Fire, RND Freeze",
+        "RND Poison, \nRND Fire, \nRND Freeze",
         1
     )
 end
@@ -38,6 +38,7 @@ function Event048:eventFunction()
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             boardGrid[rndCellX][rndCellY].isFrozen = true
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
             freezeTurn = turnCounter
     end
     for i = 1, 8 do
@@ -45,6 +46,10 @@ function Event048:eventFunction()
             rndCellY = love.math.random(1, 10)
             if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end
             boardGrid[rndCellX][rndCellY].isOnFire = true
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) end
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) end
+            burntFieldTimer = turnCounter
             fireTurn = turnCounter
     end
 

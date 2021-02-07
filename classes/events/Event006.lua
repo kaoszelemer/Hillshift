@@ -6,7 +6,7 @@ function Event006:init()
         "Ice Age",
         6,
         "... brr, i'm freezing ...",
-        "RND Cell are Frozen,/n all fires are out",
+        "RND Cell are Frozen,\nall fires are out",
         0
     )
 end
@@ -32,9 +32,13 @@ function Event006:eventFunction()
     for x = 1, 40 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
+            
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
+
             boardGrid[rndCellX][rndCellY].isFrozen = true
             freezeTurn = turnCounter
     end
+
 
     for x = 1, 10 do
         for y = 1, 10 do

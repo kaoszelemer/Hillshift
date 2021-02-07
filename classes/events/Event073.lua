@@ -6,7 +6,7 @@ function Event073:init()
         "Nihil",
         73,
         "... ... ...",
-        "Nothing extraordinary happens",
+        "Nothing extraordinary \nhappens",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event014:init()
         "Teleport",
         14,
         "... when you drink so much ...",
-        "ALL Characters teleports to RND Cell",
+        "ALL Characters \nteleports to RND Cell",
         1
     )
 end
