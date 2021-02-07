@@ -376,7 +376,7 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses) 
 
-    if not enableEvent then
+    if not enableEvent or not enableEndGame then
         for _, currentChar in ipairs(activePlayer.characters) do
             if currentChar.isHovered then currentChar:click(x, y) end  
         
