@@ -348,7 +348,7 @@ function love.draw()
         if #activePlayer.characters == 0 then
             love.graphics.print(inactivePlayer.name, 160 + offsetX, 500 + offsetY)
         else
-            love.graphics.print(activePlayer.name, 160 + offsetX, 500 + offsetY)
+            love.graphics.print(activePlayer.name, 260 + offsetX, 580 + offsetY)
         end
         love.graphics.setFont(statFont)
         love.graphics.setColor(charColor)
@@ -376,7 +376,7 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses) 
 
-    if not enableEvent or not enableEndGame then
+    if not enableEvent or not drawEndGame then
         for _, currentChar in ipairs(activePlayer.characters) do
             if currentChar.isHovered then currentChar:click(x, y) end  
         

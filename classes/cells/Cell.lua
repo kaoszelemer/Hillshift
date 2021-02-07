@@ -18,9 +18,9 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
                 if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
                     self:iceSlide(selectedChar)
                 end
-                if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) == false then
+              --[[   if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) == false then
                     selectedChar.actionPoints = selectedChar.actionPoints + 1
-                end
+                end ]]
 
             end
     end

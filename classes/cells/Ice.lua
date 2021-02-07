@@ -15,8 +15,6 @@ end
 function Ice:iceSlide(selectedChar)
 
     selectedChar.iceSlide = true
-    selectedChar.isSelected = true
-    selectedChar.isInStepState = true
     selectedChar.stepPoints = selectedChar.stepPoints + 1
     selectedChar.actionPoints = 0
     
