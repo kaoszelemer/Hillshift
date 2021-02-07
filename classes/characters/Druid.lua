@@ -1,7 +1,10 @@
 local Druid = Character:extend("Druid")
     function Druid:init(parentPlayer)
         Character.init(self, 8, 4, 2, 5, love.graphics.newImage("/graphics/druid.png"), 
-                    love.graphics.newImage("/graphics/druidhover.png"), parentPlayer, 1, 1, 0, 0, 0, false)
+                    love.graphics.newImage("/graphics/druidhover.png"), 
+                    love.graphics.newImage("/graphics/druidsink.png"), 
+                    love.graphics.newImage("/graphics/druidsinkhover.png"), 
+                    parentPlayer, 1, 1, 0, 0, 0, false)
     end
 
     function Druid:spell(targetCell)

@@ -1,7 +1,10 @@
 local AirElemental = Character:extend("AirElemental")
 function AirElemental:init(parentPlayer)
     Character.init(self, 9, 4, 1, 4, love.graphics.newImage("/graphics/airelemental.png"), 
-                love.graphics.newImage("/graphics/airelementalhover.png"), parentPlayer, 1, 1, 0, 0, 0, false)
+                love.graphics.newImage("/graphics/airelementalhover.png"), 
+                love.graphics.newImage("/graphics/airelementalsink.png"),
+                love.graphics.newImage("/graphics/airelementalsinkhover.png"),
+                parentPlayer, 1, 1, 0, 0, 0, false)
 end
 
 function AirElemental:spell(targetCell)

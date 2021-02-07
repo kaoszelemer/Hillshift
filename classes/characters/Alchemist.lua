@@ -1,7 +1,11 @@
 local Alchemist = Character:extend("Alchemist")
 function Alchemist:init(parentPlayer)
     Character.init(self, 12, 4, 2, 2, love.graphics.newImage("/graphics/alchemist.png"), 
-                love.graphics.newImage("/graphics/alchemisthover.png"), parentPlayer, 1, 1, 0, 0, 0, false)
+                love.graphics.newImage("/graphics/alchemisthover.png"),
+                love.graphics.newImage("/graphics/alchemistsink.png"),
+                love.graphics.newImage("/graphics/alchemistsinkhover.png"),
+
+                parentPlayer, 1, 1, 0, 0, 0, false)
 end
 
 function Alchemist:spell(targetCell)

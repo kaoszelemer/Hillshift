@@ -1,12 +1,14 @@
 local Character = class("Character")
 
-function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
+function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
     self.baseHP = baseHP
     self.baseDefense = baseDefense
     self.baseAttack = baseAttack
     self.id = id
     self.image = image
     self.imageHover = imageHover
+    self.sinkImage = sinkImage
+    self.sinkImageHover = sinkImageHover
     self.parentPlayer = parentPlayer
     self.actionPoints = actionPoints
     self.stepPoints = stepPoints
@@ -27,7 +29,9 @@ function Character:draw()
     local x = self.x * tileW + offsetX
     local y = self.y * tileH + offsetY
     
-    if     self.isHovered == true then love.graphics.draw(self.imageHover, x, y)
+    if     boardGrid[self.x][self.y]:instanceOf(Lake) then love.graphics.draw(self.sinkImage, x, y)
+    elseif boardGrid[self.x][self.y]:instanceOf(Lake) and self.isHovered then love.graphics.draw(self.sinkImageHover, x, y)
+    elseif self.isHovered == true then love.graphics.draw(self.imageHover, x, y)
     else   love.graphics.draw(self.image, x, y)
     end
     
