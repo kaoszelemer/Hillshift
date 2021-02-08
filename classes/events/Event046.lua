@@ -6,7 +6,7 @@ function Event046:init()
         "The Burning",
         46,
         "... the smell of napalm ...",
-        "All forests are \nBurnt fields",
+        "ALL forests are \nBurnt fields",
         1
     )
 end
@@ -31,6 +31,10 @@ function Event046:eventFunction()
    for x = 1, 10 do
         for y = 1, 10 do
             if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = BurntField(x, y) end
+            if boardGrid[x][y]:instanceOf(BurntField) then 
+                boardGrid[x][y].burntFieldTimer = turnCounter 
+                boardGrid[x][y].isBurntField = true
+            end
         end
     end
 

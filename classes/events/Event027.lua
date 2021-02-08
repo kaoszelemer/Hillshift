@@ -5,8 +5,8 @@ function Event027:init()
         love.graphics.newImage("/graphics/Event014image.png"),
         "BrokenFaceBoying",
         27,
-        "... let's break some faces, boy ...",
-        "All Characters \n+3A, +2DF",
+        "... odaig kuszott ...",
+        "One of YOUR \nCharacter moves\nY+2",
         1
     )
 end

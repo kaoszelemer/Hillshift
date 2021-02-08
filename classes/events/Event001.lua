@@ -29,10 +29,17 @@ function Event001:eventFunction()
 
     for x = 1, 10 do
         for y = 1, 10 do
-            boardGrid[x][y].isOnFire = true
+            if not boardGrid[x][y]:instanceOf(BurntField) then
+                 boardGrid[x][y].isOnFire = true
+            end
             if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Field(x, y) end
             if boardGrid[x][y]:instanceOf(Ice) then boardGrid[x][y] = Lake(x, y) end
-            if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = BurntField(x, y) end
+            if boardGrid[x][y]:instanceOf(Forest) then 
+                boardGrid[x][y] = BurntField(x, y)
+                boardGrid[x][y].isBurntField = true
+                boardGrid[x][y].burntFieldTimer = turnCounter
+            end
+
             boardGrid[x][y].fireTurn = turnCounter
         end
     end

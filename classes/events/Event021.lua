@@ -30,10 +30,12 @@ function Event021:eventFunction()
 
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar.baseHP = math.floor(currentChar.baseHP / 2)
+        if currentChar.baseHP == 0 then currentChar.baseHP = 1 end
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.baseHP = math.floor(currentChar.baseHP / 2)
+        if currentChar.baseHP == 0 then currentChar.baseHP = 1 end
     end
 
 

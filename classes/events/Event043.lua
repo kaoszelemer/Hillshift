@@ -6,7 +6,7 @@ function Event043:init()
         "Better Chance",
         43,
         "... do not open lootboxes ...",
-        "ALL Characters \nTDM: +1DF, TAM: +2AT ",
+        "ENEMY Characters \nTDM: +1DF,\nYOUR Characters\n TAM: +2AT ",
         1
     )
 end
@@ -30,10 +30,8 @@ function Event043:eventFunction()
 
             for _, currentChar in ipairs(activePlayer.characters) do
                     currentChar.turnAttackModifier = currentChar.turnAttackModifier + 2
-                    currentChar.turnDefenseModifier = currentChar.turnDefenseModifier + 1
             end
             for _, currentChar in ipairs(inactivePlayer.characters) do
-                    currentChar.turnAttackModifier = currentChar.turnAttackModifier + 2
                     currentChar.turnDefenseModifier = currentChar.turnDefenseModifier + 1
             end
 

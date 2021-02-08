@@ -30,9 +30,9 @@ function Event072:eventFunction()
     for x = 1, 10 do
         for y = 1, 10 do
 
-            boardGrid[x][y].fireTurn = fireTurn - 1
-            boardGrid[x][y].poisoningTurn = poisoningTurn - 1
-            boardGrid[x][y].freezeTurn = freezeTurn - 1
+            boardGrid[x][y].fireTurn = boardGrid[x][y].fireTurn - 1
+            boardGrid[x][y].poisoningTurn =  boardGrid[x][y].poisoningTurn - 1
+            boardGrid[x][y].freezeTurn = boardGrid[x][y].freezeTurn - 1
         end
     end
 

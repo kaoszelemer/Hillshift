@@ -31,6 +31,9 @@ function Event062:eventFunction()
     for _, currentChar in ipairs(inactivePlayer.characters) do
         boardGrid[currentChar.x][currentChar.y].isFrozen = true
         boardGrid[currentChar.x][currentChar.y].freezeTurn = turnCounter
+        if boardGrid[currentChar.x][currentChar.y]:instanceOf(Lake) then
+            boardGrid[currentChar.x][currentChar.y] = Ice(currentChar.x, currentChar.y)
+        end
     end
 
 

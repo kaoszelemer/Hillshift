@@ -39,6 +39,10 @@ function Event006:eventFunction()
                 boardGrid[rndCellX][rndCellY].isFrozen = true
                 boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
             end
+
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then
+                boardGrid[rndCellX][rndCellY].isFrozen = false
+            end
     end
 
 

@@ -28,7 +28,7 @@ end
 function Event048:eventFunction()
 
 
-    for i = 1, 8 do
+    for i = 1, 16 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             if not boardGrid[rndCellX][rndCellY].isPoisoned then
@@ -36,7 +36,7 @@ function Event048:eventFunction()
                 boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
             end
     end
-    for i = 1, 8 do
+    for i = 1, 16 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
@@ -45,16 +45,19 @@ function Event048:eventFunction()
                 boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
             end
     end
-    for i = 1, 8 do
+    for i = 1, 16 do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end  
             if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
             if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) end
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) end
-            if not boardGrid[rndCellX][rndCellY].isOnFire then 
-                boardGrid[rndCellX][rndCellY].isOnFire = true 
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
+                boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) 
                 boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
+                boardGrid[rndCellX][rndCellY].isBurntField = true
+            end
+            if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) then 
+                boardGrid[rndCellX][rndCellY].isOnFire = true 
                 boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
             end
     end

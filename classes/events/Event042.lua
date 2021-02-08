@@ -6,7 +6,7 @@ function Event042:init()
         "PPPARTY",
         42,
         "... now ATTACK! ...",
-        "ALL Characters \nAT modifier +3",
+        "YOUR Characters \nAT modifier +1",
         1
     )
 end
@@ -30,10 +30,7 @@ function Event042:eventFunction()
 
   
             for _, currentChar in ipairs(activePlayer.characters) do
-                    currentChar.turnAttackModifier = currentChar.turnAttackModifier + 3
-            end
-            for _, currentChar in ipairs(inactivePlayer.characters) do
-                    currentChar.turnAttackModifier = currentChar.turnAttackModifier + 3
+                    currentChar.turnAttackModifier = currentChar.turnAttackModifier + 1
             end
 
      

@@ -178,6 +178,8 @@ function Character:drawValidIcons()
 
 end
 
+function Character:drawDice()
+end
 
 
 function Character:updateHover(mX, mY)
@@ -220,13 +222,13 @@ end
 
 function Character:click(mX, mY)
 
-    if not self.enableDefendDraw and selectedChar and selectedChar.isInDefenseState  then
+ --[[    if not self.enableDefendDraw and selectedChar and selectedChar.isInDefenseState  then
             local cell = boardGrid[self.x][ self.y]
             selectedChar:defend(cell)
             self.enableDefendDraw = true
             self.defenseState = true
             self.drawActionMenu = false
-    end
+    end ]]
 
    
     if selectedChar and selectedChar.isInAttackState and selectedChar.parentPlayer ~= self.parentPlayer then
@@ -359,6 +361,21 @@ function Character:attack(enemy)
         self.diceRoll = dr
         self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
         damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+
+        if damage == 0 then
+
+            self.divineDice = love.math.random(1, 6)
+            if self.divineDice > 3 then
+                damage = damage + 1
+                if self.divineDice == 6 then
+                    damage = damage + 1
+                end
+            end
+        end
+            
+
+
+
         enemy.baseHP = enemy.baseHP - damage
         if enemy.baseHP <= 0 then enemy:kill() end
         enableDrawAttack(self, enemy)
@@ -368,6 +385,8 @@ function Character:attack(enemy)
         enemy = nil
     end
 end
+
+
 
 
 function Character:spell(targetCell)

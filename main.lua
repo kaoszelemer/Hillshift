@@ -154,38 +154,41 @@ function endTurn()
     local burnCell
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
-    for index, row in ipairs(boardGrid) do
-        for _, cell in ipairs(row) do
+        for x = 1, 10 do
+            for y = 1, 10 do
 
-            if cell.isPoisoned and turnCounter - cell.poisoningTurn == 2 then
-                cell.isPoisoned = false
-                cell.attackModifier = cell.attackModifier + 1
-                cell.defenseModifier = cell.defenseModifier + 3
+            if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
+                boardGrid[x][y] = Field(x, y)
+                boardGrid[x][y].isBurntField = false
             end
 
-            if cell.isOnFire and turnCounter - cell.fireTurn == 2 then
-               cell.isOnFire = false
+            if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
+                boardGrid[x][y].isPoisoned = false
+                boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 1
+                boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 3
             end
 
-            if cell.isBurntField and turnCounter - cell.burntFieldTimer == 2 then
-                cell.isBurntField = false
-                boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
+            if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then
+               boardGrid[x][y].isOnFire = false
+            end
+       
+
+            if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
+                boardGrid[x][y].isFrozen = false
             end
 
-            if cell.isFrozen and turnCounter - cell.freezeTurn == 2 then
-                cell.isFrozen = false
-            end
-
-            if cell.isFrozen and turnCounter - cell.freezeTurn == 2 then
-                cell.isFrozen = false
+            if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
+                boardGrid[x][y].isFrozen = false
             end
         
-            if cell.isOnFire and cell:instanceOf(Forest) then
-                    boardGrid[cell.x][cell.y] = BurntField(cell.x, cell.y)
-                    boardGrid[cell.x][cell.y].isBurntField = true
-                    cell.burntFieldTimer = turnCounter
+                
+                        
+            if boardGrid[x][y].isOnFire and boardGrid[x][y]:instanceOf(Forest) then
+                boardGrid[x][y] = BurntField(x, y)
+                boardGrid[x][y].isBurntField = true
+                boardGrid[x][y].burntFieldTimer = turnCounter
             end
-
+                 
         end
     end
   
@@ -279,7 +282,7 @@ function newTurn()
             Event:enableEvent()
             eventTurnCounter = 0
             nextTurnBeforeEventModifier = 0
-        end    
+        end
 
 end
 
@@ -370,41 +373,41 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
-
-    if not enableEvent or not drawEndGame then
-        for _, currentChar in ipairs(activePlayer.characters) do
-            if currentChar.isHovered then currentChar:click(x, y) end  
-        
-        end
-
-        for _, currentChar in ipairs(inactivePlayer.characters) do
+    if not drawEndGame then
+        if not enableEvent then
+            for _, currentChar in ipairs(activePlayer.characters) do
+                if currentChar.isHovered then currentChar:click(x, y) end  
             
-            if currentChar.isHovered then currentChar:click(x, y) end  
-        
-        end
+            end
 
-        local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
-        local my = math.floor((mouseY / tileH) - offsetY / tileH)
-
-        if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
-            boardGrid[mx][my]:click()
-        end
-
-        if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
-        --  isEndTurnButtonClicked = true
-            endTurn()
-            newTurn()
-        end
-
-    end
-
-    if enableEvent and
-        x > (width / 4 + offsetX) + 250 and x < (width / 4 + offsetX) + 302 and
-        y > (height / 4 + offsetY) + 260 and y < ((height / 4 + offsetY) + 310) then
-            Event:confirmEventWithClick()
+            for _, currentChar in ipairs(inactivePlayer.characters) do
+                
+                if currentChar.isHovered then currentChar:click(x, y) end  
             
-    end
+            end
 
+            local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
+            local my = math.floor((mouseY / tileH) - offsetY / tileH)
+
+            if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
+                boardGrid[mx][my]:click()
+            end
+
+            if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
+            --  isEndTurnButtonClicked = true
+                endTurn()
+                newTurn()
+            end
+
+        end
+
+        if enableEvent and
+            x > (width / 4 + offsetX) + 250 and x < (width / 4 + offsetX) + 302 and
+            y > (height / 4 + offsetY) + 260 and y < ((height / 4 + offsetY) + 310) then
+                Event:confirmEventWithClick()
+                
+        end
+    end
     
 
 end

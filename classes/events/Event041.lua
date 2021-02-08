@@ -6,7 +6,7 @@ function Event041:init()
         "Fortress",
         41,
         "... now we need a Team ...",
-        "YOUR Characters \nTURN DF Modifier +3",
+        "ENEMY Characters \nTURN DF Modifier +3",
         1
     )
 end
@@ -29,7 +29,7 @@ function Event041:eventFunction()
 
 
     
-            for _, currentChar in ipairs(activePlayer.characters) do
+            for _, currentChar in ipairs(inactivePlayer.characters) do
            
                     currentChar.turnDefenseModifier = currentChar.turnDefenseModifier + 3
 

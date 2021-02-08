@@ -28,9 +28,22 @@ end
 function Event060:eventFunction()
 
 
+   
     for _, currentChar in ipairs(inactivePlayer.characters) do
         boardGrid[currentChar.x][currentChar.y].isOnFire = true
-        fireTurn = turnCounter
+        boardGrid[currentChar.x][currentChar.y].fireTurn = turnCounter
+        if boardGrid[currentChar.x][currentChar.y]:instanceOf(Forest) then
+            boardGrid[currentChar.x][currentChar.y] = BurntField(currentChar.x, currentChar.y)
+            boardGrid[currentChar.x][currentChar.y].isBurntField = true
+            boardGrid[currentChar.x][currentChar.y].burntFieldTimer = turnCounter
+        end 
+        if boardGrid[currentChar.x][currentChar.y]:instanceOf(Lake) then
+            boardGrid[currentChar.x][currentChar.y] = Field(currentChar.x, currentChar.y)
+        end
+        if boardGrid[currentChar.x][currentChar.y]:instanceOf(Ice) then
+            boardGrid[currentChar.x][currentChar.y] = Lake(currentChar.x, currentChar.y)
+        end
+
     end
 
 
