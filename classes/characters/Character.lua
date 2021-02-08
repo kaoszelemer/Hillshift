@@ -39,13 +39,13 @@ function Character:draw()
         if self.actionPoints ~= 0 then love.graphics.draw(attackIcon, x, y) end
         if self.stepPoints ~= 0 then love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) end
         if self.actionPoints ~= 0 then love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) end
-        if self.actionPoints ~= 0 then love.graphics.draw(defenseIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2)) end   
+       -- if self.actionPoints ~= 0 then love.graphics.draw(defenseIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2)) end   
     end
 
-    if self.enableDefendDraw then
+  --[[   if self.enableDefendDraw then
         self.isActionMenuDrawn = false
         love.graphics.draw(defendedCellIcon, self.x * tileW + offsetX, self.y * tileH + offsetY)
-    end
+    end ]]
 
 
 end
@@ -298,10 +298,10 @@ function Character:chooseActionMenu(mx, my)
                 self.isActionMenuDrawn = false     
         end
         -- JOBB ALSO NEGYED - DEFENSE STATE
-        if mx > cx + tileW / 2 and mx < cx + tileW and  my > cy + tileH / 2 and my < cy + tileH and self.actionPoints ~= 0 then
+       --[[  if mx > cx + tileW / 2 and mx < cx + tileW and  my > cy + tileH / 2 and my < cy + tileH and self.actionPoints ~= 0 then
                 self.isInDefenseState = true
                 self.isActionMenuDrawn = false
-        end
+        end ]]
     
     self.drawBattle = false
 end
@@ -330,7 +330,7 @@ function Character:move(x, y)
 end
 
 
-function Character:defend(cell)
+--[[ function Character:defend(cell)
     if self.defenseState and self.actionPoints ~= 0 and self.isHovered then
         self.turnDefenseModifier = self.turnDefenseModifier + 2
         self.defenseCounter = turnCounter
@@ -339,7 +339,7 @@ function Character:defend(cell)
         self.isSelected = false
     else self.isInDefenseState = false
     end
-end
+end ]]
 
 function Character:kill()
  

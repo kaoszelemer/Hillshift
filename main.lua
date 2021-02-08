@@ -208,20 +208,20 @@ function endTurn()
             currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
             currentChar.actionPointModify = false
         end
-        if currentChar.defenseState then
+       --[[  if currentChar.defenseState then
             currentChar.defenseCounter = currentChar.defenseCounter + 1
         end
-        
+         ]]
         local cell = boardGrid[currentChar.x][currentChar.y]
 
         if not cell.isPoisoned then
             currentChar.turnDefenseModifier = 0
             currentChar.turnAttackModifier = 0
         end
-        if currentChar.defenseState then
+      --[[   if currentChar.defenseState then
             currentChar.turnDefenseModifier = 2
         end
-
+ ]]
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
