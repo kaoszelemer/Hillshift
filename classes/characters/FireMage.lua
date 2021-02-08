@@ -17,7 +17,7 @@ function FireMage:spell(targetCell)
         if self.x - 1 > 0 and self.y - 1 > 0 then
 
             boardGrid[self.x - 1][self.y - 1].isOnFire = true
-            fireTurn = turnCounter
+            boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
             if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
                 boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
@@ -44,7 +44,7 @@ function FireMage:spell(targetCell)
         if self.x + 1 <= 10 and self.y - 1 > 0 then
 
             boardGrid[self.x + 1][self.y - 1].isOnFire = true
-            fireTurn = turnCounter
+            boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
 
             if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
@@ -81,7 +81,7 @@ function FireMage:spell(targetCell)
         if self.x - 1 > 0 and self.y + 1 <= 10 then
 
             boardGrid[self.x - 1][self.y + 1].isOnFire = true
-            fireTurn = turnCounter
+            boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
 
         
             if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
@@ -111,7 +111,7 @@ function FireMage:spell(targetCell)
         if self.x + 1 <= 10 and self.y + 1 <= 10 then 
 
             boardGrid[self.x + 1][self.y + 1].isOnFire = true
-            fireTurn = turnCounter
+            boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
 
             
             if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 

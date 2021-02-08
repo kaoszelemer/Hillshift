@@ -6,7 +6,7 @@ function Event010:init()
         "Bad Luck",
         10,
         "... sorry, i had to do this ...",
-        "ENEMY Characters +1AT",
+        "ALL Characters +1AT",
         0
     )
 end
@@ -29,6 +29,9 @@ function Event010:eventFunction()
 
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
+        currentChar.baseAttack = currentChar.baseAttack + 1  
+    end
+    for _, currentChar in ipairs(activePlayer.characters) do
         currentChar.baseAttack = currentChar.baseAttack + 1  
     end
 

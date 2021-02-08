@@ -6,7 +6,7 @@ function Event009:init()
         "Starvation",
         9,
         "... gimme a burger ...",
-        "ENEMY Characters - 1DF",
+        "ALL Characters - 1DF",
         1
     )
 end
@@ -30,7 +30,9 @@ function Event009:eventFunction()
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.baseDefense = currentChar.baseDefense - 1  
-
+    end
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar.baseDefense = currentChar.baseDefense - 1  
     end
 
 

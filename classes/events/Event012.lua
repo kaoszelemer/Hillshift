@@ -29,12 +29,10 @@ function Event012:eventFunction()
 
 
     for _, currentChar in ipairs(playerOne.characters) do
-
         currentChar.baseDefense = currentChar.baseDefense - 2
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
-
         currentChar.baseDefense = currentChar.baseDefense - 2
     end
 

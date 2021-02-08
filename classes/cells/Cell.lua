@@ -1,12 +1,16 @@
 local Cell = class("Cell")
 
-function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier)
+function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, poisoningTurn, fireTurn, freezeTurn, burntFieldTimer)
     self.x = x
     self.y = y
     self.isWalkable = isWalkable
     self.quad = quad
     self.attackModifier = attackModifier
     self.defenseModifier = defenseModifier
+    self.poisoningTurn = poisoningTurn
+    self.fireTurn = fireTurn
+    self.freezeTurn = freezeTurn
+    self.burntFieldTimer = burntFieldTimer
 end
 
 function Cell:moveSelectedCharIfValidOffset(ox, oy)

@@ -31,7 +31,7 @@ function Event055:eventFunction()
   
     for _, currentChar in ipairs(activePlayer.characters) do
         boardGrid[currentChar.x][currentChar.y].isPoisoned = true
-        poisoningTurn = turnCounter
+        boardGrid[currentChar.x][currentChar.y].poisoningTurn = turnCounter
     end
 
 

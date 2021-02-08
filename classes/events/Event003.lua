@@ -6,7 +6,7 @@ function Event003:init()
         "Blessing",
         3,
         "... Kifli blesses you...",
-        "YOUR characters +1AT",
+        "ALL characters +1AT",
         1
     )
 end
@@ -30,12 +30,10 @@ function Event003:eventFunction()
 
 
     for _, currentChar in ipairs(playerOne.characters) do
-
         currentChar.baseAttack = currentChar.baseAttack + 1
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
-
         currentChar.baseAttack = currentChar.baseAttack + 1
     end
 

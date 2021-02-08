@@ -6,7 +6,7 @@ function Event008:init()
         "Chaotic Blessing",
         8,
         "... now fight ...",
-        "ALL Characters \n+2AT +2DF",
+        "ALL Characters \n+1AT +1DF",
         1
     )
 end
@@ -29,15 +29,13 @@ function Event008:eventFunction()
 
    
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseAttack = currentChar.baseAttack + 2
-        currentChar.baseDefense = currentChar.baseDefense + 2
-
+        currentChar.baseAttack = currentChar.baseAttack + 1
+        currentChar.baseDefense = currentChar.baseDefense + 1
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseAttack = currentChar.baseAttack + 2
-        currentChar.baseDefense = currentChar.baseDefense + 2
-
+        currentChar.baseAttack = currentChar.baseAttack + 1
+        currentChar.baseDefense = currentChar.baseDefense + 1
     end
 
 

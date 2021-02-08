@@ -35,8 +35,10 @@ function Event006:eventFunction()
             
             if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
 
-            boardGrid[rndCellX][rndCellY].isFrozen = true
-            freezeTurn = turnCounter
+            if not boardGrid[rndCellX][rndCellY].isFrozen then 
+                boardGrid[rndCellX][rndCellY].isFrozen = true
+                boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
+            end
     end
 
 

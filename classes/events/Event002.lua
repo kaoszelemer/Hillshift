@@ -30,11 +30,11 @@ function Event002:eventFunction()
 
 
     for _, currentChar in ipairs(playerOne.characters) do
-        currentChar.baseHP = currentChar.baseHP + 4
+        currentChar.baseHP = currentChar.baseHP + 1
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
-        currentChar.baseHP = currentChar.baseHP + 4
+        currentChar.baseHP = currentChar.baseHP + 1
     end
 
 

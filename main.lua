@@ -115,11 +115,6 @@ nextTurnBeforeEvent = love.math.random(8, 11)
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
-defenseCounter = 0
-fireTurn = 0
-poisoningTurn = 0
-freezeTurn = 0
-burntFieldTimer = 0
 
 --karakterek valtozoi
 charColor = {1, 1, 1}
@@ -162,33 +157,33 @@ function endTurn()
     for index, row in ipairs(boardGrid) do
         for _, cell in ipairs(row) do
 
-            if cell.isPoisoned and turnCounter - poisoningTurn == 3 then
+            if cell.isPoisoned and turnCounter - cell.poisoningTurn == 2 then
                 cell.isPoisoned = false
                 cell.attackModifier = cell.attackModifier + 1
                 cell.defenseModifier = cell.defenseModifier + 3
             end
 
-            if cell.isOnFire and turnCounter - fireTurn == 3 then
+            if cell.isOnFire and turnCounter - cell.fireTurn == 2 then
                cell.isOnFire = false
             end
 
-            if cell.isBurntField and turnCounter - burntFieldTimer == 3 then
+            if cell.isBurntField and turnCounter - cell.burntFieldTimer == 2 then
                 cell.isBurntField = false
                 boardGrid[cell.x][cell.y] = Field(cell.x, cell.y)
             end
 
-            if cell.isFrozen and turnCounter - freezeTurn == 3 then
+            if cell.isFrozen and turnCounter - cell.freezeTurn == 2 then
                 cell.isFrozen = false
             end
 
-            if cell.isFrozen and turnCounter - freezeTurn == 3 then
+            if cell.isFrozen and turnCounter - cell.freezeTurn == 2 then
                 cell.isFrozen = false
             end
         
             if cell.isOnFire and cell:instanceOf(Forest) then
                     boardGrid[cell.x][cell.y] = BurntField(cell.x, cell.y)
                     boardGrid[cell.x][cell.y].isBurntField = true
-                    burntFieldTimer = turnCounter
+                    cell.burntFieldTimer = turnCounter
             end
 
         end

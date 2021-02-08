@@ -30,7 +30,7 @@ function Event053:eventFunction()
 
     for _, currentChar in ipairs(activePlayer.characters) do
         boardGrid[currentChar.x][currentChar.y].isOnFire = true
-        fireTurn = turnCounter
+        boardGrid[currentChar.x][currentChar.y].fireTurn = turnCounter
     end
 
 

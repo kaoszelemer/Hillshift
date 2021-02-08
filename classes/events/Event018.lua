@@ -31,8 +31,9 @@ function Event018:eventFunction()
         for y = 1, (love.math.random(1,100)) do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
-            boardGrid[rndCellX][rndCellY].isOnFire = true
-            fireTurn = turnCounter
+            if not boardGrid[rndCellX][rndCellY].isOnFire then boardGrid[rndCellX][rndCellY].isOnFire = true
+                boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
+            end
         end
 
 

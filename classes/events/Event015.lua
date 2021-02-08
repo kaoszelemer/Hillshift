@@ -30,8 +30,10 @@ function Event015:eventFunction()
     for x = 1, (love.math.random(1, 100)) do
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
-            boardGrid[rndCellX][rndCellY].isPoisoned = true
-            poisoningTurn = turnCounter
+            if not boardGrid[rndCellX][rndCellY].isPoisoned then 
+                boardGrid[rndCellX][rndCellY].isPoisoned = true
+                boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
+            end
     end
 
 

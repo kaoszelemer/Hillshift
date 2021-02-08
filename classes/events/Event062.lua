@@ -30,7 +30,7 @@ function Event062:eventFunction()
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         boardGrid[currentChar.x][currentChar.y].isFrozen = true
-        freezeTurn = turnCounter
+        boardGrid[currentChar.x][currentChar.y].freezeTurn = turnCounter
     end
 
 

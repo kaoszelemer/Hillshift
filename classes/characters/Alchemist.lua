@@ -20,7 +20,8 @@ function Alchemist:spell(targetCell)
             
                 boardGrid[self.x - 1][self.y - 1].isPoisoned = true
                 boardGrid[self.x - 2][self.y - 2].isPoisoned = true
-                poisoningTurn = turnCounter
+                boardGrid[self.x - 1][self.y - 1].poisoningTurn = turnCounter
+                boardGrid[self.x - 2][self.y - 2].poisoningTurn = turnCounter
 
                 boardGrid[self.x - 1][self.y - 1].attackModifier = boardGrid[self.x - 1][self.y - 1].attackModifier - 1
                 boardGrid[self.x - 2][self.y - 2].attackModifier = boardGrid[self.x - 2][self.y - 2].attackModifier - 2
@@ -34,7 +35,7 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x - 1][self.y - 1].isPoisoned = true
                 boardGrid[self.x - 1][self.y - 1].attackModifier = boardGrid[self.x - 1][self.y - 1].attackModifier - 1
                 boardGrid[self.x - 1][self.y - 1].defenseModifier = boardGrid[self.x - 1][self.y - 1].defenseModifier - 3
-                poisoningTurn = turnCounter
+                boardGrid[self.x - 1][self.y - 1].poisoningTurn = turnCounter
 
 
         else self.isInSpellState = false
@@ -53,7 +54,8 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x + 1][self.y - 1].defenseModifier = boardGrid[self.x + 1][self.y - 1].defenseModifier - 3
                 boardGrid[self.x + 2][self.y - 2].defenseModifier = boardGrid[self.x + 2][self.y - 2].defenseModifier - 3
 
-                poisoningTurn = turnCounter
+                boardGrid[self.x + 1][self.y - 1].poisoningTurn = turnCounter
+                boardGrid[self.x + 2][self.y - 2].poisoningTurn = turnCounter
 
 
         elseif (self.x + 1 <= 10 and self.y - 1 > 0) and (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
@@ -61,7 +63,7 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x + 1][self.y - 1].isPoisoned = true
                 boardGrid[self.x + 1][self.y - 1].attackModifier = boardGrid[self.x - 1][self.y - 1].attackModifier - 1
                 boardGrid[self.x + 1][self.y - 1].defenseModifier = boardGrid[self.x - 1][self.y - 1].defenseModifier - 3
-                poisoningTurn = turnCounter
+                boardGrid[self.x + 1][self.y - 1].poisoningTurn = turnCounter
 
 
         else self.isInSpellState = false
@@ -79,7 +81,8 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x - 2][self.y + 2].attackModifier = boardGrid[self.x - 2][self.y + 2].attackModifier - 2
                 boardGrid[self.x - 1][self.y + 1].defenseModifier = boardGrid[self.x - 1][self.y + 1].defenseModifier - 3
                 boardGrid[self.x - 2][self.y + 2].defenseModifier = boardGrid[self.x - 2][self.y + 2].defenseModifier - 3
-                poisoningTurn = turnCounter
+                boardGrid[self.x - 1][self.y + 1].poisoningTurn = turnCounter
+                boardGrid[self.x - 2][self.y + 2].poisoningTurn = turnCounter
 
 
         elseif (self.x - 1 > 0 and self.y + 1 <= 10) and (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) then
@@ -90,7 +93,7 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x - 1][self.y + 1].attackModifier = boardGrid[self.x - 1][self.y + 1].attackModifier - 1
                 boardGrid[self.x - 1][self.y + 1].defenseModifier = boardGrid[self.x - 1][self.y + 1].defenseModifier - 3
             
-                poisoningTurn = turnCounter
+                boardGrid[self.x - 1][self.y + 1].poisoningTurn = turnCounter
 
 
         else self.isInSpellState = false
@@ -109,7 +112,8 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x + 1][self.y + 1].defenseModifier = boardGrid[self.x + 1][self.y + 1].defenseModifier - 3
                 boardGrid[self.x + 2][self.y + 2].defenseModifier = boardGrid[self.x + 2][self.y + 2].defenseModifier - 3
              
-                poisoningTurn = turnCounter
+                boardGrid[self.x + 1][self.y + 1].poisoningTurn = turnCounter
+                boardGrid[self.x + 2][self.y + 2].poisoningTurn = turnCounter
 
 
         elseif (self.x + 1 <= 10 and self.y + 1 <= 10) and (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
@@ -119,7 +123,7 @@ function Alchemist:spell(targetCell)
                 boardGrid[self.x + 1][self.y + 1].isPoisoned = true
                 boardGrid[self.x + 1][self.y + 1].attackModifier = boardGrid[self.x + 1][self.y + 1].attackModifier - 1
                 boardGrid[self.x + 1][self.y + 1].defenseModifier = boardGrid[self.x + 1][self.y + 1].defenseModifier - 3
-                poisoningTurn = turnCounter
+                boardGrid[self.x + 1][self.y + 1].poisoningTurn = turnCounter
 
         else self.isInSpellState = false
         end
