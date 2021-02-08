@@ -13,7 +13,7 @@ end
 function Event:initEventTable()
 
     table.insert(eventTable, Event001())
-    --[[ table.insert(eventTable, Event002())
+    table.insert(eventTable, Event002())
     table.insert(eventTable, Event003())
     table.insert(eventTable, Event004())
     table.insert(eventTable, Event005())
@@ -26,7 +26,7 @@ function Event:initEventTable()
     table.insert(eventTable, Event012())
     table.insert(eventTable, Event013())
     table.insert(eventTable, Event014())
-    --table.insert(eventTable, Event015())
+    table.insert(eventTable, Event015())
     table.insert(eventTable, Event016())
     table.insert(eventTable, Event017())
     table.insert(eventTable, Event018())
@@ -84,7 +84,7 @@ function Event:initEventTable()
     table.insert(eventTable, Event072())
     table.insert(eventTable, Event073())
     table.insert(eventTable, Event074())
-    table.insert(eventTable, Event075()) ]]
+    table.insert(eventTable, Event075())
     
 end
 
