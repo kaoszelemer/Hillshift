@@ -252,7 +252,20 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                 elseif  playerone.characters[i].isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
                 elseif  playerone.characters[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
                 end ]]
-               
+               local minHealthBarHeight = 4.5
+               love.graphics.rectangle("line", pxp - 33, i * 108, 13, playerone.characters[i].baseHP * minHealthBarHeight + 1)
+               if playerone.characters[i].baseHP <= 3 then
+                love.graphics.setColor(selectedColor)
+               love.graphics.rectangle("fill", pxp - 32, 1 + i * 108, 12 , playerone.characters[i].baseHP * minHealthBarHeight)
+               love.graphics.setColor(charColor)
+               else
+                love.graphics.setColor(greenColor)
+                love.graphics.rectangle("fill", pxp - 32, 1 + i * 108, 12 , playerone.characters[i].baseHP * minHealthBarHeight)
+                love.graphics.setColor(charColor)
+               end
+               love.graphics.setColor(selectedColor)
+               love.graphics.print("H\nP", pxp - 30, 3 + i * 108)
+               love.graphics.setColor(charColor)
 
             end
         end
@@ -384,7 +397,20 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                         --[[ if  playertwo.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2 ) + 200, 10)
                         elseif  playertwo.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2 ) + 200, 10)
                         end ]]
-                        
+                        local minHealthBarHeight = 4.5
+                        love.graphics.rectangle("line", pxp + 147, 7 + i * 108, 13, playertwo.characters[i].baseHP * minHealthBarHeight + 1)
+                        if playertwo.characters[i].baseHP <= 3 then
+                         love.graphics.setColor(selectedColor)
+                        love.graphics.rectangle("fill", pxp + 148, 8 + i * 108, 12 , playertwo.characters[i].baseHP * minHealthBarHeight)
+                        love.graphics.setColor(charColor)
+                        else
+                         love.graphics.setColor(greenColor)
+                         love.graphics.rectangle("fill", pxp + 148, 8 + i * 108, 12 , playertwo.characters[i].baseHP * minHealthBarHeight)
+                         love.graphics.setColor(charColor)
+                        end
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("H\nP", pxp + 148, 11 + i * 108)
+                        love.graphics.setColor(charColor)
                         love.graphics.setFont(statFont)
 
 

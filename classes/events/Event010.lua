@@ -27,13 +27,14 @@ end
 
 function Event010:eventFunction()
 
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar.baseAttack = currentChar.baseAttack + 1  
+    end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.baseAttack = currentChar.baseAttack + 1  
     end
-    for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseAttack = currentChar.baseAttack + 1  
-    end
+   
 
 
 

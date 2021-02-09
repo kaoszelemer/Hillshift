@@ -122,6 +122,7 @@ cellOccupiedColor = {1, 192 / 255, 203 / 255}
 hoverColor = {0, 0, 1}
 selectedColor = {1, 0, 0}
 greenColor = {0, 1, 0}
+blackColor = {0, 0, 0}
 charH = 32
 charW = 32
 --eger es egyeb interakciok valtozoi
