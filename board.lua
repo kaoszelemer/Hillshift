@@ -34,7 +34,8 @@ endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicke
 --Event UI
 eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
-
+--Cell drawables
+lightningImage = love.graphics.newImage("/graphics/lightning.png")
 
 
 
@@ -81,6 +82,7 @@ local function initPlayerDeck(player)
     table.insert(player.characters, FireMage(player))
     table.insert(player.characters, Druid(player))
     table.insert(player.characters, IceWizard(player))
+    table.insert(player.characters, ThunderShaman(player))
     
 
     while #player.characters ~= 4 do     
@@ -666,6 +668,19 @@ function board:update(dt)
         drawAttack = false
     end
 
+    local lightningTimerStop = 1
+
+    for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y].drawLightning and love.timer.getTime() - lightningTimer >= lightningTimerStop then
+               boardGrid[x][y].drawLightning = false
+            end
+
+
+        end
+    end
+
+
     testBoardForOccupy(activePlayer, inactivePlayer)
 
 end
@@ -685,6 +700,7 @@ function board:draw()
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
+    Cell:drawLightningOnBoard()
 
 
     -----EVENT RAJZOLÁS

@@ -1,6 +1,6 @@
 local Cell = class("Cell")
 
-function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, poisoningTurn, fireTurn, freezeTurn, burntFieldTimer)
+function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, poisoningTurn, fireTurn, freezeTurn, burntFieldTimer, drawLightning)
     self.x = x
     self.y = y
     self.isWalkable = isWalkable
@@ -11,6 +11,7 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, pois
     self.fireTurn = fireTurn
     self.freezeTurn = freezeTurn
     self.burntFieldTimer = burntFieldTimer
+    self.drawLightning = drawLightning
 end
 
 function Cell:moveSelectedCharIfValidOffset(ox, oy)
@@ -32,6 +33,28 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
 end
 
 function Cell:iceSlide(selectedChar)
+end
+
+
+function Cell:drawLightningOnBoard()
+    for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y].drawLightning == true then
+                love.graphics.draw(lightningImage, boardGrid[x][y].x * tileW + offsetX, boardGrid[x][y].y * tileH + offsetY)
+                love.graphics.setColor(selectedColor)
+                love.graphics.setFont(font)
+                if boardGrid[x][y]:instanceOf(Lake) and boardGrid[x][y].isOccupied then
+                    love.graphics.print("-3", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                elseif boardGrid[x][y].isOccupied then
+                    love.graphics.print("-1", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                end
+                love.graphics.setColor(charColor)
+                love.graphics.setFont(statFont)
+            end
+        end
+    end
+
+
 end
 
 

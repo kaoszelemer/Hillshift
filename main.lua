@@ -8,6 +8,7 @@ Lake = require('classes.cells.Lake')
 Mount = require('classes.cells.Mount')
 Field = require('classes.cells.Field')
 BurntField = require('classes.cells.BurntField')
+MagicForest = require('classes.cells.MagicForest')
 Ice = require('classes.cells.Ice')
 Character = require('classes.characters.Character')
 GeoGnome = require('classes.characters.GeoGnome')
@@ -16,6 +17,7 @@ IceWizard = require('classes.characters.IceWizard')
 AirElemental = require('classes.characters.AirElemental')
 Alchemist = require('classes.characters.Alchemist')
 FireMage = require('classes.characters.FireMage')
+ThunderShaman = require('classes.characters.ThunderShaman')
 Event = require('classes.events.Event')
 Event001 = require('classes.events.Event001')
 Event002 = require('classes.events.Event002')
@@ -115,6 +117,7 @@ nextTurnBeforeEvent = love.math.random(8, 11)
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
+lightningTimer = 0
 
 --karakterek valtozoi
 charColor = {1, 1, 1}
@@ -285,6 +288,20 @@ function newTurn()
             nextTurnBeforeEventModifier = 0
         end
 
+        for x = 1, 10 do
+            for y = 1, 10 do
+                for _, currentChar in ipairs(activePlayer.characters) do
+
+                    if boardGrid[x][y].x == currentChar.x and boardGrid[x][y].y == currentChar.y and boardGrid[x][y]:instanceOf(MagicForest) then
+                        currentChar.actionPoints = currentChar.actionPoints + 1
+                    end
+                end
+
+
+            end
+        end
+
+
 end
 
 function enableEndGame()
@@ -313,6 +330,72 @@ local function selectStartingPlayer()
         end
    
 end
+
+local function testMouseForValidSpellDrawing(rMx, rMy)
+
+    local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
+    local  mY = math.floor((rMy / tileH) - offsetY / tileH)
+
+    for _, currentChar in ipairs(activePlayer.characters) do
+
+        --- Fent lent jobbra balra
+
+
+        if currentChar.isInSpellState and currentChar.x < mX then
+            pointerOnLeftSide = false
+            pointerOnRightSide = true
+            pointerOnTopSide = false
+            pointerOnBottomSide = false
+        elseif currentChar.isInSpellState and currentChar.x  > mX then
+            pointerOnLeftSide = true
+            pointerOnRightSide = false
+            pointerOnTopSide = false
+            pointerOnBottomSide = false
+        elseif currentChar.isInSpellState and currentChar.y < mY  then
+            pointerOnTopSide = false
+            pointerOnBottomSide = true
+            pointerOnLeftSide = false
+            pointerOnRightSide = false
+        elseif currentChar.isInSpellState and currentChar.y > mY then
+            pointerOnTopSide = true
+            pointerOnBottomSide = false
+            pointerOnLeftSide = false
+            pointerOnRightSide = false
+        end 
+
+        --4 irányba pl. alkimista
+
+        if currentChar.isInSpellState and mX < currentChar.x and mY < currentChar.y then
+            pointerOnTopLeftSide = true
+            pointerOnTopRightSide = false
+            pointerOnBottomRightSide = false
+            pointerOnBottomLeftSide = false
+        elseif currentChar.isInSpellState and mX > currentChar.x and mY < currentChar.y then
+            pointerOnTopLeftSide = false
+            pointerOnTopRightSide = true
+            pointerOnBottomRightSide = false
+            pointerOnBottomLeftSide = false
+        elseif currentChar.isInSpellState and mX < currentChar.x and mY > currentChar.y then
+            pointerOnTopLeftSide = false
+            pointerOnTopRightSide = false
+            pointerOnBottomRightSide = false
+            pointerOnBottomLeftSide = true
+        elseif currentChar.isInSpellState and mX > currentChar.x and mY > currentChar.y then
+            pointerOnTopLeftSide = false
+            pointerOnTopRightSide = false
+            pointerOnBottomRightSide = true
+            pointerOnBottomLeftSide = false
+        end
+
+
+
+
+
+    end
+
+    
+end
+
 
 function love.load()
     --board betoltese
@@ -359,9 +442,14 @@ end
 
 function love.mousemoved( x, y, dx, dy, istouch )
 
-   
+   testMouseForValidSpellDrawing(x, y)
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar:updateHover(x, y)
+        print(x, currentChar.x * tileW + offsetX)
+
+        
+        
+
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
