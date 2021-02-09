@@ -199,8 +199,6 @@ function Character:drawValidIcons()
 
 end
 
-function Character:drawDice()
-end
 
 
 function Character:updateHover(mX, mY)
@@ -384,18 +382,16 @@ function Character:attack(enemy)
         damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 
         if damage == 0 then
-
-            self.divineDice = love.math.random(1, 6)
-            if self.divineDice > 3 then
+            enableDivineDice = true
+            self.divineDiceRoll = love.math.random(1, 6)
+            if self.divineDiceRoll > 3 then
                 damage = damage + 1
-                if self.divineDice == 6 then
-                    damage = damage + 1
-                end
+            elseif self.divineDiceRoll == 6 then
+                damage = damage + 2
+            elseif self.divineDiceRoll <= 3 then
+                damage = damage
             end
         end
-            
-
-
 
         enemy.baseHP = enemy.baseHP - damage
         if enemy.baseHP <= 0 then enemy:kill() end

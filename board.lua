@@ -38,6 +38,16 @@ eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
 lightningImage = love.graphics.newImage("/graphics/lightning.png")
 
 
+--Dice images and quad
+diceImage = love.graphics.newImage("/graphics/dicequad.png")
+divineDiceImage = love.graphics.newImage("/graphics/divinedicequad.png")
+local diceQuadWidth = 384
+diceOne = love.graphics.newQuad(0, 0, tileW, tileH, diceQuadWidth, tileH) 
+diceTwo = love.graphics.newQuad(64, 0, tileW, tileH, diceQuadWidth, tileH) 
+diceThree = love.graphics.newQuad(128, 0, tileW, tileH, diceQuadWidth, tileH) 
+diceFour = love.graphics.newQuad(192, 0, tileW, tileH, diceQuadWidth, tileH) 
+diceFive = love.graphics.newQuad(256, 0, tileW, tileH, diceQuadWidth, tileH) 
+diceSix = love.graphics.newQuad(320, 0, tileW, tileH,  diceQuadWidth, tileH) 
 
 --1a. a tileset változói
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
@@ -606,7 +616,6 @@ function enableDrawAttack(character, enemy)
     drawAttack = true
     drawnAttackingCharacter = character
     drawnEnemyCharacter = enemy
-
     timerStart = love.timer.getTime()
     timerStop = 10
 
@@ -632,6 +641,81 @@ function drawAttackOnBoard()
             love.graphics.setColor(selectedColor)
             love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
             love.graphics.setColor(charColor)
+
+
+
+            local diceX = width - 300
+            local diceY = height - 180
+            local divineDiceX = width - 172
+            love.graphics.setFont(pointFont)
+            love.graphics.print("Dice:", diceX + 10, diceY - 32)
+            if character.diceRoll == 1 then
+                love.graphics.draw(diceImage, diceOne, diceX, diceY)
+            end
+            if character.diceRoll == 2 then
+                love.graphics.draw(diceImage, diceTwo, diceX, diceY)
+            end
+            if character.diceRoll == 3 then
+                love.graphics.draw(diceImage, diceThree, diceX, diceY)
+            end
+            if character.diceRoll == 4 then
+                love.graphics.draw(diceImage, diceFour, diceX, diceY)
+            end
+            if character.diceRoll == 5 then
+                love.graphics.draw(diceImage, diceFive, diceX, diceY)
+            end
+            if character.diceRoll == 6 then
+                love.graphics.draw(diceImage, diceSix, diceX, diceY)
+            end
+
+            if enableDivineDice == true then
+                love.graphics.print("Divine Dice:", divineDiceX - 20, diceY - 32)
+                love.graphics.setFont(font)
+                
+                if character.divineDiceRoll == 1 then
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
+                    love.graphics.setColor(charColor)
+                    love.graphics.draw(divineDiceImage, diceOne, divineDiceX, diceY)
+                end
+                if character.divineDiceRoll == 2 then
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
+                    love.graphics.setColor(charColor)
+                    love.graphics.draw(divineDiceImage, diceTwo, divineDiceX, diceY)
+                end
+                if character.divineDiceRoll == 3 then
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
+                    love.graphics.setColor(charColor)
+                    love.graphics.draw(divineDiceImage, diceThree, divineDiceX, diceY)
+                end
+                if character.divineDiceRoll == 4 then
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("-1 HP", divineDiceX + 80, diceY + 24)
+                    love.graphics.setColor(charColor)
+                    love.graphics.draw(divineDiceImage, diceFour, divineDiceX, diceY)
+                end
+                if character.divineDiceRoll == 5 then
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("-1 HP", divineDiceX + 80, diceY + 32)
+                    love.graphics.setColor(charColor)
+                    love.graphics.draw(divineDiceImage, diceFive, divineDiceX, diceY)
+                    
+                end
+                if character.divineDiceRoll == 6 then
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("-2 HP", divineDiceX + 80, diceY + 32)
+                    love.graphics.setColor(charColor)
+                    love.graphics.draw(divineDiceImage, diceSix, divineDiceX, diceY)
+                   
+                end
+
+                
+
+            end
+
+
         end
     end
 
