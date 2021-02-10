@@ -670,7 +670,7 @@ function drawAttackOnBoard()
 
             if enableDivineDice == true then
                 love.graphics.print("Divine Dice:", divineDiceX - 20, diceY - 32)
-                love.graphics.setFont(font)
+                love.graphics.setFont(pointFont)
                 
                 if character.divineDiceRoll == 1 then
                     love.graphics.setColor(selectedColor)

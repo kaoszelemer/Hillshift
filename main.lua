@@ -444,20 +444,13 @@ function love.mousemoved( x, y, dx, dy, istouch )
 
    testMouseForValidSpellDrawing(x, y)
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar:updateHover(x, y)
-        print(x, currentChar.x * tileW + offsetX)
-
-        
-        
-
+        currentChar:updateHover(x, y)        
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar:updateHover(x, y)
         currentChar:enablePossibleDamageDraw()
     end
-
-   
 
 end
 

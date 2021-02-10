@@ -267,7 +267,7 @@ function ThunderShaman:spell(targetCell)
 
     if  (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x - 2)) or
         (targetCell.y == self.y and (targetCell.x == self.x + 1 or targetCell.x == self.x + 2)) then
-            for i = 1, #inactivePlayer.characters do
+            for i = 1, #activePlayer.characters do
                 if self.x - 1 > 0 then
                     boardGrid[self.x - 1][self.y].drawLightning = true
                     lightningTimer = love.timer.getTime()
