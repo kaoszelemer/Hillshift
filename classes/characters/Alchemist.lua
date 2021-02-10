@@ -1,6 +1,6 @@
 local Alchemist = Character:extend("Alchemist")
 function Alchemist:init(parentPlayer)
-    Character.init(self, 12, 4, 2, 2, love.graphics.newImage("/graphics/alchemist.png"), 
+    Character.init(self, 12, 3, 3, 2, love.graphics.newImage("/graphics/alchemist.png"), 
                 love.graphics.newImage("/graphics/alchemisthover.png"),
                 love.graphics.newImage("/graphics/alchemistsink.png"),
                 love.graphics.newImage("/graphics/alchemistsinkhover.png"),

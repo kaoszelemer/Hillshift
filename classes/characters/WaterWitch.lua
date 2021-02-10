@@ -1,7 +1,7 @@
 local WaterWitch = Character:extend("WaterWitch")
 
 function WaterWitch:init(parentPlayer)
-    Character.init(self, 10, 4, 1, 9, love.graphics.newImage("/graphics/waterwitch.png"), 
+    Character.init(self, 10, 3, 2, 9, love.graphics.newImage("/graphics/waterwitch.png"), 
                 love.graphics.newImage("/graphics/waterwitchhover.png"), 
                 love.graphics.newImage("/graphics/waterwitchsink.png"), 
                 love.graphics.newImage("/graphics/waterwitchsinkhover.png"), 
@@ -28,15 +28,18 @@ function WaterWitch:spell(targetCell)
                     local randomWaterSpreadX = love.math.random(0,1)
                     local randomWaterSpreadY = love.math.random(0,1)
 
-                      
+                    if targetCell.x + randomWaterSpreadX <= 10 and targetCell.x - randomWaterSpreadX > 0 and
+                       targetCell.y + randomWaterSpreadY <= 10 and targetCell.y - randomWaterSpreadY > 0 then                 
 
                         if love.math.random() < 0.25 then boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y + randomWaterSpreadY) end
                         if love.math.random() < 0.25 then boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y + randomWaterSpreadY) end
                         if love.math.random() < 0.25 then boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y - randomWaterSpreadY) end
                         if love.math.random() < 0.25 then boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y - randomWaterSpreadY) end
-                        if love.math.random() < 0.33 then boardGrid[targetCell.x][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y - randomWaterSpreadY) end
-                        if love.math.random() < 0.33 then boardGrid[targetCell.x][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y - randomWaterSpreadY) end
-
+                        if love.math.random() < 0.33 then boardGrid[targetCell.x][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x, targetCell.y - randomWaterSpreadY) end
+                        if love.math.random() < 0.33 then boardGrid[targetCell.x][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x, targetCell.y + randomWaterSpreadY) end
+                        if love.math.random() < 0.33 then boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y) end
+                        if love.math.random() < 0.33 then boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y) end
+                    end
                 end
                 
                 
