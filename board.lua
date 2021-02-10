@@ -86,23 +86,16 @@ cellQuadTable = {
 
 local function initPlayerDeck(player)
 
-   --[[  table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, GeoGnome(player))
     table.insert(player.characters, AirElemental(player))
-    table.insert(player.characters, Alchemist(player)) ]]
+    table.insert(player.characters, Alchemist(player))
     table.insert(player.characters, FireMage(player))
-    --[[ table.insert(player.characters, Druid(player))
+    table.insert(player.characters, Druid(player))
     table.insert(player.characters, IceWizard(player))
     table.insert(player.characters, ThunderShaman(player))
     table.insert(player.characters, HillshiftHag(player))
-    table.insert(player.characters, WaterWitch(player)) ]]
-    table.insert(player.characters, HillshiftHag(player))
-    table.insert(player.characters, HillshiftHag(player))
-    table.insert(player.characters, HillshiftHag(player))
-    table.insert(player.characters, HillshiftHag(player))
-    table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, FireMage(player))
+    table.insert(player.characters, WaterWitch(player))
+   
 
     while #player.characters ~= 4 do     
         local cardNumber = love.math.random(1, #player.characters)

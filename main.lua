@@ -123,7 +123,7 @@ nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
 lightningTimer = 0
-
+magicForestTimer = 0
 --karakterek valtozoi
 charColor = {1, 1, 1}
 cellOccupiedColor = {1, 192 / 255, 203 / 255}
@@ -188,6 +188,18 @@ function endTurn()
 
             if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
                 boardGrid[x][y].isFrozen = false
+            end
+
+            if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 5 then
+
+                if love.math.random() < 0.25 then boardGrid[x][y] = Forest(x, y) end
+                if love.math.random() < 0.25 then boardGrid[x][y] = Mount(x, y) end
+                if love.math.random() < 0.25 then boardGrid[x][y] = Lake(x, y) end
+                if love.math.random() < 0.25 then boardGrid[x][y] = Field(x, y) end
+                if love.math.random() < 0.12 then boardGrid[x][y] = Desert(x, y) end
+                if love.math.random() < 0.10 then boardGrid[x][y] = Swamp(x, y) end
+                if love.math.random() < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
+
             end
         
                 

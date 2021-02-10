@@ -30,10 +30,12 @@ function ThunderShaman:spell(targetCell)
      
                             if boardGrid[self.x][self.y + oY].isPoisoned and boardGrid[self.x][self.y + oY].isFrozen then
                                 boardGrid[self.x][self.y + oY] = MagicForest(self.x, self.y + oY)
+                                magicForestTimer = turnCounter
                             end
                         
                             if boardGrid[self.x][self.y + oY].isPoisoned and boardGrid[self.x][self.y + oY].isOnFire then
                                 boardGrid[self.x][self.y + oY] = MagicForest(self.x, self.y + oY)
+                                magicForestTimer = turnCounter
                             end
                             if boardGrid[self.x][self.y + oY].isOccupied and boardGrid[self.x][self.y + oY].occupiedBy.baseHP <= 0 then boardGrid[self.x][self.y + oY].occupiedBy:kill() end
                         end
@@ -68,10 +70,12 @@ function ThunderShaman:spell(targetCell)
 
                         if boardGrid[self.x + oX][self.y].isPoisoned and boardGrid[self.x + oX][self.y].isFrozen then
                             boardGrid[self.x + oX][self.y] = MagicForest(self.x + oX, self.y)
+                            magicForestTimer = turnCounter
                         end
                     
                         if boardGrid[self.x + oX][self.y].isPoisoned and boardGrid[self.x + oX][self.y].isOnFire then
                             boardGrid[self.x + oX][self.y] = MagicForest(self.x + oX, self.y)
+                            magicForestTimer = turnCounter
                         end
                         if boardGrid[self.x + oX][self.y].isOccupied and boardGrid[self.x + oX][self.y].occupiedBy.baseHP <= 0 then boardGrid[self.x + oX][self.y].occupiedBy:kill() end
                     end
