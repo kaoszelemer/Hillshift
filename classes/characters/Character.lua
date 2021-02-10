@@ -23,6 +23,9 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
         Ice = true,
         BurntField = true,
         MagicForest = true,
+        Desert = true,
+        Swamp = true,
+        GlassMount = true,
     }
 end
 
@@ -141,7 +144,7 @@ function Character:drawValidIcons()
 
 
         if self.isInSpellState and self.actionPoints ~= 0 then
-        if self.id == 1 then
+        if self.id == 1 or self.id == 9 then
             if self.y + 1 < 11 and pointerOnBottomSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.y - 1 > 0 and pointerOnTopSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x + 1 < 11 and pointerOnRightSide then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
@@ -192,8 +195,13 @@ function Character:drawValidIcons()
             if self.x + 2 < 11  and (pointerOnLeftSide or pointerOnRightSide) then love.graphics.draw(validSpellImage, (self.x + 2) * tileW + offsetX, (self.y) * tileH + offsetY) end
             if self.x - 2 > 0  and (pointerOnLeftSide or pointerOnRightSide) then love.graphics.draw(validSpellImage, (self.x - 2) * tileW + offsetX, (self.y) * tileH + offsetY) end
         end
-    
+
+        if self.id == 8 then
+            if self.x + 1 < 11 then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
+            if self.x - 1 > 0 then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
         end
+        end
+
     end
 
 
@@ -336,12 +344,15 @@ function Character:move(x, y)
             boardGrid[self.x][self.y].isOccupied = false
             boardGrid[self.x][self.y].occupiedBy = nil
         end
+            local arriveX = self.x
+            local arriveY = self.y
             self.x = x
             self.y = y
             if self.x >= 10 then self.x = 10 end
             if self.x <= 0 then self.x = 1 end
             if self.y >= 10 then self.y = 10 end
             if self.y <= 0 then self.y = 1 end
+            boardGrid[self.x][self.y]:onEntry(self, arriveX, arriveY)
             boardGrid[self.x][self.y].isOccupied = true
             boardGrid[self.x][self.y].occupiedBy = self
             self.stepPoints = self.stepPoints - 1

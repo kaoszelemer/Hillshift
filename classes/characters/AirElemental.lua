@@ -87,6 +87,69 @@ function AirElemental:spell(targetCell)
             end
         end
 
+        ----------------DESERTSPREAD
+        local desertSpread = 2
+
+        if self.y - desertSpread > 0 then
+            if boardGrid[self.x][self.y - 1]:instanceOf(Desert) then 
+
+                if boardGrid[self.x][self.y - desertSpread]:instanceOf(Lake) then
+                    boardGrid[self.x][self.y - desertSpread] = Swamp(self.x, self.y - desertSpread) 
+                end
+
+
+                if not boardGrid[self.x][self.y - desertSpread].isOnFire and not boardGrid[self.x][self.y - desertSpread]:instanceOf(Swamp) then 
+                    boardGrid[self.x][self.y - desertSpread] = Desert(self.x, self.y - desertSpread)
+                end
+
+              
+
+                if boardGrid[self.x][self.y - desertSpread].isOnFire then
+                    boardGrid[self.x][self.y - desertSpread] = GlassMount(self.x, self.y - desertSpread) 
+                end
+
+            end
+        end
+
+
+        if self.x - desertSpread > 0 and self.y - desertSpread > 0 then
+            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Desert) then 
+
+                if boardGrid[self.x - desertSpread][self.y - desertSpread]:instanceOf(Lake) then
+                    boardGrid[self.x - desertSpread][self.y - desertSpread] = Swamp(self.x - desertSpread, self.y - desertSpread) 
+                end
+
+                if not boardGrid[self.x - desertSpread][self.y - desertSpread].isOnFire  and not boardGrid[self.x - desertSpread][self.y - desertSpread]:instanceOf(Swamp) then 
+                    boardGrid[self.x- desertSpread][self.y - desertSpread] = Desert(self.x - desertSpread, self.y - desertSpread)
+                end
+
+            
+                if boardGrid[self.x - desertSpread][self.y - desertSpread].isOnFire then
+                    boardGrid[self.x - desertSpread][self.y - desertSpread] = GlassMount(self.x - desertSpread, self.y - desertSpread) 
+                end
+
+            end
+        end
+
+        if self.x + desertSpread <= 10 and self.y - desertSpread > 0 then
+            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
+
+
+                if boardGrid[self.x + desertSpread][self.y - desertSpread]:instanceOf(Lake) then
+                    boardGrid[self.x + desertSpread][self.y - desertSpread] = Swamp(self.x + desertSpread, self.y - desertSpread) 
+                end
+                if not boardGrid[self.x + desertSpread][self.y - desertSpread].isOnFire  and not boardGrid[self.x + desertSpread][self.y - desertSpread]:instanceOf(Swamp) then 
+                    boardGrid[self.x + desertSpread][self.y - desertSpread] = Desert(self.x + desertSpread, self.y - desertSpread)
+                end
+
+              
+
+                if boardGrid[self.x + desertSpread][self.y - desertSpread].isOnFire then
+                    boardGrid[self.x + desertSpread][self.y - desertSpread] = GlassMount(self.x + desertSpread, self.y - desertSpread) 
+                end
+            end
+        end
+
 
 
     else self.isInSpellState = false
@@ -161,6 +224,73 @@ function AirElemental:spell(targetCell)
                 end
             end
         end
+
+
+        ---------desert interakciok
+
+        local desertSpread = 2
+
+        if self.y + desertSpread > 0 then
+            if boardGrid[self.x][self.y + 1]:instanceOf(Desert) then 
+
+                if boardGrid[self.x][self.y + desertSpread]:instanceOf(Lake) then
+                    boardGrid[self.x][self.y + desertSpread] = Swamp(self.x, self.y + desertSpread) 
+                end
+
+                if not boardGrid[self.x][self.y + desertSpread].isOnFire and not boardGrid[self.x][self.y + desertSpread]:instanceOf(Swamp) then 
+                    boardGrid[self.x][self.y + desertSpread] = Desert(self.x, self.y + desertSpread) 
+                end
+
+               
+
+                if boardGrid[self.x][self.y + desertSpread].isOnFire then
+                    boardGrid[self.x][self.y + desertSpread] = GlassMount(self.x, self.y + desertSpread) 
+                end
+
+            end
+        end
+
+
+        if self.x - desertSpread > 0 and self.y - desertSpread > 0 then
+            if boardGrid[self.x - 1][self.y + 1]:instanceOf(Desert) then 
+
+                if boardGrid[self.x - desertSpread][self.y + desertSpread]:instanceOf(Lake) then
+                    boardGrid[self.x - desertSpread][self.y + desertSpread] = Swamp(self.x - desertSpread, self.y + desertSpread) 
+                end
+
+                if not boardGrid[self.x - desertSpread][self.y + desertSpread].isOnFire  and not boardGrid[self.x - desertSpread][self.y + desertSpread]:instanceOf(Swamp) then 
+                    boardGrid[self.x- desertSpread][self.y + desertSpread] = Desert(self.x - desertSpread, self.y + desertSpread)
+                end
+
+               
+                if boardGrid[self.x - desertSpread][self.y + desertSpread].isOnFire then
+                    boardGrid[self.x - desertSpread][self.y + desertSpread] = GlassMount(self.x - desertSpread, self.y + desertSpread) 
+                end
+
+            end
+        end
+
+        if self.x + desertSpread <= 10 and self.y - desertSpread > 0 then
+            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
+                if boardGrid[self.x + desertSpread][self.y + desertSpread]:instanceOf(Lake) then
+                    boardGrid[self.x + desertSpread][self.y + desertSpread] = Swamp(self.x + desertSpread, self.y + desertSpread) 
+                end
+
+
+                if not boardGrid[self.x + desertSpread][self.y + desertSpread].isOnFire  and not boardGrid[self.x + desertSpread][self.y + desertSpread]:instanceOf(Swamp) then 
+                    boardGrid[self.x + desertSpread][self.y + desertSpread] = Desert(self.x + desertSpread, self.y + desertSpread) 
+                end
+
+             
+                if boardGrid[self.x + desertSpread][self.y + desertSpread].isOnFire then
+                    boardGrid[self.x + desertSpread][self.y + desertSpread] = GlassMount(self.x + desertSpread, self.y + desertSpread) 
+                end
+            end
+        end
+
+
+
+
 
     else self.isInSpellState = false
     end

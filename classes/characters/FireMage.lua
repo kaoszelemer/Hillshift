@@ -34,6 +34,11 @@ function FireMage:spell(targetCell)
                 boardGrid[self.x - 1][self.y - 1].isOnFire = false
             end
 
+            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Desert) then 
+                boardGrid[self.x - 1][self.y - 1] = GlassMount(self.x - 1, self.y - 1)
+                boardGrid[self.x - 1][self.y - 1].isOnFire = false
+            end
+
             if boardGrid[self.x - 1][self.y - 1].isFrozen then 
                 boardGrid[self.x - 1][self.y - 1].isFrozen = false
                 boardGrid[self.x - 1][self.y - 1].isOnFire = false 
@@ -59,6 +64,11 @@ function FireMage:spell(targetCell)
 
             if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then 
                 boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                boardGrid[self.x + 1][self.y - 1].isOnFire = false
+            end
+
+            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
+                boardGrid[self.x + 1][self.y - 1] = GlassMount(self.x + 1, self.y - 1)
                 boardGrid[self.x + 1][self.y - 1].isOnFire = false
             end
 
@@ -100,6 +110,11 @@ function FireMage:spell(targetCell)
                 boardGrid[self.x - 1][self.y + 1].isOnFire = false
             end
 
+            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Desert) then 
+                boardGrid[self.x - 1][self.y + 1] = GlassMount(self.x - 1, self.y + 1)
+                boardGrid[self.x - 1][self.y + 1].isOnFire = false
+            end
+
             if  boardGrid[self.x - 1][self.y + 1].isFrozen then
                 boardGrid[self.x - 1][self.y + 1].isFrozen = false 
                 boardGrid[self.x - 1][self.y + 1].isOnFire = false 
@@ -126,6 +141,11 @@ function FireMage:spell(targetCell)
 
             if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
                 boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                boardGrid[self.x + 1][self.y + 1].isOnFire = false
+            end
+
+            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Desert) then 
+                boardGrid[self.x + 1][self.y + 1] = GlassMount(self.x + 1, self.y + 1)
                 boardGrid[self.x + 1][self.y + 1].isOnFire = false
             end
 

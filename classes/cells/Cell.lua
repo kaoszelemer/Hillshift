@@ -83,6 +83,8 @@ function Cell:click()
 
 end
 
+function Cell:onEntry()
+end
 
 
 
