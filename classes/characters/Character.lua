@@ -59,9 +59,11 @@ function Character:drawHealthBar()
     
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        if currentChar.isHovered then
             local healthBarMaxWidth = 3
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
+            love.graphics.setColor(charColor)
+            love.graphics.rectangle("line", 5 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth + 1, 8)
+
             if healthBarWidth < 10 then
                 love.graphics.setColor(selectedColor)
                 love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
@@ -71,23 +73,22 @@ function Character:drawHealthBar()
                 love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
                 love.graphics.setColor(charColor) 
             end
-        end
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        if currentChar.isHovered then
             local healthBarMaxWidth = 3
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
+            love.graphics.setColor(charColor)
+            love.graphics.rectangle("line", 5 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth + 1, 8)
             if healthBarWidth < 10 then
                 love.graphics.setColor(selectedColor)
-                love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 6)
+                love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
                 love.graphics.setColor(charColor)
             else
                 love.graphics.setColor(greenColor)
                 love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
                 love.graphics.setColor(charColor) 
             end
-        end
     end
 
     

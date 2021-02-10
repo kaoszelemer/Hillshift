@@ -8,12 +8,11 @@ function GlassMount:init(x, y)
         true, 
         love.graphics.newQuad(320, 64, tileW, tileH, tilesetW, tilesetH),
         1,
-        0)
+        1)
 end
 
 function GlassMount:onEntry(character, ax, ay)
 
-        print(ax, ay, character.x, character.y)
 
             if ax > character.x and ay == character.y then
                 if character.x - 1 > 0 then
@@ -55,25 +54,23 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x - 1 > 0 and character.y - 1 > 0 then
                     if not boardGrid[character.x - 1][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x - 1, character.y - 1)
+                        character:move(character.x - 1, character.y + 1)
                     end
                 end
             end
 
-            if ax > character.x and ay < character.y then
-                if character.x - 1 > 0 and character.y + 1 <= 10 then
-                    print(boardGrid[character.x + 1][character.y - 1].isOccupied)
-                    if not boardGrid[character.x + 1][character.y - 1].isOccupied then
+            if ax > character.x and ay > character.y then
+                if character.x - 1 > 0 and character.y - 1 <= 10 then
+                    if not boardGrid[character.x - 1][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x - 1, character.y + 1)
+                        character:move(character.x - 1, character.y - 1)
                     end
                 end
             end
 
             if ax < character.x and ay > character.y then
                 if character.x + 1 <= 10 and character.y - 1 > 0 then
-                    print(boardGrid[character.x + 1][character.y - 1].isOccupied)
-                    if not boardGrid[character.x - 1][character.y + 1].isOccupied then
+                    if not boardGrid[character.x + 1][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
                         character:move(character.x + 1, character.y - 1)
                     end
@@ -82,7 +79,6 @@ function GlassMount:onEntry(character, ax, ay)
 
             if ax < character.x and ay < character.y then
                 if character.x + 1 <= 10 and character.y + 1 <= 10 then 
-                    print(boardGrid[character.x + 1][character.y + 1].isOccupied)
                     if not boardGrid[character.x + 1][character.y + 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
                         character:move(character.x + 1, character.y + 1)
