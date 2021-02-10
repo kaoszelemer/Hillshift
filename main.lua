@@ -23,6 +23,9 @@ FireMage = require('classes.characters.FireMage')
 ThunderShaman = require('classes.characters.ThunderShaman')
 HillshiftHag = require('classes.characters.HillshiftHag')
 WaterWitch = require('classes.characters.WaterWitch')
+
+Item = require('classes.items.Item')
+
 Event = require('classes.events.Event')
 Event001 = require('classes.events.Event001')
 Event002 = require('classes.events.Event002')

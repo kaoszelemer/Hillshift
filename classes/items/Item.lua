@@ -9,6 +9,8 @@ function Item:init(itemImage, itemName, itemAttackModifier, itemDefenseModifier,
     self.itemOwnerCharacter = itemOwnerCharacter
 end
 
-
+function Item:pickUpItem()
+    print("pick up")
+end
 
 return Item

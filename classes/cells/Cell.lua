@@ -85,6 +85,11 @@ function Cell:click()
 end
 
 function Cell:onEntry()
+
+    if self.isChest then
+        Item:pickUpItem()
+    end
+
 end
 
 
