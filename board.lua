@@ -36,7 +36,7 @@ eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
 --Cell drawables
 lightningImage = love.graphics.newImage("/graphics/lightning.png")
-
+chestImage = love.graphics.newImage("graphics/chest.png")
 
 --Dice images and quad
 diceImage = love.graphics.newImage("/graphics/dicequad.png")
@@ -48,6 +48,9 @@ diceThree = love.graphics.newQuad(128, 0, tileW, tileH, diceQuadWidth, tileH)
 diceFour = love.graphics.newQuad(192, 0, tileW, tileH, diceQuadWidth, tileH) 
 diceFive = love.graphics.newQuad(256, 0, tileW, tileH, diceQuadWidth, tileH) 
 diceSix = love.graphics.newQuad(320, 0, tileW, tileH,  diceQuadWidth, tileH) 
+
+--Counter
+chestCounter = 0
 
 --1a. a tileset változói
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
@@ -518,6 +521,32 @@ local function initBoardgrid()
     end
 end
 
+function spawnChest()
+    local rndCellX = love.math.random(5, 7)
+    local rndCellY = love.math.random(2, 10)
+
+   print(boardGrid[rndCellX][rndCellY]:instanceOf(Lake), boardGrid[rndCellX][rndCellY].isOccupied)
+    if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
+    and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+        boardGrid[rndCellX][rndCellY].isChest = true
+        chestCounter = chestCounter + 1
+    end
+    
+
+end
+
+local function drawChests()
+
+    for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y].isChest == true then
+                love.graphics.draw(chestImage, x * tileW + offsetX, y * tileH + offsetY)
+            end
+        end
+    end
+
+end
+
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
         if     i == 1 then currentChar:move(5, 1)
@@ -746,6 +775,9 @@ function board:load()
     initBoardgrid()
     moveCharactersToStartingPosition()
 
+    while chestCounter ~= 2 do
+    spawnChest()
+    end
 end
 
 function board:update(dt)
@@ -776,6 +808,7 @@ function board:draw()
 
     --drawModifier()
     drawBoardGrid()
+    drawChests()
     drawEndTurnButton()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
