@@ -166,6 +166,14 @@ function endTurn()
         for x = 1, 10 do
             for y = 1, 10 do
 
+            if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].isOnFire or boardGrid[x][y].isFrozen then
+                boardGrid[x][y].HP = boardGrid[x][y].HP - 1
+            end
+
+            if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].HP <= 0 then
+                boardGrid[x][y] = Desert(x, y)
+            end
+
             if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
                 boardGrid[x][y] = Field(x, y)
                 boardGrid[x][y].isBurntField = false

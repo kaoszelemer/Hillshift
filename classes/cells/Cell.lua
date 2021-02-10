@@ -1,12 +1,13 @@
 local Cell = class("Cell")
 
-function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, poisoningTurn, fireTurn, freezeTurn, burntFieldTimer, drawLightning)
+function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP, poisoningTurn, fireTurn, freezeTurn, burntFieldTimer, drawLightning)
     self.x = x
     self.y = y
     self.isWalkable = isWalkable
     self.quad = quad
     self.attackModifier = attackModifier
     self.defenseModifier = defenseModifier
+    self.HP = HP
     self.poisoningTurn = poisoningTurn
     self.fireTurn = fireTurn
     self.freezeTurn = freezeTurn

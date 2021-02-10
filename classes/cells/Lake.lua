@@ -8,7 +8,8 @@ function Lake:init(x, y)
         false, 
         love.graphics.newQuad(0, 64, tileW, tileH, tilesetW, tilesetH),
         0,
-        0)
+        0,
+     1000)
 end
 
 return Lake
