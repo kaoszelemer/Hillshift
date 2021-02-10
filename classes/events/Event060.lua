@@ -43,6 +43,9 @@ function Event060:eventFunction()
         if boardGrid[currentChar.x][currentChar.y]:instanceOf(Ice) then
             boardGrid[currentChar.x][currentChar.y] = Lake(currentChar.x, currentChar.y)
         end
+        if boardGrid[currentChar.x][currentChar.y]:instanceOf(Desert) then
+            boardGrid[currentChar.x][currentChar.y] = GlassMount(currentChar.x, currentChar.y)
+        end
 
     end
 

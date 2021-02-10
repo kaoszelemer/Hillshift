@@ -35,12 +35,15 @@ function Event053:eventFunction()
             boardGrid[currentChar.x][currentChar.y] = BurntField(currentChar.x, currentChar.y)
             boardGrid[currentChar.x][currentChar.y].isBurntField = true
             boardGrid[currentChar.x][currentChar.y].burntFieldTimer = turnCounter
-        end 
+        end
         if boardGrid[currentChar.x][currentChar.y]:instanceOf(Lake) then
             boardGrid[currentChar.x][currentChar.y] = Field(currentChar.x, currentChar.y)
         end
         if boardGrid[currentChar.x][currentChar.y]:instanceOf(Ice) then
             boardGrid[currentChar.x][currentChar.y] = Lake(currentChar.x, currentChar.y)
+        end
+        if boardGrid[currentChar.x][currentChar.y]:instanceOf(Desert) then
+            boardGrid[currentChar.x][currentChar.y] = GlassMount(currentChar.x, currentChar.y)
         end
 
     end

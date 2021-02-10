@@ -56,7 +56,10 @@ function Event048:eventFunction()
                 boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
                 boardGrid[rndCellX][rndCellY].isBurntField = true
             end
-            if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) then 
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
+                boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+            end
+            if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) and not boardGrid[rndCellX][rndCellY]:instanceOf(GlassMount) then 
                 boardGrid[rndCellX][rndCellY].isOnFire = true 
                 boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
             end
