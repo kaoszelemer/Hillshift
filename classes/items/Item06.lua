@@ -4,7 +4,7 @@ function Item06:init()
     love.graphics.newImage("graphics/item06image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Jade Broadsword",
-    "Sword of Logic\n\n+1A or +0AT",
+    "Sword of Logic\n\n+1A or +1DF",
     1,
     0,
     1)
@@ -24,7 +24,14 @@ end
 function Item06:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseAttack = character.baseAttack + love.math.random(0,1)
+
+    local chance = love.math.random()
+
+    if chance > 0.5 then
+    character.baseAttack = character.baseAttack + 1
+    else
+    character.baseDefense = character.baseDefense + 1
+    end
 
 end
 
