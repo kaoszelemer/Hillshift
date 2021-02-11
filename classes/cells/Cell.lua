@@ -88,6 +88,7 @@ function Cell:onEntry()
 
     if self.isChest then
         Item:pickUpItem()
+        self.isChest = false
     end
 
 end

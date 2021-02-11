@@ -150,6 +150,7 @@ littleFont = love.graphics.newFont(8)
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 endGameImage = love.graphics.newImage("graphics/endgame.png")
+itemBackgroundImage = love.graphics.newImage("graphics/itembackgroundimage.png")
 --aktualis kijelolt karakter
 selectedChar = nil
 
@@ -449,8 +450,9 @@ end
 function love.draw()
     board:draw()
     love.graphics.setColor(charColor)
-    love.graphics.draw(mouseArrow, mouseX, mouseY)
-    
+    Item:drawItemOnScreenWhenPickup()
+   
+   
     if drawEndGame then
         love.graphics.draw(endGameImage, boardGrid[1][1].x * tileW + offsetX, boardGrid[1][1].y * tileH + offsetY)
         love.graphics.setFont(actionMenuFont)
@@ -465,6 +467,7 @@ function love.draw()
 
     end
 
+    love.graphics.draw(mouseArrow, mouseX, mouseY)
 
 end
 
@@ -517,6 +520,13 @@ function love.mousereleased(x, y, button, istouch, presses)
                 Event:confirmEventWithClick()
                 
         end
+
+        if Item.drawItemOnScreen and
+           x > (4 * tileW + offsetX) + 206 and x < (4 * tileW + offsetX) + 260 and
+           y > (4 * tileH + offsetY) + 215 and y < (4 * tileH + offsetY) + 260 then
+                Item:confirmItemPickup()
+           end
+
     end
     
 

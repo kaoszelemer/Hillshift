@@ -827,6 +827,10 @@ function board:draw()
     drawEventOnBackground()
     drawWarningForNextEvent()
 
+
+    ---Item rajzolás
+    
+
  
     -- for debugging:
     -- itt lehet láthatóvá tenni, hogy melyik cella, milyen indexxel rendelkezik
