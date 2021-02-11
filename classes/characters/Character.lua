@@ -363,16 +363,6 @@ function Character:move(x, y)
 end
 
 
---[[ function Character:defend(cell)
-    if self.defenseState and self.actionPoints ~= 0 and self.isHovered then
-        self.turnDefenseModifier = self.turnDefenseModifier + 2
-        self.defenseCounter = turnCounter
-        self.actionPoints = 0
-        self.stepPoints = 0
-        self.isSelected = false
-    else self.isInDefenseState = false
-    end
-end ]]
 
 function Character:kill()
  
@@ -418,9 +408,12 @@ function Character:attack(enemy)
 end
 
 
-
-
 function Character:spell(targetCell)
+end
+
+
+function Character:addItemToInventory(character, item)
+    print(character.name .. "has" .. item.name)
 end
 
 return Character

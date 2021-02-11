@@ -1,7 +1,8 @@
 local Item = class("Item")
 
-function Item:init(itemImage, itemName, itemDesc, itemAttackModifier, itemDefenseModifier, itemOwnerPlayer, itemOwnerCharacter)
+function Item:init(itemImage, itemIcon, itemName, itemDesc, itemAttackModifier, itemDefenseModifier, itemID, itemOwnerPlayer, itemOwnerCharacter)
     self.itemImage = itemImage
+    self.itemIcon = itemIcon
     self.itemName = itemName
     self.itemDesc = itemDesc
     self.itemAttackModifier = itemAttackModifier
@@ -10,38 +11,89 @@ function Item:init(itemImage, itemName, itemDesc, itemAttackModifier, itemDefens
     self.itemOwnerCharacter = itemOwnerCharacter
 end
 
+function Item:initItemTable()
+
+    itemTable = {}
+
+    table.insert(itemTable, Item01())
 
 
-function Item:drawItemOnScreenWhenPickup()
+end
+
+local function getRandomItemFromItemTable()
+
+    local randomItem = love.math.random(1, #itemTable)
+    return randomItem
+
+end
+
+
+function Item:drawCurrentItem()
+
+    self.currentItem = getRandomItemFromItemTable()
 
     if self.drawItemOnScreen then
-        love.graphics.draw(itemBackgroundImage, 4 * tileW + offsetX, 4 * tileH + offsetY)
-    end
 
+        love.graphics.draw(itemBackgroundImage, 4 * tileW + offsetX, 4 * tileH + offsetY)
+    
+        for index, item in ipairs(itemTable) do
+          
+            if self.currentItem == index then
+
+                currentItem = item
+                currentItem.enableDraw = true
+                currentItem:drawItemOnScreenWhenPickup()
+
+            end
+
+        end
+
+    end
+    
 end
 
 function Item:confirmItemPickup()
 
-    self:addItemModifier()
+    
+
+    for index, item in ipairs(itemTable) do
+        if item.enableDraw == true then
+          item:itemFunction(self.itemOwnerCharacter, self.itemOwnerPlayer)
+          item.enableDraw = false
+
+        end
+    end
+
     self.drawItemOnScreen = false
+    self.enableDraw = false
     self.itemPickUp = false
 
 
 end
 
-function Item:drawItemOnSideBar()
+function Item:enableDrawCurrentItemOnSideBar(character, player, item)
+
+   character.drawCurrentItem = true
+     
 end
 
 function Item:addItemModifier()
-    print("modositok")
+
 end
 
 
-function Item:pickUpItem()
+function Item:pickUpItem(character, player)
 
+    self.itemOwnerCharacter = character
+    self.itemOwnerPlayer = player
     self.itemPickUp = true
     self.drawItemOnScreen = true
+ 
 
+end
+
+
+function Item:itemFunction(character, player)
 end
 
 return Item

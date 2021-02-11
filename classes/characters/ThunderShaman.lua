@@ -64,7 +64,6 @@ function ThunderShaman:spell(targetCell)
                     if self.x + oX > 0 and self.x + oX <= 10 then
                         boardGrid[self.x + oX][self.y].drawLightning = true
                         lightningTimer = love.timer.getTime()
-                        print(boardGrid[self.x+oX][self.y])
                         if boardGrid[self.x + oX][self.y]:instanceOf(Lake) and boardGrid[self.x + oX][self.y].isOccupied then
                      
                             boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 3

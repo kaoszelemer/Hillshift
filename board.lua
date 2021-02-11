@@ -248,6 +248,18 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                 love.graphics.draw(playerone.characters[i].image, pxp - 96, i * 108)
 
+
+
+                   
+
+                if playerone.characters[i].hasItem and playerone.characters[i].drawCurrentItem then
+                    love.graphics.draw(playerone.characters[i].ownedItem.itemIcon, pxp - 48, i * 108)
+                end
+
+
+
+
+
                 love.graphics.print(playerone.characters[i].name, pxp, 10 + i * 100)
 
                 if playerone.characters[i].baseHP <= 3 then
@@ -286,7 +298,12 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
             end
         end
+        
+        
 
+            
+    
+     
 
 
      
@@ -393,6 +410,11 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                         end
 
                         love.graphics.draw(playertwo.characters[i].image, pxp + 84, 10 + i * 108)
+
+                        if playertwo.characters[i].hasItem and playertwo.characters[i].drawCurrentItem then
+                            love.graphics.draw(playertwo.characters[i].ownedItem.itemIcon, pxp + 128, 10 + i * 108 )
+                        end
+        
                 
 
                         love.graphics.print( playertwo.characters[i].name, pxp, 10 + i * 100)
@@ -521,18 +543,30 @@ local function initBoardgrid()
     end
 end
 
-function spawnChest()
-    local rndCellX = love.math.random(5, 7)
-    local rndCellY = love.math.random(2, 10)
+function spawnChestPlayerOne()
+    local rndCellX = love.math.random(1, 5)
+    local rndCellY = love.math.random(3, 5)
 
-   print(boardGrid[rndCellX][rndCellY]:instanceOf(Lake), boardGrid[rndCellX][rndCellY].isOccupied)
+ 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
     and not boardGrid[rndCellX][rndCellY].isOccupied  then 
         boardGrid[rndCellX][rndCellY].isChest = true
         chestCounter = chestCounter + 1
     end
     
+end
 
+function spawnChestPlayerTwo()
+    local rndCellX = love.math.random(5, 10)
+    local rndCellY = love.math.random(6, 8)
+
+ 
+    if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
+    and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+        boardGrid[rndCellX][rndCellY].isChest = true
+        chestCounter = chestCounter + 1
+    end
+    
 end
 
 local function drawChests()
@@ -752,6 +786,23 @@ function drawAttackOnBoard()
 
 end
 
+local function spawnChestIfPlayerIsBehind()
+
+    if #activePlayer.characters == 2 and #inactivePlayer.characters == 4 then
+
+        if activePlayer == playerOne then
+            while chestCounter == 2 do
+            spawnChestPlayerOne()
+            end
+        else
+            while chestCounter == 2 do
+            spawnChestPlayerTwo()
+            end
+        end
+
+    end
+
+end
 
 function board:load()
 
@@ -775,9 +826,14 @@ function board:load()
     initBoardgrid()
     moveCharactersToStartingPosition()
 
-    while chestCounter ~= 2 do
-    spawnChest()
+    while chestCounter ~= 1 do
+    spawnChestPlayerOne()
     end
+    chestCounter = 0
+    while chestCounter ~= 1 do
+    spawnChestPlayerTwo()
+    end
+
 end
 
 function board:update(dt)
@@ -800,7 +856,7 @@ function board:update(dt)
 
 
     testBoardForOccupy(activePlayer, inactivePlayer)
-
+    spawnChestIfPlayerIsBehind()
 end
 
 function board:draw()

@@ -10,7 +10,6 @@ local HillshiftHag = Character:extend("HillshiftHag")
     function HillshiftHag:spell(targetCell)
         if self.actionPoints ~= 0 then
         
-            print(targetCell.x, self.x - 1, self.x + 1)
         if targetCell.x == self.x + 1 or targetCell.x == self.x - 1 then
             self.actionPoints = self.actionPoints - 1
             

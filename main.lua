@@ -25,6 +25,7 @@ HillshiftHag = require('classes.characters.HillshiftHag')
 WaterWitch = require('classes.characters.WaterWitch')
 
 Item = require('classes.items.Item')
+Item01 = require('classes.items.Item01')
 
 Event = require('classes.events.Event')
 Event001 = require('classes.events.Event001')
@@ -430,6 +431,7 @@ function love.load()
     --board betoltese
     board:load()
     Event:initEventTable()
+    Item:initItemTable()
     selectStartingPlayer()
     --beallitasok
     love.window.setTitle("HillShift")
@@ -450,7 +452,7 @@ end
 function love.draw()
     board:draw()
     love.graphics.setColor(charColor)
-    Item:drawItemOnScreenWhenPickup()
+    Item:drawCurrentItem()
    
    
     if drawEndGame then

@@ -84,10 +84,12 @@ function Cell:click()
 
 end
 
-function Cell:onEntry()
+function Cell:onEntry(character)
 
     if self.isChest then
-        Item:pickUpItem()
+        player = character.parentPlayer
+        character.hasItem = true
+        Item:pickUpItem(character, player)
         self.isChest = false
     end
 
