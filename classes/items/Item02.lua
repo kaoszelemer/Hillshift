@@ -1,16 +1,16 @@
-local Item01 = Item:extend("Item01")
-function Item01:init()
+local Item02 = Item:extend("Item02")
+function Item02:init()
     Item.init(self,
-    love.graphics.newImage("graphics/item01image.png"),
-    love.graphics.newImage("graphics/weaponicon.png"),
-    "Prolitemitus Sword",
-    "Sword of Kaosz Elemer\n\n+1A",
+    love.graphics.newImage("graphics/item02image.png"),
+    love.graphics.newImage("graphics/shieldicon.png"),
+    "Fiery Hauberk",
+    "It's too hot\nat summer\n\n+1DF -2HP",
     1,
     0,
     1)
 end
 
-function Item01:drawItemOnScreenWhenPickup()
+function Item02:drawItemOnScreenWhenPickup()
     if self.enableDraw or self.inventoryHover then
         love.graphics.setFont(pointFont)
         love.graphics.draw(self.itemImage, (4 * tileW + offsetX) + 5, (4 * tileH + offsetY) + 64)
@@ -21,11 +21,13 @@ function Item01:drawItemOnScreenWhenPickup()
     end
 end
 
-function Item01:itemFunction(character, player)
+function Item02:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseAttack = character.baseAttack + 1
+    character.baseDefense = character.baseDefense + 1
+    character.baseHP = character.baseHP - 2
+    if character.baseHP <= 0 then character:kill() end
 
 end
 
-return Item01
+return Item02

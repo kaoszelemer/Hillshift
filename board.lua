@@ -253,7 +253,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                    
 
                 if playerone.characters[i].hasItem and playerone.characters[i].drawCurrentItem then
-                    love.graphics.draw(playerone.characters[i].ownedItem.itemIcon, pxp - 48, i * 108)
+                    love.graphics.draw(playerone.characters[i].ownedItem.itemIcon, pxp - 96, i * 108)
                 end
 
 
@@ -412,7 +412,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                         love.graphics.draw(playertwo.characters[i].image, pxp + 84, 10 + i * 108)
 
                         if playertwo.characters[i].hasItem and playertwo.characters[i].drawCurrentItem then
-                            love.graphics.draw(playertwo.characters[i].ownedItem.itemIcon, pxp + 128, 10 + i * 108 )
+                            love.graphics.draw(playertwo.characters[i].ownedItem.itemIcon, pxp + 88, 10 + i * 108 )
                         end
         
                 
@@ -544,8 +544,8 @@ local function initBoardgrid()
 end
 
 function spawnChestPlayerOne()
-    local rndCellX = love.math.random(1, 5)
-    local rndCellY = love.math.random(3, 5)
+    local rndCellX = love.math.random(1, 4)
+    local rndCellY = love.math.random(2, 4)
 
  
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
@@ -557,8 +557,8 @@ function spawnChestPlayerOne()
 end
 
 function spawnChestPlayerTwo()
-    local rndCellX = love.math.random(5, 10)
-    local rndCellY = love.math.random(6, 8)
+    local rndCellX = love.math.random(6, 9)
+    local rndCellY = love.math.random(7, 9)
 
  
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 

@@ -16,6 +16,16 @@ function Item:initItemTable()
     itemTable = {}
 
     table.insert(itemTable, Item01())
+    table.insert(itemTable, Item02())
+    table.insert(itemTable, Item03())
+    table.insert(itemTable, Item04())
+    table.insert(itemTable, Item05())
+    table.insert(itemTable, Item06())
+    table.insert(itemTable, Item07())
+    table.insert(itemTable, Item08())
+    table.insert(itemTable, Item09())
+    table.insert(itemTable, Item10())
+    table.insert(itemTable, Item11())
 
 
 end
@@ -24,15 +34,15 @@ local function getRandomItemFromItemTable()
 
     local randomItem = love.math.random(1, #itemTable)
     return randomItem
-
+    
 end
 
 
 function Item:drawCurrentItem()
 
-    self.currentItem = getRandomItemFromItemTable()
+    
 
-    if self.drawItemOnScreen then
+    if self.drawItemOnScreen or self.inventoryHover then
 
         love.graphics.draw(itemBackgroundImage, 4 * tileW + offsetX, 4 * tileH + offsetY)
     
@@ -84,6 +94,7 @@ end
 
 function Item:pickUpItem(character, player)
 
+    self.currentItem = getRandomItemFromItemTable()
     self.itemOwnerCharacter = character
     self.itemOwnerPlayer = player
     self.itemPickUp = true

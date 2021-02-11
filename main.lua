@@ -26,6 +26,16 @@ WaterWitch = require('classes.characters.WaterWitch')
 
 Item = require('classes.items.Item')
 Item01 = require('classes.items.Item01')
+Item02 = require('classes.items.Item02')
+Item03 = require('classes.items.Item03')
+Item04 = require('classes.items.Item04')
+Item05 = require('classes.items.Item05')
+Item06 = require('classes.items.Item06')
+Item07 = require('classes.items.Item07')
+Item08 = require('classes.items.Item08')
+Item09 = require('classes.items.Item09')
+Item10 = require('classes.items.Item10')
+Item11 = require('classes.items.Item11')
 
 Event = require('classes.events.Event')
 Event001 = require('classes.events.Event001')
@@ -426,6 +436,31 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
     
 end
 
+local function testMouseForInventoryHover(mx, my)
+
+    for i, currentChar in ipairs(activePlayer) do
+        local pxp = width / 6
+        if currentChar.hasItem and
+            (mx > pxp - 48 and mx < pxp - 24) and
+            (my > i * 108 and my < i * 108 + 24) then
+                currentChar.inventoryHover = true
+        end
+    end
+
+    for i, currentChar in ipairs(inactivePlayer) do
+        local pxp = width / 6
+        if currentChar.hasItem and
+            (mx > pxp - 48 and mx < pxp - 24) and
+            (my > i * 108 and my < i * 108 + 24) then
+                currentChar.inventoryHover = true
+        end
+    end
+
+    inventoryHover = false
+
+
+end
+
 
 function love.load()
     --board betoltese
@@ -476,6 +511,9 @@ end
 function love.mousemoved( x, y, dx, dy, istouch )
 
    testMouseForValidSpellDrawing(x, y)
+
+   testMouseForInventoryHover(x, y)
+
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar:updateHover(x, y)        
     end
