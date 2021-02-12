@@ -78,6 +78,12 @@ function Item:confirmItemPickup()
     self.enableDraw = false
     self.itemPickUp = false
 
+   --[[  for i, currentItem in ipairs(itemTable) do
+        if currentItem == self then
+            table.remove(itemTable, i)
+        end
+    end
+ ]]
 
 end
 

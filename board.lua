@@ -544,27 +544,26 @@ local function initBoardgrid()
 end
 
 function spawnChestPlayerOne()
-    local rndCellX = love.math.random(1, 4)
-    local rndCellY = love.math.random(2, 4)
+    local rndCellX = love.math.random(1, 3) --1 3
+    local rndCellY = love.math.random(2, 4) --2 4
 
- 
-    if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
-    and not boardGrid[rndCellX][rndCellY].isOccupied  then 
-        boardGrid[rndCellX][rndCellY].isChest = true
-        chestCounter = chestCounter + 1
+        if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
+        and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+            boardGrid[rndCellX][rndCellY].isChest = true
+            chestCounter = chestCounter + 1
+        
     end
-    
 end
 
 function spawnChestPlayerTwo()
-    local rndCellX = love.math.random(6, 9)
-    local rndCellY = love.math.random(7, 9)
+    local rndCellX = love.math.random(7, 9) --7 9
+    local rndCellY = love.math.random(6, 9) --6 9
 
- 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
-    and not boardGrid[rndCellX][rndCellY].isOccupied  then 
-        boardGrid[rndCellX][rndCellY].isChest = true
-        chestCounter = chestCounter + 1
+        and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+            boardGrid[rndCellX][rndCellY].isChest = true
+            chestCounter = chestCounter + 1
+        
     end
     
 end
@@ -788,14 +787,13 @@ end
 
 local function spawnChestIfPlayerIsBehind()
 
-    if #activePlayer.characters == 2 and #inactivePlayer.characters == 4 then
-
+    if chestCounter == 0 and #activePlayer.characters - #inactivePlayer.characters >= 2 or #inactivePlayer.characters - #activePlayer.characters >= 2 then
         if activePlayer == playerOne then
-            while chestCounter == 2 do
+            while chestCounter ~= 1 do
             spawnChestPlayerOne()
             end
         else
-            while chestCounter == 2 do
+            while chestCounter ~= 1 do
             spawnChestPlayerTwo()
             end
         end
@@ -826,13 +824,13 @@ function board:load()
     initBoardgrid()
     moveCharactersToStartingPosition()
 
-    while chestCounter ~= 1 do
+   while chestCounter ~= 1 do
     spawnChestPlayerOne()
-    end
-    chestCounter = 0
-    while chestCounter ~= 1 do
+   end
+
+   while chestCounter ~= 2 do
     spawnChestPlayerTwo()
-    end
+   end
 
 end
 

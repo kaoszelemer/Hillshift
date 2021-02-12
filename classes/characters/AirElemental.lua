@@ -48,6 +48,7 @@ function AirElemental:spell(targetCell)
             if boardGrid[self.x][self.y - 1].isOnFire then 
                 if not boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
                     boardGrid[self.x][self.y - fireSpread].isOnFire = true
+                    boardGrid[self.x][self.y - fireSpread].fireTurn = turnCounter
                 end
                 if boardGrid[self.x][self.y - fireSpread]:instanceOf(Lake) then
                     boardGrid[self.x][self.y - fireSpread] = Field(self.x, self.y - fireSpread) 
@@ -63,6 +64,7 @@ function AirElemental:spell(targetCell)
             if boardGrid[self.x - 1][self.y - 1].isOnFire then
                 if not boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
                     boardGrid[self.x - fireSpread][self.y - fireSpread].isOnFire = true
+                    boardGrid[self.x - fireSpread][self.y - fireSpread].fireTurn = turnCounter
                 end
                 if boardGrid[self.x - fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
                     boardGrid[self.x - fireSpread][self.y - fireSpread] = Field(self.x - fireSpread, self.y - fireSpread) 
@@ -77,6 +79,7 @@ function AirElemental:spell(targetCell)
             if boardGrid[self.x + 1][self.y - 1].isOnFire then
                 if not boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then
                     boardGrid[self.x + fireSpread][self.y - fireSpread].isOnFire = true
+                    boardGrid[self.x + fireSpread][self.y - fireSpread].fireTurn = turnCounter
                 end 
                 if boardGrid[self.x + fireSpread][self.y - fireSpread]:instanceOf(Lake) then 
                     boardGrid[self.x + fireSpread][self.y - fireSpread] = Field(self.x + fireSpread, self.y - fireSpread)
@@ -187,6 +190,8 @@ function AirElemental:spell(targetCell)
             if boardGrid[self.x][self.y + 1].isOnFire then 
                 if not boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
                     boardGrid[self.x][self.y + fireSpread].isOnFire = true
+                    boardGrid[self.x][self.y + fireSpread].fireTurn = turnCounter
+
                 end
                 if boardGrid[self.x][self.y + fireSpread]:instanceOf(Lake) then
                     boardGrid[self.x][self.y + fireSpread] = Field(self.x, self.y + fireSpread) 
@@ -201,6 +206,7 @@ function AirElemental:spell(targetCell)
             if boardGrid[self.x - 1][self.y + 1].isOnFire then
                 if not boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
                     boardGrid[self.x - fireSpread][self.y + fireSpread].isOnFire = true
+                    boardGrid[self.x - fireSpread][self.y + fireSpread].fireTurn = turnCounter
                 end
                 if boardGrid[self.x - fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
                     boardGrid[self.x - fireSpread][self.y + fireSpread] = Field(self.x - fireSpread, self.y + fireSpread) 
@@ -215,6 +221,7 @@ function AirElemental:spell(targetCell)
             if boardGrid[self.x + 1][self.y + 1].isOnFire then
                 if not boardGrid[self.x + fireSpread][self.y + fireSpread]:instanceOf(Lake) then
                     boardGrid[self.x + fireSpread][self.y + fireSpread].isOnFire = true
+                    boardGrid[self.x + fireSpread][self.y + fireSpread].fireTurn = turnCounter
                 end 
                 if boardGrid[self.x + fireSpread][self.y + fireSpread]:instanceOf(Lake) then 
                     boardGrid[self.x + fireSpread][self.y + fireSpread] = Field(self.x + fireSpread, self.y + fireSpread)

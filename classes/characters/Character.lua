@@ -386,15 +386,14 @@ function Character:attack(enemy)
         if damage == 0 then
             enableDivineDice = true
             self.divineDiceRoll = love.math.random(1, 6)
-            if self.divineDiceRoll == 6 then
-                damage = damage + 2
-            end
             if self.divineDiceRoll > 3 then
                 damage = damage + 1
             end
-            if self.divineDiceRoll <= 3 then
-                damage = damage
+
+            if self.divineDiceRoll == 6 then
+                damage = damage + 1
             end
+           
         end
 
         enemy.baseHP = enemy.baseHP - damage

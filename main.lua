@@ -132,7 +132,7 @@ actionMenuFont = love.graphics.newFont(24)
 -- counters
 turnCounter = 0
 
-nextTurnBeforeEvent = love.math.random(8, 11)
+nextTurnBeforeEvent = love.math.random(6, 10)
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 

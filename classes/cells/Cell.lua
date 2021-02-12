@@ -1,6 +1,6 @@
 local Cell = class("Cell")
 
-function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP, poisoningTurn, fireTurn, freezeTurn, burntFieldTimer, drawLightning)
+function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
     self.x = x
     self.y = y
     self.isWalkable = isWalkable
@@ -8,12 +8,14 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP, 
     self.attackModifier = attackModifier
     self.defenseModifier = defenseModifier
     self.HP = HP
-    self.poisoningTurn = poisoningTurn
-    self.fireTurn = fireTurn
-    self.freezeTurn = freezeTurn
-    self.burntFieldTimer = burntFieldTimer
-    self.drawLightning = drawLightning
+    self.poisoningTurn = 0
+    self.fireTurn = 0
+    self.freezeTurn = 0
+    self.burntFieldTimer = 0
+    self.drawLightning = 0
 end
+
+
 
 function Cell:moveSelectedCharIfValidOffset(ox, oy)
     if ((selectedChar.x + ox <= 10 and selectedChar.x + ox >= 1) and (self.x == selectedChar.x + ox and self.y == selectedChar.y + oy)) or
@@ -85,13 +87,14 @@ function Cell:click()
 end
 
 function Cell:onEntry(character)
-    
+
     if not character.hasItem then
         if self.isChest then
             player = character.parentPlayer
             character.hasItem = true
             Item:pickUpItem(character, player)
             self.isChest = false
+            chestCounter = chestCounter - 1
         end
     end
 
