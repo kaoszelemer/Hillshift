@@ -6,7 +6,7 @@ function Event011:init()
         "Purity",
         11,
         "... use handcrafted soap only ...",
-        "ALL Cells are unpoisoned",
+        "ALL Cells \nare unpoisoned",
         1
     )
 end

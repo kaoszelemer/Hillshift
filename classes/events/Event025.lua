@@ -6,7 +6,7 @@ function Event025:init()
         "Deforesting",
         25,
         "... chop-chop ...",
-        "ALL Forests are Fields",
+        "ALL Forests are\nFields",
         1
     )
 end

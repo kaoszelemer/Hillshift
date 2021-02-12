@@ -6,7 +6,7 @@ function Event032:init()
         "Little Flooding",
         32,
         "... a little water would be nice ...",
-        "10 RND Cells are Lake",
+        "10 RND Cells\nare Lakes",
         1
     )
 end

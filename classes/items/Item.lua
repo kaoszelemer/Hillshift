@@ -39,12 +39,13 @@ end
 
 
 function Item:drawCurrentItem()
-
+    local itemX = (width / 4 + offsetX)
+    local itemY = (height / 4 + offsetY)
     
 
     if self.drawItemOnScreen or self.inventoryHover then
 
-        love.graphics.draw(itemBackgroundImage, 4 * tileW + offsetX, 4 * tileH + offsetY)
+        love.graphics.draw(itemBackgroundImage, itemX - 12, itemY - 32)
     
         for index, item in ipairs(itemTable) do
           

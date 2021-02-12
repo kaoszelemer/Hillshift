@@ -2,6 +2,7 @@ board = {}
 
 tileW = 64
 tileH = 64
+
 local maxRow = 10
 local maxCol = 10
 
@@ -9,8 +10,10 @@ local maxCol = 10
 cellType = {
     Forest, Mount, Lake, Field
 }
+hillShiftLogoImage = love.graphics.newImage("/graphics/hillshiftlogo.png")
 --tileset
 boardPicture = love.graphics.newImage("/graphics/tileset4.png")
+tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --icons
 attackIcon = love.graphics.newImage("graphics/attackicon.png")
 moveIcon = love.graphics.newImage("graphics/moveicon.png")
@@ -31,9 +34,11 @@ validSpellImage = love.graphics.newImage("graphics/validspell.png")
 --Endturn button
 endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
 endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicked.png")
---Event UI
+--Backgrounds
 eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
+sideBarBackGround = love.graphics.newImage("/graphics/sidebarbackground.png")
+
 --Cell drawables
 lightningImage = love.graphics.newImage("/graphics/lightning.png")
 chestImage = love.graphics.newImage("graphics/chest.png")
@@ -53,7 +58,6 @@ diceSix = love.graphics.newQuad(320, 0, tileW, tileH,  diceQuadWidth, tileH)
 chestCounter = 0
 
 --1a. a tileset változói
-tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 --2, a cella típusuk definiálása a quadokból   
 cellQuadTable = {
 
@@ -89,15 +93,23 @@ cellQuadTable = {
 
 local function initPlayerDeck(player)
 
-    table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, AirElemental(player))
+   -- table.insert(player.characters, GeoGnome(player))
+   -- table.insert(player.characters, AirElemental(player))
     table.insert(player.characters, Alchemist(player))
     table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, Druid(player))
+    table.insert(player.characters, Alchemist(player))
+    table.insert(player.characters, FireMage(player))
+    table.insert(player.characters, Alchemist(player))
+    table.insert(player.characters, FireMage(player))
+    --table.insert(player.characters, Druid(player))
+    table.insert(player.characters, IceWizard(player))
     table.insert(player.characters, IceWizard(player))
     table.insert(player.characters, ThunderShaman(player))
-    table.insert(player.characters, SandWitch(player))
-    table.insert(player.characters, WaterHag(player))
+    table.insert(player.characters, ThunderShaman(player))
+    table.insert(player.characters, ThunderShaman(player))
+    table.insert(player.characters, ThunderShaman(player))
+    --table.insert(player.characters, SandWitch(player))
+    --table.insert(player.characters, WaterHag(player))
    
 
     while #player.characters ~= 4 do     
@@ -150,312 +162,337 @@ end
 
 
 local function drawStatsOnSideBarPlayerOne(playerone)
-    local pxp = width / 6
+ 
+    for i, currentChar in ipairs(playerone.characters) do
+
+        local sideBarX = 10
+        local sideBarY = (i * 150) - 80
+
+        love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
+  
+
+        for _, row in ipairs(boardGrid) do
+            for _, cell in ipairs(row) do
+
+                if cell.isOccupied and cell.occupiedBy == currentChar then
 
 
 
-    love.graphics.setFont(littleFont)
-
-    for _, currentChar in ipairs(playerone.characters) do
-        for i = 1, #playerone.characters do  
+                    love.graphics.draw(boardPicture, cell.quad, sideBarX + 48, sideBarY + 64)
 
 
-            for _, row in ipairs(boardGrid) do
-                for _, cell in ipairs(row) do
-                    if cell.isOccupied and cell.occupiedBy == playerone.characters[i] then
-                        if cell.isPoisoned then
-                            love.graphics.draw(poisonIcon, pxp - 128, (i * 100) + 12)
-                            love.graphics.setColor(selectedColor)
-                            love.graphics.print("-3 DF, -1 AT", pxp - 200, (i * 100) + 24)
-                            love.graphics.setColor(charColor)
-                        end
-                        if cell.isFrozen then
-                            love.graphics.draw(frozenIcon, pxp - 128, (i * 100) + 44)
-                            love.graphics.setColor(selectedColor)
-                            love.graphics.print("0 SP NEXT TURN", pxp - 200, i * 100 + 56)
-                            love.graphics.setColor(charColor)
-                        end
-                        if cell.isOnFire then
-                            love.graphics.draw(fireIcon, pxp - 128, (i * 100) + 76)
-                            love.graphics.setColor(selectedColor)
-                            love.graphics.print("-2 HP TURN END", pxp - 200, i * 100 + 88)
-                            love.graphics.setColor(charColor)
-                        end
-
-                        love.graphics.draw(boardPicture, cell.quad, pxp - 96, i * 108)
-
-                        if cell:instanceOf(Lake) then
-                            love.graphics.setColor(selectedColor)
-                            love.graphics.print("0 AP NEXT TURN", pxp - 200, 10 + (i * 128))
-                            love.graphics.setColor(charColor)
-                        end
-
-                        if cell:instanceOf(Mount) then
-                            love.graphics.setColor(greenColor)
-                            love.graphics.print("+1 AT", pxp + 35, 85 + (i * 100))
-                            love.graphics.setColor(charColor)
-                        end
-
-                        if cell:instanceOf(Forest) then
-                            love.graphics.setColor(greenColor)
-                            love.graphics.print("+1 DF", pxp + 35, 70 + (i * 100))
-                            love.graphics.setColor(charColor)
-                        end
-
-                        if cell:instanceOf(BurntField) then
-                            love.graphics.setColor(selectedColor)
-                            love.graphics.draw(fireIcon, pxp - 128, (i * 100) + 76)
-                            love.graphics.print("-1HP TURN END", pxp - 200, 10 + (i * 128))
-                            love.graphics.setColor(charColor)
-                        end
-
-
+                    love.graphics.setFont(littleFont)
+                    local modifierX = sideBarX + 172
+                    if cell.isPoisoned then
+                        love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print(" -2 DF\n -1 AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.setColor(charColor)
+                    end
+                    if cell.isFrozen then
+                        love.graphics.draw(frozenIcon, modifierX, sideBarY + 70)
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("  0 SP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.setColor(charColor)
+                    end
+                    if cell.isOnFire then
+                        love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print(" -2 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.setColor(charColor)
                     end
 
+                 
+
+                    if cell:instanceOf(Lake) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("0 AP NEXT TURN", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Mount) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Forest) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(BurntField) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1HP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(GlassMount) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1AT +1DF", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Desert) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(MagicForest) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1SP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Swamp) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+
+
                 end
-            end
-
-
-
-    love.graphics.setColor(charColor)
-    love.graphics.setFont(statFont)
-    if inactivePlayer == playerone then 
-        love.graphics.print(playerone.name, pxp, 50)
-    end
-       
-                if activePlayer == playerone then
-                    love.graphics.print(playerone.name .. " - IT'S YOUR TURN", pxp, 50)
-                    love.graphics.setLineWidth(2)
-                    love.graphics.setColor(charColor)
-                    love.graphics.rectangle("line", pxp - 128, 10 + i * 100, 210, 128)
-                    love.graphics.setColor(charColor)
-                    love.graphics.setLineWidth(1)
-                    love.graphics.print("PLAYER ONE'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, 10)
-
-                 --[[    love.graphics.setLineWidth(2)
-                    love.graphics.setColor(charColor)
-                    love.graphics.rectangle("line", pxp - 96, i * 108, 64, 64)
-                    love.graphics.setColor(charColor)
-                    love.graphics.setLineWidth(1) ]]
-                    
-                    love.graphics.setFont(pointFont)
-                    love.graphics.print("SP: " ..  playerone.characters[i].stepPoints, pxp - 112, 64 + i * 110)
-                    love.graphics.print("AP: " ..  playerone.characters[i].actionPoints, pxp - 52, 64 + i * 110)
-                    love.graphics.setFont(statFont)
-                end
-
-
-
-                love.graphics.draw(playerone.characters[i].image, pxp - 96, i * 108)
-
-
-
-                   
-
-                if playerone.characters[i].hasItem and playerone.characters[i].drawCurrentItem then
-                    love.graphics.draw(playerone.characters[i].ownedItem.itemIcon, pxp - 96, i * 108)
-                end
-
-
-
-
-
-                love.graphics.print(playerone.characters[i].name, pxp, 10 + i * 100)
-
-                if playerone.characters[i].baseHP <= 3 then
-                    love.graphics.setColor(selectedColor)
-                 love.graphics.print("HP: " ..  playerone.characters[i].baseHP .. "!!!", pxp, 55 + i * 100)
-                    love.graphics.setColor(charColor)
-                else
-                love.graphics.print("HP: " ..  playerone.characters[i].baseHP, pxp, 55 + i * 100)
-                end
-                love.graphics.print("DF: " ..  playerone.characters[i].baseDefense, pxp, 70 + i * 100)
-                love.graphics.print("AT: " ..  playerone.characters[i].baseAttack, pxp, 85 + i * 100)
-               -- love.graphics.print("x: " ..  playerone.characters[i].x .. "y: " ..  playerone.characters[i].y, 200, 90 + i * 100)
-
-              --  if      playerone.characters[i].isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
-              --  elseif  playerone.characters[i].isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
-              --  end
-               --[[  if  playerone.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
-                elseif  playerone.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
-                elseif  playerone.characters[i].isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
-                elseif  playerone.characters[i].isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
-                end ]]
-               local minHealthBarHeight = 4.5
-               love.graphics.rectangle("line", pxp - 33, i * 108, 13, playerone.characters[i].baseHP * minHealthBarHeight + 1)
-               if playerone.characters[i].baseHP <= 3 then
-                love.graphics.setColor(selectedColor)
-               love.graphics.rectangle("fill", pxp - 32, 1 + i * 108, 12 , playerone.characters[i].baseHP * minHealthBarHeight)
-               love.graphics.setColor(charColor)
-               else
-                love.graphics.setColor(greenColor)
-                love.graphics.rectangle("fill", pxp - 32, 1 + i * 108, 12 , playerone.characters[i].baseHP * minHealthBarHeight)
-                love.graphics.setColor(charColor)
-               end
-               love.graphics.setColor(selectedColor)
-               love.graphics.print("H\nP", pxp - 30, 3 + i * 108)
-               love.graphics.setColor(charColor)
-
             end
         end
-        
-        
 
+      
             
-    
-     
+        love.graphics.setColor(charColor)
+        love.graphics.setFont(statFont)
+
+        love.graphics.draw(currentChar.image, sideBarX + 48, sideBarY + 64)
+
+        love.graphics.setFont(pointFont)
+        love.graphics.setColor(purpleColor)
+        love.graphics.print(currentChar.name, sideBarX + 48, sideBarY + 33)
+        love.graphics.setColor(purpleColor)
+        love.graphics.setFont(statFont)
+
+        love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
+        love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
+
+        local minHealthBarHeight = 5
+        love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
+
+        if currentChar.baseHP <= 3 then
+            love.graphics.setColor(selectedColor)
+            love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
+            love.graphics.setColor(charColor)
+        else
+            love.graphics.setColor(greenColor)
+            love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
+            love.graphics.setColor(charColor)
+        end
+
+        if currentChar.baseHP <= 3 then
+            love.graphics.setColor(selectedColor)
+            love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
+            love.graphics.setColor(purpleColor)
+        else
+            love.graphics.print(" HP: " ..  currentChar.baseHP, sideBarX + tileW + 52, sideBarY + tileH + 40)
+        end
 
 
-     
+        if activePlayer == playerone then 
+            love.graphics.print(playerone.name, sideBarX + 32, 64)
+        end
+
+        if activePlayer == playerone then
+            love.graphics.print("                - IT'S YOUR TURN", sideBarX + 32, 64)
+            love.graphics.setColor(charColor)
+            love.graphics.print("PLAYER ONE'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, height - 60)
+            if currentChar.stepPoints ~= 0 then love.graphics.print(currentChar.stepPoints.."SP", sideBarX + 48, sideBarY + 112) end
+            if currentChar.actionPoints ~= 0 then love.graphics.print(currentChar.actionPoints.."AP", sideBarX + 88, sideBarY + 112) end
+        end
+
+       
+
+        if currentChar.hasItem and currentChar.drawCurrentItem then
+            love.graphics.draw(currentChar.ownedItem.itemIcon, sideBarX + tileW + 90, sideBarY + tileH + 5)
+        end
+
+    end
+ 
     love.graphics.setFont(font)
 end
 
+
+
 local function drawStatsOnSideBarPlayerTwo(playertwo)
-    local pxp = width / 6 * 4.6
-    love.graphics.setFont(littleFont)
-    
-    for index, value in ipairs(playertwo.characters) do
-        for i = 1, #playertwo.characters do
+    for i, currentChar in ipairs(playertwo.characters) do
 
+        local sideBarX = 960
+        local sideBarY = (i * 150) - 80
 
-                for _, row in ipairs(boardGrid) do
-                    for _, cell in ipairs(row) do
+        love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
+  
 
-                        if cell.isOccupied and cell.occupiedBy == playertwo.characters[i] then
-                            if cell.isPoisoned then
-                                love.graphics.draw(poisonIcon, pxp + 192, (i * 100) + 12)
-                                love.graphics.setColor(selectedColor)
-                                love.graphics.print("-3 DF, -1 AT", pxp + 228, i * 100 + 24)
-                                love.graphics.setColor(charColor)
-                            end
-                            if cell.isFrozen then
-                                love.graphics.draw(frozenIcon, pxp + 192, (i * 100) + 44)
-                                love.graphics.setColor(selectedColor)
-                                love.graphics.print("0 SP NEXT TURN", pxp + 228, i * 100 + 56)
-                                love.graphics.setColor(charColor)
-                            end
-                            if cell.isOnFire then
-                                love.graphics.draw(fireIcon, pxp + 192, (i * 100) + 76)
-                                love.graphics.setColor(selectedColor)
-                                love.graphics.print("-2 HP TURN END", pxp + 228, i * 100 + 88)
-                                love.graphics.setColor(charColor)
-                            end
+        for _, row in ipairs(boardGrid) do
+            for _, cell in ipairs(row) do
 
-                            love.graphics.draw(boardPicture, cell.quad, pxp + 84, i * 110)
-
-                            if cell:instanceOf(Lake) then
-                                love.graphics.setColor(selectedColor)
-                                love.graphics.print("0 AP NEXT TURN", pxp, 10 + (i * 128))
-                                love.graphics.setColor(charColor)
-                            end
-                          
-                            if cell:instanceOf(Mount) then
-                                love.graphics.setColor(greenColor)
-                                love.graphics.print("+1 AT", pxp + 35, 85 + (i * 100))
-                                love.graphics.setColor(charColor)
-                            end
-
-                            if cell:instanceOf(Forest) then
-                                love.graphics.setColor(greenColor)
-                                love.graphics.print("+1 DF", pxp + 35, 70 + (i * 100))
-                                love.graphics.setColor(charColor)
-                            end
-
-                            if cell:instanceOf(BurntField) then
-                                love.graphics.setColor(selectedColor)
-                                love.graphics.draw(fireIcon, pxp + 192, (i * 100) + 76)
-                                love.graphics.print("-1 HP TURN END", pxp + 228, i * 100 + 88)
-                                love.graphics.setColor(charColor)
-                            end
-
-
-                        end
-                    
+                if cell.isOccupied and cell.occupiedBy == currentChar then
 
 
 
+                    love.graphics.draw(boardPicture, cell.quad, sideBarX + 48, sideBarY + 64)
 
 
-
-
-                    end
-                end
-
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(statFont)
-            if inactivePlayer == playertwo then
-                love.graphics.print(playertwo.name, pxp, 50)
-            end
-                
-                        if activePlayer == playertwo then
-                            love.graphics.print(playertwo.name .. " - IT'S YOUR TURN", pxp, 50)
-                            love.graphics.setLineWidth(2)
-                            love.graphics.setColor(charColor)
-                            love.graphics.rectangle("line", pxp - 10, 10 + i * 100, 200, 128)
-                            love.graphics.setColor(charColor)
-                            love.graphics.setLineWidth(1)
-                            love.graphics.print("PLAYER TWO'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, 10)
-
-                        --[[   love.graphics.setLineWidth(2)
-                            love.graphics.setColor(charColor)
-                            love.graphics.rectangle("line", pxp + 128, i * 108, 64, 64)
-                            love.graphics.setColor(charColor)
-                            love.graphics.setLineWidth(1)
-        ]]
-                            love.graphics.setFont(pointFont)
-                            love.graphics.print("SP: " ..  playertwo.characters[i].stepPoints, pxp + 72, 64 + i * 110)
-                            love.graphics.print("AP: " ..  playertwo.characters[i].actionPoints, pxp + 128, 64 + i * 110)
-                            love.graphics.setFont(statFont)
-            
-                        end
-
-                        love.graphics.draw(playertwo.characters[i].image, pxp + 84, 10 + i * 108)
-
-                        if playertwo.characters[i].hasItem and playertwo.characters[i].drawCurrentItem then
-                            love.graphics.draw(playertwo.characters[i].ownedItem.itemIcon, pxp + 88, 10 + i * 108 )
-                        end
-        
-                
-
-                        love.graphics.print( playertwo.characters[i].name, pxp, 10 + i * 100)
-
-                        if playertwo.characters[i].baseHP <= 3 then
-                            love.graphics.setColor(selectedColor)
-                         love.graphics.print("HP: " ..  playertwo.characters[i].baseHP .. "!!!", pxp, 55 + i * 100)
-                            love.graphics.setColor(charColor)
-                        else
-                        love.graphics.print("HP: " ..  playertwo.characters[i].baseHP, pxp, 55 + i * 100)
-                        end
-                        love.graphics.print("DF: " ..  playertwo.characters[i].baseDefense, pxp, 70 + i * 100)
-                        love.graphics.print("AT: " ..  playertwo.characters[i].baseAttack, pxp, 85 + i * 100)
-                        --[[ love.graphics.print("x: " ..  playertwo.characters[i].x .. "y: " ..  playertwo.characters[i].y, 1000, 90 + i * 120)
-                        
-                        if      playertwo.characters[i].isSelected then love.graphics.print("Selected", 1000, 70 + i * 120)
-                        elseif  playertwo.characters[i].isHovered then love.graphics.print("Hovered", 1000, 70 + i * 120)
-                        end ]]
-                        --[[ if  playertwo.characters[i].isInAttackState then love.graphics.print("ATTACK MODE", (width / 2 ) + 200, 10)
-                        elseif  playertwo.characters[i].isInStepState then love.graphics.print("STEP MODE", (width / 2 ) + 200, 10)
-                        end ]]
-                        local minHealthBarHeight = 4.5
-                        love.graphics.rectangle("line", pxp + 147, 7 + i * 108, 13, playertwo.characters[i].baseHP * minHealthBarHeight + 1)
-                        if playertwo.characters[i].baseHP <= 3 then
-                         love.graphics.setColor(selectedColor)
-                        love.graphics.rectangle("fill", pxp + 148, 8 + i * 108, 12 , playertwo.characters[i].baseHP * minHealthBarHeight)
-                        love.graphics.setColor(charColor)
-                        else
-                         love.graphics.setColor(greenColor)
-                         love.graphics.rectangle("fill", pxp + 148, 8 + i * 108, 12 , playertwo.characters[i].baseHP * minHealthBarHeight)
-                         love.graphics.setColor(charColor)
-                        end
+                    love.graphics.setFont(littleFont)
+                    local modifierX = sideBarX + 172
+                    if cell.isPoisoned then
+                        love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("H\nP", pxp + 148, 11 + i * 108)
+                        love.graphics.print(" -2 DF\n -1 AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
-                        love.graphics.setFont(statFont)
+                    end
+                    if cell.isFrozen then
+                        love.graphics.draw(frozenIcon, modifierX, sideBarY + 70)
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("  0 SP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.setColor(charColor)
+                    end
+                    if cell.isOnFire then
+                        love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print(" -2 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.setColor(charColor)
+                    end
+
+                 
+
+                    if cell:instanceOf(Lake) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("0 AP NEXT TURN", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Mount) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Forest) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(BurntField) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1HP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(GlassMount) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1AT +1DF", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Desert) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(MagicForest) then
+                        love.graphics.setColor(darkgreenColor)
+                        love.graphics.print("+1SP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
+
+                    if cell:instanceOf(Swamp) then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.setColor(charColor)
+                    end
 
 
+
+                end
             end
         end
+
+      
+            
+        love.graphics.setColor(charColor)
+        love.graphics.setFont(statFont)
+
+        love.graphics.draw(currentChar.image, sideBarX + 48, sideBarY + 64)
+
+        love.graphics.setFont(pointFont)
+        love.graphics.setColor(purpleColor)
+        love.graphics.print(currentChar.name, sideBarX + 48, sideBarY + 33)
+        love.graphics.setColor(purpleColor)
+        love.graphics.setFont(statFont)
+
+        love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
+        love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
+
+        local minHealthBarHeight = 5
+        love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
+
+        if currentChar.baseHP <= 3 then
+            love.graphics.setColor(selectedColor)
+            love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
+            love.graphics.setColor(charColor)
+        else
+            love.graphics.setColor(greenColor)
+            love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
+            love.graphics.setColor(charColor)
+        end
+
+        if currentChar.baseHP <= 3 then
+            love.graphics.setColor(selectedColor)
+            love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
+            love.graphics.setColor(purpleColor)
+        else
+            love.graphics.print(" HP: " ..  currentChar.baseHP, sideBarX + tileW + 52, sideBarY + tileH + 40)
+            love.graphics.setColor(charColor)
+        end
+
+
+        if activePlayer == playertwo then 
+            love.graphics.print(playertwo.name, sideBarX + 32, 64)
+        end
+
+        if activePlayer == playertwo then
+            love.graphics.print("                - IT'S YOUR TURN", sideBarX + 32, 64)
+            love.graphics.setColor(charColor)
+            love.graphics.print("PLAYER TWO'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, height - 60)
+            if currentChar.stepPoints ~= 0 then love.graphics.print(currentChar.stepPoints.."SP", sideBarX + 48, sideBarY + 112) end
+            if currentChar.actionPoints ~= 0 then love.graphics.print(currentChar.actionPoints.."AP", sideBarX + 88, sideBarY + 112) end
+        end
+
+       
+
+        if currentChar.hasItem and currentChar.drawCurrentItem then
+            love.graphics.draw(currentChar.ownedItem.itemIcon, sideBarX + tileW + 90, sideBarY + tileH + 5)
+        end
+
+    end
+ 
     love.graphics.setFont(font)
+end
+
+local function drawDebugInfo()
+
+
+   -- love.graphics.print("x: " ..  currentChar.x .. "y: " ..  currentChar.y, 200, 90 + i * 100)
+
+              --  if      currentChar.isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
+              --  elseif  currentChar.isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
+              --  end
+               --[[  if  currentChar.isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
+                elseif  currentChar.isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
+                elseif  currentChar.isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
+                elseif  currentChar.isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
+                end ]]
+
 end
 
 
@@ -485,8 +522,8 @@ function drawPossibleDamageOnEnemyCharacter()
             local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 
           
-                love.graphics.setFont(pointFont)
-                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY, 40, 18)
+                love.graphics.setFont(statFont)
+                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4) - 5) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY, 48, 20)
                 love.graphics.setColor(selectedColor)
                 love.graphics.print(minDamage .. " - " .. maxDamage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
                 love.graphics.setFont(statFont)
@@ -645,8 +682,14 @@ end
 local function drawEndTurnButton()
 
 
-    love.graphics.draw(endTurnButtonImage, width / 2 + 200, 10)
-
+    love.graphics.draw(endTurnButtonImage, width / 2 + 257 - 64, height - 80)
+    love.graphics.setColor(blackColor)
+    love.graphics.rectangle("fill", width / 2 + 257 - 80, height - 60, 100, 25)
+    love.graphics.setFont(pointFont)
+    love.graphics.setColor(selectedColor)
+    love.graphics.print("END TURN", width / 2 + 257 - 70, height - 60)
+    love.graphics.setFont(font)
+    love.graphics.setColor(charColor)
    if isEndTurnButtonClicked then
     love.graphics.draw(endTurnButtonClickedImage, width / 2 + 200, 10) 
    end
@@ -681,7 +724,7 @@ function enableDrawAttack(character, enemy)
     drawnAttackingCharacter = character
     drawnEnemyCharacter = enemy
     timerStart = love.timer.getTime()
-    timerStop = 10
+    timerStop = 3
 
 end
 
@@ -690,47 +733,50 @@ function drawAttackOnBoard()
     if drawAttack then
         local enemy = drawnEnemyCharacter
         local character = drawnAttackingCharacter
-        if enemy ~= nil then
-            love.graphics.setColor(charColor)
-            love.graphics.setFont(statFont)
-            love.graphics.print("---****------ BATTLE COMMENCES ----****--------", 10, 600)
-            love.graphics.print(character.name .. " attacked " .. enemy.name, 10, 620)
-            love.graphics.print(character.name .. " AT is: " .. character.baseAttack .. " + Dice: " .. character.diceRoll .. " + CM: " .. boardGrid[character.x][character.y].attackModifier .. "+ TAM: " .. character.turnAttackModifier .. " = " .. character.baseAttack + character.diceRoll + boardGrid[character.x][character.y].attackModifier + character.turnAttackModifier, 10,640)
-            love.graphics.print(enemy.name .. " DF is: " .. enemy.baseDefense .. " + CM: " .. boardGrid[enemy.x][enemy.y].defenseModifier .. "+ TDM: " .. enemy.turnDefenseModifier .. " = " .. enemy.baseDefense +  boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier, 10, 660)
-            love.graphics.print("Battle: "  .. character.rolledAttack .. " AT - " .. enemy.baseDefense + enemy.turnDefenseModifier + boardGrid[enemy.x][enemy.y].defenseModifier .. " DF" , 10, 680)
-            love.graphics.print(character.name .. " obliterated " .. enemy.name .. " with " .. damage .. " damage.", 10, 700)
-            love.graphics.print(enemy.name .. " remaining HP: " .. enemy.baseHP, 10, 720)
-            love.graphics.print("------------*END OF THE BATTLE*-------------", 10, 740)
-            love.graphics.setFont(font)
-            love.graphics.setColor(selectedColor)
-            love.graphics.print("-" .. damage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
-            love.graphics.setColor(charColor)
-
-
-
-            local diceX = width - 300
-            local diceY = height - 180
-            local divineDiceX = width - 172
+        if enemy ~= nil and activePlayer == playerOne then
+    
+            local diceX = 25
+            local diceY = height - 100
+            local divineDiceX = diceX + tileW + tileW / 2
             love.graphics.setFont(pointFont)
             love.graphics.print("Dice:", diceX + 10, diceY - 32)
             if character.diceRoll == 1 then
                 love.graphics.draw(diceImage, diceOne, diceX, diceY)
+                love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
             end
             if character.diceRoll == 2 then
                 love.graphics.draw(diceImage, diceTwo, diceX, diceY)
+                 love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
             end
             if character.diceRoll == 3 then
                 love.graphics.draw(diceImage, diceThree, diceX, diceY)
+                 love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
             end
             if character.diceRoll == 4 then
                 love.graphics.draw(diceImage, diceFour, diceX, diceY)
+                 love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
             end
             if character.diceRoll == 5 then
                 love.graphics.draw(diceImage, diceFive, diceX, diceY)
+                 love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
             end
             if character.diceRoll == 6 then
                 love.graphics.draw(diceImage, diceSix, diceX, diceY)
+                 love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
             end
+
 
             if enableDivineDice == true then
                 love.graphics.print("Divine Dice:", divineDiceX - 20, diceY - 32)
@@ -778,8 +824,98 @@ function drawAttackOnBoard()
                 
 
             end
+           
 
-
+        elseif enemy ~= nil and activePlayer == playerTwo then
+    
+                local diceX = 985
+                local diceY = height - 100
+                local divineDiceX = diceX + tileW + tileW / 2
+                love.graphics.setFont(pointFont)
+                love.graphics.print("Dice:", diceX + 10, diceY - 32)
+                if character.diceRoll == 1 then
+                    love.graphics.draw(diceImage, diceOne, diceX, diceY)
+                     love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
+                end
+                if character.diceRoll == 2 then
+                    love.graphics.draw(diceImage, diceTwo, diceX, diceY)
+                     love.graphics.setColor(selectedColor)
+                    love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                    love.graphics.setColor(charColor)
+                end
+                if character.diceRoll == 3 then
+                    love.graphics.draw(diceImage, diceThree, diceX, diceY)
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                    love.graphics.setColor(charColor)
+                end
+                if character.diceRoll == 4 then
+                    love.graphics.draw(diceImage, diceFour, diceX, diceY)
+                     love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
+                end
+                if character.diceRoll == 5 then
+                    love.graphics.draw(diceImage, diceFive, diceX, diceY)
+                     love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
+                end
+                if character.diceRoll == 6 then
+                    love.graphics.draw(diceImage, diceSix, diceX, diceY)
+                     love.graphics.setColor(selectedColor)
+                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.setColor(charColor)
+                end
+    
+                if enableDivineDice == true then
+                    love.graphics.print("Divine Dice:", divineDiceX - 20, diceY - 32)
+                    love.graphics.setFont(pointFont)
+                    
+                    if character.divineDiceRoll == 1 then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
+                        love.graphics.setColor(charColor)
+                        love.graphics.draw(divineDiceImage, diceOne, divineDiceX, diceY)
+                    end
+                    if character.divineDiceRoll == 2 then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
+                        love.graphics.setColor(charColor)
+                        love.graphics.draw(divineDiceImage, diceTwo, divineDiceX, diceY)
+                    end
+                    if character.divineDiceRoll == 3 then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
+                        love.graphics.setColor(charColor)
+                        love.graphics.draw(divineDiceImage, diceThree, divineDiceX, diceY)
+                    end
+                    if character.divineDiceRoll == 4 then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1 HP", divineDiceX + 80, diceY + 24)
+                        love.graphics.setColor(charColor)
+                        love.graphics.draw(divineDiceImage, diceFour, divineDiceX, diceY)
+                    end
+                    if character.divineDiceRoll == 5 then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-1 HP", divineDiceX + 80, diceY + 32)
+                        love.graphics.setColor(charColor)
+                        love.graphics.draw(divineDiceImage, diceFive, divineDiceX, diceY)
+                        
+                    end
+                    if character.divineDiceRoll == 6 then
+                        love.graphics.setColor(selectedColor)
+                        love.graphics.print("-2 HP", divineDiceX + 80, diceY + 32)
+                        love.graphics.setColor(charColor)
+                        love.graphics.draw(divineDiceImage, diceSix, divineDiceX, diceY)
+                       
+                    end
+    
+                    
+    
+                end
         end
     end
 
@@ -859,7 +995,7 @@ end
 
 function board:draw()
     
-
+    love.graphics.draw(hillShiftLogoImage, width / 4 + 128, 10)
     --drawModifier()
     drawBoardGrid()
     drawChests()

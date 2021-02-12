@@ -127,8 +127,9 @@ function Event:drawCurrentEvent()
   
 
     if enableEvent then
-
-        love.graphics.draw(eventBackgroundImage, width / 4 + offsetX, height / 4 + offsetY)
+        local eventX = (width / 4 + offsetX)
+        local eventY = (height / 4 + offsetY)
+        love.graphics.draw(eventBackgroundImage, eventX - 12, eventY - 32)
     
         for index, event in ipairs(eventTable) do
           

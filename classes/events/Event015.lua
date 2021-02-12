@@ -6,7 +6,7 @@ function Event015:init()
         "Alchemistry",
         15,
         "... that wasn't placebo ...",
-        "RND Cells are poisoned",
+        "RND Cells \nare poisoned",
         0
     )
 end

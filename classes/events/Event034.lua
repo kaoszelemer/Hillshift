@@ -6,7 +6,7 @@ function Event034:init()
         "Great Flooding",
         34,
         "... no, i said thats enough water ...",
-        "30 RND Cells are Lake",
+        "30 RND Cells\nare Lake",
         1
     )
 end

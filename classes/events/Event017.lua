@@ -6,7 +6,7 @@ function Event017:init()
         "Mushroom DNA",
         17,
         "... everywhere i step, there is a tree ...",
-        "RND cells are Forest",
+        "RND cells are Forests",
         1
     )
 end

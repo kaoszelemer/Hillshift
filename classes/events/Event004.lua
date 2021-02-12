@@ -6,7 +6,7 @@ function Event004:init()
         "World Peace",
         4,
         "...Gandhi would be proud...",
-        "YOUR characters +1HP",
+        "YOUR characters\n+1HP",
         1
     )
 end

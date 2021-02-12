@@ -6,7 +6,7 @@ function Event016:init()
         "Flooding",
         16,
         "... swimming is good for your health ...",
-        "RND Cells are Lake",
+        "RND Cells are Lakes",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event029:init()
         "Little Earthquake",
         29,
         "... we are in China ...",
-        "10 RND Cells are Mount",
+        "10 RND Cells are\nMount",
         1
     )
 end

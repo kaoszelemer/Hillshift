@@ -127,8 +127,7 @@ numberOfTiles = 10
 offsetX = math.floor(width / 2 - (tileW * numberOfTiles / 2)  - tileW)
 offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 
-statFont = love.graphics.newFont(12)
-actionMenuFont = love.graphics.newFont(24)
+
 -- counters
 turnCounter = 0
 
@@ -138,25 +137,27 @@ eventTurnCounter = 0
 
 lightningTimer = 0
 magicForestTimer = 0
---karakterek valtozoi
-charColor = {1, 1, 1}
+--Colors
+charColor = {167 / 255, 147 / 255, 173 / 255}
 cellOccupiedColor = {1, 192 / 255, 203 / 255}
 hoverColor = {0, 0, 1}
-selectedColor = {1, 0, 0}
+selectedColor = {184 / 255, 0, 0}
 greenColor = {0, 1, 0}
 blackColor = {0, 0, 0}
+darkgreenColor = {0, 64 / 255, 21 / 255}
+purpleColor = {87 / 255, 0, 87 / 255}
+---
 charH = 32
 charW = 32
---eger es egyeb interakciok valtozoi
 mouseX, mouseY = love.mouse.getPosition()
---kiszámolom az egér és tile relációt X és Y tengelyen
 
 --betutipus beállítása
-font = love.graphics.newFont(32)
+statFont = love.graphics.newFont("EquipmentPro.ttf", 20)
+actionMenuFont = love.graphics.newFont("EquipmentPro.ttf",32)
+font = love.graphics.newFont("EquipmentPro.ttf",40)
 love.graphics.setFont(font)
-statFont = love.graphics.newFont(12)
-pointFont = love.graphics.newFont(16)
-littleFont = love.graphics.newFont(8)
+pointFont = love.graphics.newFont("EquipmentPro.ttf",24)
+littleFont = love.graphics.newFont("EquipmentPro.ttf",14)
 
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
@@ -470,7 +471,7 @@ function love.load()
     selectStartingPlayer()
     --beallitasok
     love.window.setTitle("HillShift")
-    love.graphics.setBackgroundColor(0,0,0)
+    love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
     love.window.setMode(width,height)
     love.mouse.setVisible(false)
 end
@@ -546,7 +547,7 @@ function love.mousereleased(x, y, button, istouch, presses)
                 boardGrid[mx][my]:click()
             end
 
-            if (x > width / 2 + 200 and x < width / 2 + 264) and (y > 10 and y < 74) then
+            if (x > width / 2 + 125 and x < width / 2 + 274) and (y > height - 60 and y < height - 35) then
             --  isEndTurnButtonClicked = true
                 endTurn()
                 newTurn()
@@ -555,15 +556,15 @@ function love.mousereleased(x, y, button, istouch, presses)
         end
 
         if enableEvent and
-            x > (width / 4 + offsetX) + 250 and x < (width / 4 + offsetX) + 302 and
-            y > (height / 4 + offsetY) + 260 and y < ((height / 4 + offsetY) + 310) then
+            x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+            y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
                 Event:confirmEventWithClick()
                 
         end
 
         if Item.drawItemOnScreen and
-           x > (4 * tileW + offsetX) + 206 and x < (4 * tileW + offsetX) + 260 and
-           y > (4 * tileH + offsetY) + 215 and y < (4 * tileH + offsetY) + 260 then
+        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
                 Item:confirmItemPickup()
            end
 

@@ -1,6 +1,6 @@
 local Druid = Character:extend("Druid")
     function Druid:init(parentPlayer)
-        Character.init(self, 8, 3, 3, 5, love.graphics.newImage("/graphics/druid.png"), 
+        Character.init(self, 11, 3, 3, 5, love.graphics.newImage("/graphics/druid.png"), 
                     love.graphics.newImage("/graphics/druidhover.png"), 
                     love.graphics.newImage("/graphics/druidsink.png"), 
                     love.graphics.newImage("/graphics/druidsinkhover.png"), 

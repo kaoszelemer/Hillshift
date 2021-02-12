@@ -6,7 +6,7 @@ function Event033:init()
         "Medium Flooding",
         33,
         "... that's too much water ...",
-        "20 RND Cells are Lake",
+        "20 RND Cells\nare Lake",
         1
     )
 end

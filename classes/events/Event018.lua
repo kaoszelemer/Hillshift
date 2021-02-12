@@ -6,7 +6,7 @@ function Event018:init()
         "Flamethrower",
         18,
         "... MWHAHAHAHA ...",
-        "RND Cells are on fire",
+        "RND Cells \nare on fire",
         0
     )
 end
