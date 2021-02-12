@@ -96,8 +96,8 @@ local function initPlayerDeck(player)
     table.insert(player.characters, Druid(player))
     table.insert(player.characters, IceWizard(player))
     table.insert(player.characters, ThunderShaman(player))
-    table.insert(player.characters, HillshiftHag(player))
-    table.insert(player.characters, WaterWitch(player))
+    table.insert(player.characters, SandWitch(player))
+    table.insert(player.characters, WaterHag(player))
    
 
     while #player.characters ~= 4 do     

@@ -1,5 +1,5 @@
-local HillshiftHag = Character:extend("HillshiftHag")
-    function HillshiftHag:init(parentPlayer)
+local SandWitch = Character:extend("SandWitch")
+    function SandWitch:init(parentPlayer)
         Character.init(self, 8, 3, 1, 8, love.graphics.newImage("/graphics/hillshifthag.png"), 
                     love.graphics.newImage("/graphics/hillshifthaghover.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsink.png"), 
@@ -7,7 +7,7 @@ local HillshiftHag = Character:extend("HillshiftHag")
                     parentPlayer, 1, 1, 0, 0, 0, false)
     end
 
-    function HillshiftHag:spell(targetCell)
+    function SandWitch:spell(targetCell)
         if self.actionPoints ~= 0 then
         
         if targetCell.x == self.x + 1 or targetCell.x == self.x - 1 then
@@ -38,4 +38,4 @@ local HillshiftHag = Character:extend("HillshiftHag")
     end
     end
     
-return HillshiftHag
+return SandWitch

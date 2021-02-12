@@ -1,6 +1,6 @@
-local WaterWitch = Character:extend("WaterWitch")
+local WaterHag = Character:extend("WaterHag")
 
-function WaterWitch:init(parentPlayer)
+function WaterHag:init(parentPlayer)
     Character.init(self, 10, 3, 2, 9, love.graphics.newImage("/graphics/waterwitch.png"), 
                 love.graphics.newImage("/graphics/waterwitchhover.png"), 
                 love.graphics.newImage("/graphics/waterwitchsink.png"), 
@@ -8,7 +8,7 @@ function WaterWitch:init(parentPlayer)
                 parentPlayer, 1, 1, 0, 0, 0, false)
 end
 
-function WaterWitch:spell(targetCell)
+function WaterHag:spell(targetCell)
 
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
@@ -52,4 +52,4 @@ end
 
 
    
-return WaterWitch
+return WaterHag

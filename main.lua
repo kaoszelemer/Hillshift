@@ -21,8 +21,8 @@ AirElemental = require('classes.characters.AirElemental')
 Alchemist = require('classes.characters.Alchemist')
 FireMage = require('classes.characters.FireMage')
 ThunderShaman = require('classes.characters.ThunderShaman')
-HillshiftHag = require('classes.characters.HillshiftHag')
-WaterWitch = require('classes.characters.WaterWitch')
+SandWitch = require('classes.characters.SandWitch')
+WaterHag = require('classes.characters.WaterHag')
 
 Item = require('classes.items.Item')
 Item01 = require('classes.items.Item01')
@@ -213,7 +213,7 @@ function endTurn()
                 boardGrid[x][y].isFrozen = false
             end
 
-            if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 5 then
+            if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 3 then
 
                 if love.math.random() < 0.25 then boardGrid[x][y] = Forest(x, y) end
                 if love.math.random() < 0.25 then boardGrid[x][y] = Mount(x, y) end
