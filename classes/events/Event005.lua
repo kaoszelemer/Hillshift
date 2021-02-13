@@ -3,10 +3,10 @@ local Event005 = Event:extend("Event005")
 function Event005:init()
     Event.init(self,
         love.graphics.newImage("/graphics/event005image.png"),
-        "Sudden Death",
+        "Desertification",
         5,
-        "... sometimes it's too quick ...",
-        "RND enemy HP \nis halved",
+        "... sandwitch is the greatest joke...",
+        "RND Cells are \nDeserts",
         0
     )
 end
@@ -27,14 +27,13 @@ end
 
 function Event005:eventFunction()
 
-    local randomEnemyIndex = love.math.random(1, #inactivePlayer.characters)
-
-    for index, currentChar in ipairs(inactivePlayer.characters) do
-
-        if index == randomEnemyIndex then
-            currentChar.baseHP = math.floor(currentChar.baseHP / 2)
+    for x = 1, (love.math.random(1, 100)) do
+        rndCellX = love.math.random(1, 10)
+        rndCellY = love.math.random(1, 10)
+        if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Swamp(rndCellX, rndCellY)
+        elseif boardGrid[rndCellX][rndCellY].isOnFire then boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+        else boardGrid[rndCellX][rndCellY] = Desert(rndCellX, rndCellY)
         end
-
     end
 
 

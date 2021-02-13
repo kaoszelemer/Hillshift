@@ -53,7 +53,9 @@ function Item:drawCurrentItem()
 
                 currentItem = item
                 currentItem.enableDraw = true
+                love.graphics.setColor(purpleColor)
                 currentItem:drawItemOnScreenWhenPickup()
+                love.graphics.setColor(charColor)
 
             end
 

@@ -131,7 +131,7 @@ offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 -- counters
 turnCounter = 0
 
-nextTurnBeforeEvent = love.math.random(6, 10)
+nextTurnBeforeEvent = love.math.random(5, 9)
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
@@ -547,8 +547,8 @@ function love.mousereleased(x, y, button, istouch, presses)
                 boardGrid[mx][my]:click()
             end
 
-            if (x > width / 2 + 125 and x < width / 2 + 274) and (y > height - 60 and y < height - 35) then
-            --  isEndTurnButtonClicked = true
+            if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
+                isEndTurnButtonClicked = false
                 endTurn()
                 newTurn()
             end
@@ -558,6 +558,7 @@ function love.mousereleased(x, y, button, istouch, presses)
         if enableEvent and
             x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
             y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+                isEndTurnButtonClicked = false
                 Event:confirmEventWithClick()
                 
         end
@@ -569,6 +570,11 @@ function love.mousereleased(x, y, button, istouch, presses)
            end
 
     end
-    
+
+function love.mousepressed( x, y, button, istouch, presses )
+    if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
+       isEndTurnButtonClicked = true
+    end
+end
 
 end

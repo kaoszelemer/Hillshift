@@ -3,10 +3,10 @@ local Event052 = Event:extend("Event052")
 function Event052:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
-        "Excitement",
+        "Glass Factory",
         52,
-        "... hard work paid out ...",
-        "One more Event is near",
+        "... i live here ...",
+        "RND Cells are\nGlass Mounts",
         1
     )
 end
@@ -27,8 +27,11 @@ end
 
 function Event052:eventFunction()
 
- nextTurnBeforeEventModifier = -8
-    
+    for x = 1, (love.math.random(1, 40)) do
+        rndCellX = love.math.random(1, 10)
+        rndCellY = love.math.random(1, 10)
+        boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+    end
 
 
 end

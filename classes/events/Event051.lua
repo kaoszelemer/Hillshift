@@ -3,10 +3,10 @@ local Event051 = Event:extend("Event051")
 function Event051:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
-        "Boredness",
+        "Swampity Swamp",
         51,
-        "... but implenting events took a loong time ...",
-        "Next event is \n5 turn later",
+        "... ogres live here ...",
+        "All lakes are \nSwamps",
         1
     )
 end
@@ -27,7 +27,13 @@ end
 
 function Event051:eventFunction()
 
-    nextTurnBeforeEventModifier = 5
+   for x = 1, 10 do
+        for y = 1, 10 do
+
+            if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Swamp(x, y) end
+
+        end
+    end
 
 
 end

@@ -3,10 +3,10 @@ local Event021 = Event:extend("Event021")
 function Event021:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
-        "Keedair Plague",
+        "It's a kinda",
         21,
-        "... thanks for the name ...",
-        "ALL Characters \nHP halved",
+        "... magiiiiiiiic ...",
+        "A few Forests are\nMagic Forests",
         1
     )
 end
@@ -28,16 +28,12 @@ end
 function Event021:eventFunction()
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseHP = math.floor(currentChar.baseHP / 2)
-        if currentChar.baseHP == 0 then currentChar.baseHP = 1 end
+    for x = 1, 100 do
+        local chance = love.math.random()
+        rndCellX = love.math.random(1, 10)
+        rndCellY = love.math.random(1, 10)
+        if chance < 0.2 and boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = MagicForest(rndCellX, rndCellY) end
     end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseHP = math.floor(currentChar.baseHP / 2)
-        if currentChar.baseHP == 0 then currentChar.baseHP = 1 end
-    end
-
 
 end
     

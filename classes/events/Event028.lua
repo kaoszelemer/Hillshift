@@ -5,7 +5,7 @@ function Event028:init()
         love.graphics.newImage("/graphics/Event014image.png"),
         "Arieling",
         28,
-        "... your teammate got a proper sorting ...",
+        "... your teammate got a proper ...",
         "Enemy has 0 SP \nand 0 AP\nnext turn",
         1
     )

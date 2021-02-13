@@ -38,6 +38,7 @@ endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicke
 eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
 sideBarBackGround = love.graphics.newImage("/graphics/sidebarbackground.png")
+sideBarBackGroundWithZeroActionPointsImage = love.graphics.newImage("/graphics/sidebarbackgroundwithzeroactionpoints.png")
 
 --Cell drawables
 lightningImage = love.graphics.newImage("/graphics/lightning.png")
@@ -93,23 +94,16 @@ cellQuadTable = {
 
 local function initPlayerDeck(player)
 
-   -- table.insert(player.characters, GeoGnome(player))
-   -- table.insert(player.characters, AirElemental(player))
+    table.insert(player.characters, GeoGnome(player))
+    table.insert(player.characters, AirElemental(player))
     table.insert(player.characters, Alchemist(player))
     table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, Alchemist(player))
-    table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, Alchemist(player))
-    table.insert(player.characters, FireMage(player))
-    --table.insert(player.characters, Druid(player))
-    table.insert(player.characters, IceWizard(player))
+    table.insert(player.characters, Druid(player))
     table.insert(player.characters, IceWizard(player))
     table.insert(player.characters, ThunderShaman(player))
-    table.insert(player.characters, ThunderShaman(player))
-    table.insert(player.characters, ThunderShaman(player))
-    table.insert(player.characters, ThunderShaman(player))
-    --table.insert(player.characters, SandWitch(player))
-    --table.insert(player.characters, WaterHag(player))
+
+    table.insert(player.characters, SandWitch(player))
+    table.insert(player.characters, WaterHag(player))
    
 
     while #player.characters ~= 4 do     
@@ -168,7 +162,11 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         local sideBarX = 10
         local sideBarY = (i * 150) - 80
 
-        love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
+        if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
+            love.graphics.draw(sideBarBackGroundWithZeroActionPointsImage, sideBarX, sideBarY)
+        else
+            love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
+        end
   
 
         for _, row in ipairs(boardGrid) do
@@ -186,7 +184,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -2 DF\n -1 AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print(" -1 DF\n -1 AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
@@ -290,9 +288,11 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         if currentChar.baseHP <= 3 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
-            love.graphics.setColor(purpleColor)
+            love.graphics.setColor(charColor)
         else
+            love.graphics.setColor(purpleColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP, sideBarX + tileW + 52, sideBarY + tileH + 40)
+            love.graphics.setColor(charColor)
         end
 
 
@@ -311,7 +311,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
        
 
         if currentChar.hasItem and currentChar.drawCurrentItem then
-            love.graphics.draw(currentChar.ownedItem.itemIcon, sideBarX + tileW + 90, sideBarY + tileH + 5)
+            love.graphics.draw(currentChar.ownedItem.itemIcon, sideBarX + tileW + 94, sideBarY + tileH + 5)
         end
 
     end
@@ -327,8 +327,11 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         local sideBarX = 960
         local sideBarY = (i * 150) - 80
 
-        love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
-  
+        if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
+            love.graphics.draw(sideBarBackGroundWithZeroActionPointsImage, sideBarX, sideBarY)
+        else
+            love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
+        end
 
         for _, row in ipairs(boardGrid) do
             for _, cell in ipairs(row) do
@@ -345,7 +348,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -2 DF\n -1 AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print(" -1 DF\n -1 AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
@@ -365,7 +368,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(Lake) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("0 AP NEXT TURN", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("0 AP Next Turn", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -383,7 +386,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1HP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-1HP Turn End", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -401,7 +404,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(MagicForest) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1SP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+1SP Turn End", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -449,8 +452,9 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         if currentChar.baseHP <= 3 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
-            love.graphics.setColor(purpleColor)
+            love.graphics.setColor(charColor)
         else
+            love.graphics.setColor(purpleColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP, sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
         end
@@ -471,7 +475,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
        
 
         if currentChar.hasItem and currentChar.drawCurrentItem then
-            love.graphics.draw(currentChar.ownedItem.itemIcon, sideBarX + tileW + 90, sideBarY + tileH + 5)
+            love.graphics.draw(currentChar.ownedItem.itemIcon, sideBarX + tileW + 94, sideBarY + tileH + 5)
         end
 
     end
@@ -681,27 +685,23 @@ end
 
 local function drawEndTurnButton()
 
-
-    love.graphics.draw(endTurnButtonImage, width / 2 + 257 - 64, height - 80)
-    love.graphics.setColor(blackColor)
-    love.graphics.rectangle("fill", width / 2 + 257 - 80, height - 60, 100, 25)
-    love.graphics.setFont(pointFont)
-    love.graphics.setColor(selectedColor)
-    love.graphics.print("END TURN", width / 2 + 257 - 70, height - 60)
-    love.graphics.setFont(font)
-    love.graphics.setColor(charColor)
    if isEndTurnButtonClicked then
-    love.graphics.draw(endTurnButtonClickedImage, width / 2 + 200, 10) 
+    love.graphics.draw(endTurnButtonClickedImage, width / 2 + 257 - 64, height - 80) 
+   else 
+    love.graphics.draw(endTurnButtonImage, width / 2 + 257 - 64, height - 80)
    end
    
 
 end
 
+
 local function drawWarningForNextEvent()
 
     if eventTurnCounter >= nextTurnBeforeEvent - 2 then
         love.graphics.setFont(statFont)
-        love.graphics.draw(eventWarningImage, width / 2 - 64, 30)
+        love.graphics.draw(eventWarningImage, width / 4, 30)
+        love.graphics.draw(eventWarningImage, width / 4 + 640 - 128, 30)
+        love.graphics.draw(eventWarningImage, width / 4, 700)
     end
 
 end
@@ -924,7 +924,7 @@ end
 local function spawnChestIfPlayerIsBehind()
 
     if chestCounter == 0 and #activePlayer.characters - #inactivePlayer.characters >= 2 or #inactivePlayer.characters - #activePlayer.characters >= 2 then
-        if activePlayer == playerOne then
+        if inactivePlayer == playerOne then
             while chestCounter ~= 1 do
             spawnChestPlayerOne()
             end

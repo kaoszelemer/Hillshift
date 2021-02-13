@@ -6,7 +6,7 @@ function Event027:init()
         "BrokenFaceBoying",
         27,
         "... odaig kuszott ...",
-        "One of YOUR \nCharacter moves\nY+2",
+        "One of YOUR \nCharacter moves\nY+2 or Y-2",
         1
     )
 end
@@ -27,17 +27,36 @@ end
 
 function Event027:eventFunction()
 
+    if activePlayer == playerOne then
+        local randomChar = love.math.random(1,#activePlayer.characters)
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseAttack = currentChar.baseAttack + 3
-        currentChar.baseDefense = currentChar.baseDefense + 2
+        for i, currentChar in ipairs(activePlayer.characters) do
+
+            if i == randomChar then
+                currentChar.stepPoints = currentChar.stepPoints + 1
+                if currentChar.y + 2 <= 10 and not boardGrid[currentChar.x][currentChar.y + 2].isOccupied then currentChar:move(currentChar.x, currentChar.y + 2)
+                elseif currentChar.y + 1 <= 10 and not boardGrid[currentChar.x][currentChar.y + 1].isOccupied then currentChar:move(currentChar.x, currentChar.y + 1)
+                else currentChar.stepPoints = currentChar.stepPoints - 1
+                end
+            end
+                
+        end
+
+    else
+
+        for i, currentChar in ipairs(activePlayer.characters) do
+
+            if i == randomChar then
+                currentChar.stepPoints = currentChar.stepPoints + 1
+                if currentChar.y - 2 > 0 and not boardGrid[currentChar.x][currentChar.y - 2].isOccupied  then currentChar:move(currentChar.x, currentChar.y - 2)
+                elseif currentChar.y - 1 > 0 and not boardGrid[currentChar.x][currentChar.y - 1].isOccupied then currentChar:move(currentChar.x, currentChar.y - 1)
+                else currentChar.stepPoints = currentChar.stepPoints - 1
+                end
+            end
+
+        end
+
     end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseAttack = currentChar.baseAttack + 3
-        currentChar.baseDefense = currentChar.baseDefense + 2
-    end
-
 
 end
     

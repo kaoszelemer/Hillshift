@@ -62,8 +62,8 @@ function Event:initEventTable()
     table.insert(eventTable, Event048())
     table.insert(eventTable, Event049())
     table.insert(eventTable, Event050())
-    --table.insert(eventTable, Event051())
-    --table.insert(eventTable, Event052())
+    table.insert(eventTable, Event051())
+    table.insert(eventTable, Event052())
     table.insert(eventTable, Event053())
     table.insert(eventTable, Event054())
     table.insert(eventTable, Event055())
@@ -137,8 +137,9 @@ function Event:drawCurrentEvent()
 
                 currentEvent = event
                 currentEvent.enableDraw = true
+                love.graphics.setColor(purpleColor)
                 currentEvent:drawEventStuff()
-
+                love.graphics.setColor(charColor)
             end
 
         end

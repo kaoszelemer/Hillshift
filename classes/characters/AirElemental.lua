@@ -40,9 +40,9 @@ function AirElemental:spell(targetCell)
                 end
   
 
-        if boardGrid[self.x][self.y - 1].isPoisoned then boardGrid[self.x][self.y - 1].isPoisoned = false end
-        if boardGrid[self.x - 1][self.y - 1].isPoisoned then boardGrid[self.x - 1][self.y - 1].isPoisoned = false end
-        if boardGrid[self.x + 1][self.y - 1].isPoisoned then boardGrid[self.x + 1][self.y - 1].isPoisoned = false end
+        if self.y - 1 > 0 and boardGrid[self.x][self.y - 1].isPoisoned then boardGrid[self.x][self.y - 1].isPoisoned = false end
+        if self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[self.x - 1][self.y - 1].isPoisoned then boardGrid[self.x - 1][self.y - 1].isPoisoned = false end
+        if self.x + 1 <= 10 and self.y - 1 > 0 and boardGrid[self.x + 1][self.y - 1].isPoisoned then boardGrid[self.x + 1][self.y - 1].isPoisoned = false end
 
         if self.y - fireSpread > 0 then
             if boardGrid[self.x][self.y - 1].isOnFire then 
@@ -182,9 +182,9 @@ function AirElemental:spell(targetCell)
                 end
 
 
-        if boardGrid[self.x][self.y + 1].isPoisoned then boardGrid[self.x][self.y + 1].isPoisoned = false end
-        if boardGrid[self.x - 1][self.y + 1].isPoisoned then boardGrid[self.x - 1][self.y + 1].isPoisoned = false end
-        if boardGrid[self.x + 1][self.y + 1].isPoisoned then boardGrid[self.x + 1][self.y + 1].isPoisoned = false end
+        if self.y + 1 <= 10 and boardGrid[self.x][self.y + 1].isPoisoned then boardGrid[self.x][self.y + 1].isPoisoned = false end
+        if self.y + 1 <= 10 and self.x - 1 > 0 and boardGrid[self.x - 1][self.y + 1].isPoisoned then boardGrid[self.x - 1][self.y + 1].isPoisoned = false end
+        if self.y + 1 <= 10 and self.x + 1 <= 10 and boardGrid[self.x + 1][self.y + 1].isPoisoned then boardGrid[self.x + 1][self.y + 1].isPoisoned = false end
         
         if self.y + fireSpread <= 10 then
             if boardGrid[self.x][self.y + 1].isOnFire then 
