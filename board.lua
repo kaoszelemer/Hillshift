@@ -94,22 +94,55 @@ cellQuadTable = {
 
 local function initPlayerDeck(player)
 
-    table.insert(player.characters, GeoGnome(player))
-    table.insert(player.characters, AirElemental(player))
-    table.insert(player.characters, Alchemist(player))
-    table.insert(player.characters, FireMage(player))
-    table.insert(player.characters, Druid(player))
-    table.insert(player.characters, IceWizard(player))
-    table.insert(player.characters, ThunderShaman(player))
+    --[[ if isDebug then debugHillShift(player)
+    else ]]
 
-    table.insert(player.characters, SandWitch(player))
-    table.insert(player.characters, WaterHag(player))
-   
+        -- FULL DECK
+       --[[  table.insert(player.characters, GeoGnome(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, Druid(player))
+        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, ThunderShaman(player))
+        table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, WaterHag(player)) ]]
 
-    while #player.characters ~= 4 do     
-        local cardNumber = love.math.random(1, #player.characters)
-        table.remove(player.characters, cardNumber)
-    end
+
+        --AIR POISON FIRE SAND INTERACTIONS
+
+        --[[ table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player)) ]]
+
+
+        -- DRUID FIRE ICE
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, Druid(player))
+        table.insert(player.characters, Druid(player))
+        table.insert(player.characters, Druid(player))
+        table.insert(player.characters, Druid(player))
+        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, IceWizard(player))
+
+        while #player.characters ~= 4 do     
+            local cardNumber = love.math.random(1, #player.characters)
+            table.remove(player.characters, cardNumber)
+        end
+    
 
 end
 

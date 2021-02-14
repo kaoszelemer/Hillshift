@@ -167,8 +167,38 @@ itemBackgroundImage = love.graphics.newImage("graphics/itembackgroundimage.png")
 selectedChar = nil
 
 --event tábla
-
 eventTable = {}
+
+
+--------*********** DEBUG MODE ************-----------
+--------*********** DEBUG MODE ************-----------
+
+isDebug = true
+
+--------*********** DEBUG MODE ************-----------
+--------*********** DEBUG MODE ************-----------
+
+--[[ function debugHillShift()
+    debugAirPoisonFireSandInteractions = true
+
+    if isDebug and debugAirPoisonFireSandInteractions then
+
+        table.insert(player.characters, SandWitch(playerOne))
+        table.insert(player.characters, SandWitch(playerTwo))
+        table.insert(player.characters, SandWitch(playerOne))
+        table.insert(player.characters, FireMage(playerTwo))
+        table.insert(player.characters, FireMage(playerOne))
+        table.insert(player.characters, FireMage(playerTwo))
+        table.insert(player.characters, Alchemist(playerOne))
+        table.insert(player.characters, Alchemist(playerTwo))
+        table.insert(player.characters, Alchemist(playerOne))
+        table.insert(player.characters, AirElemental(playerTwo))
+        table.insert(player.characters, AirElemental(playerOne))
+        table.insert(player.characters, AirElemental(playerOne))
+
+    end
+
+end ]]
 
 function endTurn()
     turnCounter = turnCounter + 1
