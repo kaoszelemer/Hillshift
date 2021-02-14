@@ -383,8 +383,10 @@ function Character:attack(enemy)
         self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
         damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 
+        self.enableDivineDice = false
+
         if damage == 0 then
-            enableDivineDice = true
+            self.enableDivineDice = true
             self.divineDiceRoll = love.math.random(1, 6)
             if self.divineDiceRoll > 3 then
                 damage = damage + 1
@@ -399,6 +401,7 @@ function Character:attack(enemy)
         enemy.baseHP = enemy.baseHP - damage
         if enemy.baseHP <= 0 then enemy:kill() end
         enableDrawAttack(self, enemy)
+        
         self.isSelected = false
         self.actionPoints = self.actionPoints - 1
         self.isInAttackState = false
@@ -411,8 +414,6 @@ function Character:spell(targetCell)
 end
 
 
-function Character:addItemToInventory(character, item)
-    print(character.name .. "has" .. item.name)
-end
+
 
 return Character
