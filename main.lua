@@ -2,6 +2,39 @@
 
 --require
 class = require('lib.30log')
+StateMachine = require('classes.StateMachine')
+
+
+
+gameState = StateMachine({
+    selectCharacter = {
+        name = "selectCharacter",
+        transitions = {"selectCharacterAction"} 
+    },
+
+    selectCharacterAction = {
+        name = "selectCharacterAction",
+        transitions = {"selectCharacter", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter"}
+    },
+
+    selectMoveTargetCell = {
+        name =  "selectMoveTargetCell",
+        transitions = {"selectCharacter", "selectCharacterAction"}
+    },
+
+    selectSpellTargetArea = {
+        name = "selectSpellTargetArea", 
+        transitions = {"selectCharacter", "selectCharacterAction"}
+    },
+
+    selectAttackTargetCharacter = {
+        name = "selectAttackTargetCharacter",
+        transitions = {"selectCharacter", "selectCharacterAction"}
+    }
+    },
+    "selectCharacter"
+)
+
 Cell = require('classes.cells.Cell')
 Forest = require('classes.cells.Forest')
 Lake = require('classes.cells.Lake')
@@ -117,6 +150,7 @@ Event075 = require('classes.events.Event075')
 
 
 require ('board')
+
 
 
 --valtozok
@@ -569,6 +603,9 @@ function love.mousereleased(x, y, button, istouch, presses)
                 if currentChar.isHovered then currentChar:click(x, y) end  
             
             end
+
+
+
 
             local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
             local my = math.floor((mouseY / tileH) - offsetY / tileH)
