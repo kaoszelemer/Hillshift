@@ -46,7 +46,7 @@ function WaterHag:spell(targetCell)
             end
         
     end
-
+    gameState:changeState(gameState.states.selectCharacter)
 
 end
 

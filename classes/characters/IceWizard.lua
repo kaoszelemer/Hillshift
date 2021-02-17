@@ -43,8 +43,8 @@ function IceWizard:spell(targetCell)
 
 
         
-    else self.isInSpellState = false
-    end
+        gameState:changeState(gameState.states.selectCharacter)
+        end
 
     if      (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
         self.actionPoints = self.actionPoints - 1
@@ -76,8 +76,8 @@ function IceWizard:spell(targetCell)
 
         end
        
-    else self.isInSpellState = false
-    end
+        gameState:changeState(gameState.states.selectCharacter)
+        end
     end
 
 end

@@ -17,11 +17,15 @@ function StateMachine:changeState(targetState)
             return
         end
 
+       
     end
 
     if not validTransitionFound then
-        error("not valid tranistor to another state")
+        error("not valid transition from "..self.state.name.." to "..targetState.name)
     end
+
+
+   
 end
 
 return StateMachine

@@ -9,7 +9,7 @@ StateMachine = require('classes.StateMachine')
 gameState = StateMachine({
     selectCharacter = {
         name = "selectCharacter",
-        transitions = {"selectCharacterAction"} 
+        transitions = {"selectCharacter", "selectCharacterAction"} 
     },
 
     selectCharacterAction = {
@@ -380,12 +380,15 @@ function endTurn()
 
         if currentChar.baseHP <= 0 then currentChar:kill() end
 
-        board:resetAllCharacterStates(activePlayer, inactivePlayer)
+        gameState:changeState(gameState.states.selectCharacter)
 
     end
 end
 
 function newTurn()
+
+
+    gameState:changeState(gameState.states.selectCharacter)
 
         if eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             Event:enableEvent()
@@ -446,22 +449,22 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
         --- Fent lent jobbra balra
 
 
-        if currentChar.isInSpellState and currentChar.x < mX then
+        if currentChar.x < mX then
             pointerOnLeftSide = false
             pointerOnRightSide = true
             pointerOnTopSide = false
             pointerOnBottomSide = false
-        elseif currentChar.isInSpellState and currentChar.x  > mX then
+        elseif currentChar.x  > mX then
             pointerOnLeftSide = true
             pointerOnRightSide = false
             pointerOnTopSide = false
             pointerOnBottomSide = false
-        elseif currentChar.isInSpellState and currentChar.y < mY  then
+        elseif currentChar.y < mY  then
             pointerOnTopSide = false
             pointerOnBottomSide = true
             pointerOnLeftSide = false
             pointerOnRightSide = false
-        elseif currentChar.isInSpellState and currentChar.y > mY then
+        elseif currentChar.y > mY then
             pointerOnTopSide = true
             pointerOnBottomSide = false
             pointerOnLeftSide = false
@@ -470,22 +473,22 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
 
         --4 irányba pl. alkimista
 
-        if currentChar.isInSpellState and mX < currentChar.x and mY < currentChar.y then
+        if  mX < currentChar.x and mY < currentChar.y then
             pointerOnTopLeftSide = true
             pointerOnTopRightSide = false
             pointerOnBottomRightSide = false
             pointerOnBottomLeftSide = false
-        elseif currentChar.isInSpellState and mX > currentChar.x and mY < currentChar.y then
+        elseif  mX > currentChar.x and mY < currentChar.y then
             pointerOnTopLeftSide = false
             pointerOnTopRightSide = true
             pointerOnBottomRightSide = false
             pointerOnBottomLeftSide = false
-        elseif currentChar.isInSpellState and mX < currentChar.x and mY > currentChar.y then
+        elseif  mX < currentChar.x and mY > currentChar.y then
             pointerOnTopLeftSide = false
             pointerOnTopRightSide = false
             pointerOnBottomRightSide = false
             pointerOnBottomLeftSide = true
-        elseif currentChar.isInSpellState and mX > currentChar.x and mY > currentChar.y then
+        elseif  mX > currentChar.x and mY > currentChar.y then
             pointerOnTopLeftSide = false
             pointerOnTopRightSide = false
             pointerOnBottomRightSide = true
@@ -560,7 +563,7 @@ function love.draw()
         love.graphics.setFont(actionMenuFont)
         love.graphics.setColor(selectedColor)
         if #activePlayer.characters == 0 then
-            love.graphics.print(inactivePlayer.name, 160 + offsetX, 500 + offsetY)
+            love.graphics.print(inactivePlayer.name, 260 + offsetX, 580 + offsetY)
         else
             love.graphics.print(activePlayer.name, 260 + offsetX, 580 + offsetY)
         end
@@ -592,6 +595,11 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses) 
     if not drawEndGame then
+
+        if button == 2 then
+            gameState:changeState(gameState.states.selectCharacter)
+        end
+
         if not enableEvent then
             for _, currentChar in ipairs(activePlayer.characters) do
                 if currentChar.isHovered then currentChar:click(x, y) end  
@@ -635,6 +643,9 @@ function love.mousereleased(x, y, button, istouch, presses)
         y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
                 Item:confirmItemPickup()
            end
+
+
+        
 
     end
 

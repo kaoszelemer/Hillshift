@@ -49,8 +49,7 @@ function ThunderShaman:spell(targetCell)
                 
         end
     -------------------------------------------------
-        self.isInSpellState = false
-        else self.isInSpellState = false                       
+    gameState:changeState(gameState.states.selectCharacter)
         end
 
 
@@ -93,8 +92,7 @@ function ThunderShaman:spell(targetCell)
        
 
         
-        self.isInSpellState = false
-        else self.isInSpellState = false                       
+            gameState:changeState(gameState.states.selectCharacter)
         end
 
      

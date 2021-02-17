@@ -30,7 +30,7 @@ function Alchemist:spell(targetCell)
         if self.actionPoints ~= 0 then
                 self:poisonBoardGrid(targetCell)
                 self.actionPoints = self.actionPoints - 1
-        else self.isInSpellState = false
+                gameState:changeState(gameState.states.selectCharacter)
         end
 
 end

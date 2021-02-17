@@ -175,14 +175,13 @@ function AirElemental:spell(targetCell, tcx, tcy)
                             self:blowFire(targetCell, tcx, tcy)
                             self:blowSand(targetCell, tcx, tcy)
                             self:clearPoison(targetCell, tcx, tcy)
-
+                           
                         end
                     end
                 end
             end
         end
-    self.isInSpellState = false
-    else self.isInSpellState = false
+        gameState:changeState(gameState.states.selectCharacter)
     end
    
 

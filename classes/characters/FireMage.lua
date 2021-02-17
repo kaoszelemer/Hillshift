@@ -79,10 +79,9 @@ function FireMage:spell(targetCell)
 
         end
         
-        self.isInSpellState = false
+        gameState:changeState(gameState.states.selectCharacter)
         
 
-    else self.isInSpellState = false
     end
 
     if  (targetCell.x == self.x and targetCell.y == self.y + 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y + 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y + 1) then
@@ -156,10 +155,8 @@ function FireMage:spell(targetCell)
     
         end
 
-        self.isInSpellState = false
+        gameState:changeState(gameState.states.selectCharacter)        
         
-        
-    else self.isInSpellState = false
     end
 end
 end

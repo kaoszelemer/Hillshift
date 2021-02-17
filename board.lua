@@ -98,7 +98,7 @@ local function initPlayerDeck(player)
     else ]]
 
         -- FULL DECK
-       --[[  table.insert(player.characters, GeoGnome(player))
+        table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
@@ -106,7 +106,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, ThunderShaman(player))
         table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player)) ]]
+        table.insert(player.characters, WaterHag(player))
 
 
         --AIR POISON FIRE SAND INTERACTIONS
@@ -126,9 +126,9 @@ local function initPlayerDeck(player)
 
 
         -- DRUID FIRE ICE
+       --[[  table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
@@ -136,7 +136,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, IceWizard(player)) ]]
 
         while #player.characters ~= 4 do     
             local cardNumber = love.math.random(1, #player.characters)
@@ -536,14 +536,10 @@ end
 function drawPossibleDamageOnEnemyCharacter()
     local attacker
     local enemy
-  
-        for _, currentChar in ipairs(activePlayer.characters) do
+    if selectedChar and gameState.state == gameState.states.selectAttackTargetCharacter then
 
-            if currentChar.isInAttackState then
-                attacker = currentChar
-            end
-
-        end
+                attacker = selectedChar
+      
 
         for _, currentChar in ipairs(inactivePlayer.characters) do
 
@@ -566,30 +562,7 @@ function drawPossibleDamageOnEnemyCharacter()
                 love.graphics.setFont(statFont)
                 love.graphics.setColor(charColor)
             end
-
-end
-
-function board:resetAllCharacterStates(playerone, playertwo)
-
-    for _, currentChar in ipairs(playerone.characters) do
-        currentChar.isSelected = false
-        currentChar.isActionMenuDrawn = false
-        currentChar.isInStepState = false
-        currentChar.isInAttackState = false
-      --  currentChar.isInDefenseState = false
-        currentChar.isInSpellState = false
     end
-
-    for _, currentChar in ipairs(playertwo.characters) do
-        currentChar.isSelected = false
-        currentChar.isActionMenuDrawn = false
-        currentChar.isInStepState = false
-        currentChar.isInAttackState = false
-        currentChar.isInSpellState = false
-      --  currentChar.isInDefenseState = false
-    end
-
-    selectedChar = nil
 
 end
 

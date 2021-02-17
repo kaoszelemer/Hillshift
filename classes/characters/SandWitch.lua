@@ -31,9 +31,8 @@ local SandWitch = Character:extend("SandWitch")
 
             end
 
-             self.isInSpellState = false
+            gameState:changeState(gameState.states.selectCharacter)
 
-        else self.isInSpellState = false                       
         end
     end
     end

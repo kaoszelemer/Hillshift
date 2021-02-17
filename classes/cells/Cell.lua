@@ -23,13 +23,14 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
             if selectedChar.x + ox == self.x and
                 selectedChar.y + oy == self.y then
                 selectedChar:move(self.x, self.y)
+                gameState:changeState(gameState.states.selectCharacter)
                 if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
                     self:iceSlide(selectedChar)
                 end
               --[[   if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) == false then
                     selectedChar.actionPoints = selectedChar.actionPoints + 1
                 end ]]
-
+                
             end
     end
       
@@ -62,10 +63,9 @@ end
 
 
 function Cell:click()
-    
-   -- if not selectedChar then return end -- ha nincs selectedChar akkor le se fut a egésZ
 
-    if selectedChar and selectedChar.isInStepState and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
+
+    if gameState.state == gameState.states.selectMoveTargetCell and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
         for x = -1, 1 do
             for y = -1, 1 do
                if x ~= 0 or y ~= 0 then 
@@ -73,15 +73,11 @@ function Cell:click()
                 end
             end
         end   
-        
-        board:resetAllCharacterStates(playerOne, playerTwo)
+
+    
     end
-
-    if selectedChar and selectedChar.isInSpellState and self.occupiedBy ~= selectedChar then
-
-        selectedChar:spell(self)
-        selectedChar.isInSpellState = false
-
+    if selectedChar and self.occupiedBy ~= selectedChar and gameState.state == gameState.states.selectSpellTargetArea then
+            selectedChar:spell(self)
     end
 
 end

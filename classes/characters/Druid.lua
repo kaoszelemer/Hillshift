@@ -132,9 +132,8 @@ local Druid = Character:extend("Druid")
                 end
             
             end
-            self.isInSpellState = false
+            gameState:changeState(gameState.states.selectCharacter)
 
-        else self.isInSpellState = false                       
         end
     end
     end

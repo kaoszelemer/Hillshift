@@ -18,7 +18,7 @@ function GeoGnome:spell(targetCell)
          
 
                     boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
-
+                    gameState:changeState(gameState.states.selectCharacter)
             end
         
     end
