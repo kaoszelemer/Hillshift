@@ -24,8 +24,8 @@ function FireMage:spell(targetCell)
             self.sequenceName = "FireSpell"
             self.sequenceX = self.x - 1
             self.sequenceY = self.y - 1
-            self.duration = 15
-
+            self.duration = 0.1
+            sequenceTime = love.timer.getTime()
             Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
         
 
@@ -62,8 +62,8 @@ function FireMage:spell(targetCell)
             self.sequenceName = "FireSpell"
             self.sequenceX = self.x + 1
             self.sequenceY = self.y - 1
-            self.duration = 3
-
+            self.duration = 0.3
+            sequenceTime = love.timer.getTime()
             Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
             boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
@@ -107,8 +107,8 @@ function FireMage:spell(targetCell)
             self.sequenceName = "FireSpell"
             self.sequenceX = self.x - 1
             self.sequenceY = self.y + 1
-            self.duration = 3
-
+            self.duration = 0.1
+            sequenceTime = love.timer.getTime()
             Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
             boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
 
@@ -146,8 +146,8 @@ function FireMage:spell(targetCell)
             self.sequenceName = "FireSpell"
             self.sequenceX = self.x + 1
             self.sequenceY = self.y + 1
-            self.duration = 3
-
+            self.duration = 0.3
+            sequenceTime = love.timer.getTime()
             Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
             boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
 

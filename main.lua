@@ -45,7 +45,7 @@ sequenceBufferTable = {
     dur = 100,
 }
 
-sequenceTime = love.timer.getTime()
+
 
 
 
@@ -235,7 +235,7 @@ function sequenceProcessor()
 
                 if love.timer.getTime() - sequenceTime >= duration then
                     if name == "FireSpell" then
-                    
+                        print("tuz")
                         boardGrid[x][y].isOnFire = true
                         table.remove(sequenceBufferTable, 1)
                         
