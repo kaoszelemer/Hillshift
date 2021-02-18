@@ -7,7 +7,12 @@ local FireMage = Character:extend("FireMage")
                     parentPlayer, 1, 1, 0, 0, 0, false)
     end
 
+
+
+
 function FireMage:spell(targetCell)
+
+   
 
 
  if self.actionPoints ~= 0 then
@@ -16,7 +21,14 @@ function FireMage:spell(targetCell)
 
         if self.x - 1 > 0 and self.y - 1 > 0 then
 
-            boardGrid[self.x - 1][self.y - 1].isOnFire = true
+            self.sequenceName = "FireSpell"
+            self.sequenceX = self.x - 1
+            self.sequenceY = self.y - 1
+            self.duration = 15
+
+            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
+        
+
             boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
             if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
@@ -47,8 +59,12 @@ function FireMage:spell(targetCell)
         end
 
         if self.x + 1 <= 10 and self.y - 1 > 0 then
+            self.sequenceName = "FireSpell"
+            self.sequenceX = self.x + 1
+            self.sequenceY = self.y - 1
+            self.duration = 3
 
-            boardGrid[self.x + 1][self.y - 1].isOnFire = true
+            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
             boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
 
@@ -88,8 +104,12 @@ function FireMage:spell(targetCell)
         self.actionPoints = self.actionPoints - 1
 
         if self.x - 1 > 0 and self.y + 1 <= 10 then
+            self.sequenceName = "FireSpell"
+            self.sequenceX = self.x - 1
+            self.sequenceY = self.y + 1
+            self.duration = 3
 
-            boardGrid[self.x - 1][self.y + 1].isOnFire = true
+            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
             boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
 
         
@@ -123,8 +143,12 @@ function FireMage:spell(targetCell)
 
 
         if self.x + 1 <= 10 and self.y + 1 <= 10 then 
+            self.sequenceName = "FireSpell"
+            self.sequenceX = self.x + 1
+            self.sequenceY = self.y + 1
+            self.duration = 3
 
-            boardGrid[self.x + 1][self.y + 1].isOnFire = true
+            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
             boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
 
             

@@ -27,6 +27,8 @@ defendedCellIcon = love.graphics.newImage("graphics/defendedcellicon.png")
 frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
 poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
 fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
+
+
 --validMove images
 validAttackImage = love.graphics.newImage("graphics/validattack.png")
 validStepImage = love.graphics.newImage("graphics/validstep.png")
@@ -681,7 +683,10 @@ local function drawBoardGrid()
         for y = 1, 10 do 
             local cell = boardGrid[x][y]
             love.graphics.draw(boardPicture, cell.quad, cell.x * tileW + offsetX, cell.y * tileH  + offsetY)
-            if cell.isOnFire then love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            if cell.isOnFire then 
+                --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+                fireBorderAnimation:draw(fireBorderAnimationImage, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            
             if cell.isPoisoned then love.graphics.draw(poisonGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
             if cell.isFrozen then love.graphics.draw(frozenGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
         end
@@ -717,7 +722,6 @@ local function drawEventOnBoard()
 
         Event:drawCurrentEvent()
 end
-
 
 
 function drawEventOnBackground()
@@ -974,6 +978,10 @@ function board:load()
     spawnChestPlayerTwo()
    end
 
+   fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
+   local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
+   fireBorderAnimation = anim8.newAnimation(g('1-8',1), 0.1)
+   
 end
 
 function board:update(dt)
@@ -994,6 +1002,7 @@ function board:update(dt)
         end
     end
 
+    fireBorderAnimation:update(dt)
 
     testBoardForOccupy(activePlayer, inactivePlayer)
     spawnChestIfPlayerIsBehind()

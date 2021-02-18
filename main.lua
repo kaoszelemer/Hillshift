@@ -2,6 +2,7 @@
 
 --require
 class = require('lib.30log')
+anim8 = require('lib.anim8')
 StateMachine = require('classes.StateMachine')
 
 
@@ -34,6 +35,23 @@ gameState = StateMachine({
     },
     "selectCharacter"
 )
+
+
+
+sequenceBufferTable = {
+    name = "",
+    x = 0,
+    y = 0,
+    dur = 100,
+}
+
+sequenceTime = love.timer.getTime()
+
+
+
+
+
+
 
 Cell = require('classes.cells.Cell')
 Forest = require('classes.cells.Forest')
@@ -203,36 +221,33 @@ selectedChar = nil
 --event tábla
 eventTable = {}
 
+function sequenceProcessor()
 
---------*********** DEBUG MODE ************-----------
---------*********** DEBUG MODE ************-----------
 
-isDebug = true
+        for index, sequence in ipairs(sequenceBufferTable) do 
+            
+            local name = sequence[1]
+            local x = sequence[2]
+            local y = sequence[3]
+            local duration = sequence[4]
+        
+                print(love.timer.getTime() - sequenceTime)
 
---------*********** DEBUG MODE ************-----------
---------*********** DEBUG MODE ************-----------
+                if love.timer.getTime() - sequenceTime >= duration then
+                    if name == "FireSpell" then
+                    
+                        boardGrid[x][y].isOnFire = true
+                        table.remove(sequenceBufferTable, 1)
+                        
+                    end
+                end
 
---[[ function debugHillShift()
-    debugAirPoisonFireSandInteractions = true
 
-    if isDebug and debugAirPoisonFireSandInteractions then
 
-        table.insert(player.characters, SandWitch(playerOne))
-        table.insert(player.characters, SandWitch(playerTwo))
-        table.insert(player.characters, SandWitch(playerOne))
-        table.insert(player.characters, FireMage(playerTwo))
-        table.insert(player.characters, FireMage(playerOne))
-        table.insert(player.characters, FireMage(playerTwo))
-        table.insert(player.characters, Alchemist(playerOne))
-        table.insert(player.characters, Alchemist(playerTwo))
-        table.insert(player.characters, Alchemist(playerOne))
-        table.insert(player.characters, AirElemental(playerTwo))
-        table.insert(player.characters, AirElemental(playerOne))
-        table.insert(player.characters, AirElemental(playerOne))
+          
+        end
 
-    end
-
-end ]]
+end
 
 function endTurn()
     turnCounter = turnCounter + 1
@@ -448,7 +463,6 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
 
         --- Fent lent jobbra balra
 
-
         if currentChar.x < mX then
             pointerOnLeftSide = false
             pointerOnRightSide = true
@@ -495,13 +509,8 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
             pointerOnBottomLeftSide = false
         end
 
-
-
-
-
     end
-
-    
+  
 end
 
 local function testMouseForInventoryHover(mx, my)
@@ -546,6 +555,7 @@ end
 function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
+    sequenceProcessor()
     board:update(dt)
     enableEndGame()
     
