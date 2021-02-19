@@ -13,22 +13,19 @@ local FireMage = Character:extend("FireMage")
 function FireMage:spell(targetCell)
 
    
+table.insert(sequenceBufferTable, {
+    name = "FireMageSpell",
+    duration = 0.2,
+    sequenceTime = love.timer.getTime(),
+    action = function()
 
-
- if self.actionPoints ~= 0 then
+    if self.actionPoints ~= 0 then
     if  (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
         self.actionPoints = self.actionPoints - 1
 
         if self.x - 1 > 0 and self.y - 1 > 0 then
-
-            self.sequenceName = "FireSpell"
-            self.sequenceX = self.x - 1
-            self.sequenceY = self.y - 1
-            self.duration = 0.1
-            sequenceTime = love.timer.getTime()
-            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
         
-
+            boardGrid[self.x - 1][self.y - 1].isOnFire = true
             boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
             if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
@@ -59,14 +56,9 @@ function FireMage:spell(targetCell)
         end
 
         if self.x + 1 <= 10 and self.y - 1 > 0 then
-            self.sequenceName = "FireSpell"
-            self.sequenceX = self.x + 1
-            self.sequenceY = self.y - 1
-            self.duration = 0.3
-            sequenceTime = love.timer.getTime()
-            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
-            boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
+            boardGrid[self.x + 1][self.y - 1].isOnFire = true
+            boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
             if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
                 boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
@@ -104,12 +96,7 @@ function FireMage:spell(targetCell)
         self.actionPoints = self.actionPoints - 1
 
         if self.x - 1 > 0 and self.y + 1 <= 10 then
-            self.sequenceName = "FireSpell"
-            self.sequenceX = self.x - 1
-            self.sequenceY = self.y + 1
-            self.duration = 0.1
-            sequenceTime = love.timer.getTime()
-            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
+            boardGrid[self.x - 1][self.y + 1].isOnFire = true
             boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
 
         
@@ -143,12 +130,7 @@ function FireMage:spell(targetCell)
 
 
         if self.x + 1 <= 10 and self.y + 1 <= 10 then 
-            self.sequenceName = "FireSpell"
-            self.sequenceX = self.x + 1
-            self.sequenceY = self.y + 1
-            self.duration = 0.3
-            sequenceTime = love.timer.getTime()
-            Character:insertSequence(self.sequenceName, self.sequenceX, self.sequenceY, self.duration)
+            boardGrid[self.x + 1][self.y + 1].isOnFire = true
             boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
 
             
@@ -183,6 +165,8 @@ function FireMage:spell(targetCell)
         
     end
 end
+end
+})
 end
    
 return FireMage

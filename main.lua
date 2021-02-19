@@ -38,17 +38,7 @@ gameState = StateMachine({
 
 
 
-sequenceBufferTable = {
-    name = "",
-    x = 0,
-    y = 0,
-    dur = 100,
-}
-
-
-
-
-
+sequenceBufferTable = {}
 
 
 
@@ -225,26 +215,13 @@ function sequenceProcessor()
 
 
         for index, sequence in ipairs(sequenceBufferTable) do 
-            
-            local name = sequence[1]
-            local x = sequence[2]
-            local y = sequence[3]
-            local duration = sequence[4]
         
-                print(love.timer.getTime() - sequenceTime)
-
-                if love.timer.getTime() - sequenceTime >= duration then
-                    if name == "FireSpell" then
-                        print("tuz")
-                        boardGrid[x][y].isOnFire = true
-                        table.remove(sequenceBufferTable, 1)
-                        
-                    end
+                if love.timer.getTime() - sequence.sequenceTime >= sequence.duration then
+                        print(sequence.name)
+                        sequence.action()
+                        table.remove(sequenceBufferTable, 1)  
                 end
-
-
-
-          
+                
         end
 
 end

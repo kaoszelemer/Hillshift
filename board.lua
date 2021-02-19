@@ -682,13 +682,15 @@ local function drawBoardGrid()
     for x = 1, 10 do
         for y = 1, 10 do 
             local cell = boardGrid[x][y]
-            love.graphics.draw(boardPicture, cell.quad, cell.x * tileW + offsetX, cell.y * tileH  + offsetY)
+            local x = cell.x * tileW + offsetX
+            local y = cell.y * tileH  + offsetY
+            love.graphics.draw(boardPicture, cell.quad, x, y)
             if cell.isOnFire then 
                 --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-                fireBorderAnimation:draw(fireBorderAnimationImage, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+                fireBorderAnimation:draw(fireBorderAnimationImage, x, y) end
             
-            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-            if cell.isFrozen then love.graphics.draw(frozenGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, x, y) end
+            if cell.isFrozen then love.graphics.draw(frozenGridBorder, x, y) end
         end
     end
 end

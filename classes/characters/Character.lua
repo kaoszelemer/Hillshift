@@ -49,12 +49,6 @@ function Character:draw()
 
 end
 
-function Character:insertSequence(name, x, y, dur)
-    sequence = {name, x, y, dur}
-    table.insert(sequenceBufferTable, sequence)
-
-
-end
 
 function Character:drawHealthBar()
 
