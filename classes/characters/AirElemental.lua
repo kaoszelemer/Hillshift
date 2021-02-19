@@ -72,7 +72,7 @@ end
 function AirElemental:blowFire(targetCell, tcx, tcy)
     table.insert(sequenceBufferTable, {
         name = "AirElementalblowFire",
-        duration = 0.4,
+        duration = 0.2,
         sequenceTime = love.timer.getTime(),
         action = function()
 

@@ -15,9 +15,15 @@ function GeoGnome:spell(targetCell)
             or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
             or (targetCell.y == self.y and targetCell.x == self.x) then   
                 self.actionPoints = self.actionPoints - 1
-         
+                table.insert(sequenceBufferTable, {
+                    name = "GeoGnomeSpell",
+                    duration = 0.2,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
 
-                    boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
+                        boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
+                    end
+                })
                     gameState:changeState(gameState.states.selectCharacter)
             end
         

@@ -679,20 +679,22 @@ local function drawRectanglesIfHoveredOrOccupied()
 end
 
 local function drawBoardGrid()
-    for x = 1, 10 do
-        for y = 1, 10 do 
-            local cell = boardGrid[x][y]
-            local x = cell.x * tileW + offsetX
-            local y = cell.y * tileH  + offsetY
-            love.graphics.draw(boardPicture, cell.quad, x, y)
-            if cell.isOnFire then 
-                --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-                fireBorderAnimation:draw(fireBorderAnimationImage, x, y) end
-            
-            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, x, y) end
-            if cell.isFrozen then love.graphics.draw(frozenGridBorder, x, y) end
-        end
-    end
+            for x = 1, 10 do
+                for y = 1, 10 do 
+                    local cell = boardGrid[x][y]
+                    local x = cell.x * tileW + offsetX
+                    local y = cell.y * tileH  + offsetY
+                    love.graphics.draw(boardPicture, cell.quad, x, y)
+                    if cell.isOnFire then 
+                        --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+                        fireBorderAnimation:draw(fireBorderAnimationImage, x, y)
+                    end
+                    
+                    if cell.isPoisoned then love.graphics.draw(poisonGridBorder, x, y) end
+                    if cell.isFrozen then love.graphics.draw(frozenGridBorder, x, y) end
+                end
+            end
+
 end
 
 
@@ -1005,6 +1007,7 @@ function board:update(dt)
     end
 
     fireBorderAnimation:update(dt)
+    
 
     testBoardForOccupy(activePlayer, inactivePlayer)
     spawnChestIfPlayerIsBehind()

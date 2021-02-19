@@ -13,11 +13,7 @@ local FireMage = Character:extend("FireMage")
 function FireMage:spell(targetCell)
 
    
-table.insert(sequenceBufferTable, {
-    name = "FireMageSpell",
-    duration = 0.2,
-    sequenceTime = love.timer.getTime(),
-    action = function()
+
 
     if self.actionPoints ~= 0 then
     if  (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
@@ -25,65 +21,80 @@ table.insert(sequenceBufferTable, {
 
         if self.x - 1 > 0 and self.y - 1 > 0 then
         
-            boardGrid[self.x - 1][self.y - 1].isOnFire = true
-            boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
+            table.insert(sequenceBufferTable, {
+                name = "FireMageSpellTopLeftCell",
+                duration = 0.2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
 
-            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
-                boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
-                boardGrid[self.x - 1][self.y - 1].isOnFire = false
-            end
+                    boardGrid[self.x - 1][self.y - 1].isOnFire = true
+                    boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
-            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then 
-                boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
-                boardGrid[self.x - 1][self.y - 1].isFrozen = false
-            end
+                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
+                        boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
+                        boardGrid[self.x - 1][self.y - 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
-                boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
-                boardGrid[self.x - 1][self.y - 1].isOnFire = false
-            end
+                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then 
+                        boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                        boardGrid[self.x - 1][self.y - 1].isFrozen = false
+                    end
 
-            if boardGrid[self.x - 1][self.y - 1]:instanceOf(Desert) then 
-                boardGrid[self.x - 1][self.y - 1] = GlassMount(self.x - 1, self.y - 1)
-                boardGrid[self.x - 1][self.y - 1].isOnFire = false
-            end
+                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
+                        boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                        boardGrid[self.x - 1][self.y - 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x - 1][self.y - 1].isFrozen then 
-                boardGrid[self.x - 1][self.y - 1].isFrozen = false
-                boardGrid[self.x - 1][self.y - 1].isOnFire = false 
-            end 
+                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Desert) then 
+                        boardGrid[self.x - 1][self.y - 1] = GlassMount(self.x - 1, self.y - 1)
+                        boardGrid[self.x - 1][self.y - 1].isOnFire = false
+                    end
+
+                    if boardGrid[self.x - 1][self.y - 1].isFrozen then 
+                        boardGrid[self.x - 1][self.y - 1].isFrozen = false
+                        boardGrid[self.x - 1][self.y - 1].isOnFire = false 
+                    end 
+                end
+            })
 
         end
 
         if self.x + 1 <= 10 and self.y - 1 > 0 then
+            table.insert(sequenceBufferTable, {
+                name = "FireMageSpellTopRightCell",
+                duration = 0.4,
+                sequenceTime = love.timer.getTime(),
+                action = function()
 
-            boardGrid[self.x + 1][self.y - 1].isOnFire = true
-            boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
+                    boardGrid[self.x + 1][self.y - 1].isOnFire = true
+                    boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
-            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
-                boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
-                boardGrid[self.x + 1][self.y - 1].isOnFire = false
-            end
+                    if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
+                        boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
+                        boardGrid[self.x + 1][self.y - 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y - 1].isFrozen then 
-                boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
-                boardGrid[self.x + 1][self.y - 1].isFrozen = false
-            end
+                    if boardGrid[self.x + 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y - 1].isFrozen then 
+                        boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                        boardGrid[self.x + 1][self.y - 1].isFrozen = false
+                    end
 
-            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then 
-                boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
-                boardGrid[self.x + 1][self.y - 1].isOnFire = false
-            end
+                    if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then 
+                        boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                        boardGrid[self.x + 1][self.y - 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
-                boardGrid[self.x + 1][self.y - 1] = GlassMount(self.x + 1, self.y - 1)
-                boardGrid[self.x + 1][self.y - 1].isOnFire = false
-            end
+                    if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
+                        boardGrid[self.x + 1][self.y - 1] = GlassMount(self.x + 1, self.y - 1)
+                        boardGrid[self.x + 1][self.y - 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x + 1][self.y - 1].isFrozen then 
-                boardGrid[self.x + 1][self.y - 1].isFrozen = false 
-                boardGrid[self.x + 1][self.y - 1].isOnFire = false 
-            end
+                    if boardGrid[self.x + 1][self.y - 1].isFrozen then 
+                        boardGrid[self.x + 1][self.y - 1].isFrozen = false 
+                        boardGrid[self.x + 1][self.y - 1].isOnFire = false 
+                    end
+                end
+            })
 
         end
         
@@ -96,68 +107,83 @@ table.insert(sequenceBufferTable, {
         self.actionPoints = self.actionPoints - 1
 
         if self.x - 1 > 0 and self.y + 1 <= 10 then
-            boardGrid[self.x - 1][self.y + 1].isOnFire = true
-            boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
+            table.insert(sequenceBufferTable, {
+                name = "FireMageSpellBottomLeftCell",
+                duration = 0.2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
 
-        
-            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
-                boardGrid[self.x - 1][self.y + 1] = Field(self.x - 1, self.y + 1)
-                boardGrid[self.x - 1][self.y + 1].isOnFire = false
-            end
+                    boardGrid[self.x - 1][self.y + 1].isOnFire = true
+                    boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
 
-            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
-                boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
-                boardGrid[self.x - 1][self.y + 1].isFrozen = false
-            end
+                
+                    if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
+                        boardGrid[self.x - 1][self.y + 1] = Field(self.x - 1, self.y + 1)
+                        boardGrid[self.x - 1][self.y + 1].isOnFire = false
+                    end
+
+                    if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
+                        boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                        boardGrid[self.x - 1][self.y + 1].isFrozen = false
+                    end
 
 
-            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
-                boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
-                boardGrid[self.x - 1][self.y + 1].isOnFire = false
-            end
+                    if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
+                        boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                        boardGrid[self.x - 1][self.y + 1].isOnFire = false
+                    end
 
-            if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Desert) then 
-                boardGrid[self.x - 1][self.y + 1] = GlassMount(self.x - 1, self.y + 1)
-                boardGrid[self.x - 1][self.y + 1].isOnFire = false
-            end
+                    if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Desert) then 
+                        boardGrid[self.x - 1][self.y + 1] = GlassMount(self.x - 1, self.y + 1)
+                        boardGrid[self.x - 1][self.y + 1].isOnFire = false
+                    end
 
-            if  boardGrid[self.x - 1][self.y + 1].isFrozen then
-                boardGrid[self.x - 1][self.y + 1].isFrozen = false 
-                boardGrid[self.x - 1][self.y + 1].isOnFire = false 
-            end 
-            
+                    if  boardGrid[self.x - 1][self.y + 1].isFrozen then
+                        boardGrid[self.x - 1][self.y + 1].isFrozen = false 
+                        boardGrid[self.x - 1][self.y + 1].isOnFire = false 
+                    end 
+                end
+            })
+                    
         end
 
 
         if self.x + 1 <= 10 and self.y + 1 <= 10 then 
-            boardGrid[self.x + 1][self.y + 1].isOnFire = true
-            boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
+            table.insert(sequenceBufferTable, {
+                name = "FireMageSpellBottomRightCell",
+                duration = 0.4,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    boardGrid[self.x + 1][self.y + 1].isOnFire = true
+                    boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
 
-            
-            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
-                boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
-                boardGrid[self.x + 1][self.y + 1].isOnFire = false
-            end
-            
-            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then 
-                boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
-                boardGrid[self.x + 1][self.y + 1].isFrozen = false
-            end
+                    
+                    if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
+                        boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
+                        boardGrid[self.x + 1][self.y + 1].isOnFire = false
+                    end
+                    
+                    if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then 
+                        boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                        boardGrid[self.x + 1][self.y + 1].isFrozen = false
+                    end
 
-            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
-                boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
-                boardGrid[self.x + 1][self.y + 1].isOnFire = false
-            end
+                    if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
+                        boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                        boardGrid[self.x + 1][self.y + 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x + 1][self.y + 1]:instanceOf(Desert) then 
-                boardGrid[self.x + 1][self.y + 1] = GlassMount(self.x + 1, self.y + 1)
-                boardGrid[self.x + 1][self.y + 1].isOnFire = false
-            end
+                    if boardGrid[self.x + 1][self.y + 1]:instanceOf(Desert) then 
+                        boardGrid[self.x + 1][self.y + 1] = GlassMount(self.x + 1, self.y + 1)
+                        boardGrid[self.x + 1][self.y + 1].isOnFire = false
+                    end
 
-            if boardGrid[self.x + 1][self.y + 1].isFrozen then 
-                boardGrid[self.x + 1][self.y + 1].isFrozen = false 
-                boardGrid[self.x + 1][self.y + 1].isOnFire = false 
-            end
+                    if boardGrid[self.x + 1][self.y + 1].isFrozen then 
+                        boardGrid[self.x + 1][self.y + 1].isFrozen = false 
+                        boardGrid[self.x + 1][self.y + 1].isOnFire = false 
+                    end
+                end
+            })
     
         end
 
@@ -165,8 +191,7 @@ table.insert(sequenceBufferTable, {
         
     end
 end
-end
-})
+
 end
    
 return FireMage

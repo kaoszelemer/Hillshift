@@ -14,30 +14,49 @@ function IceWizard:spell(targetCell)
         self.actionPoints = self.actionPoints - 1
 
         if self.y - 1 > 0 then
-
+            table.insert(sequenceBufferTable, {
+                name = "IceMageSpellTopCell",
+                duration = 0.1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
           
-               boardGrid[self.x][self.y - 1].isFrozen = true
-               if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then boardGrid[self.x][self.y - 1] = Ice(self.x, self.y - 1) end
-               boardGrid[self.x][self.y - 1].freezeTurn = turnCounter
-            if boardGrid[self.x][self.y - 1].isOnFire then boardGrid[self.x][self.y - 1].isOnFire = false end
+                    boardGrid[self.x][self.y - 1].isFrozen = true
+                    if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then boardGrid[self.x][self.y - 1] = Ice(self.x, self.y - 1) end
+                    boardGrid[self.x][self.y - 1].freezeTurn = turnCounter
+                    if boardGrid[self.x][self.y - 1].isOnFire then boardGrid[self.x][self.y - 1].isOnFire = false end
+                end
+            })
 
         end
 
         if self.x - 1 > 0 and self.y - 1 > 0 then
-           
-               boardGrid[self.x - 1][self.y - 1].isFrozen = true
-               if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then boardGrid[self.x - 1][self.y - 1] = Ice(self.x - 1, self.y - 1) end
-               boardGrid[self.x - 1][self.y - 1].freezeTurn = turnCounter
-            if boardGrid[self.x - 1][self.y - 1].isOnFire then boardGrid[self.x - 1][self.y - 1].isOnFire = false end 
+            table.insert(sequenceBufferTable, {
+                name = "IceMageSpellTopLeftCell",
+                duration = 0.2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    boardGrid[self.x - 1][self.y - 1].isFrozen = true
+                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then boardGrid[self.x - 1][self.y - 1] = Ice(self.x - 1, self.y - 1) end
+                    boardGrid[self.x - 1][self.y - 1].freezeTurn = turnCounter
+                    if boardGrid[self.x - 1][self.y - 1].isOnFire then boardGrid[self.x - 1][self.y - 1].isOnFire = false end 
+                end
+            })
 
         end
          
         if self.x + 1 <= 10 and self.y - 1 > 0 then
+            table.insert(sequenceBufferTable, {
+                name = "IceMageSpellTopRightCell",
+                duration = 0.3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
 
-                boardGrid[self.x + 1][self.y - 1].isFrozen = true
-                if  boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then boardGrid[self.x + 1][self.y - 1] = Ice(self.x + 1, self.y - 1) end  
-                boardGrid[self.x + 1][self.y - 1].freezeTurn = turnCounter
-            if  boardGrid[self.x + 1][self.y - 1].isOnFire then boardGrid[self.x + 1][self.y - 1].isOnFire = false end
+                        boardGrid[self.x + 1][self.y - 1].isFrozen = true
+                    if  boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then boardGrid[self.x + 1][self.y - 1] = Ice(self.x + 1, self.y - 1) end  
+                        boardGrid[self.x + 1][self.y - 1].freezeTurn = turnCounter
+                    if  boardGrid[self.x + 1][self.y - 1].isOnFire then boardGrid[self.x + 1][self.y - 1].isOnFire = false end
+                end
+            })
 
         end
 
@@ -50,30 +69,45 @@ function IceWizard:spell(targetCell)
         self.actionPoints = self.actionPoints - 1
 
         if self.y + 1 <= 10 then
-
-               boardGrid[self.x][self.y + 1].isFrozen = true
-               if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then boardGrid[self.x][self.y + 1] = Ice(self.x, self.y + 1) end
-               boardGrid[self.x][self.y + 1].freezeTurn = turnCounter
-            if boardGrid[self.x][self.y + 1].isOnFire then boardGrid[self.x][self.y + 1].isOnFire = false end
-
+            table.insert(sequenceBufferTable, {
+                name = "IceMageSpellBottomCell",
+                duration = 0.1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    boardGrid[self.x][self.y + 1].isFrozen = true
+                    if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then boardGrid[self.x][self.y + 1] = Ice(self.x, self.y + 1) end
+                    boardGrid[self.x][self.y + 1].freezeTurn = turnCounter
+                    if boardGrid[self.x][self.y + 1].isOnFire then boardGrid[self.x][self.y + 1].isOnFire = false end
+                end
+            })
         end
 
         if self.x - 1 > 0 and self.y + 1 <= 10 then
-           
-               boardGrid[self.x - 1][self.y + 1].isFrozen = true
-               if boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then boardGrid[self.x - 1][self.y + 1] = Ice(self.x - 1, self.y + 1) end
-               boardGrid[self.x - 1][self.y + 1].freezeTurn = turnCounter
-            if boardGrid[self.x - 1][self.y + 1].isOnFire then boardGrid[self.x - 1][self.y + 1].isOnFire = false end 
-
+            table.insert(sequenceBufferTable, {
+                name = "IceMageSpellBottomLeftCell",
+                duration = 0.2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    boardGrid[self.x - 1][self.y + 1].isFrozen = true
+                    if boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then boardGrid[self.x - 1][self.y + 1] = Ice(self.x - 1, self.y + 1) end
+                    boardGrid[self.x - 1][self.y + 1].freezeTurn = turnCounter
+                    if boardGrid[self.x - 1][self.y + 1].isOnFire then boardGrid[self.x - 1][self.y + 1].isOnFire = false end 
+                end
+            })
         end
          
         if self.x + 1 <= 10 and self. y + 1 <= 10 then
-
-                boardGrid[self.x + 1][self.y + 1].isFrozen = true
-                if  boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then boardGrid[self.x + 1][self.y + 1] = Ice(self.x + 1, self.y + 1) end  
-                boardGrid[self.x + 1][self.y + 1].freezeTurn = turnCounter
-            if  boardGrid[self.x + 1][self.y + 1].isOnFire then boardGrid[self.x + 1][self.y + 1].isOnFire = false end
-
+            table.insert(sequenceBufferTable, {
+                name = "IceMageSpellBottomLeftCell",
+                duration = 0.3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    boardGrid[self.x + 1][self.y + 1].isFrozen = true
+                    if  boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then boardGrid[self.x + 1][self.y + 1] = Ice(self.x + 1, self.y + 1) end  
+                    boardGrid[self.x + 1][self.y + 1].freezeTurn = turnCounter
+                    if  boardGrid[self.x + 1][self.y + 1].isOnFire then boardGrid[self.x + 1][self.y + 1].isOnFire = false end
+                end
+            })
         end
        
         gameState:changeState(gameState.states.selectCharacter)

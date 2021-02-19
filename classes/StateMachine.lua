@@ -13,7 +13,7 @@ function StateMachine:changeState(targetState)
 
         if stateName == targetState.name then        
             self.state = self.states[targetState.name]
-            print(self.state.name)
+            print("[STATE]: "..self.state.name)
             return
         end
 

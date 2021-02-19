@@ -16,18 +16,32 @@ local SandWitch = Character:extend("SandWitch")
 
             if self.x - 1 > 0 then
 
-    
-                   if boardGrid[self.x - 1][self.y]:instanceOf(Mount) then 
-                    boardGrid[self.x - 1][self.y] = Desert(self.x - 1, self.y)
-                   end
+                table.insert(sequenceBufferTable, {
+                    name = "SandWitchLeftCell",
+                    duration = 0.2,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+
+                        if boardGrid[self.x - 1][self.y]:instanceOf(Mount) then 
+                            boardGrid[self.x - 1][self.y] = Desert(self.x - 1, self.y)
+                        end
+                    end
+                })
       
             end
             
             if self.x + 1 <= 10 then
+                table.insert(sequenceBufferTable, {
+                    name = "SandWitchRightCell",
+                    duration = 0.4,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
 
-                if boardGrid[self.x + 1][self.y]:instanceOf(Mount) then 
-                    boardGrid[self.x + 1][self.y] = Desert(self.x + 1, self.y)
-                end
+                        if boardGrid[self.x + 1][self.y]:instanceOf(Mount) then 
+                            boardGrid[self.x + 1][self.y] = Desert(self.x + 1, self.y)
+                        end
+                    end
+                })
 
             end
 

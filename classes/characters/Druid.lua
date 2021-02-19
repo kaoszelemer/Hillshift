@@ -37,7 +37,15 @@ local Druid = Character:extend("Druid")
                 if boardGrid[self.x][self.y - 1].isPoisoned == true then poisonFirstCell = true end
                 if boardGrid[self.x][self.y - 1].isFrozen == true then freezeFirstCell = true end
                
-                    boardGrid[self.x][self.y - 1] = Forest(self.x, self.y - 1)
+                table.insert(sequenceBufferTable, {
+                    name = "DruidSpellTopCell",
+                    duration = 0.1,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+
+                        boardGrid[self.x][self.y - 1] = Forest(self.x, self.y - 1)
+                    end
+                })
                       
             
                 if burnFirstCell == true then 
@@ -61,9 +69,18 @@ local Druid = Character:extend("Druid")
                 if boardGrid[self.x][self.y + 1].isOnFire == true then  burnSecondCell = true end
                 if boardGrid[self.x][self.y + 1].isPoisoned == true then poisonSecondCell = true end
                 if boardGrid[self.x][self.y + 1].isFrozen == true then freezeSecondCell = true end
-               
-                    boardGrid[self.x][self.y + 1] = Forest(self.x, self.y + 1)
+
+
+                table.insert(sequenceBufferTable, {
+                    name = "DruidSpellBottomCell",
+                    duration = 0.2,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+
+                        boardGrid[self.x][self.y + 1] = Forest(self.x, self.y + 1)
                       
+                    end
+                })
               
             
                 if burnSecondCell == true then 
@@ -88,9 +105,16 @@ local Druid = Character:extend("Druid")
                 if boardGrid[self.x - 1][self.y].isPoisoned == true then poisonThirdCell = true end
                 if boardGrid[self.x - 1][self.y].isFrozen == true then freezeThirdCell = true end
                
-                    boardGrid[self.x - 1][self.y] = Forest(self.x - 1, self.y)
+                table.insert(sequenceBufferTable, {
+                    name = "DruidSpellLeftCell",
+                    duration = 0.3,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+
+                        boardGrid[self.x - 1][self.y] = Forest(self.x - 1, self.y)
                       
-              
+                    end
+                })
             
                 if burnThirdCell == true then 
                     boardGrid[self.x - 1][self.y].isOnFire = true
@@ -113,8 +137,17 @@ local Druid = Character:extend("Druid")
                 if boardGrid[self.x + 1][self.y].isOnFire == true then  burnFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isPoisoned == true then poisonFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isFrozen == true then freezeFourthCell = true end
-               
-                    boardGrid[self.x + 1][self.y] = Forest(self.x + 1, self.y)
+
+                table.insert(sequenceBufferTable, {
+                    name = "DruidSpellRightCell",
+                    duration = 0.4,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+
+                         boardGrid[self.x + 1][self.y] = Forest(self.x + 1, self.y)
+                    end
+                })
+
             
                 if burnFourthCell == true then 
                     boardGrid[self.x + 1][self.y].isOnFire = true

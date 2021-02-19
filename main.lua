@@ -217,7 +217,7 @@ function sequenceProcessor()
         for index, sequence in ipairs(sequenceBufferTable) do 
             if index == 1 then 
                 if love.timer.getTime() - sequence.sequenceTime >= sequence.duration then
-                        print(sequence.name)
+                        print("[SEQUENCE]: "..sequence.name)
                         sequence.action()
                         table.remove(sequenceBufferTable, 1)  
                 end
@@ -533,8 +533,8 @@ end
 function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
-    sequenceProcessor()
     board:update(dt)
+    sequenceProcessor()
     enableEndGame()
     
 
