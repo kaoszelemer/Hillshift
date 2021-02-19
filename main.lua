@@ -436,57 +436,66 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
 
     local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
     local  mY = math.floor((rMy / tileH) - offsetY / tileH)
+ if gameState.state == gameState.states.selectSpellTargetArea then
+        for _, currentChar in ipairs(activePlayer.characters) do
 
-    for _, currentChar in ipairs(activePlayer.characters) do
+            --- Fent lent jobbra balra
 
-        --- Fent lent jobbra balra
+            if currentChar.x < mX then
+                pointerOnLeftSide = false
+                pointerOnRightSide = true
+                pointerOnTopSide = false
+                pointerOnBottomSide = false
+            elseif currentChar.x  > mX then
+                pointerOnLeftSide = true
+                pointerOnRightSide = false
+                pointerOnTopSide = false
+                pointerOnBottomSide = false
+            elseif currentChar.y < mY  then
+                pointerOnTopSide = false
+                pointerOnBottomSide = true
+                pointerOnLeftSide = false
+                pointerOnRightSide = false
+            elseif currentChar.y > mY then
+                pointerOnTopSide = true
+                pointerOnBottomSide = false
+                pointerOnLeftSide = false
+                pointerOnRightSide = false
+            end 
 
-        if currentChar.x < mX then
-            pointerOnLeftSide = false
-            pointerOnRightSide = true
-            pointerOnTopSide = false
-            pointerOnBottomSide = false
-        elseif currentChar.x  > mX then
-            pointerOnLeftSide = true
-            pointerOnRightSide = false
-            pointerOnTopSide = false
-            pointerOnBottomSide = false
-        elseif currentChar.y < mY  then
-            pointerOnTopSide = false
-            pointerOnBottomSide = true
-            pointerOnLeftSide = false
-            pointerOnRightSide = false
-        elseif currentChar.y > mY then
-            pointerOnTopSide = true
-            pointerOnBottomSide = false
-            pointerOnLeftSide = false
-            pointerOnRightSide = false
-        end 
+            --4 irányba pl. alkimista
 
-        --4 irányba pl. alkimista
-
-        if  mX < currentChar.x and mY < currentChar.y then
-            pointerOnTopLeftSide = true
-            pointerOnTopRightSide = false
-            pointerOnBottomRightSide = false
-            pointerOnBottomLeftSide = false
-        elseif  mX > currentChar.x and mY < currentChar.y then
-            pointerOnTopLeftSide = false
-            pointerOnTopRightSide = true
-            pointerOnBottomRightSide = false
-            pointerOnBottomLeftSide = false
-        elseif  mX < currentChar.x and mY > currentChar.y then
-            pointerOnTopLeftSide = false
-            pointerOnTopRightSide = false
-            pointerOnBottomRightSide = false
-            pointerOnBottomLeftSide = true
-        elseif  mX > currentChar.x and mY > currentChar.y then
-            pointerOnTopLeftSide = false
-            pointerOnTopRightSide = false
-            pointerOnBottomRightSide = true
-            pointerOnBottomLeftSide = false
+            if  mX < currentChar.x and mY < currentChar.y then
+                pointerOnTopLeftSide = true
+                pointerOnTopRightSide = false
+                pointerOnBottomRightSide = false
+                pointerOnBottomLeftSide = false
+            elseif  mX > currentChar.x and mY < currentChar.y then
+                pointerOnTopLeftSide = false
+                pointerOnTopRightSide = true
+                pointerOnBottomRightSide = false
+                pointerOnBottomLeftSide = false
+            elseif  mX < currentChar.x and mY > currentChar.y then
+                pointerOnTopLeftSide = false
+                pointerOnTopRightSide = false
+                pointerOnBottomRightSide = false
+                pointerOnBottomLeftSide = true
+            elseif  mX > currentChar.x and mY > currentChar.y then
+                pointerOnTopLeftSide = false
+                pointerOnTopRightSide = false
+                pointerOnBottomRightSide = true
+                pointerOnBottomLeftSide = false
+            end
         end
-
+    else
+        pointerOnBottomLeftSide = false
+        pointerOnBottomRightSide = false
+        pointerOnBottomSide = false
+        pointerOnTopLeftSide = false
+        pointerOnTopRightSide = false
+        pointerOnTopSide = false
+        pointerOnLeftSide = false
+        pointerOnRightSide = false
     end
   
 end
