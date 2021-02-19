@@ -10,7 +10,11 @@ end
 
 
 function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)
-   
+    table.insert(sequenceBufferTable, {
+        name = "AirElementalblowCharacter",
+        duration = 0.3,
+        sequenceTime = love.timer.getTime(),
+        action = function()
 
             local spreadX = 0
             local spreadY = 0
@@ -40,28 +44,37 @@ function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)
                 if (self.x + spreadX <= 10 and self.x + spreadX > 0) and (self.y + spreadY <= 10 and self.y + spreadY > 0) then
             
                     if not boardGrid[self.x +spreadX][self.y + spreadY].isOccupied then
-                        print(self.x + spreadX)
                         boardGrid[self.x + tcx][self.y + tcy].occupiedBy.stepPoints = boardGrid[self.x + tcx][self.y + tcy].occupiedBy.stepPoints + 1
                         boardGrid[self.x + tcx][self.y + tcy].occupiedBy:move(self.x + spreadX, self.y + spreadY)
                     end
                 end
             
             end
-     
+     end
+    })
 
 end
 
 function AirElemental:clearPoison(targetCell, tcx, tcy)
-   
+    table.insert(sequenceBufferTable, {
+        name = "AirElementalclearPoison",
+        duration = 0.1,
+        sequenceTime = love.timer.getTime(),
+        action = function()
             if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + tcy <= 10 or self.y + tcy > 0) then
                 if boardGrid[self.x + tcx][self.y + tcy].isPoisoned then boardGrid[self.x + tcx][self.y + tcy].isPoisoned = false end
             end
-    
+        end
+    })
 
 end
 
 function AirElemental:blowFire(targetCell, tcx, tcy)
-   
+    table.insert(sequenceBufferTable, {
+        name = "AirElementalblowFire",
+        duration = 0.4,
+        sequenceTime = love.timer.getTime(),
+        action = function()
 
             local chanceOfBurning = love.math.random()
             local fx = 0
@@ -113,12 +126,17 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                 end
 
             end
-    
+        end
+    })
 
 end
 
 function AirElemental:blowSand(targetCell, tcx, tcy)
-   
+    table.insert(sequenceBufferTable, {
+        name = "AirElementalblowSand",
+        duration = 0.2,
+        sequenceTime = love.timer.getTime(),
+        action = function()
             local spreadX = 0
             local spreadY = 0
 
@@ -160,7 +178,8 @@ function AirElemental:blowSand(targetCell, tcx, tcy)
 
                 end
             end
-      
+        end
+    })
 
 end
 
@@ -174,15 +193,8 @@ function AirElemental:spell(targetCell, tcx, tcy)
                 if tcy ~= 0 then
                     if (targetCell.x == self.x and targetCell.y == self.y + tcy) or (targetCell.x == self.x + tcx and targetCell.y == self.y + tcy) then
                         if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + tcy <= 10 or self.y + tcy > 0) then
-                            
-                           --[[  table.insert(sequenceBufferTable, {
-                                name = "AirElementalblowCharacter",
-                                duration = 0.3,
-                                sequenceTime = love.timer.getTime(),
-                                action = function() ]]
-                                     self:blowCharacter(targetCell, tcx, tcy)
-                              --  end
-                      --  })
+
+                            self:blowCharacter(targetCell, tcx, tcy)
                             self:blowFire(targetCell, tcx, tcy)
                             self:blowSand(targetCell, tcx, tcy)
                             self:clearPoison(targetCell, tcx, tcy)

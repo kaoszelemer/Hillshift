@@ -215,12 +215,13 @@ function sequenceProcessor()
 
 
         for index, sequence in ipairs(sequenceBufferTable) do 
-        
+            if index == 1 then 
                 if love.timer.getTime() - sequence.sequenceTime >= sequence.duration then
                         print(sequence.name)
                         sequence.action()
                         table.remove(sequenceBufferTable, 1)  
                 end
+            end
                 
         end
 
