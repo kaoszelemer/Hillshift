@@ -30,12 +30,12 @@ function Event049:eventFunction()
 
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(currentChar.y, currentChar.x)
+        currentChar:move(currentChar.y, currentChar.x, currentChar.x, currentChar.y)
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(currentChar.y, currentChar.x)
+        currentChar:move(currentChar.y, currentChar.x, currentChar.x, currentChar.y)
     end
 
 

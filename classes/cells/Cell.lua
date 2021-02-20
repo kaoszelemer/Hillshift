@@ -18,11 +18,14 @@ end
 
 
 function Cell:moveSelectedCharIfValidOffset(ox, oy)
+    
     if ((selectedChar.x + ox <= 10 and selectedChar.x + ox >= 1) and (self.x == selectedChar.x + ox and self.y == selectedChar.y + oy)) or
        ((selectedChar.y + oy <= 10 and selectedChar.y + oy >= 1) and (self.y == selectedChar.y + oy and self.y == selectedChar.y + oy)) then
             if selectedChar.x + ox == self.x and
                 selectedChar.y + oy == self.y then
-                selectedChar:move(self.x, self.y)
+                   
+
+                    selectedChar:move(selectedChar.x + ox, selectedChar.y + oy, selectedChar.x, selectedChar.y)
                 gameState:changeState(gameState.states.selectCharacter)
                 if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
                     self:iceSlide(selectedChar)
@@ -69,6 +72,7 @@ function Cell:click()
         for x = -1, 1 do
             for y = -1, 1 do
                if x ~= 0 or y ~= 0 then 
+                
                     self:moveSelectedCharIfValidOffset(x, y)
                 end
             end

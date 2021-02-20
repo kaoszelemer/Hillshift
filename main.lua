@@ -3,9 +3,9 @@
 --require
 class = require('lib.30log')
 anim8 = require('lib.anim8')
+flux = require('lib.flux')
+
 StateMachine = require('classes.StateMachine')
-
-
 
 gameState = StateMachine({
     selectCharacter = {
@@ -562,7 +562,7 @@ function love.load()
 end
 
 function love.update(dt)
-    
+    flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
     Character:update(dt)

@@ -19,7 +19,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x - 1 > 0 then
                     if not boardGrid[character.x - 1][character.y].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x - 1, character.y)
+                        character:move(character.x - 1, character.y, character.x, character.y)
                     end
                 end
             end
@@ -28,7 +28,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x + 1 <= 10 then
                     if not boardGrid[character.x + 1][character.y].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x + 1, character.y)
+                        character:move(character.x + 1, character.y, character.x, character.y)
                     end
                 end
             end
@@ -37,7 +37,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.y - 1 > 0 then
                     if not boardGrid[character.x][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x, character.y - 1)
+                        character:move(character.x, character.y - 1, character.x, character.y)
                     end
                  end
             end
@@ -46,7 +46,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.y + 1 <= 10 then
                     if not boardGrid[character.x][character.y + 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x, character.y + 1)
+                        character:move(character.x, character.y + 1, character.x, character.y)
                     end
                 end
             end
@@ -55,7 +55,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x - 1 > 0 and character.y - 1 > 0 then
                     if not boardGrid[character.x - 1][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x - 1, character.y + 1)
+                        character:move(character.x - 1, character.y + 1, character.x, character.y)
                     end
                 end
             end
@@ -64,7 +64,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x - 1 > 0 and character.y - 1 <= 10 then
                     if not boardGrid[character.x - 1][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x - 1, character.y - 1)
+                        character:move(character.x - 1, character.y - 1, character.x, character.y)
                     end
                 end
             end
@@ -73,7 +73,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x + 1 <= 10 and character.y - 1 > 0 then
                     if not boardGrid[character.x + 1][character.y - 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x + 1, character.y - 1)
+                        character:move(character.x + 1, character.y - 1, character.x, character.y)
                     end
                  end
             end
@@ -82,7 +82,7 @@ function GlassMount:onEntry(character, ax, ay)
                 if character.x + 1 <= 10 and character.y + 1 <= 10 then 
                     if not boardGrid[character.x + 1][character.y + 1].isOccupied then
                         character.stepPoints = character.stepPoints + 1
-                        character:move(character.x + 1, character.y + 1)
+                        character:move(character.x + 1, character.y + 1, character.x, character.y)
                     end
                 end
             end

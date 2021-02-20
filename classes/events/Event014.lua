@@ -33,7 +33,7 @@ function Event014:eventFunction()
         local rndCellY = love.math.random(1,10)
         if not boardGrid[rndCellX][rndCellY].isOccupied then
             currentChar.stepPoints = currentChar.stepPoints + 1
-            currentChar:move(rndCellX, rndCellY)
+            currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
         end
     end
 
@@ -42,7 +42,7 @@ function Event014:eventFunction()
         local rndCellY = love.math.random(1,10)
         if not boardGrid[rndCellX][rndCellY].isOccupied then
                 currentChar.stepPoints = currentChar.stepPoints + 1
-                currentChar:move(rndCellX, rndCellY)
+                currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
         end
     end
 

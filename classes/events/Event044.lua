@@ -34,7 +34,7 @@ function Event044:eventFunction()
             if not boardGrid[rndCellX][rndCellY].isOccupied then
 
             currentChar.stepPoints = currentChar.stepPoints + 1
-            currentChar:move(rndCellX, rndCellY)
+            currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
         end
     end
 

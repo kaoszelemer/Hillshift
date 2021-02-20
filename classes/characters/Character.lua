@@ -408,24 +408,37 @@ end
         
     
 
-function Character:move(x, y)
-   
+function Character:move(cx, cy, oldx, oldy)
+    
+
+
     if self.stepPoints ~= 0 then
         if self.x and self.y then
             boardGrid[self.x][self.y].isOccupied = false
             boardGrid[self.x][self.y].occupiedBy = nil
         end
+     
+            
             local arriveX = self.x
             local arriveY = self.y
-            self.x = x
-            self.y = y
+            print(self.x, cx, self.y, cy)
+            if oldx == nil then oldx = 1 end
+            if oldy == nil then oldy = 1 end
+            self.x = oldx
+            self.y = oldy
+            flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
+            
+        
+           
+            
             if self.x >= 10 then self.x = 10 end
             if self.x <= 0 then self.x = 1 end
             if self.y >= 10 then self.y = 10 end
             if self.y <= 0 then self.y = 1 end
-            boardGrid[self.x][self.y]:onEntry(self, arriveX, arriveY)
-            boardGrid[self.x][self.y].isOccupied = true
-            boardGrid[self.x][self.y].occupiedBy = self
+           
+            boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
+            boardGrid[cx][cy].isOccupied = true
+            boardGrid[cx][cy].occupiedBy = self
             self.stepPoints = self.stepPoints - 1
 
     end

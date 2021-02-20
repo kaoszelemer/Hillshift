@@ -50,7 +50,7 @@ function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)
             
                     if not boardGrid[self.x +spreadX][self.y + spreadY].isOccupied then
                         boardGrid[self.x + tcx][self.y + tcy].occupiedBy.stepPoints = boardGrid[self.x + tcx][self.y + tcy].occupiedBy.stepPoints + 1
-                        boardGrid[self.x + tcx][self.y + tcy].occupiedBy:move(self.x + spreadX, self.y + spreadY)
+                        boardGrid[self.x + tcx][self.y + tcy].occupiedBy:move(self.x + spreadX, self.y + spreadY, self.x, self.y)
                     end
                 end
             
