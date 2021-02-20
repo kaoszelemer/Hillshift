@@ -1,13 +1,15 @@
 local FireMage = Character:extend("FireMage")
     function FireMage:init(parentPlayer)
-        Character.init(self, 12, 2, 3, 6, love.graphics.newImage("/graphics/firemage.png"), 
+        Character.init(self, 12, 2, 3, 6, love.graphics.newImage("/graphics/firemageanim.png"), 
                     love.graphics.newImage("/graphics/firemagehover.png"), 
                     love.graphics.newImage("/graphics/firemagesink.png"), 
                     love.graphics.newImage("/graphics/firemagesinkhover.png"), 
                     parentPlayer, 1, 1, 0, 0, 0, false)
     end
 
-
+    function FireMage:update(dt)
+        self.animation:update(dt)
+    end
 
 
 function FireMage:spell(targetCell)

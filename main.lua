@@ -436,7 +436,7 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
 
     local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
     local  mY = math.floor((rMy / tileH) - offsetY / tileH)
- if gameState.state == gameState.states.selectSpellTargetArea then
+ if gameState.state == gameState.states.selectSpellTargetArea or gameState.state == gameState.states.selectAttackTargetCharacter then
         for _, currentChar in ipairs(activePlayer.characters) do
 
             --- Fent lent jobbra balra
@@ -525,10 +525,32 @@ local function testMouseForInventoryHover(mx, my)
 
 end
 
+function loadCharacterAnim()
+
+    for _, currentChar in ipairs(playerOne.characters) do
+        print("loading character animation for "..currentChar.name)
+        currentChar.animImage = currentChar.image
+        local g = anim8.newGrid(64, 64, currentChar.image:getWidth(), currentChar.image:getHeight())
+        currentChar.animation = anim8.newAnimation(g('1-4', 1, '3-2', 1), 0.2)
+    end
+
+    for _, currentChar in ipairs(playerTwo.characters) do
+        print("loading character animation for "..currentChar.name)
+        currentChar.animImage = currentChar.image
+        local g = anim8.newGrid(64, 64, currentChar.image:getWidth(), currentChar.image:getHeight())
+        currentChar.animation = anim8.newAnimation(g('1-4', 1, '3-2', 1), 0.2)
+    end
+
+  
+
+
+end
 
 function love.load()
     --board betoltese
+  
     board:load()
+    loadCharacterAnim()
     Event:initEventTable()
     Item:initItemTable()
     selectStartingPlayer()
@@ -543,6 +565,7 @@ function love.update(dt)
     
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
+    Character:update(dt)
     sequenceProcessor()
     enableEndGame()
     

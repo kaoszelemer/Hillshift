@@ -1,10 +1,14 @@
 local IceWizard = Character:extend("IceWizard")
     function IceWizard:init(parentPlayer)
-        Character.init(self, 11, 3, 2, 3, love.graphics.newImage("/graphics/icewizard.png"), 
+        Character.init(self, 11, 3, 2, 3, love.graphics.newImage("/graphics/icewizardanim.png"), 
                     love.graphics.newImage("/graphics/icewizardhover.png"), 
                     love.graphics.newImage("/graphics/icewizardsink.png"), 
                     love.graphics.newImage("/graphics/icewizardsinkhover.png"), 
                     parentPlayer, 1, 1, 0, 0, 0, false)
+    end
+
+    function IceWizard:update(dt)
+        self.animation:update(dt)
     end
 
 function IceWizard:spell(targetCell)

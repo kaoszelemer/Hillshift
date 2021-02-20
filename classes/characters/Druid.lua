@@ -1,11 +1,15 @@
 local Druid = Character:extend("Druid")
     function Druid:init(parentPlayer)
-        Character.init(self, 11, 3, 3, 5, love.graphics.newImage("/graphics/druid.png"), 
+        Character.init(self, 11, 3, 3, 5, love.graphics.newImage("/graphics/druidanim.png"), 
                     love.graphics.newImage("/graphics/druidhover.png"), 
                     love.graphics.newImage("/graphics/druidsink.png"), 
                     love.graphics.newImage("/graphics/druidsinkhover.png"), 
                     parentPlayer, 1, 1, 0, 0, 0, false)
     end
+    function Druid:update(dt)
+        self.animation:update(dt)
+    end
+ 
 
     function Druid:spell(targetCell)
         if self.actionPoints ~= 0 then

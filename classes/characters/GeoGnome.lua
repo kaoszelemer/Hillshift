@@ -1,11 +1,15 @@
 local GeoGnome = Character:extend("GeoGnome")
 
 function GeoGnome:init(parentPlayer)
-    Character.init(self, 14, 3, 1, 1, love.graphics.newImage("/graphics/geognome.png"), 
+    Character.init(self, 14, 3, 1, 1, love.graphics.newImage("/graphics/geognomeanim.png"), 
                 love.graphics.newImage("/graphics/geognomehover.png"), 
                 love.graphics.newImage("/graphics/geognomesink.png"), 
                 love.graphics.newImage("/graphics/geognomesinkhover.png"), 
                 parentPlayer, 1, 1, 0, 0, 0, false)
+end
+
+function GeoGnome:update(dt)
+    self.animation:update(dt)
 end
 
 function GeoGnome:spell(targetCell)

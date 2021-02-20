@@ -1,12 +1,16 @@
 local AirElemental = Character:extend("AirElemental")
 function AirElemental:init(parentPlayer)
-    Character.init(self, 12, 3, 2, 4, love.graphics.newImage("/graphics/airelemental.png"), 
+    Character.init(self, 12, 3, 2, 4, love.graphics.newImage("/graphics/airelementalanim.png"), 
                 love.graphics.newImage("/graphics/airelementalhover.png"), 
                 love.graphics.newImage("/graphics/airelementalsink.png"),
                 love.graphics.newImage("/graphics/airelementalsinkhover.png"),
                 parentPlayer, 1, 1, 0, 0, 0, false)
 end
 
+
+function AirElemental:update(dt)
+    self.animation:update(dt)
+end
 
 
 function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)

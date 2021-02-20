@@ -29,15 +29,37 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, 
     }
 end
 
+function Character:load()
+
+   
+
+end
+
+function Character:update(dt)
+
+    if drawAttack and love.timer.getTime() - timerStart >= timerStop then
+        drawAttack = false
+    end
+
+    if drawAttackAnim and love.timer.getTime() - animTimer >= animStop then
+        drawAttackAnim = false
+    end
+
+    attackAnimation:update(dt)
+  
+end
+
 function Character:draw()
     local x = self.x * tileW + offsetX
     local y = self.y * tileH + offsetY
     
-    if     boardGrid[self.x][self.y]:instanceOf(Lake) then love.graphics.draw(self.sinkImage, x, y)
+   --[[  if     boardGrid[self.x][self.y]:instanceOf(Lake) then love.graphics.draw(self.sinkImage, x, y)
     elseif boardGrid[self.x][self.y]:instanceOf(Lake) and self.isHovered then love.graphics.draw(self.sinkImageHover, x, y)
     elseif self.isHovered == true then love.graphics.draw(self.imageHover, x, y)
     else   love.graphics.draw(self.image, x, y)
-    end
+    end ]]
+    
+    self.animation:draw(self.image, x,y)
     
     if gameState.state == gameState.states.selectCharacterAction then
         local x = selectedChar.x * tileW + offsetX
@@ -91,6 +113,89 @@ function Character:drawHealthBar()
 
 
 end
+
+function Character:drawAttackAnimation()
+
+    if drawAttackAnim then 
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x and drawnAttackingCharacter.y + 1 == drawnEnemyCharacter.y  then
+                self.drawAttackAnimBottom = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x and drawnAttackingCharacter.y - 1 == drawnEnemyCharacter.y  then
+                self.drawAttackAnimTop = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x + 1 and drawnAttackingCharacter.y == drawnEnemyCharacter.y  then
+                self.drawAttackAnimLeft = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x - 1 and drawnAttackingCharacter.y == drawnEnemyCharacter.y  then
+                self.drawAttackAnimRight = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x - 1 and drawnAttackingCharacter.y - 1 == drawnEnemyCharacter.y  then
+                self.drawAttackAnimTopRight = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x + 1 and drawnAttackingCharacter.y - 1 == drawnEnemyCharacter.y  then
+                self.drawAttackAnimTopLeft = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x - 1 and drawnAttackingCharacter.y + 1 == drawnEnemyCharacter.y  then
+                self.drawAttackAnimBottomRight = true
+            end
+
+            if drawnAttackingCharacter.x == drawnEnemyCharacter.x + 1 and drawnAttackingCharacter.y + 1 == drawnEnemyCharacter.y  then
+                self.drawAttackAnimBottomLeft = true
+            end
+
+            if self.drawAttackAnimBottom then
+                attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y + tileH + offsetY) + tileH * 2)
+                self.drawAttackAnimBottom = false
+            end
+
+            if self.drawAttackAnimTop then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + tileW / 2, (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimTop = false
+            end
+
+            if self.drawAttackAnimLeft then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi / 2, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimLeft = false
+            end
+
+            if self.drawAttackAnimRight then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi * 1.5, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimRight = false
+            end
+
+            if self.drawAttackAnimTopRight then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi * 1.25, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimTopRight = false
+            end
+
+            if self.drawAttackAnimTopLeft then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi * 0.75, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimTopLeft = false
+            end
+
+            if self.drawAttackAnimBottomLeft then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y + tileH + offsetY) + (tileH * 2), math.pi * 0.25, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimBottomLeft = false
+            end
+
+            if self.drawAttackAnimBottomRight then
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH * 2), math.pi * 1.75, 1, 1, tileW / 2, tileH / 2)
+                self.drawAttackAnimBottomRight = false
+            end
+
+
+    end
+
+end
+
+
 
 function Character:drawValidIcons()
 
@@ -339,35 +444,40 @@ function Character:kill()
 end
 
 function Character:attack(enemy)
-    if gameState.state == gameState.states.selectAttackTargetCharacter and self.actionPoints ~= 0 then
+    table.insert(sequenceBufferTable, {
+        name = "AttackEnemyCharacter",
+        duration = 0.1,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            if gameState.state == gameState.states.selectAttackTargetCharacter and self.actionPoints ~= 0 then
+                local dr = getDiceRoll()
+                self.diceRoll = dr
+                self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
+                damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 
-        local dr = getDiceRoll()
-        self.diceRoll = dr
-        self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
-        damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+                self.enableDivineDice = false
 
-        self.enableDivineDice = false
+                if damage == 0 then
+                    self.enableDivineDice = true
+                    self.divineDiceRoll = love.math.random(1, 6)
+                    if self.divineDiceRoll > 3 then
+                        damage = damage + 1
+                    end
 
-        if damage == 0 then
-            self.enableDivineDice = true
-            self.divineDiceRoll = love.math.random(1, 6)
-            if self.divineDiceRoll > 3 then
-                damage = damage + 1
+                    if self.divineDiceRoll == 6 then
+                        damage = damage + 1
+                    end
+                
+                end
+
+                enemy.baseHP = enemy.baseHP - damage
+                if enemy.baseHP <= 0 then enemy:kill() end
+                enableDrawAttack(self, enemy)
+                self.actionPoints = self.actionPoints - 1
+                enemy = nil
             end
-
-            if self.divineDiceRoll == 6 then
-                damage = damage + 1
-            end
-           
         end
-
-        enemy.baseHP = enemy.baseHP - damage
-        if enemy.baseHP <= 0 then enemy:kill() end
-        enableDrawAttack(self, enemy)
-        
-        self.actionPoints = self.actionPoints - 1
-        enemy = nil
-    end
+    })
 end
 
 

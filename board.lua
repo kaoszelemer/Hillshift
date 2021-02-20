@@ -110,6 +110,17 @@ local function initPlayerDeck(player)
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, WaterHag(player))
 
+        --- ONLY ONE CHARACTER
+
+        --[[ table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player)) ]]
 
         --AIR POISON FIRE SAND INTERACTIONS
 
@@ -144,6 +155,8 @@ local function initPlayerDeck(player)
             local cardNumber = love.math.random(1, #player.characters)
             table.remove(player.characters, cardNumber)
         end
+
+       
     
 
 end
@@ -552,6 +565,9 @@ function drawPossibleDamageOnEnemyCharacter()
         end
 
             if enemy ~= nil and attacker ~= nil then
+
+                if turnDefenseModifier == nil then turnDefenseModifier = 0 end
+                if turnAttackModifier == nil then turnAttackModifier = 0 end
                 
             local minDamage = math.max(0, (1 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
             local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
@@ -640,10 +656,10 @@ local function moveCharactersToStartingPosition()
     end
 
     for i, currentChar in ipairs(playerTwo.characters) do
-        if     i == 1 then currentChar:move(5, 9)
-        elseif i == 2 then currentChar:move(5, 10)
-        elseif i == 3 then currentChar:move(6, 9)
-        elseif i == 4 then currentChar:move(6, 10)
+        if     i == 1 then currentChar:move(5, 4)
+        elseif i == 2 then currentChar:move(5, 3)
+        elseif i == 3 then currentChar:move(6, 4)
+        elseif i == 4 then currentChar:move(6, 3)
         end
         currentChar.stepPoints = 1
     end
@@ -734,11 +750,44 @@ end
 
 function enableDrawAttack(character, enemy)
 
-    drawAttack = true
-    drawnAttackingCharacter = character
-    drawnEnemyCharacter = enemy
+
+    table.insert(sequenceBufferTable, {
+        name = "drawingAttackAnimation",
+        duration = 0.0,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            attackAnimation:gotoFrame(1)
+            drawAttackAnim = true
+            drawnAttackingCharacter = character
+            drawnEnemyCharacter = enemy
+          
+        end
+    })
+
+    table.insert(sequenceBufferTable, { 
+        name = "drawingAttackDiceAndDamage",
+        duration = 0.2,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            drawAttack = true
+            drawnAttackingCharacter = character
+            drawnEnemyCharacter = enemy
+            
+        end
+    })
+
+   
+
+   
+
+    animTimer = love.timer.getTime()
+    animStop = 0.3
+
     timerStart = love.timer.getTime()
-    timerStop = 3
+    timerStop = 4
+   
+
+    
 
 end
 
@@ -748,6 +797,7 @@ function drawAttackOnBoard()
         local enemy = drawnEnemyCharacter
         local character = drawnAttackingCharacter
         if enemy ~= nil and activePlayer == playerOne then
+
     
             local diceX = 25
             local diceY = height - 100
@@ -985,14 +1035,18 @@ function board:load()
    fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
    local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
    fireBorderAnimation = anim8.newAnimation(g('1-8',1), 0.1)
+
+   attackAnimationImage = love.graphics.newImage('graphics/attackanimationdown.png')
+   local g = anim8.newGrid(64, 128, attackAnimationImage:getWidth(), attackAnimationImage:getHeight())
+   attackAnimation = anim8.newAnimation(g('1-8',1), 0.05)
    
 end
 
 function board:update(dt)
 
-    if drawAttack and love.timer.getTime() - timerStart >= timerStop then
-        drawAttack = false
-    end
+    --if sequenceBufferTable
+
+   
 
     local lightningTimerStop = 1
 
@@ -1006,8 +1060,16 @@ function board:update(dt)
         end
     end
 
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar:update(dt)
+    end
+
+    for _, currentChar in ipairs(inactivePlayer.characters) do
+        currentChar:update(dt)
+    end
+
     fireBorderAnimation:update(dt)
-    
+ 
 
     testBoardForOccupy(activePlayer, inactivePlayer)
     spawnChestIfPlayerIsBehind()
@@ -1030,6 +1092,7 @@ function board:draw()
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
     Cell:drawLightningOnBoard()
+    Character:drawAttackAnimation()
 
 
     -----EVENT RAJZOLÁS

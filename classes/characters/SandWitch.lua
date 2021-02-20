@@ -1,10 +1,14 @@
 local SandWitch = Character:extend("SandWitch")
     function SandWitch:init(parentPlayer)
-        Character.init(self, 11, 3, 1, 8, love.graphics.newImage("/graphics/hillshifthag.png"), 
+        Character.init(self, 11, 3, 1, 8, love.graphics.newImage("/graphics/hillshifthaganim.png"), 
                     love.graphics.newImage("/graphics/hillshifthaghover.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsink.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsinkhover.png"), 
                     parentPlayer, 1, 1, 0, 0, 0, false)
+    end
+
+    function SandWitch:update(dt)
+        self.animation:update(dt)
     end
 
     function SandWitch:spell(targetCell)
