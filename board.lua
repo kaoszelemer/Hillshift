@@ -656,10 +656,10 @@ local function moveCharactersToStartingPosition()
     end
 
     for i, currentChar in ipairs(playerTwo.characters) do
-        if     i == 1 then currentChar:move(5, 4)
-        elseif i == 2 then currentChar:move(5, 3)
-        elseif i == 3 then currentChar:move(6, 4)
-        elseif i == 4 then currentChar:move(6, 3)
+        if     i == 1 then currentChar:move(5, 9)
+        elseif i == 2 then currentChar:move(5, 10)
+        elseif i == 3 then currentChar:move(6, 9)
+        elseif i == 4 then currentChar:move(6, 10)
         end
         currentChar.stepPoints = 1
     end
@@ -757,9 +757,10 @@ function enableDrawAttack(character, enemy)
         sequenceTime = love.timer.getTime(),
         action = function()
             attackAnimation:gotoFrame(1)
-            drawAttackAnim = true
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
+            drawAttackAnim = true
+            
           
         end
     })
@@ -769,9 +770,9 @@ function enableDrawAttack(character, enemy)
         duration = 0.2,
         sequenceTime = love.timer.getTime(),
         action = function()
-            drawAttack = true
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
+            drawAttackAnim = true
             
         end
     })
@@ -781,7 +782,7 @@ function enableDrawAttack(character, enemy)
    
 
     animTimer = love.timer.getTime()
-    animStop = 0.3
+    animStop = 0.8
 
     timerStart = love.timer.getTime()
     timerStop = 4
@@ -1038,7 +1039,7 @@ function board:load()
 
    attackAnimationImage = love.graphics.newImage('graphics/attackanimationdown.png')
    local g = anim8.newGrid(64, 128, attackAnimationImage:getWidth(), attackAnimationImage:getHeight())
-   attackAnimation = anim8.newAnimation(g('1-8',1), 0.05)
+   attackAnimation = anim8.newAnimation(g('1-8',1), 0.1)
    
 end
 

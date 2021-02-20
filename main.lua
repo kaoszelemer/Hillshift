@@ -529,15 +529,15 @@ function loadCharacterAnim()
 
     for _, currentChar in ipairs(playerOne.characters) do
         print("loading character animation for "..currentChar.name)
-        currentChar.animImage = currentChar.image
-        local g = anim8.newGrid(64, 64, currentChar.image:getWidth(), currentChar.image:getHeight())
+        currentChar.animImage = currentChar.idleAnimImage
+        local g = anim8.newGrid(64, 64, currentChar.idleAnimImage:getWidth(), currentChar.idleAnimImage:getHeight())
         currentChar.animation = anim8.newAnimation(g('1-4', 1, '3-2', 1), 0.2)
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
         print("loading character animation for "..currentChar.name)
-        currentChar.animImage = currentChar.image
-        local g = anim8.newGrid(64, 64, currentChar.image:getWidth(), currentChar.image:getHeight())
+        currentChar.animImage = currentChar.idleAnimImage
+        local g = anim8.newGrid(64, 64, currentChar.idleAnimImage:getWidth(), currentChar.idleAnimImage:getHeight())
         currentChar.animation = anim8.newAnimation(g('1-4', 1, '3-2', 1), 0.2)
     end
 

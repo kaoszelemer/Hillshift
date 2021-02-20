@@ -1,11 +1,12 @@
 local Character = class("Character")
 
-function Character:init(baseHP, baseDefense, baseAttack, id, image, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
+function Character:init(baseHP, baseDefense, baseAttack, id, image, idleAnimImage, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
     self.baseHP = baseHP
     self.baseDefense = baseDefense
     self.baseAttack = baseAttack
     self.id = id
     self.image = image
+    self.idleAnimImage = idleAnimImage
     self.imageHover = imageHover
     self.sinkImage = sinkImage
     self.sinkImageHover = sinkImageHover
@@ -59,7 +60,7 @@ function Character:draw()
     else   love.graphics.draw(self.image, x, y)
     end ]]
     
-    self.animation:draw(self.image, x,y)
+    self.animation:draw(self.idleAnimImage, x,y)
     
     if gameState.state == gameState.states.selectCharacterAction then
         local x = selectedChar.x * tileW + offsetX
@@ -151,42 +152,43 @@ function Character:drawAttackAnimation()
             end
 
             if self.drawAttackAnimBottom then
-                attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y + tileH + offsetY) + tileH * 2)
+                print(drawnAttackingCharacter.y)
+                attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y * tileH + offsetY) + tileH)
                 self.drawAttackAnimBottom = false
             end
 
             if self.drawAttackAnimTop then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + tileW / 2, (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY), math.pi, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimTop = false
             end
 
             if self.drawAttackAnimLeft then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi / 2, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY) + (tileH / 2), math.pi / 2, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimLeft = false
             end
 
             if self.drawAttackAnimRight then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi * 1.5, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y * tileH + offsetY) + (tileH / 2), math.pi * 1.5, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimRight = false
             end
 
             if self.drawAttackAnimTopRight then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi * 1.25, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y * tileH + offsetY), math.pi * 1.25, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimTopRight = false
             end
 
             if self.drawAttackAnimTopLeft then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH + tileH / 2), math.pi * 0.75, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX), (drawnAttackingCharacter.y * tileH + offsetY), math.pi * 0.75, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimTopLeft = false
             end
 
             if self.drawAttackAnimBottomLeft then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y + tileH + offsetY) + (tileH * 2), math.pi * 0.25, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY) + (tileH), math.pi * 0.25, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimBottomLeft = false
             end
 
             if self.drawAttackAnimBottomRight then
-                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW), (drawnAttackingCharacter.y + tileH + offsetY) + (tileH * 2), math.pi * 1.75, 1, 1, tileW / 2, tileH / 2)
+                attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW), (drawnAttackingCharacter.y * tileH + offsetY) + (tileH), math.pi * 1.75, 1, 1, tileW / 2, tileH / 2)
                 self.drawAttackAnimBottomRight = false
             end
 

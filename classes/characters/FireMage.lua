@@ -1,6 +1,7 @@
 local FireMage = Character:extend("FireMage")
     function FireMage:init(parentPlayer)
-        Character.init(self, 12, 2, 3, 6, love.graphics.newImage("/graphics/firemageanim.png"), 
+        Character.init(self, 12, 2, 3, 6, love.graphics.newImage("/graphics/firemage.png"), 
+                    love.graphics.newImage("/graphics/druidanim.png"),
                     love.graphics.newImage("/graphics/firemagehover.png"), 
                     love.graphics.newImage("/graphics/firemagesink.png"), 
                     love.graphics.newImage("/graphics/firemagesinkhover.png"), 
