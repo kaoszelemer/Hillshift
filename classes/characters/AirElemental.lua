@@ -203,12 +203,13 @@ function AirElemental:spell(targetCell, tcx, tcy)
                             self:blowFire(targetCell, tcx, tcy)
                             self:blowSand(targetCell, tcx, tcy)
                             self:clearPoison(targetCell, tcx, tcy)
-                            self.actionPoints = self.actionPoints - 1
+                            
                         end
                     end
                 end
             end
         end
+        self.actionPoints = self.actionPoints - 1
         gameState:changeState(gameState.states.selectCharacter)
     end
    
