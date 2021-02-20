@@ -681,7 +681,7 @@ local function drawRectanglesIfHoveredOrOccupied()
         love.graphics.setColor(charColor)
         love.graphics.setLineWidth(1)
         end
-
+        
         if boardGrid[i][j].isOccupied == true and boardGrid[i][j].occupiedBy and boardGrid[i][j].occupiedBy.parentPlayer == activePlayer then
             love.graphics.setLineWidth(3)
             love.graphics.setColor(charColor)

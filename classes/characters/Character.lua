@@ -426,21 +426,28 @@ function Character:move(cx, cy, oldx, oldy)
             if oldy == nil then oldy = 1 end
             self.x = oldx
             self.y = oldy
-            flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
-            
         
-           
-            
-            if self.x >= 10 then self.x = 10 end
-            if self.x <= 0 then self.x = 1 end
-            if self.y >= 10 then self.y = 10 end
-            if self.y <= 0 then self.y = 1 end
-           
-            boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
-            boardGrid[cx][cy].isOccupied = true
-            boardGrid[cx][cy].occupiedBy = self
-            self.stepPoints = self.stepPoints - 1
+            flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
+        
+            table.insert(sequenceBufferTable, {
+                name = "occupyingCell",
+                duration = 0.4,
+                sequenceTime = love.timer.getTime(),
+                action = function()
 
+            
+                    if self.x >= 10 then self.x = 10 end
+                    if self.x <= 0 then self.x = 1 end
+                    if self.y >= 10 then self.y = 10 end
+                    if self.y <= 0 then self.y = 1 end
+                
+                    boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
+                    boardGrid[cx][cy].isOccupied = true
+                    boardGrid[cx][cy].occupiedBy = self
+                end})
+
+                    self.stepPoints = self.stepPoints - 1
+               
     end
    
 end
