@@ -19,7 +19,6 @@ function WaterHag:drawSpellAnimation()
 
 
     if self.drawSpellAnim then
-        print("valami")
         if love.timer.getTime() - self.spellTime <= duration then
             if self.y - 1 > 0 then 
                 waterHagSpellAnimation:draw(waterHagSpellAnimationImage, ((self.tcx) * tileW + offsetX) + tileW / 4, ((self.tcy)* tileH + offsetY) + tileH / 4)

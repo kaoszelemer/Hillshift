@@ -117,7 +117,6 @@ function Character:drawHealthBar()
 end
 
 function Character:drawAttackAnimation()
-
     if drawAttackAnim then 
 
             if drawnAttackingCharacter.x == drawnEnemyCharacter.x and drawnAttackingCharacter.y + 1 == drawnEnemyCharacter.y  then
@@ -153,7 +152,6 @@ function Character:drawAttackAnimation()
             end
 
             if self.drawAttackAnimBottom then
-                print(drawnAttackingCharacter.y)
                 attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y * tileH + offsetY) + tileH)
                 self.drawAttackAnimBottom = false
             end
@@ -474,6 +472,7 @@ function Character:attack(enemy)
         sequenceTime = love.timer.getTime(),
         action = function()
             if gameState.state == gameState.states.selectAttackTargetCharacter and self.actionPoints ~= 0 then
+                enableDrawAttack(self, enemy)
                 local dr = getDiceRoll()
                 self.diceRoll = dr
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
@@ -496,7 +495,7 @@ function Character:attack(enemy)
 
                 enemy.baseHP = enemy.baseHP - damage
                 if enemy.baseHP <= 0 then enemy:kill() end
-                enableDrawAttack(self, enemy)
+                
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
             end

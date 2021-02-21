@@ -647,10 +647,10 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 1)
-        elseif i == 2 then currentChar:move(5, 2)
-        elseif i == 3 then currentChar:move(6, 1)
-        elseif i == 4 then currentChar:move(6, 2)
+        if     i == 1 then currentChar:move(5, 5)
+        elseif i == 2 then currentChar:move(5, 6)
+        elseif i == 3 then currentChar:move(6, 5)
+        elseif i == 4 then currentChar:move(6, 6)
         end
         currentChar.stepPoints = 1
     end
@@ -772,7 +772,7 @@ function enableDrawAttack(character, enemy)
         action = function()
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
-            drawAttackAnim = true
+            drawAttack = true
             
         end
     })
@@ -1127,6 +1127,7 @@ function board:draw()
     Character:drawHealthBar()
     drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
+    Character:drawAttackAnimation()
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
