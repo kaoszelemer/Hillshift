@@ -255,7 +255,7 @@ function endTurn()
             if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
                 boardGrid[x][y].isPoisoned = false
                 boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 1
-                boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 3
+                boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 1
             end
 
             if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then

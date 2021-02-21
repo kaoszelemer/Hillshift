@@ -587,6 +587,7 @@ end
 local function initBoardgrid()
     for x = 1, maxRow do boardGrid[x] = {}
         for y = 1, maxCol do 
+            
             --start mezők beállítása  
             if      x == 5 and y == 1 or x == 5 and y == 2 or
                     x == 6 and y == 1 or x == 6 and y == 2 or
@@ -609,6 +610,7 @@ local function initBoardgrid()
 end
 
 function spawnChestPlayerOne()
+    
     local rndCellX = love.math.random(1, 3) --1 3
     local rndCellY = love.math.random(2, 4) --2 4
 
@@ -647,10 +649,10 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 5)
-        elseif i == 2 then currentChar:move(5, 6)
-        elseif i == 3 then currentChar:move(6, 5)
-        elseif i == 4 then currentChar:move(6, 6)
+        if     i == 1 then currentChar:move(5, 1)
+        elseif i == 2 then currentChar:move(5, 2)
+        elseif i == 3 then currentChar:move(6, 1)
+        elseif i == 4 then currentChar:move(6, 2)
         end
         currentChar.stepPoints = 1
     end
@@ -697,6 +699,7 @@ end
 local function drawBoardGrid()
             for x = 1, 10 do
                 for y = 1, 10 do 
+                    
                     local cell = boardGrid[x][y]
                     local x = cell.x * tileW + offsetX
                     local y = cell.y * tileH  + offsetY
