@@ -73,6 +73,7 @@ function Character:draw()
 end
 
 
+
 function Character:drawHealthBar()
 
     
@@ -297,6 +298,9 @@ function Character:drawValidIcons()
 
 end
 
+function Character:drawSpellAnimation()
+end
+
 
 
 function Character:updateHover(mX, mY)
@@ -421,14 +425,13 @@ function Character:move(cx, cy, oldx, oldy)
             
             local arriveX = self.x
             local arriveY = self.y
-            print(self.x, cx, self.y, cy)
             if oldx == nil then oldx = 1 end
             if oldy == nil then oldy = 1 end
             self.x = oldx
             self.y = oldy
         
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
-        
+            print(self.x, cx)
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
                 duration = 0.4,

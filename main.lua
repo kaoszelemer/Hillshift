@@ -576,7 +576,7 @@ function love.draw()
     board:draw()
     love.graphics.setColor(charColor)
     Item:drawCurrentItem()
-   
+
    
     if drawEndGame then
         love.graphics.draw(endGameImage, boardGrid[1][1].x * tileW + offsetX, boardGrid[1][1].y * tileH + offsetY)

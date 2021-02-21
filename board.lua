@@ -100,7 +100,7 @@ local function initPlayerDeck(player)
     else ]]
 
         -- FULL DECK
-        table.insert(player.characters, GeoGnome(player))
+        --[[ table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
@@ -108,19 +108,19 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, ThunderShaman(player))
         table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player))
+        table.insert(player.characters, WaterHag(player)) ]]
 
         --- ONLY ONE CHARACTER
 
-        --[[ table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player)) ]]
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
 
         --AIR POISON FIRE SAND INTERACTIONS
 
@@ -1003,6 +1003,12 @@ local function spawnChestIfPlayerIsBehind()
 
 end
 
+local function drawSpellAnimationsOnBoard()
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar:drawSpellAnimation()
+    end
+end
+
 function board:load()
 
     playerOne = {
@@ -1040,6 +1046,10 @@ function board:load()
    attackAnimationImage = love.graphics.newImage('graphics/attackanimationdown.png')
    local g = anim8.newGrid(64, 128, attackAnimationImage:getWidth(), attackAnimationImage:getHeight())
    attackAnimation = anim8.newAnimation(g('1-8',1), 0.1)
+
+   fireSpellAnimationImage = love.graphics.newImage('graphics/firemagespellanim.png')
+   local g = anim8.newGrid(32, 32, fireSpellAnimationImage:getWidth(), fireSpellAnimationImage:getHeight())
+   fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.7)
    
 end
 
@@ -1087,13 +1097,14 @@ function board:draw()
     drawCharactersOnBoard(playerTwo)
     Character:drawValidIcons()
     Character:drawHealthBar()
+    drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
     Cell:drawLightningOnBoard()
-    Character:drawAttackAnimation()
+
 
 
     -----EVENT RAJZOLÁS
