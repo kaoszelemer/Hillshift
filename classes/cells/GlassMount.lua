@@ -13,8 +13,12 @@ function GlassMount:init(x, y)
 end
 
 function GlassMount:onEntry(character, ax, ay)
-
-
+   
+    table.insert(sequenceBufferTable, {
+        name = "GlassMountSlide",
+        duration = 0.3,
+        sequenceTime = love.timer.getTime(),
+        action = function()
             if ax > character.x and ay == character.y then
                 if character.x - 1 > 0 then
                     if not boardGrid[character.x - 1][character.y].isOccupied then
@@ -23,6 +27,8 @@ function GlassMount:onEntry(character, ax, ay)
                     end
                 end
             end
+        
+        
             
             if ax < character.x and ay == character.y then
                 if character.x + 1 <= 10 then
@@ -86,6 +92,8 @@ function GlassMount:onEntry(character, ax, ay)
                     end
                 end
             end
+        end
+    })
 
        
      

@@ -112,30 +112,30 @@ local function initPlayerDeck(player)
 
         --- ONLY ONE CHARACTER
 
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-
-        --AIR POISON FIRE SAND INTERACTIONS
-
-        --[[ table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
+        --[[ table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, AirElemental(player)) ]]
+
+        --AIR POISON FIRE SAND INTERACTIONS
+
+        table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player))
 
 
         -- DRUID FIRE ICE
@@ -1050,6 +1050,10 @@ function board:load()
    fireSpellAnimationImage = love.graphics.newImage('graphics/firemagespellanim.png')
    local g = anim8.newGrid(32, 32, fireSpellAnimationImage:getWidth(), fireSpellAnimationImage:getHeight())
    fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.7)
+
+   airElementalSpellAnimationImage = love.graphics.newImage('graphics/airelementalspellanim.png')
+   local g = anim8.newGrid(32, 32, airElementalSpellAnimationImage:getWidth(), airElementalSpellAnimationImage:getHeight())
+   airElementalSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
    
 end
 
