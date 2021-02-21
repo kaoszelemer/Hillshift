@@ -1054,6 +1054,10 @@ function board:load()
    airElementalSpellAnimationImage = love.graphics.newImage('graphics/airelementalspellanim.png')
    local g = anim8.newGrid(32, 32, airElementalSpellAnimationImage:getWidth(), airElementalSpellAnimationImage:getHeight())
    airElementalSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+
+   alchemistSpellAnimationImage = love.graphics.newImage('graphics/alchemistspellanim.png')
+   local g = anim8.newGrid(32, 32, alchemistSpellAnimationImage:getWidth(), alchemistSpellAnimationImage:getHeight())
+   alchemistSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
    
 end
 
