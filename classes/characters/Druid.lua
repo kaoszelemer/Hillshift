@@ -9,6 +9,50 @@ local Druid = Character:extend("Druid")
     end
     function Druid:update(dt)
         self.animation:update(dt)
+        druidSpellAnimation:update(dt)
+    end
+ 
+    function Druid:drawSpellAnimation()
+
+        local duration = 0.5
+    
+    
+        if self.drawSpellTop then
+            if love.timer.getTime() - self.spellTime <= duration then
+                if self.y - 1 > 0 then 
+                    druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x) * tileW + offsetX) + tileW / 4, ((self.y - 1)* tileH + offsetY) + tileH / 4)
+                end
+            end
+        end
+    
+        if self.drawSpellLeft then
+            if love.timer.getTime() - self.spellTime <= duration then
+                    if  self.x - 1 > 0 then 
+                            druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x - 1) * tileW + offsetX) + tileW / 4, ((self.y)* tileH + offsetY) + tileH / 4)
+                    end
+            end
+        end
+    
+    
+    
+        if self.drawSpellRight then
+            if love.timer.getTime() - self.spellTime <= duration then
+                    if self.x + 1 <= 10 then 
+                            druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x + 1) * tileW + offsetX) + tileW / 4, ((self.y)* tileH + offsetY) + tileH / 4)
+                    end
+            end
+        end
+    
+        if self.drawSpellBottom then
+            if love.timer.getTime() - self.spellTime <= duration then
+                    if self.y + 1 <= 10 then 
+                            druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x) * tileW + offsetX) + tileW / 4, ((self.y + 1 )* tileH + offsetY) + tileH / 4)
+                    end
+            end  
+        end
+    
+        
+    
     end
  
 
@@ -37,7 +81,8 @@ local Druid = Character:extend("Druid")
 
 
             if self.y - 1 > 0 then
-
+                self.drawSpellTop = true
+                self.spellTime = love.timer.getTime()
                 if boardGrid[self.x][self.y - 1].isOnFire == true then  burnFirstCell = true end
                 if boardGrid[self.x][self.y - 1].isPoisoned == true then poisonFirstCell = true end
                 if boardGrid[self.x][self.y - 1].isFrozen == true then freezeFirstCell = true end
@@ -71,7 +116,8 @@ local Druid = Character:extend("Druid")
             end
             
             if self.y + 1 <= 10 then
-
+                self.drawSpellBottom = true
+                self.spellTime = love.timer.getTime()
                 if boardGrid[self.x][self.y + 1].isOnFire == true then  burnSecondCell = true end
                 if boardGrid[self.x][self.y + 1].isPoisoned == true then poisonSecondCell = true end
                 if boardGrid[self.x][self.y + 1].isFrozen == true then freezeSecondCell = true end
@@ -107,7 +153,8 @@ local Druid = Character:extend("Druid")
             end
 
             if self.x - 1 > 0 then
-
+                self.drawSpellLeft = true
+                self.spellTime = love.timer.getTime()
                 if boardGrid[self.x - 1][self.y].isOnFire == true then  burnThirdCell = true end
                 if boardGrid[self.x - 1][self.y].isPoisoned == true then poisonThirdCell = true end
                 if boardGrid[self.x - 1][self.y].isFrozen == true then freezeThirdCell = true end
@@ -142,7 +189,8 @@ local Druid = Character:extend("Druid")
             end
 
             if self.x + 1 <= 10 then
-
+                self.drawSpellRight = true
+                self.spellTime = love.timer.getTime()
                 if boardGrid[self.x + 1][self.y].isOnFire == true then  burnFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isPoisoned == true then poisonFourthCell = true end
                 if boardGrid[self.x + 1][self.y].isFrozen == true then freezeFourthCell = true end
@@ -171,6 +219,8 @@ local Druid = Character:extend("Druid")
                     end
             end
         })
+
+        
 
     
             
