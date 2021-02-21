@@ -10,14 +10,39 @@ function WaterHag:init(parentPlayer)
 end
 function WaterHag:update(dt)
     self.animation:update(dt)
+    waterHagSpellAnimation:update(dt)
 end
+
+function WaterHag:drawSpellAnimation()
+
+    local duration = 0.5
+
+
+    if self.drawSpellAnim then
+        print("valami")
+        if love.timer.getTime() - self.spellTime <= duration then
+            if self.y - 1 > 0 then 
+                waterHagSpellAnimation:draw(waterHagSpellAnimationImage, ((self.tcx) * tileW + offsetX) + tileW / 4, ((self.tcy)* tileH + offsetY) + tileH / 4)
+            end
+        end
+    end
+
+end
+
 
 function WaterHag:spell(targetCell)
 
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
             or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
-            or (targetCell.y == self.y and targetCell.x == self.x) then   
+            or (targetCell.y == self.y and targetCell.x == self.x) then
+
+                self.tcx = targetCell.x
+                self.tcy = targetCell.y
+                self.drawSpellAnim = true
+                self.spellTime = love.timer.getTime()
+
+
                 table.insert(sequenceBufferTable, {
                     name = "WaterHagSpell",
                     duration = 0.2,

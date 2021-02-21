@@ -1049,27 +1049,35 @@ function board:load()
 
    fireSpellAnimationImage = love.graphics.newImage('graphics/firemagespellanim.png')
    local g = anim8.newGrid(32, 32, fireSpellAnimationImage:getWidth(), fireSpellAnimationImage:getHeight())
-   fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.7)
+   fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.3)
 
    airElementalSpellAnimationImage = love.graphics.newImage('graphics/airelementalspellanim.png')
    local g = anim8.newGrid(32, 32, airElementalSpellAnimationImage:getWidth(), airElementalSpellAnimationImage:getHeight())
-   airElementalSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+   airElementalSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
 
    alchemistSpellAnimationImage = love.graphics.newImage('graphics/alchemistspellanim.png')
    local g = anim8.newGrid(32, 32, alchemistSpellAnimationImage:getWidth(), alchemistSpellAnimationImage:getHeight())
-   alchemistSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+   alchemistSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
 
    druidSpellAnimationImage = love.graphics.newImage('graphics/druidspellanim.png')
    local g = anim8.newGrid(32, 32, druidSpellAnimationImage:getWidth(), druidSpellAnimationImage:getHeight())
-   druidSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+   druidSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
 
    iceWizardSpellAnimationImage = love.graphics.newImage('graphics/icewizardspellanim.png')
    local g = anim8.newGrid(32, 32, iceWizardSpellAnimationImage:getWidth(), iceWizardSpellAnimationImage:getHeight())
-   iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+   iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
 
    sandWitchSpellAnimationImage = love.graphics.newImage('graphics/sandwitchspellanim.png')
    local g = anim8.newGrid(32, 32, sandWitchSpellAnimationImage:getWidth(), sandWitchSpellAnimationImage:getHeight())
-   sandWitchSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+   sandWitchSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   waterHagSpellAnimationImage = love.graphics.newImage('graphics/waterwitchspellanim.png')
+   local g = anim8.newGrid(32, 32, waterHagSpellAnimationImage:getWidth(), waterHagSpellAnimationImage:getHeight())
+   waterHagSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   geoGnomeSpellAnimationImage = love.graphics.newImage('graphics/geognomespellanim.png')
+   local g = anim8.newGrid(32, 32, geoGnomeSpellAnimationImage:getWidth(), geoGnomeSpellAnimationImage:getHeight())
+   geoGnomeSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
    
 end
 

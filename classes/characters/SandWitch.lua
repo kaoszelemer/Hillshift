@@ -10,6 +10,7 @@ local SandWitch = Character:extend("SandWitch")
 
     function SandWitch:update(dt)
         self.animation:update(dt)
+        sandWitchSpellAnimation:update(dt)
     end
 
 function SandWitch:drawSpellAnimation()
