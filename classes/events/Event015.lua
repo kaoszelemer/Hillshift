@@ -28,12 +28,20 @@ end
 function Event015:eventFunction()
 
     for x = 1, (love.math.random(1, 100)) do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            if not boardGrid[rndCellX][rndCellY].isPoisoned then 
-                boardGrid[rndCellX][rndCellY].isPoisoned = true
-                boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
+        table.insert(sequenceBufferTable, {
+            name = "AlchemistryEvent",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                if not boardGrid[rndCellX][rndCellY].isPoisoned then 
+                    boardGrid[rndCellX][rndCellY].isPoisoned = true
+                    boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
+                end
             end
+        })
     end
 
 

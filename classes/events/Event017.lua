@@ -29,9 +29,17 @@ function Event017:eventFunction()
 
 
     for x = 1, (love.math.random(1, 100)) do
-        rndCellX = love.math.random(1, 10)
-        rndCellY = love.math.random(1, 10)
-        boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
+        table.insert(sequenceBufferTable, {
+            name = "MushroomDNAEvent",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
+            end
+        })
 end
 
 

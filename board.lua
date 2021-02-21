@@ -1049,7 +1049,7 @@ function board:load()
 
    fireSpellAnimationImage = love.graphics.newImage('graphics/firemagespellanim.png')
    local g = anim8.newGrid(32, 32, fireSpellAnimationImage:getWidth(), fireSpellAnimationImage:getHeight())
-   fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.3)
+   fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.1)
 
    airElementalSpellAnimationImage = love.graphics.newImage('graphics/airelementalspellanim.png')
    local g = anim8.newGrid(32, 32, airElementalSpellAnimationImage:getWidth(), airElementalSpellAnimationImage:getHeight())

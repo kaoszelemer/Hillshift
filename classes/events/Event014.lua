@@ -29,21 +29,36 @@ function Event014:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        if not boardGrid[rndCellX][rndCellY].isOccupied then
-            currentChar.stepPoints = currentChar.stepPoints + 1
-            currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
-        end
+        table.insert(sequenceBufferTable, {
+            name = "TelePortEventActivePlayer",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                local rndCellX = love.math.random(1,10)
+                local rndCellY = love.math.random(1,10)
+                if not boardGrid[rndCellX][rndCellY].isOccupied then
+                    currentChar.stepPoints = currentChar.stepPoints + 1
+                    currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
+                end
+            end
+        })
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        local rndCellX = love.math.random(1,10)
-        local rndCellY = love.math.random(1,10)
-        if not boardGrid[rndCellX][rndCellY].isOccupied then
-                currentChar.stepPoints = currentChar.stepPoints + 1
-                currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
-        end
+        table.insert(sequenceBufferTable, {
+            name = "TelePortEventinActivePlayer",
+            duration = 1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                local rndCellX = love.math.random(1,10)
+                local rndCellY = love.math.random(1,10)
+                if not boardGrid[rndCellX][rndCellY].isOccupied then
+                        currentChar.stepPoints = currentChar.stepPoints + 1
+                        currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
+                end
+            end
+        })
     end
 
 

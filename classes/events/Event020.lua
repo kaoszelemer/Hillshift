@@ -29,7 +29,15 @@ function Event020:eventFunction()
 
     for x = 1, 10 do
         for y = 1,10 do
-            if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Ice(x, y) end
+            table.insert(sequenceBufferTable, {
+                name = "DesertificationEvent",
+                duration = 0.1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+            
+                    if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Ice(x, y) end
+                end
+            })
         end
     end
     
