@@ -124,7 +124,7 @@ local function initPlayerDeck(player)
 
         --AIR POISON FIRE SAND INTERACTIONS
 
-        table.insert(player.characters, SandWitch(player))
+        --[[ table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, FireMage(player))
@@ -135,13 +135,13 @@ local function initPlayerDeck(player)
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player)) ]]
 
 
         -- DRUID FIRE ICE
-       --[[  table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
@@ -149,7 +149,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player)) ]]
+        table.insert(player.characters, IceWizard(player))
 
         while #player.characters ~= 4 do     
             local cardNumber = love.math.random(1, #player.characters)
