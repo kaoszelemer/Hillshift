@@ -29,11 +29,17 @@ function Event032:eventFunction()
 
 
     for x = 1, 10  do
-
+        table.insert(sequenceBufferTable, {
+        name = "littlefloodingevent",
+        duration = 0.3,
+        sequenceTime = love.timer.getTime(),
+        action = function()
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
+        end
+    })
     end
 
 

@@ -118,7 +118,7 @@ function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)
             local spreadX = 0
             local spreadY = 0
                                             
-            if boardGrid[self.x + tcx][self.y + tcy].isOccupied then
+            if self.x + tcx > 0 and self.x + tcx <= 10 and self.y + tcy > 0 and self.y + tcy <= 10 and boardGrid[self.x + tcx][self.y + tcy].isOccupied then
 
                 if self.x == boardGrid[self.x + tcx][self.y + tcy].occupiedBy.x then
                     spreadX = 0
@@ -160,7 +160,7 @@ function AirElemental:clearPoison(targetCell, tcx, tcy)
         duration = 0.1,
         sequenceTime = love.timer.getTime(),
         action = function()
-            if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + tcy <= 10 or self.y + tcy > 0) then
+            if (self.x + tcx <= 10 and self.x + tcx > 0) and (self.y + tcy <= 10 and self.y + tcy > 0) then
                 if boardGrid[self.x + tcx][self.y + tcy].isPoisoned then boardGrid[self.x + tcx][self.y + tcy].isPoisoned = false end
             end
         end
@@ -180,25 +180,27 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
             local fy = 0
             
             if chanceOfBurning > 0.2 then 
+                if (self.x + fx + tcx <= 10 and self.x + fx + tcx > 0) and (self.y + fy + tcy <= 10 and self.y + fy + tcy > 0) then
 
-                if self.x == boardGrid[self.x + tcx][self.y + tcy].x then
-                    fx = 0
-                end
+                    if self.x == boardGrid[self.x + tcx][self.y + tcy].x then
+                        fx = 0
+                    end
 
-                if self.x > boardGrid[self.x + tcx][self.y + tcy].x then
-                    fx = -1
-                end
+                    if self.x > boardGrid[self.x + tcx][self.y + tcy].x then
+                        fx = -1
+                    end
 
-                if self.x < boardGrid[self.x + tcx][self.y + tcy].x then
-                    fx = 1
-                end
+                    if self.x < boardGrid[self.x + tcx][self.y + tcy].x then
+                        fx = 1
+                    end
 
-                if self.y > boardGrid[self.x + tcx][self.y + tcy].y then
-                    fy = -1
-                end
+                    if self.y > boardGrid[self.x + tcx][self.y + tcy].y then
+                        fy = -1
+                    end
 
-                if self.y < boardGrid[self.x + tcx][self.y + tcy].y then
-                    fy = 1
+                    if self.y < boardGrid[self.x + tcx][self.y + tcy].y then
+                        fy = 1
+                    end
                 end
             end
 
@@ -239,27 +241,29 @@ function AirElemental:blowSand(targetCell, tcx, tcy)
             local spreadX = 0
             local spreadY = 0
 
-            if self.x == boardGrid[self.x + tcx][self.y + tcy].x then
-                spreadX = 0
-            end
-
-            if self.x > boardGrid[self.x + tcx][self.y + tcy].x then
-                spreadX = -1
-            end
-
-            if self.x < boardGrid[self.x + tcx][self.y + tcy].x then
-                spreadX = 1
-            end
-
-            if self.y > boardGrid[self.x + tcx][self.y + tcy].y then
-                spreadY = -1
-            end
-
-            if self.y < boardGrid[self.x + tcx][self.y + tcy].y then
-                spreadY = 1
-            end
-
             if (self.x + spreadY + tcx <= 10 and self.x + spreadX + tcx > 0) and (self.y + spreadY + tcy <= 10 and self.y + spreadY + tcy > 0) then
+
+
+                if self.x == boardGrid[self.x + tcx][self.y + tcy].x then
+                    spreadX = 0
+                end
+
+                if self.x > boardGrid[self.x + tcx][self.y + tcy].x then
+                    spreadX = -1
+                end
+
+                if self.x < boardGrid[self.x + tcx][self.y + tcy].x then
+                    spreadX = 1
+                end
+
+                if self.y > boardGrid[self.x + tcx][self.y + tcy].y then
+                    spreadY = -1
+                end
+
+                if self.y < boardGrid[self.x + tcx][self.y + tcy].y then
+                    spreadY = 1
+                end
+
 
                 if boardGrid[self.x + tcx][self.y + tcy]:instanceOf(Desert) then 
 
@@ -308,15 +312,16 @@ function AirElemental:spell(targetCell, tcx, tcy)
     if self.actionPoints ~= 0 then
 
         for tcx = -1, 1 do
-            for tcy = -1, 1 do
-                
+           
+            
                 if tcy ~= 0 then
-                    
+                 
                     
                     --if (targetCell.x == self.x and targetCell.y == self.y + tcy) or (targetCell.x == self.x + tcx and targetCell.y == self.y + tcy) then
-                    if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + tcy <= 10 or self.y + tcy > 0) then
+                    if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + 1 <= 10 or self.y - 1 > 0) then
+                        tcy = -1
                         if targetCell.y < self.y then  
- 
+                            
                             self:blowCharacter(targetCell, tcx, tcy)
                             self:blowFire(targetCell, tcx, tcy)
                             self:blowSand(targetCell, tcx, tcy)
@@ -347,9 +352,9 @@ function AirElemental:spell(targetCell, tcx, tcy)
                         end
                             
             
-
+                      
                         if targetCell.y > self.y then
-
+                         tcy = 1
                             self:blowCharacter(targetCell, tcx, tcy)
                             self:blowFire(targetCell, tcx, tcy)
                             self:blowSand(targetCell, tcx, tcy)
@@ -384,10 +389,10 @@ function AirElemental:spell(targetCell, tcx, tcy)
                             
                         end
                     end
-                    
+             
                 end
             end
-        end
+        
         
         self.actionPoints = self.actionPoints - 1
         gameState:changeState(gameState.states.selectCharacter)
