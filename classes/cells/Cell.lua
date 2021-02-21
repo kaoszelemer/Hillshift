@@ -27,9 +27,17 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
 
                     selectedChar:move(selectedChar.x + ox, selectedChar.y + oy, selectedChar.x, selectedChar.y)
                 gameState:changeState(gameState.states.selectCharacter)
-                if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
-                    self:iceSlide(selectedChar)
-                end
+
+                table.insert(sequenceBufferTable, {
+                    name = "glassfactoryevent",
+                    duration = 0.7,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
+                            self:iceSlide(selectedChar)
+                        end
+                     end
+                })
               --[[   if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) == false then
                     selectedChar.actionPoints = selectedChar.actionPoints + 1
                 end ]]
