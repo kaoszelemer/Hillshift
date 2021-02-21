@@ -29,8 +29,15 @@ function Event061:eventFunction()
 
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        boardGrid[currentChar.x][currentChar.y].isPoisoned = true
-        boardGrid[currentChar.x][currentChar.y].poisoningTurn = turnCounter
+        table.insert(sequenceBufferTable, {
+            name = "glassfactoryevent",
+            duration = 0.3,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                boardGrid[currentChar.x][currentChar.y].isPoisoned = true
+                boardGrid[currentChar.x][currentChar.y].poisoningTurn = turnCounter
+            end
+        })
     end
 
 

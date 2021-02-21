@@ -29,8 +29,14 @@ function Event067:eventFunction()
 
     for x = 1, 10 do
         for y = 1, 10 do
-
-            if boardGrid[x][y]:instanceOf(Mount) then boardGrid[x][y] = Field(x, y) end
+            table.insert(sequenceBufferTable, {
+                name = "glassfactoryevent",
+                duration = 0.3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    if boardGrid[x][y]:instanceOf(Mount) then boardGrid[x][y] = Field(x, y) end
+                end
+            })
 
         end
     end

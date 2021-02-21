@@ -30,11 +30,18 @@ function Event046:eventFunction()
 
    for x = 1, 10 do
         for y = 1, 10 do
-            if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = BurntField(x, y) end
-            if boardGrid[x][y]:instanceOf(BurntField) then 
-                boardGrid[x][y].burntFieldTimer = turnCounter 
-                boardGrid[x][y].isBurntField = true
-            end
+            table.insert(sequenceBufferTable, {
+                name = "theBurningevent",
+                duration = 0.3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = BurntField(x, y) end
+                    if boardGrid[x][y]:instanceOf(BurntField) then 
+                        boardGrid[x][y].burntFieldTimer = turnCounter 
+                        boardGrid[x][y].isBurntField = true
+                    end
+                end
+            })
         end
     end
 

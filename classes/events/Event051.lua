@@ -29,8 +29,14 @@ function Event051:eventFunction()
 
    for x = 1, 10 do
         for y = 1, 10 do
-
-            if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Swamp(x, y) end
+            table.insert(sequenceBufferTable, {
+                name = "swampityswampevent",
+                duration = 0.3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Swamp(x, y) end
+                end
+            })
 
         end
     end

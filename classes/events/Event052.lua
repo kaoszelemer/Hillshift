@@ -28,9 +28,16 @@ end
 function Event052:eventFunction()
 
     for x = 1, (love.math.random(1, 40)) do
-        rndCellX = love.math.random(1, 10)
-        rndCellY = love.math.random(1, 10)
-        boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+        table.insert(sequenceBufferTable, {
+            name = "glassfactoryevent",
+            duration = 0.3,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+            end
+        })
     end
 
 
