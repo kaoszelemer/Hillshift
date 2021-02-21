@@ -1062,6 +1062,10 @@ function board:load()
    druidSpellAnimationImage = love.graphics.newImage('graphics/druidspellanim.png')
    local g = anim8.newGrid(32, 32, druidSpellAnimationImage:getWidth(), druidSpellAnimationImage:getHeight())
    druidSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+
+   iceWizardSpellAnimationImage = love.graphics.newImage('graphics/icewizardspellanim.png')
+   local g = anim8.newGrid(32, 32, iceWizardSpellAnimationImage:getWidth(), iceWizardSpellAnimationImage:getHeight())
+   iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
    
 end
 
