@@ -100,7 +100,7 @@ local function initPlayerDeck(player)
     else ]]
 
         -- FULL DECK
-        --[[ table.insert(player.characters, GeoGnome(player))
+        table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
@@ -108,7 +108,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, ThunderShaman(player))
         table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player)) ]]
+        table.insert(player.characters, WaterHag(player))
 
         --- ONLY ONE CHARACTER
 
@@ -139,9 +139,9 @@ local function initPlayerDeck(player)
 
 
         -- DRUID FIRE ICE
+       --[[  table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
@@ -149,7 +149,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, IceWizard(player)) ]]
 
         while #player.characters ~= 4 do     
             local cardNumber = love.math.random(1, #player.characters)
@@ -1066,6 +1066,10 @@ function board:load()
    iceWizardSpellAnimationImage = love.graphics.newImage('graphics/icewizardspellanim.png')
    local g = anim8.newGrid(32, 32, iceWizardSpellAnimationImage:getWidth(), iceWizardSpellAnimationImage:getHeight())
    iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
+
+   sandWitchSpellAnimationImage = love.graphics.newImage('graphics/sandwitchspellanim.png')
+   local g = anim8.newGrid(32, 32, sandWitchSpellAnimationImage:getWidth(), sandWitchSpellAnimationImage:getHeight())
+   sandWitchSpellAnimation = anim8.newAnimation(g('1-4',1), 0.2)
    
 end
 
