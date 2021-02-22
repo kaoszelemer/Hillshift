@@ -33,9 +33,10 @@ fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
 validAttackImage = love.graphics.newImage("graphics/validattack.png")
 validStepImage = love.graphics.newImage("graphics/validstep.png")
 validSpellImage = love.graphics.newImage("graphics/validspell.png")
---Endturn button
+--button images
 endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
 endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicked.png")
+cancelButtonImage = love.graphics.newImage("graphics/cancelbutton.png")
 --Backgrounds
 eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
@@ -1141,8 +1142,10 @@ function board:draw()
     drawBoardGrid()
     drawChests()
     drawEndTurnButton()
+    Cell:drawFireParticles()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
+    Character:drawCancelButton()
     Character:drawValidIcons()
     Character:drawHealthBar()
     drawSpellAnimationsOnBoard()
@@ -1153,6 +1156,7 @@ function board:draw()
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
     Cell:drawLightningOnBoard()
+    
 
 
 

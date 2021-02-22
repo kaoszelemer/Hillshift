@@ -47,13 +47,13 @@ end
     function SandWitch:spell(targetCell)
         if self.actionPoints ~= 0 then
         
-            if targetCell.x == self.x + 1 or targetCell.x == self.x - 1 then
+            if targetCell.y == self.y + 1 or targetCell.y == self.y - 1 then
                 self.actionPoints = self.actionPoints - 1
                 
 
-                if self.x - 1 > 0 then
+                if self.y - 1 > 0 then
                     self.drawSpellLeft = true
-                    self.aSL = {x = self.x, y = self.y, nx = (self.x - 1), ny = (self.y)}
+                    self.aSL = {x = self.x, y = self.y, nx = (self.x), ny = (self.y - 1)}
                     local nx = self.aSL.nx
                     local ny = self.aSL.ny
                     self.spellTime = love.timer.getTime()
@@ -63,18 +63,19 @@ end
                         duration = 0.2,
                         sequenceTime = love.timer.getTime(),
                         action = function()
-
-                            if boardGrid[self.x - 1][self.y]:instanceOf(Mount) then 
-                                boardGrid[self.x - 1][self.y] = Desert(self.x - 1, self.y)
+                            if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then
+                                boardGrid[self.x][self.y - 1] = Swamp(self.x, self.y - 1)
+                            else
+                                boardGrid[self.x][self.y - 1] = Desert(self.x, self.y - 1)
                             end
                         end
                     })
         
                 end
                 
-                if self.x + 1 <= 10 then
+                if self.y + 1 <= 10 then
                     self.drawSpellRight = true
-                    self.aSR = {x = self.x, y = self.y, nx = (self.x + 1), ny = (self.y)}
+                    self.aSR = {x = self.x, y = self.y, nx = (self.x), ny = (self.y + 1)}
                     local nx = self.aSR.nx
                     local ny = self.aSR.ny
                     self.spellTime = love.timer.getTime()
@@ -84,9 +85,10 @@ end
                         duration = 0.4,
                         sequenceTime = love.timer.getTime(),
                         action = function()
-
-                            if boardGrid[self.x + 1][self.y]:instanceOf(Mount) then 
-                                boardGrid[self.x + 1][self.y] = Desert(self.x + 1, self.y)
+                            if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then
+                                boardGrid[self.x][self.y + 1] = Swamp(self.x, self.y + 1)
+                            else
+                                boardGrid[self.x][self.y + 1] = Desert(self.x, self.y + 1)
                             end
                         end
                     })

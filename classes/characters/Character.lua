@@ -28,6 +28,9 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, idleAnimImag
         Swamp = true,
         GlassMount = true,
     }
+
+   
+
 end
 
 function Character:load()
@@ -47,7 +50,7 @@ function Character:update(dt)
     end
 
     attackAnimation:update(dt)
-  
+    
 end
 
 function Character:draw()
@@ -72,7 +75,14 @@ function Character:draw()
 
 end
 
+function Character:drawCancelButton()
+            
+            if gameState.state == gameState.states.selectMoveTargetCell or gameState.state == gameState.states.selectAttackTargetCharacter or gameState.state == gameState.states.selectSpellTargetArea then
+                isCancelButton = true
+                love.graphics.draw(cancelButtonImage, (selectedChar.x * tileW + offsetX) + tileW / 6, (selectedChar.y * tileH + offsetY) + tileH / 6)
+            end
 
+end
 
 function Character:drawHealthBar()
 
@@ -153,41 +163,57 @@ function Character:drawAttackAnimation()
 
             if self.drawAttackAnimBottom then
                 attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y * tileH + offsetY) + tileH)
+                love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimBottom = false
             end
 
             if self.drawAttackAnimTop then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY), math.pi, 1, 1, tileW / 2, tileH / 2)
+                love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimTop = false
             end
 
             if self.drawAttackAnimLeft then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY) + (tileH / 2), math.pi / 2, 1, 1, tileW / 2, tileH / 2)
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimLeft = false
             end
 
             if self.drawAttackAnimRight then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y * tileH + offsetY) + (tileH / 2), math.pi * 1.5, 1, 1, tileW / 2, tileH / 2)
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimRight = false
             end
 
             if self.drawAttackAnimTopRight then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y * tileH + offsetY), math.pi * 1.25, 1, 1, tileW / 2, tileH / 2)
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimTopRight = false
             end
 
             if self.drawAttackAnimTopLeft then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX), (drawnAttackingCharacter.y * tileH + offsetY), math.pi * 0.75, 1, 1, tileW / 2, tileH / 2)
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimTopLeft = false
             end
 
             if self.drawAttackAnimBottomLeft then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY) + (tileH), math.pi * 0.25, 1, 1, tileW / 2, tileH / 2)
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimBottomLeft = false
             end
 
             if self.drawAttackAnimBottomRight then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW), (drawnAttackingCharacter.y * tileH + offsetY) + (tileH), math.pi * 1.75, 1, 1, tileW / 2, tileH / 2)
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                bloodParticleSystem:emit(2000)
                 self.drawAttackAnimBottomRight = false
             end
 
@@ -196,7 +222,82 @@ function Character:drawAttackAnimation()
 
 end
 
+function Character:drawParticles()
+ 
+        if selectedChar and selectedChar.drawParticlesLeft then
+            local x = ((selectedChar.x - 1) * tileW + offsetX) + tileW / 2
+            local y = (selectedChar.y * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+   
 
+        if selectedChar and selectedChar.drawParticlesRight then
+            local x = ((selectedChar.x + 1) * tileW + offsetX) + tileW / 2
+            local y = (selectedChar.y * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+        if selectedChar and selectedChar.drawParticlesTop then
+            local x = ((selectedChar.x) * tileW + offsetX) + tileW / 2
+            local y = ((selectedChar.y - 1) * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+        if selectedChar and selectedChar.drawParticlesBottom then
+            local x = ((selectedChar.x) * tileW + offsetX) + tileW / 2
+            local y = ((selectedChar.y + 1) * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+        if selectedChar and selectedChar.drawParticlesTL then
+            local x = ((selectedChar.x - 1) * tileW + offsetX) + tileW / 2
+            local y = ((selectedChar.y - 1) * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+        if selectedChar and selectedChar.drawParticlesTR then
+            local x = ((selectedChar.x + 1) * tileW + offsetX) + tileW / 2
+            local y = ((selectedChar.y - 1) * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+        if selectedChar and selectedChar.drawParticlesBL then
+            local x = ((selectedChar.x - 1) * tileW + offsetX) + tileW / 2
+            local y = ((selectedChar.y + 1) * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+        if selectedChar and selectedChar.drawParticlesBR then
+            local x = ((selectedChar.x + 1) * tileW + offsetX) + tileW / 2
+            local y = ((selectedChar.y + 1) * tileH + offsetY) + tileH / 2
+            if selectedChar:instanceOf(GeoGnome) then 
+                love.graphics.draw(rockParticleSystem, x, y) 
+                rockParticleSystem:emit(2000)
+            end
+        end
+
+end
 
 function Character:drawValidIcons()
 
@@ -286,8 +387,8 @@ function Character:drawValidIcons()
         end
 
         if self.id == 8 then
-            if self.x + 1 < 11 then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
-            if self.x - 1 > 0 then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
+            if self.y + 1 < 11 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
+            if self.y - 1 > 0 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
         end
         end
 
@@ -338,6 +439,12 @@ end
 
 function Character:click(mX, mY)
 
+    if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) then
+        selectedChar = self
+        selectedChar.isActionMenuDrawn = true
+        gameState:changeState(gameState.states.selectCharacterAction)
+        return
+    end
 
     if selectedChar and selectedChar.parentPlayer ~= self.parentPlayer and gameState.state == gameState.states.selectAttackTargetCharacter then
         if  (self.x + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
@@ -352,30 +459,12 @@ function Character:click(mX, mY)
         end
     end
  
-    if self.parentPlayer == activePlayer and gameState.state ~= gameState.states.selectSpellTargetArea then
+  
 
-        if selectedChar and self ~= selectedChar then
-            selectedChar.isActionMenuDrawn = false
-            selectedChar = nil
-            gameState:changeState(gameState.states.selectCharacter)
-            return
-        end
-
-        if gameState.state == gameState.states.selectCharacterAction then
-            selectedChar:chooseActionMenu(mX, mY)
-            return
-        end
-
-        if gameState.state == gameState.states.selectCharacter then
-            selectedChar = self
-            selectedChar.isActionMenuDrawn = true
-            gameState:changeState(gameState.states.selectCharacterAction)
-            return
-        end
-      
+    if gameState.state == gameState.states.selectCharacterAction and (selectedChar.stepPoints ~= 0 or selectedChar.actionPoints ~= 0) then
+        selectedChar:chooseActionMenu(mX, mY)
+        return
     end
-
-
 
 end
 
@@ -383,26 +472,45 @@ function Character:chooseActionMenu(mx, my)
     local cx = self.x * tileW + offsetX
     local cy = self.y * tileH + offsetY
 
-    if gameState.state == gameState.states.selectCharacterAction then
+    
+
+    if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 and self.stepPoints == 0 then
+        gameState:changeState(gameState.states.selectCharacter)
+    return
+        
+    elseif gameState.state == gameState.states.selectCharacterAction then
         -- BAl FELSO NEGYED - ATTACK STATE
         if  mx > cx and mx < cx + tileW / 2 and  my > cy and my < cy + tileH / 2 and self.actionPoints ~= 0 then
                 gameState:changeState(gameState.states.selectAttackTargetCharacter)
-                return
+
+                    if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
+                        gameState:changeState(gameState.states.selectCharacter)
+                        return
+                    end
+            return   
         end
         -- JOBB FELSÖ NEGYED - STEP STATE                       
         if  mx > cx + tileW / 2 and mx < cx + tileW and my > cy and my < cy + tileH / 2 and self.stepPoints ~= 0 then
+
+               
                 gameState:changeState(gameState.states.selectMoveTargetCell)
                 return
+               
         end
         -- BAL ALSO NEGYED - SPELL STATE
         if   mx > cx and mx < cx + tileW / 2 and my > cy + (tileH / 2) and my < cy + tileH and self.actionPoints ~= 0 then
                 gameState:changeState(gameState.states.selectSpellTargetArea)
-                return
+             
+
+                    if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
+                    gameState:changeState(gameState.states.selectCharacter)
+                    end
+                    return
         end
-    else    
-                gameState:changeState(gameState.states.selectCharacter)
-                return
-                
+  
+    end
+    if mx ~= cx and my ~= cy then
+        gameState:changeState(gameState.states.selectCharacter)
     end
     
     self.drawBattle = false
@@ -499,8 +607,17 @@ function Character:attack(enemy)
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
             end
+            table.insert(sequenceBufferTable, {
+                name = "resetingAttackState",
+                duration = 1.4,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    gameState:changeState(gameState.states.selectCharacter)
+                end
+            })
         end
     })
+   
 end
 
 

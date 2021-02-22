@@ -31,15 +31,26 @@ function GeoGnome:drawSpellAnimation()
 
 end
 
+
 function GeoGnome:spell(targetCell)
 
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
             or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
             or (targetCell.y == self.y and targetCell.x == self.x) then 
+        
                 
+
                 self.tcx = targetCell.x
                 self.tcy = targetCell.y
+
+                if self.tcx < self.x and self.tcy == self.y then self.drawParticlesLeft = true end
+                if self.tcx > self.x and self.tcy == self.y then self.drawParticlesRight = true end
+                if self.tcx == self.x and self.tcy < self.y then self.drawParticlesTop = true end
+                if self.tcx == self.x and self.tcy > self.y then self.drawParticlesBottom = true end
+               
+
+
                 self.drawSpellAnim = true
                 self.spellTime = love.timer.getTime()
 
@@ -49,14 +60,31 @@ function GeoGnome:spell(targetCell)
                     duration = 0.2,
                     sequenceTime = love.timer.getTime(),
                     action = function()
-
+                        
                         boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
+                       
                     end
+                   
                 })
                     gameState:changeState(gameState.states.selectCharacter)
+
+
             end
         
     end
+    table.insert(sequenceBufferTable, {
+            name = "resetParticleDrawing",
+            duration = 1.5,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                self.drawParticlesLeft = false
+                self.drawParticlesRight = false
+                self.drawParticlesTop = false
+                self.drawParticlesBottom = false
+
+            end
+        })
 
 
 end

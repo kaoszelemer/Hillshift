@@ -546,9 +546,57 @@ function loadCharacterAnim()
 
 end
 
+local function loadParticleSystems()
+    rockParticleImage = love.graphics.newImage("graphics/rockparticle.png")
+    rockParticleSystem = love.graphics.newParticleSystem(rockParticleImage, 8)
+    rockParticleSystem:setParticleLifetime(1, 1)
+    rockParticleSystem:setEmissionRate(32)
+    rockParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    rockParticleSystem:setSizes(1, 2, 3)
+    rockParticleSystem:setSizeVariation(1)
+    rockParticleSystem:setSpeed(50,60)
+    rockParticleSystem:setSpread(6)
+    rockParticleSystem:setRotation(1, 2)
+
+    fireParticleImage = love.graphics.newImage("graphics/fireparticle.png")
+    fireParticleSystem = love.graphics.newParticleSystem(fireParticleImage, 8)
+    fireParticleSystem:setParticleLifetime(0.4, 0.6)
+    fireParticleSystem:setEmissionRate(1)
+    fireParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    fireParticleSystem:setSizes(1, 2, 3)
+    fireParticleSystem:setSizeVariation(1)
+    fireParticleSystem:setSpeed(10,20)
+    fireParticleSystem:setSpread(6)
+    fireParticleSystem:setRotation(1, 2)
+
+    bloodParticleImage = love.graphics.newImage("graphics/bloodparticle.png")
+    bloodParticleSystem = love.graphics.newParticleSystem(bloodParticleImage, 8)
+    bloodParticleSystem:setParticleLifetime(0.6, 0.8)
+    bloodParticleSystem:setEmissionRate(1)
+    bloodParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    bloodParticleSystem:setSizes(1, 2, 3)
+    bloodParticleSystem:setSizeVariation(1)
+    bloodParticleSystem:setSpeed(10,20)
+    bloodParticleSystem:setSpread(6)
+    bloodParticleSystem:setRotation(1, 2)
+end
+
+local function updateParticleSystems(dt)
+    rockParticleSystem:update(dt)
+    fireParticleSystem:update(dt)
+    bloodParticleSystem:update(dt)
+end
+
 function love.load()
-    --board betoltese
+
+    --Particle systems
   
+
+    loadParticleSystems()
+   
+    
+    --board betoltese
+    
     board:load()
     loadCharacterAnim()
     Event:initEventTable()
@@ -562,6 +610,7 @@ function love.load()
 end
 
 function love.update(dt)
+    updateParticleSystems(dt)
     flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
@@ -574,6 +623,7 @@ end
 
 function love.draw()
     board:draw()
+    Character:drawParticles()
     love.graphics.setColor(charColor)
     Item:drawCurrentItem()
 
@@ -632,6 +682,8 @@ function love.mousereleased(x, y, button, istouch, presses)
             
             end
 
+           
+
 
 
 
@@ -659,15 +711,25 @@ function love.mousereleased(x, y, button, istouch, presses)
         end
 
         if Item.drawItemOnScreen and
-        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+                x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+                y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
                 Item:confirmItemPickup()
            end
 
+        if isCancelButton then
+            local sx = selectedChar.x * tileW + offsetX
+            local sy = selectedChar.y * tileW + offsetY
+        
+            if x > sx  and x < (sx + tileW) - tileW / 6 and
+                y > sy and y < (sy + tileW) - tileW /6 then
+                    gameState:changeState(gameState.states.selectCharacter)
+                    isCancelButton = false
+            end
 
+        end
         
 
-    end
+end
 
 function love.mousepressed( x, y, button, istouch, presses )
     if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then

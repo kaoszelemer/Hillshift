@@ -28,16 +28,9 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
                     selectedChar:move(selectedChar.x + ox, selectedChar.y + oy, selectedChar.x, selectedChar.y)
                 gameState:changeState(gameState.states.selectCharacter)
 
-                table.insert(sequenceBufferTable, {
-                    name = "glassfactoryevent",
-                    duration = 0.7,
-                    sequenceTime = love.timer.getTime(),
-                    action = function()
-                        if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) then
-                            self:iceSlide(selectedChar)
-                        end
-                     end
-                })
+               
+                      
+            
               --[[   if boardGrid[selectedChar.x][selectedChar.y]:instanceOf(Ice) == false then
                     selectedChar.actionPoints = selectedChar.actionPoints + 1
                 end ]]
@@ -59,9 +52,9 @@ function Cell:drawLightningOnBoard()
                 love.graphics.setColor(selectedColor)
                 love.graphics.setFont(font)
                 if boardGrid[x][y]:instanceOf(Lake) and boardGrid[x][y].isOccupied then
-                    love.graphics.print("-3", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                    love.graphics.print("-4", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
                 elseif boardGrid[x][y].isOccupied then
-                    love.graphics.print("-1", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                    love.graphics.print("-2", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
                 end
                 love.graphics.setColor(charColor)
                 love.graphics.setFont(statFont)
@@ -72,6 +65,21 @@ function Cell:drawLightningOnBoard()
 
 end
 
+function Cell:drawFireParticles()
+    for x = 1, 10 do
+        for y = 1, 10 do
+            local cell = boardGrid[x][y]
+            if cell.isOnFire then
+                    local x = (cell.x * tileW + offsetX) + tileW / 2
+                    local y = (cell.y * tileH + offsetY) + tileH / 2
+                    love.graphics.draw(fireParticleSystem, x, y)
+                    fireParticleSystem:emit(3)
+            end
+        end
+    end
+
+
+end
 
 function Cell:click()
 
