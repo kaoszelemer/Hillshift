@@ -590,10 +590,10 @@ local function initBoardgrid()
         for y = 1, maxCol do 
             
             --start mezők beállítása  
-            if      x == 5 and y == 1 or x == 5 and y == 2 or
-                    x == 6 and y == 1 or x == 6 and y == 2 or
-                    x == 5 and y == 9 or x == 6 and y == 9 or
-                    x == 5 and y == 10 or x == 6 and y == 10 then 
+            if      x == 5 and y == 2 or x == 5 and y == 3 or
+                    x == 6 and y == 2 or x == 6 and y == 3 or
+                    x == 5 and y == 8 or x == 6 and y == 8 or
+                    x == 5 and y == 9 or x == 6 and y == 9 then 
                     
                     selectedType = 4
             -- egyébként legyen random
@@ -650,19 +650,19 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 1)
-        elseif i == 2 then currentChar:move(5, 2)
-        elseif i == 3 then currentChar:move(6, 1)
-        elseif i == 4 then currentChar:move(6, 2)
+        if     i == 1 then currentChar:move(5, 2)
+        elseif i == 2 then currentChar:move(5, 3)
+        elseif i == 3 then currentChar:move(6, 2)
+        elseif i == 4 then currentChar:move(6, 3)
         end
         currentChar.stepPoints = 1
     end
 
     for i, currentChar in ipairs(playerTwo.characters) do
-        if     i == 1 then currentChar:move(5, 9)
-        elseif i == 2 then currentChar:move(5, 10)
-        elseif i == 3 then currentChar:move(6, 9)
-        elseif i == 4 then currentChar:move(6, 10)
+        if     i == 1 then currentChar:move(5, 8)
+        elseif i == 2 then currentChar:move(5, 9)
+        elseif i == 3 then currentChar:move(6, 8)
+        elseif i == 4 then currentChar:move(6, 9)
         end
         currentChar.stepPoints = 1
     end
