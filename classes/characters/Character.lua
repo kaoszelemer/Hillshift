@@ -423,8 +423,8 @@ function Character:move(cx, cy, oldx, oldy)
             
             local arriveX = self.x
             local arriveY = self.y
-            if oldx == nil then oldx = 1 end
-            if oldy == nil then oldy = 1 end
+            if oldx == nil then oldx = 5 end
+            if oldy == nil then oldy = 5 end
             self.x = oldx
             self.y = oldy
         

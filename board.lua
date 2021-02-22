@@ -709,8 +709,14 @@ local function drawBoardGrid()
                         fireBorderAnimation:draw(fireBorderAnimationImage, x, y)
                     end
                     
-                    if cell.isPoisoned then love.graphics.draw(poisonGridBorder, x, y) end
-                    if cell.isFrozen then love.graphics.draw(frozenGridBorder, x, y) end
+                    if cell.isPoisoned then
+                        poisonBorderAnimation:draw(poisonBorderAnimationImage, x, y) 
+                    end
+
+                    if cell.isFrozen then 
+                        frozenBorderAnimation:draw(frozenBorderAnimationImage, x, y)
+                    end
+
                 end
             end
 
@@ -1041,11 +1047,20 @@ function board:load()
    while chestCounter ~= 2 do
     spawnChestPlayerTwo()
    end
-
+   ---Borders
    fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
    local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
-   fireBorderAnimation = anim8.newAnimation(g('1-8',1), 0.1)
+   fireBorderAnimation = anim8.newAnimation(g('1-8', 1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
 
+   frozenBorderAnimationImage = love.graphics.newImage('graphics/frozenborderanimation.png')
+   local g = anim8.newGrid(64, 64, frozenBorderAnimationImage:getWidth(), frozenBorderAnimationImage:getHeight())
+   frozenBorderAnimation = anim8.newAnimation(g('1-8',1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
+
+   poisonBorderAnimationImage = love.graphics.newImage('graphics/poisonborderanimation.png')
+   local g = anim8.newGrid(64, 64, poisonBorderAnimationImage:getWidth(), poisonBorderAnimationImage:getHeight())
+   poisonBorderAnimation = anim8.newAnimation(g('1-8',1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
+
+   --Spells
    attackAnimationImage = love.graphics.newImage('graphics/attackanimationdown.png')
    local g = anim8.newGrid(64, 128, attackAnimationImage:getWidth(), attackAnimationImage:getHeight())
    attackAnimation = anim8.newAnimation(g('1-8',1), 0.1)
@@ -1111,6 +1126,8 @@ function board:update(dt)
     end
 
     fireBorderAnimation:update(dt)
+    frozenBorderAnimation:update(dt)
+    poisonBorderAnimation:update(dt)
  
 
     testBoardForOccupy(activePlayer, inactivePlayer)
