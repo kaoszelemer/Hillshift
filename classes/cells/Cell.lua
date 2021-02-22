@@ -52,9 +52,9 @@ function Cell:drawLightningOnBoard()
                 love.graphics.setColor(selectedColor)
                 love.graphics.setFont(font)
                 if boardGrid[x][y]:instanceOf(Lake) and boardGrid[x][y].isOccupied then
-                    love.graphics.print("-4", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                    love.graphics.print("-30", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
                 elseif boardGrid[x][y].isOccupied then
-                    love.graphics.print("-2", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                    love.graphics.print("-15", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
                 end
                 love.graphics.setColor(charColor)
                 love.graphics.setFont(statFont)

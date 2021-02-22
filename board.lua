@@ -245,7 +245,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -2 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.print(" -20 HP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
 
@@ -271,7 +271,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1HP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-10HP TURN END", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -409,7 +409,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -2 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.print(" -20 HP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
 
@@ -435,7 +435,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1HP Turn End", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-10HP Turn End", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -612,8 +612,8 @@ end
 
 function spawnChestPlayerOne()
     
-    local rndCellX = love.math.random(1, 3) --1 3
-    local rndCellY = love.math.random(2, 4) --2 4
+    local rndCellX = love.math.random(1, 2) --1 3
+    local rndCellY = love.math.random(1, 4) --2 4
 
         if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
@@ -624,8 +624,8 @@ function spawnChestPlayerOne()
 end
 
 function spawnChestPlayerTwo()
-    local rndCellX = love.math.random(7, 9) --7 9
-    local rndCellY = love.math.random(6, 9) --6 9
+    local rndCellX = love.math.random(9, 10) --7 9
+    local rndCellY = love.math.random(7, 10) --6 9
 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 

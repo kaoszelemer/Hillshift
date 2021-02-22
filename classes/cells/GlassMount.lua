@@ -7,8 +7,8 @@ function GlassMount:init(x, y)
         y, 
         true, 
         love.graphics.newQuad(320, 64, tileW, tileH, tilesetW, tilesetH),
-        1,
-        1,
+        5,
+        5,
      1000)
 end
 
