@@ -13,6 +13,8 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
     self.freezeTurn = 0
     self.burntFieldTimer = 0
     self.drawLightning = 0
+    self.turnAttackModifier = 0
+    self.turnDefenseModifier = 0
 end
 
 
@@ -41,6 +43,31 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
 end
 
 function Cell:iceSlide(selectedChar)
+end
+
+function Cell:spawnParticlesWhenInstanced()
+            for x = 1, 10 do
+                for y = 1, 10 do
+                    local cell = boardGrid[x][y]
+                    local x = ((cell.x) * tileW + offsetX) + tileW / 2
+                    local y = (cell.y * tileH + offsetY) + tileH / 2
+
+                    if cell.isInstanced then
+                        if cell:instanceOf(Mount) then
+                            love.graphics.draw(rockParticleSystem, x, y) 
+                            rockParticleSystem:emit(200)
+                        end
+                        
+                        if cell:instanceOf(Forest) or cell:instanceOf(Field) then
+                            love.graphics.draw(forestFieldParticleSystem, x, y) 
+                            forestFieldParticleSystem:emit(200)
+                        end
+
+                    end
+
+                end
+            end
+
 end
 
 
@@ -114,6 +141,22 @@ function Cell:onEntry(character)
         end
     end
 
+end
+
+function Cell:resetParticleDrawing()
+    table.insert(sequenceBufferTable, {
+        name = "resetParticleDrawing",
+        duration = 1.5,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+
+            for x = 1, 10 do
+                for y = 1, 10 do
+                    boardGrid[x][y].isInstanced = false
+                end
+            end
+        end
+    })
 end
 
 

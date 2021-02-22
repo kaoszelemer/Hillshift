@@ -254,8 +254,6 @@ function endTurn()
 
             if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
                 boardGrid[x][y].isPoisoned = false
-                boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 1
-                boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 1
             end
 
             if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then
@@ -558,6 +556,17 @@ local function loadParticleSystems()
     rockParticleSystem:setSpread(6)
     rockParticleSystem:setRotation(1, 2)
 
+    forestFieldParticleImage = love.graphics.newImage("graphics/forestfieldparticle.png")
+    forestFieldParticleSystem = love.graphics.newParticleSystem(forestFieldParticleImage, 8)
+    forestFieldParticleSystem:setParticleLifetime(1, 1)
+    forestFieldParticleSystem:setEmissionRate(32)
+    forestFieldParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    forestFieldParticleSystem:setSizes(1, 2, 3)
+    forestFieldParticleSystem:setSizeVariation(1)
+    forestFieldParticleSystem:setSpeed(50,60)
+    forestFieldParticleSystem:setSpread(6)
+    forestFieldParticleSystem:setRotation(1, 2)
+
     fireParticleImage = love.graphics.newImage("graphics/fireparticle.png")
     fireParticleSystem = love.graphics.newParticleSystem(fireParticleImage, 8)
     fireParticleSystem:setParticleLifetime(0.4, 0.6)
@@ -585,6 +594,7 @@ local function updateParticleSystems(dt)
     rockParticleSystem:update(dt)
     fireParticleSystem:update(dt)
     bloodParticleSystem:update(dt)
+    forestFieldParticleSystem:update(dt)
 end
 
 function love.load()

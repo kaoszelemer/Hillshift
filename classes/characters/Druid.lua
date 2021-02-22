@@ -94,7 +94,7 @@ local Druid = Character:extend("Druid")
                     action = function()
 
                         boardGrid[self.x][self.y - 1] = Forest(self.x, self.y - 1)
-                
+                        boardGrid[self.x][self.y - 1].isInstanced = true
                       
             
                         if burnFirstCell == true then 
@@ -130,7 +130,7 @@ local Druid = Character:extend("Druid")
                     action = function()
 
                         boardGrid[self.x][self.y + 1] = Forest(self.x, self.y + 1)
-                      
+                        boardGrid[self.x][self.y + 1].isInstanced = true
                
                     
                         if burnSecondCell == true then 
@@ -166,7 +166,7 @@ local Druid = Character:extend("Druid")
                     action = function()
 
                         boardGrid[self.x - 1][self.y] = Forest(self.x - 1, self.y)
-                      
+                        boardGrid[self.x - 1][self.y].isInstanced = true
                
             
                         if burnThirdCell == true then 
@@ -202,7 +202,8 @@ local Druid = Character:extend("Druid")
                     action = function()
 
                          boardGrid[self.x + 1][self.y] = Forest(self.x + 1, self.y)
-               
+                         boardGrid[self.x + 1][self.y].isInstanced = true
+
                     if burnFourthCell == true then 
                         boardGrid[self.x + 1][self.y].isOnFire = true
                         burnFourthCell = false 
@@ -226,7 +227,7 @@ local Druid = Character:extend("Druid")
             
             end
             gameState:changeState(gameState.states.selectCharacter)
-
+            Cell:resetParticleDrawing()
         end
     end
     end

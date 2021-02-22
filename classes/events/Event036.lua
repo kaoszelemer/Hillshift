@@ -39,10 +39,13 @@ function Event036:eventFunction()
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
+
             end
         })
     end
 
+    Cell:resetParticleDrawing()
 
 end
     

@@ -30,14 +30,17 @@ function Event064:eventFunction()
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         table.insert(sequenceBufferTable, {
-            name = "glassfactoryevent",
+            name = "enemyhillshiftingevent",
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
                 boardGrid[currentChar.x][currentChar.y] = Mount(currentChar.x, currentChar.y)
+                boardGrid[currentChar.x][currentChar.y].isInstanced = true
             end
         })
     end
+
+    Cell:resetParticleDrawing()
 
 
 end

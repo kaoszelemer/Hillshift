@@ -259,13 +259,13 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(Mount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Forest) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -277,13 +277,13 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(GlassMount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1AT +1DF", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." AT +"..cell.defenseModifier.." DF", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Desert) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -295,7 +295,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(Swamp) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -397,7 +397,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -1 DF\n -1 AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print(cell.turnDefenseModifier.." DF\n"..cell.turnAttackModifier.." AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
@@ -423,13 +423,13 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(Mount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Forest) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -441,13 +441,13 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(GlassMount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1AT +1DF", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." AT +"..cell.defenseModifier.."DF", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Desert) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -459,7 +459,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(Swamp) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -1141,6 +1141,7 @@ function board:draw()
     love.graphics.draw(hillShiftLogoImage, width / 4 + 128, 10)
     --drawModifier()
     drawBoardGrid()
+   
     drawChests()
     drawEndTurnButton()
     Cell:drawFireParticles()
@@ -1158,7 +1159,7 @@ function board:draw()
     drawAttackOnBoard()
     Cell:drawLightningOnBoard()
     
-
+    Cell:spawnParticlesWhenInstanced()
 
 
     -----EVENT RAJZOLÁS

@@ -35,9 +35,11 @@ function Event065:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
              boardGrid[currentChar.x][currentChar.y] = Forest(currentChar.x, currentChar.y)
+             boardGrid[currentChar.x][currentChar.y].isInstanced = true
             end
         })
     end
+    Cell:resetParticleDrawing()
 
 
 end

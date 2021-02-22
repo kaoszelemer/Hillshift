@@ -111,8 +111,8 @@ function Alchemist:poisonBoardGrid(targetCell)
                                         action = function()
                                                 if self.x + 1 <= 10 and self.y - 1 > 0 then 
                                                         boardGrid[self.x + 1][self.y - 1].isPoisoned = true
-                                                        boardGrid[self.x + 1][self.y - 1].defenseModifier = boardGrid[self.x + 1][self.y - 1].defenseModifier - 1
-                                                        boardGrid[self.x + 1][self.y - 1].attackModifier = boardGrid[self.x + 1][self.y - 1].attackModifier - 1
+                                                        boardGrid[self.x + 1][self.y - 1].defenseModifier = boardGrid[self.x + 1][self.y - 1].defenseModifier - 3
+                                                        boardGrid[self.x + 1][self.y - 1].attackModifier = boardGrid[self.x + 1][self.y - 1].attackModifier - 3
                                                         boardGrid[self.x + 1][self.y - 1].poisoningTurn = turnCounter
                                                 end
                                         end
@@ -125,8 +125,8 @@ function Alchemist:poisonBoardGrid(targetCell)
                                         action = function()
                                                 if self.x + 2 <= 10 and self.y - 2 > 0 then 
                                                         boardGrid[self.x + 2][self.y - 2].isPoisoned = true
-                                                        boardGrid[self.x + 2][self.y - 2].defenseModifier = boardGrid[self.x + 2][self.y - 2].defenseModifier - 1
-                                                        boardGrid[self.x + 2][self.y - 2].attackModifier = boardGrid[self.x + 2][self.y - 2].attackModifier - 1
+                                                        boardGrid[self.x + 2][self.y - 2].defenseModifier = boardGrid[self.x + 2][self.y - 2].defenseModifier - 3
+                                                        boardGrid[self.x + 2][self.y - 2].attackModifier = boardGrid[self.x + 2][self.y - 2].attackModifier - 3
                                                         boardGrid[self.x + 2][self.y - 2].poisoningTurn = turnCounter 
                                                 end
                                         end
@@ -141,8 +141,8 @@ function Alchemist:poisonBoardGrid(targetCell)
                                         action = function()
                                                 if self.x - 1 > 0 and self.y + 1 <= 10 then 
                                                         boardGrid[self.x - 1][self.y + 1].isPoisoned = true 
-                                                        boardGrid[self.x - 1][self.y + 1].defenseModifier = boardGrid[self.x - 1][self.y + 1].defenseModifier - 1
-                                                        boardGrid[self.x - 1][self.y + 1].attackModifier = boardGrid[self.x - 1][self.y + 1].attackModifier - 1
+                                                        boardGrid[self.x - 1][self.y + 1].defenseModifier = boardGrid[self.x - 1][self.y + 1].defenseModifier - 3
+                                                        boardGrid[self.x - 1][self.y + 1].attackModifier = boardGrid[self.x - 1][self.y + 1].attackModifier - 3
 
                                                         boardGrid[self.x - 1][self.y + 1].poisoningTurn = turnCounter
                                                 end
@@ -156,8 +156,8 @@ function Alchemist:poisonBoardGrid(targetCell)
                                         action = function()
                                                 if self.x - 2 > 0 and self.y + 2 <= 10 then 
                                                         boardGrid[self.x - 2][self.y + 2].isPoisoned = true 
-                                                        boardGrid[self.x - 2][self.y + 2].defenseModifier = boardGrid[self.x - 2][self.y + 2].defenseModifier - 1
-                                                        boardGrid[self.x - 2][self.y + 2].attackModifier = boardGrid[self.x - 2][self.y + 2].attackModifier - 1
+                                                        boardGrid[self.x - 2][self.y + 2].defenseModifier = boardGrid[self.x - 2][self.y + 2].defenseModifier - 3
+                                                        boardGrid[self.x - 2][self.y + 2].attackModifier = boardGrid[self.x - 2][self.y + 2].attackModifier - 3
                                                         boardGrid[self.x - 2][self.y + 2].poisoningTurn = turnCounter
                                                 end
                                         end

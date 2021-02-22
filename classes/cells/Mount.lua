@@ -12,4 +12,10 @@ function Mount:init(x, y)
         5)
 end
 
+function Mount:spawnParticlesWhenInstanced()
+
+    
+
+end
+
 return Mount
