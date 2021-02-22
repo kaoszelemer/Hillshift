@@ -1,7 +1,7 @@
 local GeoGnome = Character:extend("GeoGnome")
 
 function GeoGnome:init(parentPlayer)
-    Character.init(self, 14, 3, 1, 1, love.graphics.newImage("/graphics/geognome.png"), 
+    Character.init(self, 110, 4, 19, 1, love.graphics.newImage("/graphics/geognome.png"), 
                 love.graphics.newImage("/graphics/geognomeanim.png"), 
                 love.graphics.newImage("/graphics/geognomehover.png"), 
                 love.graphics.newImage("/graphics/geognomesink.png"), 

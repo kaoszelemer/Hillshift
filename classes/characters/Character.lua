@@ -89,7 +89,7 @@ function Character:drawHealthBar()
     
 
     for _, currentChar in ipairs(activePlayer.characters) do
-            local healthBarMaxWidth = 3
+            local healthBarMaxWidth = 0.3
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
             love.graphics.setColor(charColor)
             love.graphics.rectangle("line", 5 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth + 1, 8)
@@ -106,7 +106,7 @@ function Character:drawHealthBar()
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-            local healthBarMaxWidth = 3
+            local healthBarMaxWidth = 0.3
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
             love.graphics.setColor(charColor)
             love.graphics.rectangle("line", 5 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth + 1, 8)
@@ -585,21 +585,6 @@ function Character:attack(enemy)
                 self.diceRoll = dr
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                 damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
-
-                self.enableDivineDice = false
-
-                if damage == 0 then
-                    self.enableDivineDice = true
-                    self.divineDiceRoll = love.math.random(1, 6)
-                    if self.divineDiceRoll > 3 then
-                        damage = damage + 1
-                    end
-
-                    if self.divineDiceRoll == 6 then
-                        damage = damage + 1
-                    end
-                
-                end
 
                 enemy.baseHP = enemy.baseHP - damage
                 if enemy.baseHP <= 0 then enemy:kill() end

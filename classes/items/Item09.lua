@@ -4,7 +4,7 @@ function Item09:init()
     love.graphics.newImage("graphics/item10image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Oval Shield",
-    "Looks like\n something else\n\n+1DF",
+    "Looks like\n something else\n\n+4DF",
     1,
     0,
     1)
@@ -24,7 +24,7 @@ end
 function Item09:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseDefense = character.baseDefense + 1
+    character.baseDefense = character.baseDefense + 4
 
 end
 

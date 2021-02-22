@@ -4,9 +4,9 @@ function Item02:init()
     love.graphics.newImage("graphics/item02image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Fiery Hauberk",
-    "It's too hot\nat summer\n\n+1DF -2HP",
-    1,
+    "It's too hot\nat summer\n\n+4DF -20HP",
     0,
+    1,
     1)
 end
 
@@ -24,8 +24,8 @@ end
 function Item02:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseDefense = character.baseDefense + 1
-    character.baseHP = character.baseHP - 2
+    character.baseDefense = character.baseDefense + 4
+    character.baseHP = character.baseHP - 20
     if character.baseHP <= 0 then character:kill() end
 
 end

@@ -325,9 +325,9 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            currentChar.baseHP = currentChar.baseHP - 2
+            currentChar.baseHP = currentChar.baseHP - 20
         elseif cell.isBurntField then
-            currentChar.baseHP = currentChar.baseHP - 1
+            currentChar.baseHP = currentChar.baseHP - 10
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
@@ -364,9 +364,9 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            currentChar.baseHP = currentChar.baseHP - 2
+            currentChar.baseHP = currentChar.baseHP - 20
         elseif cell.isBurntField then
-            currentChar.baseHP = currentChar.baseHP - 1
+            currentChar.baseHP = currentChar.baseHP - 10
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end

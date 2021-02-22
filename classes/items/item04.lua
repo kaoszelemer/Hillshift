@@ -4,8 +4,8 @@ function Item04:init()
     love.graphics.newImage("graphics/item04image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Extatic Lance",
-    "Kill with it\n\n+2AT",
-    1,
+    "Kill with it\n\n+3AT",
+    3,
     0,
     1)
 end
@@ -24,7 +24,7 @@ end
 function Item04:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseAttack = character.baseAttack + 2
+    character.baseAttack = character.baseAttack + 3
 
 end
 

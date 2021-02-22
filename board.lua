@@ -321,10 +321,10 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
         love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
 
-        local minHealthBarHeight = 5
+        local minHealthBarHeight = 0.5
         love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
             love.graphics.setColor(charColor)
@@ -334,7 +334,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
             love.graphics.setColor(charColor)
         end
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
@@ -485,10 +485,10 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
         love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
 
-        local minHealthBarHeight = 5
+        local minHealthBarHeight = 0.5
         love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
             love.graphics.setColor(charColor)
@@ -498,7 +498,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
             love.graphics.setColor(charColor)
         end
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
@@ -567,17 +567,17 @@ function drawPossibleDamageOnEnemyCharacter()
 
             if enemy ~= nil and attacker ~= nil then
 
-                if turnDefenseModifier == nil then turnDefenseModifier = 0 end
-                if turnAttackModifier == nil then turnAttackModifier = 0 end
+                if enemy.turnDefenseModifier == nil then turnDefenseModifier = 0 end
+                if enemy.turnAttackModifier == nil then turnAttackModifier = 0 end
                 
             local minDamage = math.max(0, (1 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
             local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 
           
-                love.graphics.setFont(statFont)
-                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4) - 5) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY, 48, 20)
+                love.graphics.setFont(littleFont)
+                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4) - 5) + offsetX, (enemy.y * tileH) + (tileH - 17) + offsetY, 48, 15)
                 love.graphics.setColor(selectedColor)
-                love.graphics.print(minDamage .. " - " .. maxDamage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
+                love.graphics.print(minDamage .. " - " .. maxDamage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH - 17) + offsetY)
                 love.graphics.setFont(statFont)
                 love.graphics.setColor(charColor)
             end
@@ -807,6 +807,7 @@ function drawAttackOnBoard()
     if drawAttack then
         local enemy = drawnEnemyCharacter
         local character = drawnAttackingCharacter
+
         if enemy ~= nil and activePlayer == playerOne then
 
     

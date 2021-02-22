@@ -1,6 +1,6 @@
 local AirElemental = Character:extend("AirElemental")
 function AirElemental:init(parentPlayer)
-    Character.init(self, 12, 3, 2, 4, love.graphics.newImage("/graphics/airelemental.png"), 
+    Character.init(self, 100, 5, 20, 4, love.graphics.newImage("/graphics/airelemental.png"), 
                 love.graphics.newImage("/graphics/airelementalanim.png"), 
                 love.graphics.newImage("/graphics/airelementalhover.png"), 
                 love.graphics.newImage("/graphics/airelementalsink.png"),

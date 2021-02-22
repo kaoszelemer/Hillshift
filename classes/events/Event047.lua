@@ -6,7 +6,7 @@ function Event047:init()
         "Quickness",
         47,
         "... you should finish this ...",
-        "ALL Characters -1HP",
+        "ALL Characters -10HP",
         1
     )
 end
@@ -29,12 +29,12 @@ function Event047:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP - 1
+        currentChar.baseHP = currentChar.baseHP - 10
         if currentChar.baseHP <= 0 then currentChar:kill() end
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP - 1
+        currentChar.baseHP = currentChar.baseHP - 10
         if currentChar.baseHP <= 0 then currentChar:kill() end
     end
 

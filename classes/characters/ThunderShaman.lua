@@ -1,6 +1,6 @@
 local ThunderShaman = Character:extend("ThunderShaman")
 function ThunderShaman:init(parentPlayer)
-    Character.init(self, 10, 4, 2, 7, 
+    Character.init(self, 80, 6, 23, 7, 
     love.graphics.newImage("/graphics/thundershaman.png"),   
     love.graphics.newImage("/graphics/thundershamananim.png"),          
     love.graphics.newImage("/graphics/thundershamanhover.png"),
@@ -32,9 +32,9 @@ function ThunderShaman:spell(targetCell)
                                     boardGrid[self.x][self.y + oY].drawLightning = true
                                     lightningTimer = love.timer.getTime()
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Lake) and boardGrid[self.x][self.y + oY].isOccupied then
-                                        boardGrid[self.x][self.y + oY].occupiedBy.baseHP = boardGrid[self.x][self.y + oY].occupiedBy.baseHP - 4
+                                        boardGrid[self.x][self.y + oY].occupiedBy.baseHP = boardGrid[self.x][self.y + oY].occupiedBy.baseHP - 30
                                     elseif boardGrid[self.x][self.y + oY].isOccupied then
-                                        boardGrid[self.x][self.y + oY].occupiedBy.baseHP = boardGrid[self.x][self.y + oY].occupiedBy.baseHP - 2
+                                        boardGrid[self.x][self.y + oY].occupiedBy.baseHP = boardGrid[self.x][self.y + oY].occupiedBy.baseHP - 15
                                     end
                                     
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Mount) then
@@ -83,9 +83,9 @@ function ThunderShaman:spell(targetCell)
                                 lightningTimer = love.timer.getTime()
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Lake) and boardGrid[self.x + oX][self.y].isOccupied then
                             
-                                    boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 4
+                                    boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 30
                                 elseif boardGrid[self.x + oX][self.y].isOccupied then
-                                    boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 2
+                                    boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 15
                                 end
                 
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Mount) then
