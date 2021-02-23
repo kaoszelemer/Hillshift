@@ -63,6 +63,36 @@ function Cell:spawnParticlesWhenInstanced()
                             forestFieldParticleSystem:emit(200)
                         end
 
+                        if cell:instanceOf(Lake) then
+                            love.graphics.draw(waterParticleSystem, x, y) 
+                            waterParticleSystem:emit(2000)
+                        end
+
+                        if cell:instanceOf(Desert) then
+                            love.graphics.draw(desertParticleSystem, x, y) 
+                            desertParticleSystem:emit(200)
+                        end
+
+                        if cell:instanceOf(Ice) then
+                            love.graphics.draw(iceParticleSystem, x, y) 
+                            desertParticleSystem:emit(200)
+                        end
+
+                        if cell:instanceOf(GlassMount) then
+                            love.graphics.draw(glassParticleSystem, x, y) 
+                            glassParticleSystem:emit(200)
+                        end
+
+                        if cell:instanceOf(MagicForest) then
+                            love.graphics.draw(magicParticleSystem, x + 5, y + 5) 
+                            desertParticleSystem:emit(32000)
+                            love.graphics.draw(magicParticleSystem, x - 5, y - 5) 
+                            desertParticleSystem:emit(200)
+                            love.graphics.draw(magicParticleSystem, x, y) 
+                            desertParticleSystem:emit(200)
+                            desertParticleSystem:emit(200)
+                        end
+
                     end
 
                 end
@@ -146,7 +176,7 @@ end
 function Cell:resetParticleDrawing()
     table.insert(sequenceBufferTable, {
         name = "resetParticleDrawing",
-        duration = 0.75,
+        duration = 1.2,
         sequenceTime = love.timer.getTime(),
         action = function()
 

@@ -51,7 +51,10 @@ function Event048:eventFunction()
             action = function()
                     rndCellX = love.math.random(1, 10)
                     rndCellY = love.math.random(1, 10)
-                    if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
+                    if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then
+                         boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 
+                         boardGrid[rndCellX][rndCellY].isInstanced = true
+                        end
                     if not boardGrid[rndCellX][rndCellY].isFrozen then
                         boardGrid[rndCellX][rndCellY].isFrozen = true
                         boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
@@ -79,6 +82,7 @@ function Event048:eventFunction()
                 end
                 if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
                     boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+                    boardGrid[rndCellX][rndCellY].isInstanced = true
                 end
                 if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) and not boardGrid[rndCellX][rndCellY]:instanceOf(GlassMount) and not boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
                     boardGrid[rndCellX][rndCellY].isOnFire = true 
@@ -89,7 +93,7 @@ function Event048:eventFunction()
 
     end
 
-
+    Cell:resetParticleDrawing()
 
 
 end

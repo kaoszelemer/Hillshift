@@ -45,14 +45,17 @@ function Event018:eventFunction()
                             boardGrid[rndCellX][rndCellY].isBurntField = true
                             boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
                         end
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY) end
+                        if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
+                            boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY) 
+                            boardGrid[rndCellX][rndCellY].isInstanced = true
+                        end
             
                         boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
                 end
             })
         end
 
-
+        Cell:resetParticleDrawing()
 end
     
 

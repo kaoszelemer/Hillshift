@@ -38,10 +38,15 @@ function Event021:eventFunction()
                 local chance = love.math.random()
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
-                if chance < 0.2 and boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = MagicForest(rndCellX, rndCellY) end
+                if chance < 0.2 and boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then
+                     boardGrid[rndCellX][rndCellY] = MagicForest(rndCellX, rndCellY)
+                     boardGrid[rndCellX][rndCellY].isInstanced = true
+                end
             end
         })
     end
+
+    Cell:resetParticleDrawing()
 
 end
     

@@ -38,11 +38,12 @@ function Event032:eventFunction()
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
         end
     })
     end
 
-
+    Cell:resetParticleDrawing()
 
 end
     

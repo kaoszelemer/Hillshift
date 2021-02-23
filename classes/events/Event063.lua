@@ -35,10 +35,12 @@ function Event063:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
              boardGrid[currentChar.x][currentChar.y] = Lake(currentChar.x, currentChar.y)
+             boardGrid[currentChar.x][currentChar.y].isInstanced = true
             end
         })
     end
 
+    Cell:resetParticleDrawing()
 
 end
     

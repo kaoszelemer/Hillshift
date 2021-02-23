@@ -50,13 +50,14 @@ function Event060:eventFunction()
                 end
                 if boardGrid[currentChar.x][currentChar.y]:instanceOf(Desert) then
                     boardGrid[currentChar.x][currentChar.y] = GlassMount(currentChar.x, currentChar.y)
+                    boardGrid[currentChar.x][currentChar.y].isInstanced = true
                 end
             end
         })
 
     end
 
-
+    Cell:resetParticleDrawing()
 end
     
 

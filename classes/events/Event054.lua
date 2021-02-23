@@ -39,11 +39,13 @@ function Event054:eventFunction()
                 boardGrid[currentChar.x][currentChar.y].freezeTurn = turnCounter
                 if boardGrid[currentChar.x][currentChar.y]:instanceOf(Lake) then
                     boardGrid[currentChar.x][currentChar.y] = Ice(currentChar.x, currentChar.y)
+                    boardGrid[currentChar.x][currentChar.y].isInstanced = true
                 end
             end
         })
     end
 
+    Cell:resetParticleDrawing()
 
 end
     

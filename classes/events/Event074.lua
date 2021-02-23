@@ -39,11 +39,16 @@ function Event074:eventFunction()
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
             end
         })
        
     end
+
+    Cell:resetParticleDrawing()
+
 end
     
+
 
 return Event074

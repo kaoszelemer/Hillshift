@@ -216,6 +216,7 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                 
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Desert) then
                         boardGrid[self.x + fx + tcx][self.y + fy + tcy] = GlassMount(self.x + fx + tcx, self.y + fy + tcy) 
+                        boardGrid[self.x + fx + tcx][self.y + fy + tcy].isInstanced = true
                     end
 
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Lake) then
@@ -223,6 +224,7 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                     end
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Ice) then
                         boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Lake(self.x + fx + tcx, self.y + fy + tcy) 
+                        boardGrid[self.x + fx + tcx][self.y + fy + tcy].isInstanced = true
                     end
                 end
 
@@ -273,10 +275,12 @@ function AirElemental:blowSand(targetCell, tcx, tcy)
 
                     if not boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy].isOnFire and not boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy]:instanceOf(Swamp) then 
                         boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy] = Desert(self.x + spreadX + tcx, self.y + spreadY + tcy)
+                        boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy].isInstanced = true
                     end
 
                     if boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy].isOnFire then
                         boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy] = GlassMount(self.x + spreadX + tcx, self.y + spreadY + tcy) 
+                        boardGrid[self.x + spreadX + tcx][self.y + spreadY + tcy].isInstanced = true
                     end
 
                 end
@@ -296,6 +300,7 @@ function AirElemental:blowSand(targetCell, tcx, tcy)
                     
                     self.drawSpellBR = false
                     self.drawSpellBL = false
+                    Cell:resetParticleDrawing()
                 end
             })
 

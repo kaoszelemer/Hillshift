@@ -67,6 +67,7 @@ end
                                 boardGrid[self.x][self.y - 1] = Swamp(self.x, self.y - 1)
                             else
                                 boardGrid[self.x][self.y - 1] = Desert(self.x, self.y - 1)
+                                boardGrid[self.x][self.y - 1].isInstanced = true
                             end
                         end
                     })
@@ -89,6 +90,7 @@ end
                                 boardGrid[self.x][self.y + 1] = Swamp(self.x, self.y + 1)
                             else
                                 boardGrid[self.x][self.y + 1] = Desert(self.x, self.y + 1)
+                                boardGrid[self.x][self.y + 1].isInstanced = true
                             end
                         end
                     })
@@ -108,7 +110,7 @@ end
 
             self.drawSpellLeft = false
             self.drawSpellRight = false
-
+            Cell:resetParticleDrawing()
         end
     })
 

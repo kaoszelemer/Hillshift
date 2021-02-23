@@ -12,7 +12,7 @@ end
 
 function Event:initEventTable()
 
-    table.insert(eventTable, Event067())
+    table.insert(eventTable, Event074())
 --[[     table.insert(eventTable, Event002())
     table.insert(eventTable, Event003())
     table.insert(eventTable, Event004())

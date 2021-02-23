@@ -115,6 +115,7 @@ function FireMage:spell(targetCell)
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Desert) then 
                         boardGrid[self.x - 1][self.y - 1] = GlassMount(self.x - 1, self.y - 1)
+                        boardGrid[self.x - 1][self.y - 1].isInstanced = true
                         boardGrid[self.x - 1][self.y - 1].isOnFire = false
                     end
 
@@ -164,6 +165,7 @@ function FireMage:spell(targetCell)
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
                         boardGrid[self.x + 1][self.y - 1] = GlassMount(self.x + 1, self.y - 1)
+                        boardGrid[self.x + 1][self.y - 1].isInstanced = true
                         boardGrid[self.x + 1][self.y - 1].isOnFire = false
                     end
 
@@ -222,6 +224,7 @@ function FireMage:spell(targetCell)
 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Desert) then 
                         boardGrid[self.x - 1][self.y + 1] = GlassMount(self.x - 1, self.y + 1)
+                        boardGrid[self.x - 1][self.y + 1].isInstanced = true
                         boardGrid[self.x - 1][self.y + 1].isOnFire = false
                     end
 
@@ -271,6 +274,7 @@ function FireMage:spell(targetCell)
 
                     if boardGrid[self.x + 1][self.y + 1]:instanceOf(Desert) then 
                         boardGrid[self.x + 1][self.y + 1] = GlassMount(self.x + 1, self.y + 1)
+                        boardGrid[self.x + 1][self.y + 1].isInstanced = true
                         boardGrid[self.x + 1][self.y + 1].isOnFire = false
                     end
 

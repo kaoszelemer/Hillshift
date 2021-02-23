@@ -39,18 +39,23 @@ function ThunderShaman:spell(targetCell)
                                     
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Mount) then
                                         boardGrid[self.x][self.y + oY].HP = boardGrid[self.x][self.y + oY].HP - 1
-                                        if boardGrid[self.x][self.y + oY].HP <= 0 then boardGrid[self.x][self.y + oY] = Desert(self.x, self.y + oY) end
+                                        if boardGrid[self.x][self.y + oY].HP <= 0 then
+                                             boardGrid[self.x][self.y + oY] = Desert(self.x, self.y + oY) 
+                                             boardGrid[self.x][self.y + oY].isInstanced = true
+                                        end
                                     end
 
 
             
                                     if boardGrid[self.x][self.y + oY].isPoisoned and boardGrid[self.x][self.y + oY].isFrozen then
                                         boardGrid[self.x][self.y + oY] = MagicForest(self.x, self.y + oY)
+                                        boardGrid[self.x][self.y + oY].isInstanced = true
                                         magicForestTimer = turnCounter
                                     end
                                 
                                     if boardGrid[self.x][self.y + oY].isPoisoned and boardGrid[self.x][self.y + oY].isOnFire then
                                         boardGrid[self.x][self.y + oY] = MagicForest(self.x, self.y + oY)
+                                        boardGrid[self.x][self.y + oY].isInstanced = true
                                         magicForestTimer = turnCounter
                                     end
                                     if boardGrid[self.x][self.y + oY].isOccupied and boardGrid[self.x][self.y + oY].occupiedBy.baseHP <= 0 then boardGrid[self.x][self.y + oY].occupiedBy:kill() end
@@ -90,16 +95,21 @@ function ThunderShaman:spell(targetCell)
                 
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Mount) then
                                     boardGrid[self.x + oX][self.y].HP = boardGrid[self.x + oX][self.y].HP - 1
-                                    if boardGrid[self.x + oX][self.y].HP <= 0 then boardGrid[self.x + oX][self.y] = Desert(self.x + oX, self.y) end
+                                    if boardGrid[self.x + oX][self.y].HP <= 0 then
+                                         boardGrid[self.x + oX][self.y] = Desert(self.x + oX, self.y)
+                                         boardGrid[self.x + oX][self.y].isInstanced = true
+                                    end
                                 end
 
                                 if boardGrid[self.x + oX][self.y].isPoisoned and boardGrid[self.x + oX][self.y].isFrozen then
                                     boardGrid[self.x + oX][self.y] = MagicForest(self.x + oX, self.y)
+                                    boardGrid[self.x + oX][self.y].isInstanced = true
                                     magicForestTimer = turnCounter
                                 end
                             
                                 if boardGrid[self.x + oX][self.y].isPoisoned and boardGrid[self.x + oX][self.y].isOnFire then
                                     boardGrid[self.x + oX][self.y] = MagicForest(self.x + oX, self.y)
+                                    boardGrid[self.x + oX][self.y].isInstanced = true
                                     magicForestTimer = turnCounter
                                 end
                                 if boardGrid[self.x + oX][self.y].isOccupied and boardGrid[self.x + oX][self.y].occupiedBy.baseHP <= 0 then boardGrid[self.x + oX][self.y].occupiedBy:kill() end
@@ -114,6 +124,8 @@ function ThunderShaman:spell(targetCell)
         
             gameState:changeState(gameState.states.selectCharacter)
         end
+
+        Cell:resetParticleDrawing()
 
      
 

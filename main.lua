@@ -245,6 +245,7 @@ function endTurn()
 
             if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].HP <= 0 then
                 boardGrid[x][y] = Desert(x, y)
+                boardGrid[x][y].isInstanced = true
             end
 
             if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
@@ -441,23 +442,25 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
         for _, currentChar in ipairs(activePlayer.characters) do
 
             --- Fent lent jobbra balra
-
             if currentChar.x < mX then
                 pointerOnLeftSide = false
                 pointerOnRightSide = true
                 pointerOnTopSide = false
                 pointerOnBottomSide = false
-            elseif currentChar.x  > mX then
+            end
+            if currentChar.x  > mX then
                 pointerOnLeftSide = true
                 pointerOnRightSide = false
                 pointerOnTopSide = false
                 pointerOnBottomSide = false
-            elseif currentChar.y < mY  then
+            end
+            if currentChar.y < mY  then
                 pointerOnTopSide = false
                 pointerOnBottomSide = true
                 pointerOnLeftSide = false
                 pointerOnRightSide = false
-            elseif currentChar.y > mY then
+            end
+            if currentChar.y > mY then
                 pointerOnTopSide = true
                 pointerOnBottomSide = false
                 pointerOnLeftSide = false
@@ -471,17 +474,20 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
                 pointerOnTopRightSide = false
                 pointerOnBottomRightSide = false
                 pointerOnBottomLeftSide = false
-            elseif  mX > currentChar.x and mY < currentChar.y then
+            end
+            if  mX > currentChar.x and mY < currentChar.y then
                 pointerOnTopLeftSide = false
                 pointerOnTopRightSide = true
                 pointerOnBottomRightSide = false
                 pointerOnBottomLeftSide = false
-            elseif  mX < currentChar.x and mY > currentChar.y then
+            end
+            if  mX < currentChar.x and mY > currentChar.y then
                 pointerOnTopLeftSide = false
                 pointerOnTopRightSide = false
                 pointerOnBottomRightSide = false
                 pointerOnBottomLeftSide = true
-            elseif  mX > currentChar.x and mY > currentChar.y then
+            end
+            if  mX > currentChar.x and mY > currentChar.y then
                 pointerOnTopLeftSide = false
                 pointerOnTopRightSide = false
                 pointerOnBottomRightSide = true
@@ -581,14 +587,69 @@ local function loadParticleSystems()
     fireParticleSystem:setSpread(6)
     fireParticleSystem:setRotation(1, 2)
 
+    waterParticleImage = love.graphics.newImage("graphics/waterparticle.png")
+    waterParticleSystem = love.graphics.newParticleSystem(waterParticleImage, 8)
+    waterParticleSystem:setParticleLifetime(1, 1)
+    waterParticleSystem:setEmissionRate(1)
+    waterParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    waterParticleSystem:setSizes(1, 2, 3)
+    waterParticleSystem:setSizeVariation(1)
+    waterParticleSystem:setSpeed(10,20)
+    waterParticleSystem:setSpread(6)
+    waterParticleSystem:setRotation(1, 2)
+
+    desertParticleImage = love.graphics.newImage("graphics/desertparticle.png")
+    desertParticleSystem = love.graphics.newParticleSystem(desertParticleImage, 8)
+    desertParticleSystem:setParticleLifetime(1, 1)
+    desertParticleSystem:setEmissionRate(1)
+    desertParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    desertParticleSystem:setSizes(1, 2, 3)
+    desertParticleSystem:setSizeVariation(1)
+    desertParticleSystem:setSpeed(10,20)
+    desertParticleSystem:setSpread(6)
+    desertParticleSystem:setRotation(1, 2)
+
+    iceParticleImage = love.graphics.newImage("graphics/iceparticle.png")
+    iceParticleSystem = love.graphics.newParticleSystem(iceParticleImage, 8)
+    iceParticleSystem:setParticleLifetime(1.2, 1.2)
+    iceParticleSystem:setEmissionRate(1000)
+    iceParticleSystem:setLinearAcceleration(-10,30,1,290)
+    iceParticleSystem:setSizes(1, 2, 3)
+    iceParticleSystem:setSizeVariation(1)
+    iceParticleSystem:setSpeed(30,40)
+    iceParticleSystem:setSpread(6)
+    iceParticleSystem:setRotation(1, 2)
+
+    magicParticleImage = love.graphics.newImage("graphics/magicparticle.png")
+    magicParticleSystem = love.graphics.newParticleSystem(magicParticleImage, 8)
+    magicParticleSystem:setParticleLifetime(1, 1.2)
+    magicParticleSystem:setEmissionRate(1000000)
+    magicParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    magicParticleSystem:setSizes(1, 2, 3)
+    magicParticleSystem:setSizeVariation(1)
+    magicParticleSystem:setSpeed(10,20)
+    magicParticleSystem:setSpread(6)
+    magicParticleSystem:setRotation(1, 2)
+
+    glassParticleImage = love.graphics.newImage("graphics/glassparticle.png")
+    glassParticleSystem = love.graphics.newParticleSystem(glassParticleImage, 8)
+    glassParticleSystem:setParticleLifetime(0.1, 1.2)
+    glassParticleSystem:setEmissionRate(1000000)
+    glassParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    glassParticleSystem:setSizes(1, 2, 3)
+    glassParticleSystem:setSizeVariation(1)
+    glassParticleSystem:setSpeed(10,20)
+    glassParticleSystem:setSpread(6)
+    glassParticleSystem:setRotation(1, 2)
+
     bloodParticleImage = love.graphics.newImage("graphics/bloodparticle.png")
     bloodParticleSystem = love.graphics.newParticleSystem(bloodParticleImage, 8)
-    bloodParticleSystem:setParticleLifetime(0.6, 0.8)
-    bloodParticleSystem:setEmissionRate(1)
-    bloodParticleSystem:setLinearAcceleration(-240,-290,240,290)
-    bloodParticleSystem:setSizes(1, 2, 3)
+    bloodParticleSystem:setParticleLifetime(1, 5)
+    bloodParticleSystem:setEmissionRate(2)
+    bloodParticleSystem:setLinearAcceleration(-320,-340,320,340)
+    bloodParticleSystem:setSizes(1, 2, 3, 4, 5)
     bloodParticleSystem:setSizeVariation(1)
-    bloodParticleSystem:setSpeed(10,20)
+    bloodParticleSystem:setSpeed(100,200)
     bloodParticleSystem:setSpread(6)
     bloodParticleSystem:setRotation(1, 2)
 end
@@ -598,6 +659,11 @@ local function updateParticleSystems(dt)
     fireParticleSystem:update(dt)
     bloodParticleSystem:update(dt)
     forestFieldParticleSystem:update(dt)
+    waterParticleSystem:update(dt)
+    desertParticleSystem:update(dt)
+    iceParticleSystem:update(dt)
+    magicParticleSystem:update(dt)
+    glassParticleSystem:update(dt)
 end
 
 function love.load()

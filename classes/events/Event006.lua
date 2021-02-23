@@ -33,7 +33,10 @@ function Event006:eventFunction()
             rndCellX = love.math.random(1, 10)
             rndCellY = love.math.random(1, 10)
             
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
+            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
+                boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 
+                boardGrid[rndCellX][rndCellY].isInstanced = true
+            end
 
             if not boardGrid[rndCellX][rndCellY].isFrozen then 
                 boardGrid[rndCellX][rndCellY].isFrozen = true
@@ -52,7 +55,7 @@ function Event006:eventFunction()
         end
     end
 
-
+    Cell:resetParticleDrawing()
 
 
 end

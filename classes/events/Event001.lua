@@ -54,7 +54,8 @@ function Event001:eventFunction()
                     end
 
                     if boardGrid[x][y]:instanceOf(Desert) then 
-                        boardGrid[x][y] = GlassMount(x, y) 
+                        boardGrid[x][y] = GlassMount(x, y)
+                        boardGrid[x][y].isInstanced = true
                     end
 
                     boardGrid[x][y].fireTurn = turnCounter
@@ -63,7 +64,7 @@ function Event001:eventFunction()
             })
         end
     end
-
+    Cell:resetParticleDrawing()
 end
     
 

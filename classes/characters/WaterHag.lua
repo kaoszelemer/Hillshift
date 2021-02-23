@@ -52,6 +52,7 @@ function WaterHag:spell(targetCell)
 
                         if not boardGrid[targetCell.x][targetCell.y]:instanceOf(Desert) then
                                 boardGrid[targetCell.x][targetCell.y] = Lake(targetCell.x, targetCell.y)
+                                boardGrid[targetCell.x][targetCell.y].isInstanced = true
                         elseif boardGrid[targetCell.x][targetCell.y]:instanceOf(Desert) then
                             boardGrid[targetCell.x][targetCell.y] = Swamp(targetCell.x, targetCell.y)
                         end
@@ -64,14 +65,46 @@ function WaterHag:spell(targetCell)
                             if targetCell.x + randomWaterSpreadX <= 10 and targetCell.x - randomWaterSpreadX > 0 and
                             targetCell.y + randomWaterSpreadY <= 10 and targetCell.y - randomWaterSpreadY > 0 then                 
 
-                                if love.math.random() < 0.25 then boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y + randomWaterSpreadY) end
-                                if love.math.random() < 0.25 then boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y + randomWaterSpreadY) end
-                                if love.math.random() < 0.25 then boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y - randomWaterSpreadY) end
-                                if love.math.random() < 0.25 then boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y - randomWaterSpreadY) end
-                                if love.math.random() < 0.33 then boardGrid[targetCell.x][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x, targetCell.y - randomWaterSpreadY) end
-                                if love.math.random() < 0.33 then boardGrid[targetCell.x][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x, targetCell.y + randomWaterSpreadY) end
-                                if love.math.random() < 0.33 then boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y) end
-                                if love.math.random() < 0.33 then boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y) end
+                                if love.math.random() < 0.25 then 
+                                
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.25 then 
+                                
+                                    boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.25 then 
+                                
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y - randomWaterSpreadY) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.25 then 
+                                
+                                    boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y - randomWaterSpreadY) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.33 then 
+                                
+                                    boardGrid[targetCell.x][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x, targetCell.y - randomWaterSpreadY) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.33 then 
+                                
+                                    boardGrid[targetCell.x][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x, targetCell.y + randomWaterSpreadY) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.33 then 
+                                
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
+                                if love.math.random() < 0.33 then 
+                                
+                                    boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y) 
+                                    boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
+                                end
                             end
                         end
                     end
@@ -82,7 +115,7 @@ function WaterHag:spell(targetCell)
         
     end
     gameState:changeState(gameState.states.selectCharacter)
-
+    Cell:resetParticleDrawing()
 end
 
 
