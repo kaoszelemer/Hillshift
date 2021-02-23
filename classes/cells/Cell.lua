@@ -46,57 +46,88 @@ function Cell:iceSlide(selectedChar)
 end
 
 function Cell:spawnParticlesWhenInstanced()
-            for x = 1, 10 do
-                for y = 1, 10 do
-                    local cell = boardGrid[x][y]
-                    local x = ((cell.x) * tileW + offsetX) + tileW / 2
-                    local y = (cell.y * tileH + offsetY) + tileH / 2
+    for x = 1, 10 do
+        for y = 1, 10 do
+            local cell = boardGrid[x][y]
+            local x = ((cell.x) * tileW + offsetX) + tileW / 2
+            local y = (cell.y * tileH + offsetY) + tileH / 2
 
-                    if cell.isInstanced then
-                        if cell:instanceOf(Mount) then
-                            love.graphics.draw(rockParticleSystem, x, y) 
-                            rockParticleSystem:emit(200)
-                        end
-                        
-                        if cell:instanceOf(Forest) or cell:instanceOf(Field) then
-                            love.graphics.draw(forestFieldParticleSystem, x, y) 
-                            forestFieldParticleSystem:emit(200)
-                        end
-
-                        if cell:instanceOf(Lake) then
-                            love.graphics.draw(waterParticleSystem, x, y) 
-                            waterParticleSystem:emit(2000)
-                        end
-
-                        if cell:instanceOf(Desert) then
-                            love.graphics.draw(desertParticleSystem, x, y) 
-                            desertParticleSystem:emit(200)
-                        end
-
-                        if cell:instanceOf(Ice) then
-                            love.graphics.draw(iceParticleSystem, x, y) 
-                            desertParticleSystem:emit(200)
-                        end
-
-                        if cell:instanceOf(GlassMount) then
-                            love.graphics.draw(glassParticleSystem, x, y) 
-                            glassParticleSystem:emit(200)
-                        end
-
-                        if cell:instanceOf(MagicForest) then
-                            love.graphics.draw(magicParticleSystem, x + 5, y + 5) 
-                            desertParticleSystem:emit(32000)
-                            love.graphics.draw(magicParticleSystem, x - 5, y - 5) 
-                            desertParticleSystem:emit(200)
-                            love.graphics.draw(magicParticleSystem, x, y) 
-                            desertParticleSystem:emit(200)
-                            desertParticleSystem:emit(200)
-                        end
-
-                    end
-
+            if cell.isInstanced then
+                if cell:instanceOf(Mount) then
+                    love.graphics.draw(rockParticleSystem, x, y) 
+                    rockParticleSystem:emit(200)
                 end
+                
+                if cell:instanceOf(Forest) or cell:instanceOf(Field) then
+                    love.graphics.draw(forestFieldParticleSystem, x, y) 
+                    forestFieldParticleSystem:emit(200)
+                end
+
+                if cell:instanceOf(Lake) then
+                    love.graphics.draw(waterParticleSystem, x, y) 
+                    waterParticleSystem:emit(2000)
+                end
+
+                if cell:instanceOf(Desert) then
+                    love.graphics.draw(desertParticleSystem, x, y) 
+                    desertParticleSystem:emit(200)
+                end
+
+                if cell:instanceOf(Ice) then
+                    love.graphics.draw(iceParticleSystem, x, y) 
+                    desertParticleSystem:emit(200)
+                end
+
+                if cell:instanceOf(GlassMount) then
+                    love.graphics.draw(glassParticleSystem, x, y) 
+                    glassParticleSystem:emit(200)
+                end
+
+                if cell:instanceOf(MagicForest) then
+                    love.graphics.draw(magicParticleSystem, x + 5, y + 5) 
+                    desertParticleSystem:emit(32000)
+                    love.graphics.draw(magicParticleSystem, x - 5, y - 5) 
+                    desertParticleSystem:emit(200)
+                    love.graphics.draw(magicParticleSystem, x, y) 
+                    desertParticleSystem:emit(200)
+                    desertParticleSystem:emit(200)
+                end
+
             end
+            --- OTHER PARTICLES
+            if cell.isBurntField then
+                    
+                            
+                burntFieldParticleSystem:emit(29) 
+                love.graphics.setBlendMode("add")
+                love.graphics.draw(burntFieldParticleSystem, x + tileW / 2 ,y + tileH)
+                love.graphics.setBlendMode("alpha")
+
+
+            end
+
+            if cell.isSteaming then
+                print(cell.isSteaming)
+                steamParticleSystem:emit(516)
+                love.graphics.setBlendMode("add")
+                love.graphics.draw(steamParticleSystem, x, y)
+                love.graphics.setBlendMode("alpha")
+
+                -- At start time:
+-- ps:start()
+-- for step = 1, 96  ps:update(0.0031436694165071)  end
+-- ps:emit(516)
+-- At draw time:
+
+
+
+            end
+
+            
+
+
+        end
+    end
 
 end
 

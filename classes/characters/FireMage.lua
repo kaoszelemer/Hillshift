@@ -99,6 +99,14 @@ function FireMage:spell(targetCell)
                     boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
+                        table.insert(sequenceBufferTable, {
+                            name = "TopLeftCellisSteaming",
+                            duration = 1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y - 1].isSteaming = true
+                            end
+                        })
                         boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
                         boardGrid[self.x - 1][self.y - 1].isOnFire = false
                     end

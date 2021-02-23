@@ -642,6 +642,11 @@ local function loadParticleSystems()
     glassParticleSystem:setSpread(6)
     glassParticleSystem:setRotation(1, 2)
 
+
+    --------OTHER PARTICLES
+
+
+
     bloodParticleImage = love.graphics.newImage("graphics/bloodparticle.png")
     bloodParticleSystem = love.graphics.newParticleSystem(bloodParticleImage, 8)
     bloodParticleSystem:setParticleLifetime(1, 5)
@@ -652,18 +657,72 @@ local function loadParticleSystems()
     bloodParticleSystem:setSpeed(100,200)
     bloodParticleSystem:setSpread(6)
     bloodParticleSystem:setRotation(1, 2)
+
+    burntFieldParticleImage = love.graphics.newImage("graphics/burntfieldparticle.png")
+    burntFieldParticleImage:setFilter("linear","linear")
+    burntFieldParticleSystem = love.graphics.newParticleSystem(burntFieldParticleImage, 16)
+    burntFieldParticleSystem:setColors(0.49615383148193, 0.49615383148193, 0.49615383148193, 0.66538459062576, 1, 1, 1, 0.89999997615814, 1, 1, 1, 0.41153845191002, 1, 1, 1, 0.26153847575188)
+    burntFieldParticleSystem:setDirection(-1.5707963705063)
+    burntFieldParticleSystem:setEmissionArea("ellipse", 32.436187744141, 29.382717132568, 3.1415927410126, false)
+    burntFieldParticleSystem:setEmissionRate(8.152135848999)
+    burntFieldParticleSystem:setEmitterLifetime(-1)
+    burntFieldParticleSystem:setInsertMode("top")
+    burntFieldParticleSystem:setLinearAcceleration(-1.2439172267914, 0.049756690859795, 2.4380776882172, 0.049756690859795)
+    burntFieldParticleSystem:setLinearDamping(-0.0017912408802658, 8.0408802032471)
+    burntFieldParticleSystem:setOffset(50, 50)
+    burntFieldParticleSystem:setParticleLifetime(0.30825263261795, 2.2000000476837)
+    burntFieldParticleSystem:setRadialAcceleration(0, 0)
+    burntFieldParticleSystem:setRelativeRotation(false)
+    burntFieldParticleSystem:setRotation(0, 0)
+    burntFieldParticleSystem:setSizeVariation(0)
+    burntFieldParticleSystem:setSpeed(20.302917480469, 27.786323547363)
+    burntFieldParticleSystem:setSpin(1.5131316184998, -1.3010431528091)
+    burntFieldParticleSystem:setSpinVariation(0)
+    burntFieldParticleSystem:setSpread(0.31415927410126)
+    burntFieldParticleSystem:setTangentialAcceleration(-0.099513381719589, 0)
+
+    steamParticleImage = love.graphics.newImage("graphics/steamparticle.png")
+    steamParticleImage:setFilter("linear","linear")
+    steamParticleSystem = love.graphics.newParticleSystem(steamParticleImage, 16)
+    steamParticleSystem:setColors(0.49615383148193, 0.49615383148193, 0.49615383148193, 0.66538459062576, 1, 1, 1, 0.89999997615814, 1, 1, 1, 0.41153845191002, 1, 1, 1, 0.26153847575188)
+    steamParticleSystem:setDirection(-1.5707963705063)
+    steamParticleSystem:setEmissionArea("uniform", 63.572940826416, 63.572940826416, 3.1415927410126, false)
+    steamParticleSystem:setEmissionRate(4.284966468811)
+    steamParticleSystem:setEmitterLifetime(0.30179226398468)
+    steamParticleSystem:setInsertMode("top")
+    steamParticleSystem:setLinearAcceleration(2.4380776882172, -310.53149414063, 6.0205593109131, -223.35777282715)
+    steamParticleSystem:setLinearDamping(5.6844034194946, 8.6936874389648)
+    steamParticleSystem:setOffset(50, 50)
+    steamParticleSystem:setParticleLifetime(1.7221387624741, 0.51731038093567)
+    steamParticleSystem:setRadialAcceleration(0, 0)
+    steamParticleSystem:setRelativeRotation(false)
+    steamParticleSystem:setRotation(0, 0)
+    steamParticleSystem:setSizes(0.1059986576438)
+    steamParticleSystem:setSizeVariation(0)
+    steamParticleSystem:setSpeed(16.738149642944, 30.271970748901)
+    steamParticleSystem:setSpin(1.5131316184998, -1.3010431528091)
+    steamParticleSystem:setSpinVariation(0)
+    steamParticleSystem:setSpread(3.7875275611877)
+    steamParticleSystem:setTangentialAcceleration(72.545249938965, 35.924331665039)
+
+
+
+
 end
 
 local function updateParticleSystems(dt)
     rockParticleSystem:update(dt)
-    fireParticleSystem:update(dt)
-    bloodParticleSystem:update(dt)
+    fireParticleSystem:update(dt)  
     forestFieldParticleSystem:update(dt)
     waterParticleSystem:update(dt)
     desertParticleSystem:update(dt)
     iceParticleSystem:update(dt)
     magicParticleSystem:update(dt)
     glassParticleSystem:update(dt)
+    --Other Particle systems
+    bloodParticleSystem:update(dt)
+    burntFieldParticleSystem:update(dt)
+    steamParticleSystem:update(dt)
 end
 
 function love.load()
