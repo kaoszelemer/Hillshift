@@ -37,12 +37,15 @@ function Event025:eventFunction()
                 action = function()
                     rndCellX = love.math.random(1, 10)
                     rndCellY = love.math.random(1, 10)
-                    if boardGrid[x][y]:instanceOf(Forest) then boardGrid[x][y] = Field(x, y) end
+                    if boardGrid[x][y]:instanceOf(Forest) then 
+                        boardGrid[x][y] = Field(x, y) 
+                        boardGrid[x][y].isInstanced = true
+                    end
                 end
             })
         end
     end
-
+    Cell:resetParticleDrawing()
 
 end
     

@@ -31,7 +31,7 @@ function Event039:eventFunction()
   
     for x = 1, 20 do
         table.insert(sequenceBufferTable, {
-            name = "mediumfloodingevent",
+            name = "mediumdeforestingevent",
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
@@ -39,11 +39,12 @@ function Event039:eventFunction()
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
             end
         })
     end
 
-
+    Cell:resetParticleDrawing()
 end
     
 

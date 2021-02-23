@@ -146,7 +146,7 @@ end
 function Cell:resetParticleDrawing()
     table.insert(sequenceBufferTable, {
         name = "resetParticleDrawing",
-        duration = 1.5,
+        duration = 0.75,
         sequenceTime = love.timer.getTime(),
         action = function()
 

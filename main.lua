@@ -249,6 +249,7 @@ function endTurn()
 
             if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
                 boardGrid[x][y] = Field(x, y)
+                boardGrid[x][y].isInstanced = true
                 boardGrid[x][y].isBurntField = false
             end
 
@@ -291,6 +292,7 @@ function endTurn()
                  
         end
     end
+   
   
         ----------- EZ TÖRTÉNIK AZ INAKTÍVPLAYERREL (MERT Ő VOLT A RÉGI JÁTÉKOS) ------------------
 
@@ -400,6 +402,7 @@ function newTurn()
             end
         end
 
+    Cell:resetParticleDrawing()
 
 end
 

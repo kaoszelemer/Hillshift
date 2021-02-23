@@ -35,12 +35,17 @@ function Event026:eventFunction()
                 duration = 0.1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Field(x, y) end
+                    if boardGrid[x][y]:instanceOf(Lake) then 
+                        boardGrid[x][y] = Field(x, y) 
+                        boardGrid[x][y].isInstanced = true
+                    
+                    end
+
                 end
             })
         end
     end
-
+    Cell:resetParticleDrawing()
 
 end
     

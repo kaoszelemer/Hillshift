@@ -34,14 +34,17 @@ function Event067:eventFunction()
                 duration = 0.3,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    if boardGrid[x][y]:instanceOf(Mount) then boardGrid[x][y] = Field(x, y) end
+                    if boardGrid[x][y]:instanceOf(Mount) then 
+                        boardGrid[x][y] = Field(x, y) 
+                        boardGrid[x][y].isInstanced = true
+                    end
                 end
             })
 
         end
     end
 
-  
+  Cell:resetParticleDrawing()
 
 
 end
