@@ -40,11 +40,41 @@ function Event001:eventFunction()
                     end
 
                     if boardGrid[x][y]:instanceOf(Lake) then 
-                        boardGrid[x][y] = Field(x, y)
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsareSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsAreFields",
+                            duration = 1.5,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y] = Field(x, y)
+                            end
+                        }) 
                     end
 
                     if boardGrid[x][y]:instanceOf(Ice) then
-                        boardGrid[x][y] = Lake(x, y) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsareSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsareSteaming",
+                            duration = 1.5,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y] = Lake(x, y) 
+                            end
+                        }) 
                     end
                     
                     if boardGrid[x][y]:instanceOf(Forest) then 

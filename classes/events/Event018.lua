@@ -35,14 +35,50 @@ function Event018:eventFunction()
                 sequenceTime = love.timer.getTime(),
                 action = function()
     
-                    rndCellX = love.math.random(1, 10)
-                    rndCellY = love.math.random(1, 10)
+                    local rndCellX = love.math.random(1, 10)
+                    local rndCellY = love.math.random(1, 10)
                     if not boardGrid[rndCellX][rndCellY].isOnFire then boardGrid[rndCellX][rndCellY].isOnFire = true end
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) end
+
+                        if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
+                            table.insert(sequenceBufferTable, {
+                                name = "CellsareSteaming",
+                                duration = 0.2,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    boardGrid[rndCellX][rndCellY].isSteaming = true
+                                end
+                            }) 
+                            table.insert(sequenceBufferTable, {
+                                name = "CellsareFields",
+                                duration = 0.5,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) 
+                                end
+                            }) 
+                        end
+                        if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then 
+                            table.insert(sequenceBufferTable, {
+                                name = "CellsareSteaming",
+                                duration = 0.2,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    boardGrid[rndCellX][rndCellY].isSteaming = true
+                                end
+                            }) 
+                            table.insert(sequenceBufferTable, {
+                                name = "CellsareLakes",
+                                duration = 0.5,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) 
+                                end
+                            }) 
+                        end
                         if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
                             boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY)
                             boardGrid[rndCellX][rndCellY].isBurntField = true
+                            boardGrid[rndCellX][rndCellY].isOnFire = false
                             boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
                         end
                         if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 

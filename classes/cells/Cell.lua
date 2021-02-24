@@ -107,19 +107,10 @@ function Cell:spawnParticlesWhenInstanced()
             end
 
             if cell.isSteaming then
-                print(cell.isSteaming)
                 steamParticleSystem:emit(516)
                 love.graphics.setBlendMode("add")
-                love.graphics.draw(steamParticleSystem, x, y)
+                love.graphics.draw(steamParticleSystem, x + tileW / 2, y + tileH / 2)
                 love.graphics.setBlendMode("alpha")
-
-                -- At start time:
--- ps:start()
--- for step = 1, 96  ps:update(0.0031436694165071)  end
--- ps:emit(516)
--- At draw time:
-
-
 
             end
 

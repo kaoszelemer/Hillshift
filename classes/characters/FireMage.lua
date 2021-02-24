@@ -101,23 +101,61 @@ function FireMage:spell(targetCell)
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
                         table.insert(sequenceBufferTable, {
                             name = "TopLeftCellisSteaming",
-                            duration = 1,
+                            duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y - 1].isSteaming = true
                             end
                         })
-                        boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "TopLeftCellisField",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
+                            end
+                        })
                         boardGrid[self.x - 1][self.y - 1].isOnFire = false
                     end
 
-                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then 
-                        boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                    if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then
+                        table.insert(sequenceBufferTable, {
+                            name = "TopLeftCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y - 1].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "TopLeftCellisLake",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                            end
+                        })
+
                         boardGrid[self.x - 1][self.y - 1].isFrozen = false
                     end
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
-                        boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                        table.insert(sequenceBufferTable, {
+                        name = "TopLeftCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y - 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "TopLeftCellisLake",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
+                            end
+                        })
                         boardGrid[self.x - 1][self.y - 1].isOnFire = false
                     end
 
@@ -157,17 +195,62 @@ function FireMage:spell(targetCell)
                     boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
-                        boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "TopRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y - 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "TopRightCellisField",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
+                            end
+                        })
                         boardGrid[self.x + 1][self.y - 1].isOnFire = false
                     end
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y - 1].isFrozen then 
-                        boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "TopRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y - 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "TopRightCellisLake",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                            end
+                        })
                         boardGrid[self.x + 1][self.y - 1].isFrozen = false
                     end
 
-                    if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then 
-                        boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                    if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then
+                        table.insert(sequenceBufferTable, {
+                            name = "TopRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y - 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "TopRightCellisLake",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
+                            end
+                        })
                         boardGrid[self.x + 1][self.y - 1].isOnFire = false
                     end
 
@@ -215,18 +298,63 @@ function FireMage:spell(targetCell)
 
                 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
-                        boardGrid[self.x - 1][self.y + 1] = Field(self.x - 1, self.y + 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomLeftisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y + 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomLeftlisLake",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y + 1] = Field(self.x - 1, self.y + 1)
+                            end
+                        })
                         boardGrid[self.x - 1][self.y + 1].isOnFire = false
                     end
 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
-                        boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomLeftisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y + 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomLeftisLake",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                            end
+                        })
                         boardGrid[self.x - 1][self.y + 1].isFrozen = false
                     end
 
 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
-                        boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomLeftisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y + 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomLeftisLake",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
+                            end
+                        })
                         boardGrid[self.x - 1][self.y + 1].isOnFire = false
                     end
 
@@ -266,17 +394,62 @@ function FireMage:spell(targetCell)
 
                     
                     if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
-                        boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y + 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomRightCellisLake",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
+                            end
+                        })
                         boardGrid[self.x + 1][self.y + 1].isOnFire = false
                     end
                     
-                    if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then 
-                        boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                    if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y + 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomRightCellisLake",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                            end
+                        })
                         boardGrid[self.x + 1][self.y + 1].isFrozen = false
                     end
 
                     if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
-                        boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y + 1].isSteaming = true
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "BottomRightCellisSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                            end
+                        })
                         boardGrid[self.x + 1][self.y + 1].isOnFire = false
                     end
 

@@ -220,10 +220,40 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                     end
 
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Lake) then
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Field(self.x + fx + tcx, self.y + fy + tcy) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsAreSteaming",
+                            duration = 0.01,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + fx + tcx][self.y + fy + tcy].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsAreLakes",
+                            duration = 0.6,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Field(self.x + fx + tcx, self.y + fy + tcy) 
+                            end
+                        }) 
                     end
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Ice) then
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Lake(self.x + fx + tcx, self.y + fy + tcy) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsAreSteaming",
+                            duration = 0.01,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + fx + tcx][self.y + fy + tcy].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsAreSteaming",
+                            duration = 0.6,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Lake(self.x + fx + tcx, self.y + fy + tcy) 
+                            end
+                        }) 
                         boardGrid[self.x + fx + tcx][self.y + fy + tcy].isInstanced = true
                     end
                 end

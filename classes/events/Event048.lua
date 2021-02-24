@@ -73,8 +73,42 @@ function Event048:eventFunction()
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
                 if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end  
-                if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
-                if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) end
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareSteaming",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY].isSteaming = true
+                        end
+                    }) 
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareFields",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) 
+                        end
+                    }) 
+                end
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareSteaming",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY].isSteaming = true
+                        end
+                    }) 
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareLakes",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)                            
+                        end
+                    }) 
+                end
                 if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
                     boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) 
                     boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
