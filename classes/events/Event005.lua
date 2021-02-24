@@ -28,15 +28,27 @@ end
 function Event005:eventFunction()
 
     for x = 1, (love.math.random(1, 100)) do
-        rndCellX = love.math.random(1, 10)
-        rndCellY = love.math.random(1, 10)
-        if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Swamp(rndCellX, rndCellY)
-        elseif boardGrid[rndCellX][rndCellY].isOnFire then boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
-        else boardGrid[rndCellX][rndCellY] = Desert(rndCellX, rndCellY)
-        end
+        table.insert(sequenceBufferTable, {
+            name = "DesertificationEvent",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Swamp(rndCellX, rndCellY)
+                elseif boardGrid[rndCellX][rndCellY].isOnFire then
+                     boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+                     boardGrid[rndCellX][rndCellY].isInstanced = true             
+                else boardGrid[rndCellX][rndCellY] = Desert(rndCellX, rndCellY)
+                    boardGrid[rndCellX][rndCellY].isInstanced = true
+                end
+                
+            end
+        })
     end
 
-
+    Cell:resetParticleDrawing()
 
 
 end

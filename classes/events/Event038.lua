@@ -30,12 +30,21 @@ function Event038:eventFunction()
 
   
     for x = 1, 10  do
-
+        table.insert(sequenceBufferTable, {
+            name = "lildeforestingevent",
+            duration = 0.3,
+            sequenceTime = love.timer.getTime(),
+            action = function()
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
+            end
+        })
     end
+
+    Cell:resetParticleDrawing()
 
 end
     

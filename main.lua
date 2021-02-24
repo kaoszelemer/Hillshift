@@ -2,6 +2,47 @@
 
 --require
 class = require('lib.30log')
+anim8 = require('lib.anim8')
+flux = require('lib.flux')
+
+StateMachine = require('classes.StateMachine')
+
+gameState = StateMachine({
+    selectCharacter = {
+        name = "selectCharacter",
+        transitions = {"selectCharacter", "selectCharacterAction"} 
+    },
+
+    selectCharacterAction = {
+        name = "selectCharacterAction",
+        transitions = {"selectCharacter", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter"}
+    },
+
+    selectMoveTargetCell = {
+        name =  "selectMoveTargetCell",
+        transitions = {"selectCharacter", "selectCharacterAction"}
+    },
+
+    selectSpellTargetArea = {
+        name = "selectSpellTargetArea", 
+        transitions = {"selectCharacter", "selectCharacterAction"}
+    },
+
+    selectAttackTargetCharacter = {
+        name = "selectAttackTargetCharacter",
+        transitions = {"selectCharacter", "selectCharacterAction"}
+    }
+    },
+    "selectCharacter"
+)
+
+
+
+sequenceBufferTable = {}
+
+
+
+
 Cell = require('classes.cells.Cell')
 Forest = require('classes.cells.Forest')
 Lake = require('classes.cells.Lake')
@@ -119,6 +160,7 @@ Event075 = require('classes.events.Event075')
 require ('board')
 
 
+
 --valtozok
 --altalanos valtozok
 width = 1280
@@ -169,36 +211,21 @@ selectedChar = nil
 --event tábla
 eventTable = {}
 
+function sequenceProcessor()
 
---------*********** DEBUG MODE ************-----------
---------*********** DEBUG MODE ************-----------
 
-isDebug = true
+        for index, sequence in ipairs(sequenceBufferTable) do 
+            if index == 1 then 
+                if love.timer.getTime() - sequence.sequenceTime >= sequence.duration then
+                        print("[SEQUENCE]: "..sequence.name)
+                        sequence.action()
+                        table.remove(sequenceBufferTable, 1)  
+                end
+            end
+                
+        end
 
---------*********** DEBUG MODE ************-----------
---------*********** DEBUG MODE ************-----------
-
---[[ function debugHillShift()
-    debugAirPoisonFireSandInteractions = true
-
-    if isDebug and debugAirPoisonFireSandInteractions then
-
-        table.insert(player.characters, SandWitch(playerOne))
-        table.insert(player.characters, SandWitch(playerTwo))
-        table.insert(player.characters, SandWitch(playerOne))
-        table.insert(player.characters, FireMage(playerTwo))
-        table.insert(player.characters, FireMage(playerOne))
-        table.insert(player.characters, FireMage(playerTwo))
-        table.insert(player.characters, Alchemist(playerOne))
-        table.insert(player.characters, Alchemist(playerTwo))
-        table.insert(player.characters, Alchemist(playerOne))
-        table.insert(player.characters, AirElemental(playerTwo))
-        table.insert(player.characters, AirElemental(playerOne))
-        table.insert(player.characters, AirElemental(playerOne))
-
-    end
-
-end ]]
+end
 
 function endTurn()
     turnCounter = turnCounter + 1
@@ -218,17 +245,17 @@ function endTurn()
 
             if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].HP <= 0 then
                 boardGrid[x][y] = Desert(x, y)
+                boardGrid[x][y].isInstanced = true
             end
 
             if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
                 boardGrid[x][y] = Field(x, y)
+                boardGrid[x][y].isInstanced = true
                 boardGrid[x][y].isBurntField = false
             end
 
             if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
                 boardGrid[x][y].isPoisoned = false
-                boardGrid[x][y].attackModifier = boardGrid[x][y].attackModifier + 1
-                boardGrid[x][y].defenseModifier = boardGrid[x][y].defenseModifier + 3
             end
 
             if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then
@@ -266,6 +293,7 @@ function endTurn()
                  
         end
     end
+   
   
         ----------- EZ TÖRTÉNIK AZ INAKTÍVPLAYERREL (MERT Ő VOLT A RÉGI JÁTÉKOS) ------------------
 
@@ -298,9 +326,9 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            currentChar.baseHP = currentChar.baseHP - 2
+            currentChar.baseHP = currentChar.baseHP - 20
         elseif cell.isBurntField then
-            currentChar.baseHP = currentChar.baseHP - 1
+            currentChar.baseHP = currentChar.baseHP - 10
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
@@ -337,21 +365,24 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            currentChar.baseHP = currentChar.baseHP - 2
+            currentChar.baseHP = currentChar.baseHP - 20
         elseif cell.isBurntField then
-            currentChar.baseHP = currentChar.baseHP - 1
+            currentChar.baseHP = currentChar.baseHP - 10
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
 
         if currentChar.baseHP <= 0 then currentChar:kill() end
 
-        board:resetAllCharacterStates(activePlayer, inactivePlayer)
+        gameState:changeState(gameState.states.selectCharacter)
 
     end
 end
 
 function newTurn()
+
+
+    gameState:changeState(gameState.states.selectCharacter)
 
         if eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             Event:enableEvent()
@@ -372,6 +403,7 @@ function newTurn()
             end
         end
 
+    Cell:resetParticleDrawing()
 
 end
 
@@ -406,65 +438,73 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
 
     local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
     local  mY = math.floor((rMy / tileH) - offsetY / tileH)
+ if gameState.state == gameState.states.selectSpellTargetArea or gameState.state == gameState.states.selectAttackTargetCharacter then
+        for _, currentChar in ipairs(activePlayer.characters) do
 
-    for _, currentChar in ipairs(activePlayer.characters) do
+            --- Fent lent jobbra balra
+            if currentChar.x < mX then
+                pointerOnLeftSide = false
+                pointerOnRightSide = true
+                pointerOnTopSide = false
+                pointerOnBottomSide = false
+            end
+            if currentChar.x  > mX then
+                pointerOnLeftSide = true
+                pointerOnRightSide = false
+                pointerOnTopSide = false
+                pointerOnBottomSide = false
+            end
+            if currentChar.y < mY  then
+                pointerOnTopSide = false
+                pointerOnBottomSide = true
+                pointerOnLeftSide = false
+                pointerOnRightSide = false
+            end
+            if currentChar.y > mY then
+                pointerOnTopSide = true
+                pointerOnBottomSide = false
+                pointerOnLeftSide = false
+                pointerOnRightSide = false
+            end 
 
-        --- Fent lent jobbra balra
+            --4 irányba pl. alkimista
 
-
-        if currentChar.isInSpellState and currentChar.x < mX then
-            pointerOnLeftSide = false
-            pointerOnRightSide = true
-            pointerOnTopSide = false
-            pointerOnBottomSide = false
-        elseif currentChar.isInSpellState and currentChar.x  > mX then
-            pointerOnLeftSide = true
-            pointerOnRightSide = false
-            pointerOnTopSide = false
-            pointerOnBottomSide = false
-        elseif currentChar.isInSpellState and currentChar.y < mY  then
-            pointerOnTopSide = false
-            pointerOnBottomSide = true
-            pointerOnLeftSide = false
-            pointerOnRightSide = false
-        elseif currentChar.isInSpellState and currentChar.y > mY then
-            pointerOnTopSide = true
-            pointerOnBottomSide = false
-            pointerOnLeftSide = false
-            pointerOnRightSide = false
-        end 
-
-        --4 irányba pl. alkimista
-
-        if currentChar.isInSpellState and mX < currentChar.x and mY < currentChar.y then
-            pointerOnTopLeftSide = true
-            pointerOnTopRightSide = false
-            pointerOnBottomRightSide = false
-            pointerOnBottomLeftSide = false
-        elseif currentChar.isInSpellState and mX > currentChar.x and mY < currentChar.y then
-            pointerOnTopLeftSide = false
-            pointerOnTopRightSide = true
-            pointerOnBottomRightSide = false
-            pointerOnBottomLeftSide = false
-        elseif currentChar.isInSpellState and mX < currentChar.x and mY > currentChar.y then
-            pointerOnTopLeftSide = false
-            pointerOnTopRightSide = false
-            pointerOnBottomRightSide = false
-            pointerOnBottomLeftSide = true
-        elseif currentChar.isInSpellState and mX > currentChar.x and mY > currentChar.y then
-            pointerOnTopLeftSide = false
-            pointerOnTopRightSide = false
-            pointerOnBottomRightSide = true
-            pointerOnBottomLeftSide = false
+            if  mX < currentChar.x and mY < currentChar.y then
+                pointerOnTopLeftSide = true
+                pointerOnTopRightSide = false
+                pointerOnBottomRightSide = false
+                pointerOnBottomLeftSide = false
+            end
+            if  mX > currentChar.x and mY < currentChar.y then
+                pointerOnTopLeftSide = false
+                pointerOnTopRightSide = true
+                pointerOnBottomRightSide = false
+                pointerOnBottomLeftSide = false
+            end
+            if  mX < currentChar.x and mY > currentChar.y then
+                pointerOnTopLeftSide = false
+                pointerOnTopRightSide = false
+                pointerOnBottomRightSide = false
+                pointerOnBottomLeftSide = true
+            end
+            if  mX > currentChar.x and mY > currentChar.y then
+                pointerOnTopLeftSide = false
+                pointerOnTopRightSide = false
+                pointerOnBottomRightSide = true
+                pointerOnBottomLeftSide = false
+            end
         end
-
-
-
-
-
+    else
+        pointerOnBottomLeftSide = false
+        pointerOnBottomRightSide = false
+        pointerOnBottomSide = false
+        pointerOnTopLeftSide = false
+        pointerOnTopRightSide = false
+        pointerOnTopSide = false
+        pointerOnLeftSide = false
+        pointerOnRightSide = false
     end
-
-    
+  
 end
 
 local function testMouseForInventoryHover(mx, my)
@@ -492,10 +532,210 @@ local function testMouseForInventoryHover(mx, my)
 
 end
 
+function loadCharacterAnim()
+
+    for _, currentChar in ipairs(playerOne.characters) do
+        print("loading character animation for "..currentChar.name)
+        currentChar.animImage = currentChar.idleAnimImage
+        local g = anim8.newGrid(64, 64, currentChar.idleAnimImage:getWidth(), currentChar.idleAnimImage:getHeight())
+        currentChar.animation = anim8.newAnimation(g('1-4', 1, '3-2', 1), 0.2)
+    end
+
+    for _, currentChar in ipairs(playerTwo.characters) do
+        print("loading character animation for "..currentChar.name)
+        currentChar.animImage = currentChar.idleAnimImage
+        local g = anim8.newGrid(64, 64, currentChar.idleAnimImage:getWidth(), currentChar.idleAnimImage:getHeight())
+        currentChar.animation = anim8.newAnimation(g('1-4', 1, '3-2', 1), 0.2)
+    end
+
+  
+
+
+end
+
+local function loadParticleSystems()
+    rockParticleImage = love.graphics.newImage("graphics/rockparticle.png")
+    rockParticleSystem = love.graphics.newParticleSystem(rockParticleImage, 8)
+    rockParticleSystem:setParticleLifetime(1, 1)
+    rockParticleSystem:setEmissionRate(32)
+    rockParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    rockParticleSystem:setSizes(1, 2, 3)
+    rockParticleSystem:setSizeVariation(1)
+    rockParticleSystem:setSpeed(50,60)
+    rockParticleSystem:setSpread(6)
+    rockParticleSystem:setRotation(1, 2)
+
+    forestFieldParticleImage = love.graphics.newImage("graphics/forestfieldparticle.png")
+    forestFieldParticleSystem = love.graphics.newParticleSystem(forestFieldParticleImage, 8)
+    forestFieldParticleSystem:setParticleLifetime(1, 1)
+    forestFieldParticleSystem:setEmissionRate(32)
+    forestFieldParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    forestFieldParticleSystem:setSizes(1, 2, 3)
+    forestFieldParticleSystem:setSizeVariation(1)
+    forestFieldParticleSystem:setSpeed(50,60)
+    forestFieldParticleSystem:setSpread(6)
+    forestFieldParticleSystem:setRotation(1, 2)
+
+    fireParticleImage = love.graphics.newImage("graphics/fireparticle.png")
+    fireParticleSystem = love.graphics.newParticleSystem(fireParticleImage, 8)
+    fireParticleSystem:setParticleLifetime(0.4, 0.6)
+    fireParticleSystem:setEmissionRate(1)
+    fireParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    fireParticleSystem:setSizes(1, 2, 3)
+    fireParticleSystem:setSizeVariation(1)
+    fireParticleSystem:setSpeed(10,20)
+    fireParticleSystem:setSpread(6)
+    fireParticleSystem:setRotation(1, 2)
+
+    waterParticleImage = love.graphics.newImage("graphics/waterparticle.png")
+    waterParticleSystem = love.graphics.newParticleSystem(waterParticleImage, 8)
+    waterParticleSystem:setParticleLifetime(1, 1)
+    waterParticleSystem:setEmissionRate(1)
+    waterParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    waterParticleSystem:setSizes(1, 2, 3)
+    waterParticleSystem:setSizeVariation(1)
+    waterParticleSystem:setSpeed(10,20)
+    waterParticleSystem:setSpread(6)
+    waterParticleSystem:setRotation(1, 2)
+
+    desertParticleImage = love.graphics.newImage("graphics/desertparticle.png")
+    desertParticleSystem = love.graphics.newParticleSystem(desertParticleImage, 8)
+    desertParticleSystem:setParticleLifetime(1, 1)
+    desertParticleSystem:setEmissionRate(1)
+    desertParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    desertParticleSystem:setSizes(1, 2, 3)
+    desertParticleSystem:setSizeVariation(1)
+    desertParticleSystem:setSpeed(10,20)
+    desertParticleSystem:setSpread(6)
+    desertParticleSystem:setRotation(1, 2)
+
+    iceParticleImage = love.graphics.newImage("graphics/iceparticle.png")
+    iceParticleSystem = love.graphics.newParticleSystem(iceParticleImage, 8)
+    iceParticleSystem:setParticleLifetime(1.2, 1.2)
+    iceParticleSystem:setEmissionRate(1000)
+    iceParticleSystem:setLinearAcceleration(-10,30,1,290)
+    iceParticleSystem:setSizes(1, 2, 3)
+    iceParticleSystem:setSizeVariation(1)
+    iceParticleSystem:setSpeed(30,40)
+    iceParticleSystem:setSpread(6)
+    iceParticleSystem:setRotation(1, 2)
+
+    magicParticleImage = love.graphics.newImage("graphics/magicparticle.png")
+    magicParticleSystem = love.graphics.newParticleSystem(magicParticleImage, 8)
+    magicParticleSystem:setParticleLifetime(1, 1.2)
+    magicParticleSystem:setEmissionRate(1000000)
+    magicParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    magicParticleSystem:setSizes(1, 2, 3)
+    magicParticleSystem:setSizeVariation(1)
+    magicParticleSystem:setSpeed(10,20)
+    magicParticleSystem:setSpread(6)
+    magicParticleSystem:setRotation(1, 2)
+
+    glassParticleImage = love.graphics.newImage("graphics/glassparticle.png")
+    glassParticleSystem = love.graphics.newParticleSystem(glassParticleImage, 8)
+    glassParticleSystem:setParticleLifetime(0.1, 1.2)
+    glassParticleSystem:setEmissionRate(1000000)
+    glassParticleSystem:setLinearAcceleration(-240,-290,240,290)
+    glassParticleSystem:setSizes(1, 2, 3)
+    glassParticleSystem:setSizeVariation(1)
+    glassParticleSystem:setSpeed(10,20)
+    glassParticleSystem:setSpread(6)
+    glassParticleSystem:setRotation(1, 2)
+
+
+    --------OTHER PARTICLES
+
+
+
+    bloodParticleImage = love.graphics.newImage("graphics/bloodparticle.png")
+    bloodParticleSystem = love.graphics.newParticleSystem(bloodParticleImage, 8)
+    bloodParticleSystem:setParticleLifetime(1, 5)
+    bloodParticleSystem:setEmissionRate(2)
+    bloodParticleSystem:setLinearAcceleration(-320,-340,320,340)
+    bloodParticleSystem:setSizes(1, 2, 3, 4, 5)
+    bloodParticleSystem:setSizeVariation(1)
+    bloodParticleSystem:setSpeed(100,200)
+    bloodParticleSystem:setSpread(6)
+    bloodParticleSystem:setRotation(1, 2)
+
+    burntFieldParticleImage = love.graphics.newImage("graphics/burntfieldparticle.png")
+    burntFieldParticleImage:setFilter("linear","linear")
+    burntFieldParticleSystem = love.graphics.newParticleSystem(burntFieldParticleImage, 16)
+    burntFieldParticleSystem:setColors(0.49615383148193, 0.49615383148193, 0.49615383148193, 0.66538459062576, 1, 1, 1, 0.89999997615814, 1, 1, 1, 0.41153845191002, 1, 1, 1, 0.26153847575188)
+    burntFieldParticleSystem:setDirection(-1.5707963705063)
+    burntFieldParticleSystem:setEmissionArea("ellipse", 32.436187744141, 29.382717132568, 3.1415927410126, false)
+    burntFieldParticleSystem:setEmissionRate(8.152135848999)
+    burntFieldParticleSystem:setEmitterLifetime(-1)
+    burntFieldParticleSystem:setInsertMode("top")
+    burntFieldParticleSystem:setLinearAcceleration(-1.2439172267914, 0.049756690859795, 2.4380776882172, 0.049756690859795)
+    burntFieldParticleSystem:setLinearDamping(-0.0017912408802658, 8.0408802032471)
+    burntFieldParticleSystem:setOffset(50, 50)
+    burntFieldParticleSystem:setParticleLifetime(0.30825263261795, 2.2000000476837)
+    burntFieldParticleSystem:setRadialAcceleration(0, 0)
+    burntFieldParticleSystem:setRelativeRotation(false)
+    burntFieldParticleSystem:setRotation(0, 0)
+    burntFieldParticleSystem:setSizeVariation(0)
+    burntFieldParticleSystem:setSpeed(20.302917480469, 27.786323547363)
+    burntFieldParticleSystem:setSpin(1.5131316184998, -1.3010431528091)
+    burntFieldParticleSystem:setSpinVariation(0)
+    burntFieldParticleSystem:setSpread(0.31415927410126)
+    burntFieldParticleSystem:setTangentialAcceleration(-0.099513381719589, 0)
+
+    steamParticleImage = love.graphics.newImage("graphics/steamparticle.png")
+    steamParticleImage:setFilter("linear","linear")
+    steamParticleSystem = love.graphics.newParticleSystem(steamParticleImage, 16)
+    steamParticleSystem:setDirection(-1.5707963705063)
+    steamParticleSystem:setEmissionArea("uniform", 63.572940826416, 63.572940826416, 3.1415927410126, false)
+    steamParticleSystem:setEmissionRate(8.152135848999)
+    steamParticleSystem:setEmitterLifetime(-1)
+    steamParticleSystem:setInsertMode("top")
+    steamParticleSystem:setLinearAcceleration(-1.2439172267914, 0.049756690859795, 2.4380776882172, 0.049756690859795)
+    steamParticleSystem:setLinearDamping(-0.0017912408802658, 8.0408802032471)
+    steamParticleSystem:setOffset(50, 50)
+    steamParticleSystem:setParticleLifetime(0.30825263261795, 2.2000000476837)
+    steamParticleSystem:setRadialAcceleration(0, 0)
+    steamParticleSystem:setRelativeRotation(false)
+    steamParticleSystem:setRotation(0, 0)
+    steamParticleSystem:setSizeVariation(0)
+    steamParticleSystem:setSpeed(2.302917480469, 7.786323547363)
+    steamParticleSystem:setSpin(1.5131316184998, -1.3010431528091)
+    steamParticleSystem:setSpinVariation(0)
+    steamParticleSystem:setSpread(0.31415927410126)
+    steamParticleSystem:setTangentialAcceleration(-0.099513381719589, 0)
+    
+
+
+
+
+end
+
+local function updateParticleSystems(dt)
+    rockParticleSystem:update(dt)
+    fireParticleSystem:update(dt)  
+    forestFieldParticleSystem:update(dt)
+    waterParticleSystem:update(dt)
+    desertParticleSystem:update(dt)
+    iceParticleSystem:update(dt)
+    magicParticleSystem:update(dt)
+    glassParticleSystem:update(dt)
+    --Other Particle systems
+    bloodParticleSystem:update(dt)
+    burntFieldParticleSystem:update(dt)
+    for step = 1, 96 do steamParticleSystem:update(0.0051606524114807) end
+end
 
 function love.load()
+
+    --Particle systems
+  
+
+    loadParticleSystems()
+   
+    
     --board betoltese
+    
     board:load()
+    loadCharacterAnim()
     Event:initEventTable()
     Item:initItemTable()
     selectStartingPlayer()
@@ -507,9 +747,12 @@ function love.load()
 end
 
 function love.update(dt)
-    
+    updateParticleSystems(dt)
+    flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
+    Character:update(dt)
+    sequenceProcessor()
     enableEndGame()
     
 
@@ -517,16 +760,17 @@ end
 
 function love.draw()
     board:draw()
+    Character:drawParticles()
     love.graphics.setColor(charColor)
     Item:drawCurrentItem()
-   
+
    
     if drawEndGame then
         love.graphics.draw(endGameImage, boardGrid[1][1].x * tileW + offsetX, boardGrid[1][1].y * tileH + offsetY)
         love.graphics.setFont(actionMenuFont)
         love.graphics.setColor(selectedColor)
         if #activePlayer.characters == 0 then
-            love.graphics.print(inactivePlayer.name, 160 + offsetX, 500 + offsetY)
+            love.graphics.print(inactivePlayer.name, 260 + offsetX, 580 + offsetY)
         else
             love.graphics.print(activePlayer.name, 260 + offsetX, 580 + offsetY)
         end
@@ -558,6 +802,11 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses) 
     if not drawEndGame then
+
+        if button == 2 then
+            gameState:changeState(gameState.states.selectCharacter)
+        end
+
         if not enableEvent then
             for _, currentChar in ipairs(activePlayer.characters) do
                 if currentChar.isHovered then currentChar:click(x, y) end  
@@ -569,6 +818,11 @@ function love.mousereleased(x, y, button, istouch, presses)
                 if currentChar.isHovered then currentChar:click(x, y) end  
             
             end
+
+           
+
+
+
 
             local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
             local my = math.floor((mouseY / tileH) - offsetY / tileH)
@@ -594,12 +848,25 @@ function love.mousereleased(x, y, button, istouch, presses)
         end
 
         if Item.drawItemOnScreen and
-        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+                x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+                y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
                 Item:confirmItemPickup()
            end
 
-    end
+        if isCancelButton then
+            local sx = selectedChar.x * tileW + offsetX
+            local sy = selectedChar.y * tileW + offsetY
+        
+            if x > sx  and x < (sx + tileW) - tileW / 6 and
+                y > sy and y < (sy + tileW) - tileW /6 then
+                    gameState:changeState(gameState.states.selectCharacter)
+                    isCancelButton = false
+            end
+
+        end
+        
+
+end
 
 function love.mousepressed( x, y, button, istouch, presses )
     if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then

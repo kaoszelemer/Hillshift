@@ -29,43 +29,105 @@ function Event048:eventFunction()
 
 
     for i = 1, 16 do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            if not boardGrid[rndCellX][rndCellY].isPoisoned then
-                boardGrid[rndCellX][rndCellY].isPoisoned = true
-                boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
+        table.insert(sequenceBufferTable, {
+            name = "chaoticchaoseventfirstmodifier",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                if not boardGrid[rndCellX][rndCellY].isPoisoned then
+                    boardGrid[rndCellX][rndCellY].isPoisoned = true
+                    boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
+                end
             end
+        })
     end
     for i = 1, 16 do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) end
-            if not boardGrid[rndCellX][rndCellY].isFrozen then
-                boardGrid[rndCellX][rndCellY].isFrozen = true
-                boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
+        table.insert(sequenceBufferTable, {
+            name = "chaoticchaoseventsecondmodifier",
+            duration = 1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                    rndCellX = love.math.random(1, 10)
+                    rndCellY = love.math.random(1, 10)
+                    if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then
+                         boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 
+                         boardGrid[rndCellX][rndCellY].isInstanced = true
+                        end
+                    if not boardGrid[rndCellX][rndCellY].isFrozen then
+                        boardGrid[rndCellX][rndCellY].isFrozen = true
+                        boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
+                    end
             end
+        })
+
     end
     for i = 1, 16 do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end  
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) end
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) end
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
-                boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) 
-                boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
-                boardGrid[rndCellX][rndCellY].isBurntField = true
+        table.insert(sequenceBufferTable, {
+            name = "chaoticchaoseventthirdmodifier",
+            duration = 1.5,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end  
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareSteaming",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY].isSteaming = true
+                        end
+                    }) 
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareFields",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) 
+                        end
+                    }) 
+                end
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareSteaming",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY].isSteaming = true
+                        end
+                    }) 
+                    table.insert(sequenceBufferTable, {
+                        name = "CellsareLakes",
+                        duration = 0.1,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)                            
+                        end
+                    }) 
+                end
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
+                    boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) 
+                    boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
+                    boardGrid[rndCellX][rndCellY].isBurntField = true
+                end
+                if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
+                    boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
+                    boardGrid[rndCellX][rndCellY].isInstanced = true
+                end
+                if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) and not boardGrid[rndCellX][rndCellY]:instanceOf(GlassMount) and not boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
+                    boardGrid[rndCellX][rndCellY].isOnFire = true 
+                    boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
+                end
             end
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
-                boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
-            end
-            if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) and not boardGrid[rndCellX][rndCellY]:instanceOf(GlassMount) then 
-                boardGrid[rndCellX][rndCellY].isOnFire = true 
-                boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
-            end
+        })
+
     end
 
-
+    Cell:resetParticleDrawing()
 
 
 end

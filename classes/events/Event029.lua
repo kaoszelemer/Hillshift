@@ -31,13 +31,20 @@ function Event029:eventFunction()
 
 
     for x = 1, 10  do
-
+        table.insert(sequenceBufferTable, {
+            name = "littleEarthQuakeEvent",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Mount(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
+            end
+        })
     end
-
+    Cell:resetParticleDrawing()
 
 end
     

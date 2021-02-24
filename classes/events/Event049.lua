@@ -29,13 +29,27 @@ function Event049:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(currentChar.y, currentChar.x)
+        table.insert(sequenceBufferTable, {
+            name = "coordinategeometryfirstcharacter",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                currentChar.stepPoints = currentChar.stepPoints + 1
+                currentChar:move(currentChar.y, currentChar.x, currentChar.x, currentChar.y)
+            end
+        })
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.stepPoints = currentChar.stepPoints + 1
-        currentChar:move(currentChar.y, currentChar.x)
+        table.insert(sequenceBufferTable, {
+            name = "coordinategeometrysecondcharacter",
+            duration = 1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                currentChar.stepPoints = currentChar.stepPoints + 1
+                currentChar:move(currentChar.y, currentChar.x, currentChar.x, currentChar.y)
+            end
+        })
     end
 
 

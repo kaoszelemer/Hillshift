@@ -13,11 +13,18 @@ function Ice:init(x, y)
 end
 
 
-function Ice:iceSlide(selectedChar)
+function Ice:onEntry(selectedChar)
+    table.insert(sequenceBufferTable, {
+        name = "iceSlide",
+        duration = 0.2,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            selectedChar.stepPoints = selectedChar.stepPoints + 1
+            selectedChar.actionPoints = 0
+        end
+    })
 
-    selectedChar.iceSlide = true
-    selectedChar.stepPoints = selectedChar.stepPoints + 1
-    selectedChar.actionPoints = 0
+    selectedChar.stepPoints = 0
     
 
 

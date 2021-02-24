@@ -27,13 +27,16 @@ defendedCellIcon = love.graphics.newImage("graphics/defendedcellicon.png")
 frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
 poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
 fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
+
+
 --validMove images
 validAttackImage = love.graphics.newImage("graphics/validattack.png")
 validStepImage = love.graphics.newImage("graphics/validstep.png")
 validSpellImage = love.graphics.newImage("graphics/validspell.png")
---Endturn button
+--button images
 endTurnButtonImage = love.graphics.newImage("graphics/endturnbutton.png")
 endTurnButtonClickedImage = love.graphics.newImage("graphics/endturnbuttonclicked.png")
+cancelButtonImage = love.graphics.newImage("graphics/cancelbutton.png")
 --Backgrounds
 eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
@@ -98,7 +101,7 @@ local function initPlayerDeck(player)
     else ]]
 
         -- FULL DECK
-       --[[  table.insert(player.characters, GeoGnome(player))
+        --[[ table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
@@ -108,10 +111,21 @@ local function initPlayerDeck(player)
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, WaterHag(player)) ]]
 
+        --- ONLY ONE CHARACTER
+--[[ 
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player))
+        table.insert(player.characters, FireMage(player)) ]]
 
         --AIR POISON FIRE SAND INTERACTIONS
 
-        --[[ table.insert(player.characters, SandWitch(player))
+        table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, FireMage(player))
@@ -122,13 +136,13 @@ local function initPlayerDeck(player)
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player)) ]]
+        table.insert(player.characters, AirElemental(player))
 
 
         -- DRUID FIRE ICE
+        --[[ table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
         table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, Druid(player))
@@ -136,12 +150,14 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player))
+        table.insert(player.characters, IceWizard(player)) ]]
 
         while #player.characters ~= 4 do     
             local cardNumber = love.math.random(1, #player.characters)
             table.remove(player.characters, cardNumber)
         end
+
+       
     
 
 end
@@ -229,7 +245,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -2 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.print(" -20 HP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
 
@@ -243,31 +259,31 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(Mount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Forest) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1HP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-10HP TURN END", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(GlassMount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1AT +1DF", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." AT +"..cell.defenseModifier.." DF", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Desert) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -279,7 +295,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(Swamp) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -305,10 +321,10 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
         love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
 
-        local minHealthBarHeight = 5
+        local minHealthBarHeight = 0.5
         love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
             love.graphics.setColor(charColor)
@@ -318,7 +334,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
             love.graphics.setColor(charColor)
         end
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
@@ -381,7 +397,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -1 DF\n -1 AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print(cell.turnDefenseModifier.." DF\n"..cell.turnAttackModifier.." AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
@@ -393,7 +409,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -2 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.print(" -20 HP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
 
@@ -407,31 +423,31 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(Mount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Forest) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1HP Turn End", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-10HP Turn End", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(GlassMount) then
                         love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1AT +1DF", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("+"..cell.attackModifier.." AT +"..cell.defenseModifier.."DF", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
                     if cell:instanceOf(Desert) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 ATTACK", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.attackModifier.." ATTACK", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -443,7 +459,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(Swamp) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 DEFENSE", modifierX + 36, sideBarY + 110)
+                        love.graphics.print(cell.defenseModifier.." DEFENSE", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -469,10 +485,10 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
         love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
 
-        local minHealthBarHeight = 5
+        local minHealthBarHeight = 0.5
         love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
             love.graphics.setColor(charColor)
@@ -482,7 +498,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
             love.graphics.setColor(charColor)
         end
 
-        if currentChar.baseHP <= 3 then
+        if currentChar.baseHP <= 30 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
@@ -536,14 +552,10 @@ end
 function drawPossibleDamageOnEnemyCharacter()
     local attacker
     local enemy
-  
-        for _, currentChar in ipairs(activePlayer.characters) do
+    if selectedChar and gameState.state == gameState.states.selectAttackTargetCharacter then
 
-            if currentChar.isInAttackState then
-                attacker = currentChar
-            end
-
-        end
+                attacker = selectedChar
+      
 
         for _, currentChar in ipairs(inactivePlayer.characters) do
 
@@ -554,53 +566,34 @@ function drawPossibleDamageOnEnemyCharacter()
         end
 
             if enemy ~= nil and attacker ~= nil then
+
+                if enemy.turnDefenseModifier == nil then turnDefenseModifier = 0 end
+                if enemy.turnAttackModifier == nil then turnAttackModifier = 0 end
                 
             local minDamage = math.max(0, (1 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
             local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 
           
-                love.graphics.setFont(statFont)
-                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4) - 5) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY, 48, 20)
+                love.graphics.setFont(littleFont)
+                love.graphics.rectangle("fill", (enemy.x * tileW + (tileW / 4) - 5) + offsetX, (enemy.y * tileH) + (tileH - 17) + offsetY, 48, 15)
                 love.graphics.setColor(selectedColor)
-                love.graphics.print(minDamage .. " - " .. maxDamage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH / 4) + offsetY)
+                love.graphics.print(minDamage .. " - " .. maxDamage, (enemy.x * tileW + (tileW / 4)) + offsetX, (enemy.y * tileH) + (tileH - 17) + offsetY)
                 love.graphics.setFont(statFont)
                 love.graphics.setColor(charColor)
             end
-
-end
-
-function board:resetAllCharacterStates(playerone, playertwo)
-
-    for _, currentChar in ipairs(playerone.characters) do
-        currentChar.isSelected = false
-        currentChar.isActionMenuDrawn = false
-        currentChar.isInStepState = false
-        currentChar.isInAttackState = false
-      --  currentChar.isInDefenseState = false
-        currentChar.isInSpellState = false
     end
-
-    for _, currentChar in ipairs(playertwo.characters) do
-        currentChar.isSelected = false
-        currentChar.isActionMenuDrawn = false
-        currentChar.isInStepState = false
-        currentChar.isInAttackState = false
-        currentChar.isInSpellState = false
-      --  currentChar.isInDefenseState = false
-    end
-
-    selectedChar = nil
 
 end
 
 local function initBoardgrid()
     for x = 1, maxRow do boardGrid[x] = {}
         for y = 1, maxCol do 
+            
             --start mezők beállítása  
-            if      x == 5 and y == 1 or x == 5 and y == 2 or
-                    x == 6 and y == 1 or x == 6 and y == 2 or
-                    x == 5 and y == 9 or x == 6 and y == 9 or
-                    x == 5 and y == 10 or x == 6 and y == 10 then 
+            if      x == 5 and y == 2 or x == 5 and y == 3 or
+                    x == 6 and y == 2 or x == 6 and y == 3 or
+                    x == 5 and y == 8 or x == 6 and y == 8 or
+                    x == 5 and y == 9 or x == 6 and y == 9 then 
                     
                     selectedType = 4
             -- egyébként legyen random
@@ -618,8 +611,9 @@ local function initBoardgrid()
 end
 
 function spawnChestPlayerOne()
-    local rndCellX = love.math.random(1, 3) --1 3
-    local rndCellY = love.math.random(2, 4) --2 4
+    
+    local rndCellX = love.math.random(1, 2) --1 3
+    local rndCellY = love.math.random(1, 4) --2 4
 
         if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
@@ -630,8 +624,8 @@ function spawnChestPlayerOne()
 end
 
 function spawnChestPlayerTwo()
-    local rndCellX = love.math.random(7, 9) --7 9
-    local rndCellY = love.math.random(6, 9) --6 9
+    local rndCellX = love.math.random(9, 10) --7 9
+    local rndCellY = love.math.random(7, 10) --6 9
 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
@@ -656,19 +650,19 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 1)
-        elseif i == 2 then currentChar:move(5, 2)
-        elseif i == 3 then currentChar:move(6, 1)
-        elseif i == 4 then currentChar:move(6, 2)
+        if     i == 1 then currentChar:move(5, 2)
+        elseif i == 2 then currentChar:move(5, 3)
+        elseif i == 3 then currentChar:move(6, 2)
+        elseif i == 4 then currentChar:move(6, 3)
         end
         currentChar.stepPoints = 1
     end
 
     for i, currentChar in ipairs(playerTwo.characters) do
-        if     i == 1 then currentChar:move(5, 9)
-        elseif i == 2 then currentChar:move(5, 10)
-        elseif i == 3 then currentChar:move(6, 9)
-        elseif i == 4 then currentChar:move(6, 10)
+        if     i == 1 then currentChar:move(5, 8)
+        elseif i == 2 then currentChar:move(5, 9)
+        elseif i == 3 then currentChar:move(6, 8)
+        elseif i == 4 then currentChar:move(6, 9)
         end
         currentChar.stepPoints = 1
     end
@@ -690,7 +684,7 @@ local function drawRectanglesIfHoveredOrOccupied()
         love.graphics.setColor(charColor)
         love.graphics.setLineWidth(1)
         end
-
+        
         if boardGrid[i][j].isOccupied == true and boardGrid[i][j].occupiedBy and boardGrid[i][j].occupiedBy.parentPlayer == activePlayer then
             love.graphics.setLineWidth(3)
             love.graphics.setColor(charColor)
@@ -704,15 +698,29 @@ local function drawRectanglesIfHoveredOrOccupied()
 end
 
 local function drawBoardGrid()
-    for x = 1, 10 do
-        for y = 1, 10 do 
-            local cell = boardGrid[x][y]
-            love.graphics.draw(boardPicture, cell.quad, cell.x * tileW + offsetX, cell.y * tileH  + offsetY)
-            if cell.isOnFire then love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-            if cell.isPoisoned then love.graphics.draw(poisonGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-            if cell.isFrozen then love.graphics.draw(frozenGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-        end
-    end
+            for x = 1, 10 do
+                for y = 1, 10 do 
+                    
+                    local cell = boardGrid[x][y]
+                    local x = cell.x * tileW + offsetX
+                    local y = cell.y * tileH  + offsetY
+                    love.graphics.draw(boardPicture, cell.quad, x, y)
+                    if cell.isOnFire then 
+                        --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
+                        fireBorderAnimation:draw(fireBorderAnimationImage, x, y)
+                    end
+                    
+                    if cell.isPoisoned then
+                        poisonBorderAnimation:draw(poisonBorderAnimationImage, x, y) 
+                    end
+
+                    if cell.isFrozen then 
+                        frozenBorderAnimation:draw(frozenBorderAnimationImage, x, y)
+                    end
+
+                end
+            end
+
 end
 
 
@@ -746,18 +754,51 @@ local function drawEventOnBoard()
 end
 
 
-
 function drawEventOnBackground()
         Event001:drawEventStuff()
 end
 
 function enableDrawAttack(character, enemy)
 
-    drawAttack = true
-    drawnAttackingCharacter = character
-    drawnEnemyCharacter = enemy
+
+    table.insert(sequenceBufferTable, {
+        name = "drawingAttackAnimation",
+        duration = 0.0,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            attackAnimation:gotoFrame(1)
+            drawnAttackingCharacter = character
+            drawnEnemyCharacter = enemy
+            drawAttackAnim = true
+            
+          
+        end
+    })
+
+    table.insert(sequenceBufferTable, { 
+        name = "drawingAttackDiceAndDamage",
+        duration = 0.2,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            drawnAttackingCharacter = character
+            drawnEnemyCharacter = enemy
+            drawAttack = true
+            
+        end
+    })
+
+   
+
+   
+
+    animTimer = love.timer.getTime()
+    animStop = 0.8
+
     timerStart = love.timer.getTime()
-    timerStop = 3
+    timerStop = 4
+   
+
+    
 
 end
 
@@ -766,7 +807,9 @@ function drawAttackOnBoard()
     if drawAttack then
         local enemy = drawnEnemyCharacter
         local character = drawnAttackingCharacter
+
         if enemy ~= nil and activePlayer == playerOne then
+
     
             local diceX = 25
             local diceY = height - 100
@@ -971,6 +1014,12 @@ local function spawnChestIfPlayerIsBehind()
 
 end
 
+local function drawSpellAnimationsOnBoard()
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar:drawSpellAnimation()
+    end
+end
+
 function board:load()
 
     playerOne = {
@@ -1000,14 +1049,63 @@ function board:load()
    while chestCounter ~= 2 do
     spawnChestPlayerTwo()
    end
+   ---Borders
+   fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
+   local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
+   fireBorderAnimation = anim8.newAnimation(g('1-8', 1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
 
+   frozenBorderAnimationImage = love.graphics.newImage('graphics/frozenborderanimation.png')
+   local g = anim8.newGrid(64, 64, frozenBorderAnimationImage:getWidth(), frozenBorderAnimationImage:getHeight())
+   frozenBorderAnimation = anim8.newAnimation(g('1-8',1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
+
+   poisonBorderAnimationImage = love.graphics.newImage('graphics/poisonborderanimation.png')
+   local g = anim8.newGrid(64, 64, poisonBorderAnimationImage:getWidth(), poisonBorderAnimationImage:getHeight())
+   poisonBorderAnimation = anim8.newAnimation(g('1-8',1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
+
+   --Spells
+   attackAnimationImage = love.graphics.newImage('graphics/attackanimationdown.png')
+   local g = anim8.newGrid(64, 128, attackAnimationImage:getWidth(), attackAnimationImage:getHeight())
+   attackAnimation = anim8.newAnimation(g('1-8',1), 0.1)
+
+   fireSpellAnimationImage = love.graphics.newImage('graphics/firemagespellanim.png')
+   local g = anim8.newGrid(32, 32, fireSpellAnimationImage:getWidth(), fireSpellAnimationImage:getHeight())
+   fireSpellAnimation = anim8.newAnimation(g('1-8',1), 0.1)
+
+   airElementalSpellAnimationImage = love.graphics.newImage('graphics/airelementalspellanim.png')
+   local g = anim8.newGrid(32, 32, airElementalSpellAnimationImage:getWidth(), airElementalSpellAnimationImage:getHeight())
+   airElementalSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   alchemistSpellAnimationImage = love.graphics.newImage('graphics/alchemistspellanim.png')
+   local g = anim8.newGrid(32, 32, alchemistSpellAnimationImage:getWidth(), alchemistSpellAnimationImage:getHeight())
+   alchemistSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   druidSpellAnimationImage = love.graphics.newImage('graphics/druidspellanim.png')
+   local g = anim8.newGrid(32, 32, druidSpellAnimationImage:getWidth(), druidSpellAnimationImage:getHeight())
+   druidSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   iceWizardSpellAnimationImage = love.graphics.newImage('graphics/icewizardspellanim.png')
+   local g = anim8.newGrid(32, 32, iceWizardSpellAnimationImage:getWidth(), iceWizardSpellAnimationImage:getHeight())
+   iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   sandWitchSpellAnimationImage = love.graphics.newImage('graphics/sandwitchspellanim.png')
+   local g = anim8.newGrid(32, 32, sandWitchSpellAnimationImage:getWidth(), sandWitchSpellAnimationImage:getHeight())
+   sandWitchSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   waterHagSpellAnimationImage = love.graphics.newImage('graphics/waterwitchspellanim.png')
+   local g = anim8.newGrid(32, 32, waterHagSpellAnimationImage:getWidth(), waterHagSpellAnimationImage:getHeight())
+   waterHagSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   geoGnomeSpellAnimationImage = love.graphics.newImage('graphics/geognomespellanim.png')
+   local g = anim8.newGrid(32, 32, geoGnomeSpellAnimationImage:getWidth(), geoGnomeSpellAnimationImage:getHeight())
+   geoGnomeSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+   
 end
 
 function board:update(dt)
 
-    if drawAttack and love.timer.getTime() - timerStart >= timerStop then
-        drawAttack = false
-    end
+    --if sequenceBufferTable
+
+   
 
     local lightningTimerStop = 1
 
@@ -1021,6 +1119,18 @@ function board:update(dt)
         end
     end
 
+    for _, currentChar in ipairs(activePlayer.characters) do
+        currentChar:update(dt)
+    end
+
+    for _, currentChar in ipairs(inactivePlayer.characters) do
+        currentChar:update(dt)
+    end
+
+    fireBorderAnimation:update(dt)
+    frozenBorderAnimation:update(dt)
+    poisonBorderAnimation:update(dt)
+ 
 
     testBoardForOccupy(activePlayer, inactivePlayer)
     spawnChestIfPlayerIsBehind()
@@ -1031,18 +1141,25 @@ function board:draw()
     love.graphics.draw(hillShiftLogoImage, width / 4 + 128, 10)
     --drawModifier()
     drawBoardGrid()
+   
     drawChests()
     drawEndTurnButton()
+    Cell:drawFireParticles()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
+    Character:drawCancelButton()
     Character:drawValidIcons()
     Character:drawHealthBar()
+    drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
+    Character:drawAttackAnimation()
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
     Cell:drawLightningOnBoard()
+    
+    Cell:spawnParticlesWhenInstanced()
 
 
     -----EVENT RAJZOLÁS

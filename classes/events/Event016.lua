@@ -29,11 +29,21 @@ function Event016:eventFunction()
 
 
     for x = 1, (love.math.random(1, 100)) do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
-            boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
+        table.insert(sequenceBufferTable, {
+            name = "floodingEvent",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
+            end
+        })
     end
 
+    Cell:resetParticleDrawing()
 
 end
     

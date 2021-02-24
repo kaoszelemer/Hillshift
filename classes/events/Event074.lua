@@ -30,14 +30,25 @@ function Event074:eventFunction()
 
    
     for x = 1, 60  do
-
+        table.insert(sequenceBufferTable, {
+            name = "glassfactoryevent",
+            duration = 0.3,
+            sequenceTime = love.timer.getTime(),
+            action = function()
                 rndCellX = love.math.random(1, 10)
                 rndCellY = love.math.random(1, 10)
 
                 boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY)
+                boardGrid[rndCellX][rndCellY].isInstanced = true
+            end
+        })
        
     end
+
+    Cell:resetParticleDrawing()
+
 end
     
+
 
 return Event074

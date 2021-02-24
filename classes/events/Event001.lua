@@ -29,22 +29,72 @@ function Event001:eventFunction()
 
     for x = 1, 10 do
         for y = 1, 10 do
-            if not boardGrid[x][y]:instanceOf(BurntField) then
-                 boardGrid[x][y].isOnFire = true
-            end
-            if boardGrid[x][y]:instanceOf(Lake) then boardGrid[x][y] = Field(x, y) end
-            if boardGrid[x][y]:instanceOf(Ice) then boardGrid[x][y] = Lake(x, y) end
-            if boardGrid[x][y]:instanceOf(Forest) then 
-                boardGrid[x][y] = BurntField(x, y)
-                boardGrid[x][y].isBurntField = true
-                boardGrid[x][y].burntFieldTimer = turnCounter
-            end
-            if boardGrid[x][y]:instanceOf(Desert) then boardGrid[x][y] = GlassMount(x, y) end
+            table.insert(sequenceBufferTable, {
+                name = "ArmageddonEvent",
+                duration = 0.1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
 
-            boardGrid[x][y].fireTurn = turnCounter
+                    if not boardGrid[x][y]:instanceOf(BurntField) then
+                        boardGrid[x][y].isOnFire = true
+                    end
+
+                    if boardGrid[x][y]:instanceOf(Lake) then 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsareSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsAreFields",
+                            duration = 1.5,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y] = Field(x, y)
+                            end
+                        }) 
+                    end
+
+                    if boardGrid[x][y]:instanceOf(Ice) then
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsareSteaming",
+                            duration = 0.1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y].isSteaming = true
+                            end
+                        }) 
+                        table.insert(sequenceBufferTable, {
+                            name = "CellsareSteaming",
+                            duration = 1.5,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                boardGrid[x][y] = Lake(x, y) 
+                            end
+                        }) 
+                    end
+                    
+                    if boardGrid[x][y]:instanceOf(Forest) then 
+                        boardGrid[x][y] = BurntField(x, y)
+                        boardGrid[x][y].isBurntField = true
+                        boardGrid[x][y].burntFieldTimer = turnCounter
+                    end
+
+                    if boardGrid[x][y]:instanceOf(Desert) then 
+                        boardGrid[x][y] = GlassMount(x, y)
+                        boardGrid[x][y].isInstanced = true
+                    end
+
+                    boardGrid[x][y].fireTurn = turnCounter
+
+                end
+            })
         end
     end
-
+    Cell:resetParticleDrawing()
 end
     
 

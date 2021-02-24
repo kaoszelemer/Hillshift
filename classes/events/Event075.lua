@@ -26,9 +26,14 @@ end
 end
 
 function Event075:eventFunction()
-
-    endTurn()    
-
+    table.insert(sequenceBufferTable, {
+        name = "glassfactoryevent",
+        duration = 0.3,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            endTurn()    
+        end
+    })
 end
     
 

@@ -29,9 +29,18 @@ function Event059:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        boardGrid[currentChar.x][currentChar.y] = Field(currentChar.x, currentChar.y)
+        table.insert(sequenceBufferTable, {
+            name = "glassfactoryevent",
+            duration = 0.3,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+              boardGrid[currentChar.x][currentChar.y] = Field(currentChar.x, currentChar.y)
+              boardGrid[currentChar.x][currentChar.y].isInstanced = true
+            end
+        })
     end
 
+    Cell:resetParticleDrawing()
 
 end
     

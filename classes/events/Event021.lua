@@ -29,11 +29,24 @@ function Event021:eventFunction()
 
 
     for x = 1, 100 do
-        local chance = love.math.random()
-        rndCellX = love.math.random(1, 10)
-        rndCellY = love.math.random(1, 10)
-        if chance < 0.2 and boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then boardGrid[rndCellX][rndCellY] = MagicForest(rndCellX, rndCellY) end
+        table.insert(sequenceBufferTable, {
+            name = "magicForestEvent",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                local chance = love.math.random()
+                rndCellX = love.math.random(1, 10)
+                rndCellY = love.math.random(1, 10)
+                if chance < 0.2 and boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then
+                     boardGrid[rndCellX][rndCellY] = MagicForest(rndCellX, rndCellY)
+                     boardGrid[rndCellX][rndCellY].isInstanced = true
+                end
+            end
+        })
     end
+
+    Cell:resetParticleDrawing()
 
 end
     

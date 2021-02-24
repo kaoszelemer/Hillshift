@@ -4,7 +4,7 @@ function Item11:init()
     love.graphics.newImage("graphics/item09image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Priest Axe",
-    "Axe Of Healing\n\n+1AT +2HP",
+    "Axe Of Healing\n\n+1AT +12HP",
     1,
     0,
     1)
