@@ -588,7 +588,7 @@ end
 local function initBoardgrid()
     for x = 1, maxRow do boardGrid[x] = {}
         for y = 1, maxCol do 
-            
+            selectedType = 4
             --start mezők beállítása  
             if      x == 5 and y == 2 or x == 5 and y == 3 or
                     x == 6 and y == 2 or x == 6 and y == 3 or
@@ -597,7 +597,7 @@ local function initBoardgrid()
                     
                     selectedType = 4
             -- egyébként legyen random
-            else    selectedType = love.math.random(1, #cellType)           
+            --else    selectedType = love.math.random(1, #cellType)           
             end
             -- a mezők adatai itt kerülnek be a táblázatba
             if      selectedType == 1 then boardGrid[x][y] = Forest(x, y)
@@ -605,6 +605,8 @@ local function initBoardgrid()
             elseif  selectedType == 3 then boardGrid[x][y] = Lake(x, y)    
             elseif  selectedType == 4 then boardGrid[x][y] = Field(x, y)
             end
+
+
 
         end
     end
@@ -666,7 +668,88 @@ local function moveCharactersToStartingPosition()
         end
         currentChar.stepPoints = 1
     end
+
+    if gameState.state == gameState.states.selectCharacter then
+        table.insert(sequenceBufferTable, {
+            name = "creatingRandomizedBoard",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                createBoardGrid()
+            end
+        })
+
+    end
+
+
 end
+
+
+function createBoardGrid()
+
+    for y = 1, 10 do
+        for x = 1, 10 do 
+            table.insert(sequenceBufferTable, {
+                name = "creatingRandomizedBoard",
+                duration = 0.01,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+            
+                    --start mezők beállítása  
+                    if      x == 5 and y == 2 or x == 5 and y == 3 or
+                            x == 6 and y == 2 or x == 6 and y == 3 or
+                            x == 5 and y == 8 or x == 6 and y == 8 or
+                            x == 5 and y == 9 or x == 6 and y == 9 then 
+                            
+                            selectedType = 4
+                    -- egyébként legyen random
+                    else    selectedType = love.math.random(1, #cellType)           
+                    end
+                    -- a mezők adatai itt kerülnek be a táblázatba
+                  
+                    if      selectedType == 1 then 
+                        boardGrid[x][y] = Forest(x, y)
+                    elseif  selectedType == 2 then 
+                        boardGrid[x][y] = Mount(x, y) 
+                    elseif  selectedType == 3 then 
+                        boardGrid[x][y] = Lake(x, y)    
+                    elseif  selectedType == 4 then 
+                        boardGrid[x][y] = Field(x, y)
+                    end
+                    boardGrid[x][y].isInstanced = true
+                end
+            })
+
+        end
+    end
+    table.insert(sequenceBufferTable, {
+        name = "spawningachest",
+        duration = 1.2,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+    
+            while chestCounter ~= 1 do
+                spawnChestPlayerOne()
+            end
+        end
+    })
+    table.insert(sequenceBufferTable, {
+        name = "spawningachest",
+        duration = 1.2,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            while chestCounter ~= 2 do
+                spawnChestPlayerTwo()
+            end
+
+        end
+    })
+
+    Cell:resetParticleDrawing()
+
+end
+
+
 
 local function drawRectanglesIfHoveredOrOccupied()
       
@@ -1020,36 +1103,8 @@ local function drawSpellAnimationsOnBoard()
     end
 end
 
-function board:load()
-
-    playerOne = {
-
-        name = "Player One",
-        characters = {}
-
-    }
-
-    playerTwo = {
-
-        name = "Player Two",
-        characters = {}
-
-    }
-
-    initPlayerDeck(playerOne)
-    initPlayerDeck(playerTwo)
-    boardGrid = {}        
-    initBoardgrid()
-    moveCharactersToStartingPosition()
-
-   while chestCounter ~= 1 do
-    spawnChestPlayerOne()
-   end
-
-   while chestCounter ~= 2 do
-    spawnChestPlayerTwo()
-   end
-   ---Borders
+local function loadAnimations()
+    ---Borders
    fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
    local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
    fireBorderAnimation = anim8.newAnimation(g('1-8', 1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
@@ -1098,6 +1153,33 @@ function board:load()
    geoGnomeSpellAnimationImage = love.graphics.newImage('graphics/geognomespellanim.png')
    local g = anim8.newGrid(32, 32, geoGnomeSpellAnimationImage:getWidth(), geoGnomeSpellAnimationImage:getHeight())
    geoGnomeSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+end
+
+function board:load()
+
+    playerOne = {
+
+        name = "Player One",
+        characters = {}
+
+    }
+
+    playerTwo = {
+
+        name = "Player Two",
+        characters = {}
+
+    }
+
+    initPlayerDeck(playerOne)
+    initPlayerDeck(playerTwo)
+    boardGrid = {}        
+    initBoardgrid()
+    moveCharactersToStartingPosition()
+
+    loadAnimations()
+   
+  
    
 end
 
@@ -1160,6 +1242,7 @@ function board:draw()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
+    
 
 
     -----EVENT RAJZOLÁS

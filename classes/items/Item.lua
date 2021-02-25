@@ -71,10 +71,17 @@ function Item:confirmItemPickup()
 
     for index, item in ipairs(itemTable) do
         if item.enableDraw == true then
-          item:itemFunction(self.itemOwnerCharacter, self.itemOwnerPlayer)
-          item.enableDraw = false
-
+            table.insert(sequenceBufferTable, {
+                name = "WaterHagSpell",
+                duration = 0.2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    item:itemFunction(self.itemOwnerCharacter, self.itemOwnerPlayer)
+                    item.enableDraw = false
+                end
+            })
         end
+
     end
 
     self.drawItemOnScreen = false

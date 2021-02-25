@@ -90,9 +90,10 @@ end
 
 function Event:enableEvent()
 
-    enableEvent = true
-    self.nextEventID = self:getNextEventID()
 
+        enableEvent = true
+        self.nextEventID = self:getNextEventID()
+    
 
 end
 
@@ -100,9 +101,15 @@ function Event:confirmEventWithClick()
 
     for index, event in ipairs(eventTable) do
         if event.enableDraw == true then
-          event:eventFunction()
-          event.enableDraw = false
-
+            table.insert(sequenceBufferTable, {
+                name = "WaterHagSpell",
+                duration = 0.3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    event:eventFunction()
+                    event.enableDraw = false
+                end
+            })
         end
     end
 
