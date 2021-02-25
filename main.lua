@@ -744,6 +744,7 @@ local function updateParticleSystems(dt)
 end
 
 function love.load()
+    love.window.setFullscreen(true, "desktop")
 
     --Particle systems
   
@@ -761,7 +762,7 @@ function love.load()
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
-    love.window.setMode(width,height)
+    --love.window.setMode(width,height)
     love.mouse.setVisible(false)
 end
 
@@ -778,6 +779,25 @@ function love.update(dt)
 end
 
 function love.draw()
+
+    --scaling
+    
+    love.window.setFullscreen(true)
+    local screenWidth, screenHeight = love.window.getDesktopDimensions()
+
+   local scaleX =  math.floor(screenWidth / width)
+   local scaleY =  math.floor(screenHeight / height)
+    if scaleX == 1 and scaleY == 1 then
+        scaleX, scaleY = (screenWidth / width), (screenHeight / height)
+    end
+    
+
+    --[[ local xoffset = (windowWidth-width *2)/2 -- 960x540 in 1280x720 will produce black borders
+    local yoffset = (windowHeight-yscale*2)/2 -- so image needs to be centered
+    love.graphics.translate(xoffset, yoffset) -- needed when centering so coordinates remain consistent ]]
+    love.graphics.scale(scaleX, scaleY)
+
+
     board:draw()
     Character:drawParticles()
     love.graphics.setColor(charColor)
@@ -892,5 +912,13 @@ function love.mousepressed( x, y, button, istouch, presses )
        isEndTurnButtonClicked = true
     end
 end
+
+function love.keypressed(key)
+    if key == "escape" then
+        love.event.push("quit") -- quit the game
+    end
+end
+
+
 
 end

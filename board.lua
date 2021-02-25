@@ -102,7 +102,7 @@ local function initPlayerDeck(player)
     else ]]
 
         -- FULL DECK
-        --[[ table.insert(player.characters, GeoGnome(player))
+        table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
@@ -110,7 +110,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, ThunderShaman(player))
         table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player)) ]]
+        table.insert(player.characters, WaterHag(player))
 
         --- ONLY ONE CHARACTER
 --[[ 
@@ -126,7 +126,7 @@ local function initPlayerDeck(player)
 
         --AIR POISON FIRE SAND INTERACTIONS
 
-        table.insert(player.characters, SandWitch(player))
+        --[[ table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, SandWitch(player))
         table.insert(player.characters, FireMage(player))
@@ -137,7 +137,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, AirElemental(player))
         table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
+        table.insert(player.characters, AirElemental(player)) ]]
 
 
         -- DRUID FIRE ICE
