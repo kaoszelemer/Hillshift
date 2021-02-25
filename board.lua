@@ -14,6 +14,7 @@ hillShiftLogoImage = love.graphics.newImage("/graphics/hillshiftlogo.png")
 --tileset
 boardPicture = love.graphics.newImage("/graphics/tileset4.png")
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
+prisonImage = love.graphics.newImage("/graphics/prison.png")
 --icons
 attackIcon = love.graphics.newImage("graphics/attackicon.png")
 moveIcon = love.graphics.newImage("graphics/moveicon.png")
@@ -652,19 +653,19 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 2)
-        elseif i == 2 then currentChar:move(5, 3)
-        elseif i == 3 then currentChar:move(6, 2)
-        elseif i == 4 then currentChar:move(6, 3)
+        if     i == 1 then currentChar:move(5, 6) --5,2
+        elseif i == 2 then currentChar:move(6, 6) --5,3
+        elseif i == 3 then currentChar:move(6, 7) --6,2
+        elseif i == 4 then currentChar:move(5, 7) --6,3
         end
         currentChar.stepPoints = 1
     end
 
     for i, currentChar in ipairs(playerTwo.characters) do
-        if     i == 1 then currentChar:move(5, 8)
-        elseif i == 2 then currentChar:move(5, 9)
-        elseif i == 3 then currentChar:move(6, 8)
-        elseif i == 4 then currentChar:move(6, 9)
+        if     i == 1 then currentChar:move(5, 8) --5,8
+        elseif i == 2 then currentChar:move(5, 9) --5,9
+        elseif i == 3 then currentChar:move(6, 8) --6,8
+        elseif i == 4 then currentChar:move(6, 9) --6,9
         end
         currentChar.stepPoints = 1
     end
@@ -734,7 +735,7 @@ function createBoardGrid()
         end
     })
     table.insert(sequenceBufferTable, {
-        name = "spawningachest",
+        name = "AirElementalblowFire",
         duration = 1.2,
         sequenceTime = love.timer.getTime(),
         action = function()
@@ -748,7 +749,6 @@ function createBoardGrid()
     Cell:resetParticleDrawing()
 
 end
-
 
 
 local function drawRectanglesIfHoveredOrOccupied()
@@ -1170,6 +1170,8 @@ function board:load()
         characters = {}
 
     }
+    playerOne.prisonCount = 0
+    playerTwo.prisonCount = 0
 
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
@@ -1216,6 +1218,7 @@ function board:update(dt)
 
     testBoardForOccupy(activePlayer, inactivePlayer)
     spawnChestIfPlayerIsBehind()
+   
 end
 
 function board:draw()
@@ -1242,6 +1245,7 @@ function board:draw()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
+    Cell:drawPrisonCell()
     
 
 

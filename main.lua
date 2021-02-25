@@ -65,6 +65,9 @@ ThunderShaman = require('classes.characters.ThunderShaman')
 SandWitch = require('classes.characters.SandWitch')
 WaterHag = require('classes.characters.WaterHag')
 
+deadPool = {}
+
+
 Item = require('classes.items.Item')
 Item01 = require('classes.items.Item01')
 Item02 = require('classes.items.Item02')
@@ -405,6 +408,22 @@ function newTurn()
 
     Cell:resetParticleDrawing()
 
+end
+
+
+function spawnPrison(player)
+    if player.prisonCount == 0 then
+        if player == playerTwo then
+            boardGrid[1][10] = Field(1, 10)
+            boardGrid[1][10].isPrison = true
+            player.prisonCount = player.prisonCount + 1
+        end
+        if player == playerOne then
+            boardGrid[10][1] = Field(10, 1)
+            boardGrid[10][1].isPrison = true
+            player.prisonCount = layer..prisonCount + 1
+        end
+    end
 end
 
 function enableEndGame()

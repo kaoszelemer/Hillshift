@@ -15,6 +15,7 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
     self.drawLightning = 0
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
+    self.prisonCount = 0
 end
 
 
@@ -160,6 +161,21 @@ function Cell:drawFireParticles()
 
 end
 
+function Cell:drawPrisonCell()
+    for x = 1, 10 do
+        for y = 1, 10 do
+
+           local cell = boardGrid[x][y]
+
+            if cell.isPrison then
+                love.graphics.draw(prisonImage, cell.x * tileW + offsetX, cell.y * tileH + offsetY)
+            end
+
+        end
+    end
+
+end
+
 function Cell:click()
 
 
@@ -192,6 +208,50 @@ function Cell:onEntry(character)
             chestCounter = chestCounter - 1
         end
     end
+
+
+    if self.isPrison then
+                    for index, currentChar in ipairs(deadPool) do
+                        table.insert(sequenceBufferTable, {
+                            name = "startingCellwasOccupiedSoMovingToanotherPosition",
+                            duration = 0.3,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                table.insert(character.parentPlayer.characters, currentChar)
+                            end
+                        })
+                        currentChar.baseHP = 75
+                        local rndCellX = love.math.random(1, 10)
+                        local rndCellY = love.math.random(1, 10)
+                        table.insert(sequenceBufferTable, {
+                            name = "startingCellwasOccupiedSoMovingToanotherPosition",
+                            duration = 0.3,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                if boardGrid[currentChar.x][currentChar.y].isOccupied then
+                                        currentChar:move(rndCellX, rndCellY)
+                                end
+                            end
+                        })
+                        table.insert(sequenceBufferTable, {
+                            name = "AnotherPositionWasOccupiedSoMovingAgain",
+                            duration = 1,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                if boardGrid[currentChar.x][currentChar.y].isOccupied then
+                                        currentChar:move(rndCellX, rndCellY)
+                                end
+                            end
+                        })
+                        
+                        self.isPrison = false
+
+                    end
+                
+            
+            end
+
+
 
 end
 
