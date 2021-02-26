@@ -1027,13 +1027,11 @@ function drawDamageFlyingNumbers()
         local duration = 3
         if love.timer.getTime() - enemy.attackTime <= duration then
           
-            flyingnumberx, flyingnumbery = enemy.x, enemy.y
-          
-            love.graphics.rectangle("fill", flyingnumberx * tileW + offsetX, flyingnumbery * tileW + offsetY, tileW, tileH)
+            love.graphics.rectangle("fill", enemy.x * tileW + offsetX, enemy.y * tileW + offsetY, tileW, tileH)
             love.graphics.setColor(selectedColor)
             love.graphics.setFont(font)
            
-            love.graphics.print("-"..damage, flyingnumberx * tileW + offsetX, flyingnumbery * tileW + offsetY)
+            love.graphics.print("-"..damage, enemy.x * tileW + offsetX, enemy.y * tileW + offsetY)
             love.graphics.setColor(charColor)
 
 
@@ -1150,14 +1148,7 @@ end
 
 function board:update(dt)
 
-    if drawAttack then
-    local flyingnumbervy = 2
-    local flyingnumbervx = 2
-
-    flyingnumberx = flyingnumberx + (flyingnumbervx * dt) -- We multiply by 'dt' so they move equally fast regardless of framerate.
-    flyingnumbery = flyingnumbery + (flyingnumbervy * dt)
-
-    end
+   
     --if sequenceBufferTable
 
     
