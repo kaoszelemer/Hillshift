@@ -132,9 +132,9 @@ function Cell:drawLightningOnBoard()
                 love.graphics.setColor(selectedColor)
                 love.graphics.setFont(font)
                 if boardGrid[x][y]:instanceOf(Lake) and boardGrid[x][y].isOccupied then
-                    love.graphics.print("-30", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                    love.graphics.print("-20", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
                 elseif boardGrid[x][y].isOccupied then
-                    love.graphics.print("-15", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
+                    love.graphics.print("-10", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
                 end
                 love.graphics.setColor(charColor)
                 love.graphics.setFont(statFont)
@@ -212,39 +212,28 @@ function Cell:onEntry(character)
 
     if self.isPrison then
                     for index, currentChar in ipairs(deadPool) do
-                        table.insert(sequenceBufferTable, {
-                            name = "startingCellwasOccupiedSoMovingToanotherPosition",
-                            duration = 0.3,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                table.insert(character.parentPlayer.characters, currentChar)
-                            end
-                        })
-                        currentChar.baseHP = 35
-                        local rndCellX = love.math.random(1, 10)
-                        local rndCellY = love.math.random(1, 10)
-                        table.insert(sequenceBufferTable, {
-                            name = "startingCellwasOccupiedSoMovingToanotherPosition",
-                            duration = 0.3,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                if boardGrid[currentChar.x][currentChar.y].isOccupied then
-                                        currentChar:move(rndCellX, rndCellY)
+
+                        if character.parentPlayer == currentChar.parentPlayer then
+
+                            table.insert(sequenceBufferTable, {
+                                name = "startingCellwasOccupiedSoMovingToanotherPosition",
+                                duration = 0.3,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    currentChar.x = love.math.random(1, 10)
+                                    currentChar.y = love.math.random(1, 10)
+                                    if boardGrid[currentChar.x][currentChar.y].isOccupied then
+                                        currentChar.x = 1
+                                        currentChar.y = 1
+                                    end
+                                    currentChar.baseHP = math.floor((currentChar.maxHP / 100) * 60)
+                                    table.insert(character.parentPlayer.characters, currentChar)
                                 end
-                            end
-                        })
-                        table.insert(sequenceBufferTable, {
-                            name = "AnotherPositionWasOccupiedSoMovingAgain",
-                            duration = 1,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                if boardGrid[currentChar.x][currentChar.y].isOccupied then
-                                        currentChar:move(rndCellX, rndCellY)
-                                end
-                            end
-                        })
-                        
-                        self.isPrison = false
+                            })
+
+                             self.isPrison = false
+
+                        end
 
                     end
                 

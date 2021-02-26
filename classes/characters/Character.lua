@@ -1,6 +1,7 @@
 local Character = class("Character")
 
-function Character:init(baseHP, baseDefense, baseAttack, id, image, idleAnimImage, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
+function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleAnimImage, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
+    self.maxHP = maxHP
     self.baseHP = baseHP
     self.baseDefense = baseDefense
     self.baseAttack = baseAttack
@@ -571,14 +572,28 @@ function Character:kill()
         end   
     end
 
-    if #playerOne.characters == 3 and #playerTwo.characters == 4 then  
-        print("spawning prison for activeplayer")
-        spawnPrison(playerOne)
-    end
+    if turnCounter < 30 then isDrawEventForPrisonSpawn = true end
 
-    if #playerTwo.characters == 3 and #playerOne.characters == 4 then
-        print("spawning prison for inactiveplayer")
-        spawnPrison(playerTwo)
+    if suddenDeath ~= true then
+        if #playerOne.characters == 3 and #playerTwo.characters == 4 then  
+            print("spawning prison for activeplayer")
+            spawnPrison(playerOne)
+        end
+
+        if #playerTwo.characters == 3 and #playerOne.characters == 4 then
+            print("spawning prison for inactiveplayer")
+            spawnPrison(playerTwo)
+        end
+
+        if #playerOne.characters == 2 and #playerTwo.characters == 4 then  
+            print("spawning chest for activeplayer")
+            spawnChestPlayerOne()
+        end
+
+        if #playerTwo.characters == 2 and #playerOne.characters == 4 then
+            print("spawning chest for inactiveplayer")
+            spawnChestPlayerTwo()
+        end
     end
 
 

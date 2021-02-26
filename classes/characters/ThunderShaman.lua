@@ -1,6 +1,6 @@
 local ThunderShaman = Character:extend("ThunderShaman")
 function ThunderShaman:init(parentPlayer)
-    Character.init(self, 40, 4, 10, 7, 
+    Character.init(self, 40, 40, 4, 10, 7, 
     love.graphics.newImage("/graphics/thundershaman.png"),   
     love.graphics.newImage("/graphics/thundershamananim.png"),          
     love.graphics.newImage("/graphics/thundershamanhover.png"),

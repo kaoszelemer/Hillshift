@@ -4,6 +4,7 @@
 class = require('lib.30log')
 anim8 = require('lib.anim8')
 flux = require('lib.flux')
+tween = require('lib.tween')
 
 StateMachine = require('classes.StateMachine')
 
@@ -231,70 +232,104 @@ function sequenceProcessor()
 end
 
 function endTurn()
+    drawAttack = false
     turnCounter = turnCounter + 1
+    
     eventTurnCounter = eventTurnCounter + 1
+    if turnCounter >= 30 then 
+        isSuddenDeath = true 
+        if turnCounter == 31 then isDrawEventForSuddenDeath = true end
+        --eventTurnCounter = -40
+        --chestCounter = 30
+    end
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
     local burnCell
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
-        for x = 1, 10 do
-            for y = 1, 10 do
+      
 
-            if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].isOnFire or boardGrid[x][y].isFrozen then
-                boardGrid[x][y].HP = boardGrid[x][y].HP - 1
-            end
 
-            if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].HP <= 0 then
-                boardGrid[x][y] = Desert(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
+    for x = 1, 10 do
+        for y = 1, 10 do
 
-            if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
-                boardGrid[x][y] = Field(x, y)
-                boardGrid[x][y].isInstanced = true
-                boardGrid[x][y].isBurntField = false
-            end
+            if isSuddenDeath then
 
-            if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
-                boardGrid[x][y].isPoisoned = false
-            end
-
-            if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then
-               boardGrid[x][y].isOnFire = false
-            end
-       
-
-            if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
-                boardGrid[x][y].isFrozen = false
-            end
-
-            if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
-                boardGrid[x][y].isFrozen = false
-            end
-
-            if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 3 then
-
-                if love.math.random() < 0.25 then boardGrid[x][y] = Forest(x, y) end
-                if love.math.random() < 0.25 then boardGrid[x][y] = Mount(x, y) end
-                if love.math.random() < 0.25 then boardGrid[x][y] = Lake(x, y) end
-                if love.math.random() < 0.25 then boardGrid[x][y] = Field(x, y) end
-                if love.math.random() < 0.12 then boardGrid[x][y] = Desert(x, y) end
-                if love.math.random() < 0.10 then boardGrid[x][y] = Swamp(x, y) end
-                if love.math.random() < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
-
-            end
-        
+                        eventTurnCounter = -40
+                        for v = 1, 10 do  
+                            if turnCounter == 30 + v then
+                            
+                            
+                                boardGrid[v][y].isOnFire = true 
+                                boardGrid[x][v].isOnFire = true
+                                boardGrid[11-v][y].isOnFire = true
+                                boardGrid[x][11-v].isOnFire = true
+                                
+                            end
+                        end
                 
-                        
-            if boardGrid[x][y].isOnFire and boardGrid[x][y]:instanceOf(Forest) then
-                boardGrid[x][y] = BurntField(x, y)
-                boardGrid[x][y].isBurntField = true
-                boardGrid[x][y].burntFieldTimer = turnCounter
+            else
+
+                
+
+                if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].isOnFire or boardGrid[x][y].isFrozen then
+                    boardGrid[x][y].HP = boardGrid[x][y].HP - 1
+                end
+
+                if boardGrid[x][y]:instanceOf(Mount) and boardGrid[x][y].HP <= 0 then
+                    boardGrid[x][y] = Desert(x, y)
+                    boardGrid[x][y].isInstanced = true
+                end
+
+                if boardGrid[x][y].isBurntField and turnCounter - boardGrid[x][y].burntFieldTimer == 2 then
+                    boardGrid[x][y] = Field(x, y)
+                    boardGrid[x][y].isInstanced = true
+                    boardGrid[x][y].isBurntField = false
+                end
+
+                if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
+                    boardGrid[x][y].isPoisoned = false
+                end
+
+                if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then
+                boardGrid[x][y].isOnFire = false
+                end
+        
+
+                if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
+                    boardGrid[x][y].isFrozen = false
+                end
+
+                if boardGrid[x][y].isFrozen and turnCounter - boardGrid[x][y].freezeTurn == 2 then
+                    boardGrid[x][y].isFrozen = false
+                end
+
+                if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 3 then
+
+                    if love.math.random() < 0.25 then boardGrid[x][y] = Forest(x, y) end
+                    if love.math.random() < 0.25 then boardGrid[x][y] = Mount(x, y) end
+                    if love.math.random() < 0.25 then boardGrid[x][y] = Lake(x, y) end
+                    if love.math.random() < 0.25 then boardGrid[x][y] = Field(x, y) end
+                    if love.math.random() < 0.12 then boardGrid[x][y] = Desert(x, y) end
+                    if love.math.random() < 0.10 then boardGrid[x][y] = Swamp(x, y) end
+                    if love.math.random() < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
+
+                end
+            
+                    
+                            
+                if boardGrid[x][y].isOnFire and boardGrid[x][y]:instanceOf(Forest) then
+                    boardGrid[x][y] = BurntField(x, y)
+                    boardGrid[x][y].isBurntField = true
+                    boardGrid[x][y].burntFieldTimer = turnCounter
+                end
+                    
             end
-                 
+
         end
+                        
+
     end
    
   
@@ -387,7 +422,7 @@ function newTurn()
 
     gameState:changeState(gameState.states.selectCharacter)
 
-        if eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
+        if not suddenDeath and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             Event:enableEvent()
             eventTurnCounter = 0
             nextTurnBeforeEventModifier = 0
@@ -412,16 +447,16 @@ end
 
 
 function spawnPrison(player)
-    if player.prisonCount == 0 then
+    if player.prisonCount == 0 and turnCounter < 30 then
         if player == playerTwo then
             boardGrid[1][10] = Field(1, 10)
             boardGrid[1][10].isPrison = true
             player.prisonCount = player.prisonCount + 1
         end
-        if player == playerOne then
+        if player == playerOne and turnCounter < 30 then
             boardGrid[10][1] = Field(10, 1)
             boardGrid[10][1].isPrison = true
-            player.prisonCount = layer..prisonCount + 1
+            player.prisonCount = player.prisonCount + 1
         end
     end
 end
@@ -569,6 +604,25 @@ function loadCharacterAnim()
 
   
 
+
+end
+
+
+
+function spawnChestIfPlayerIsBehind()
+
+    if not suddenDeath and chestCounter == 0 and #activePlayer.characters - #inactivePlayer.characters >= 2 or #inactivePlayer.characters - #activePlayer.characters >= 2 then
+        if inactivePlayer == playerOne then
+            while chestCounter ~= 1 do
+            spawnChestPlayerOne()
+            end
+        else
+            while chestCounter ~= 1 do
+            spawnChestPlayerTwo()
+            end
+        end
+
+    end
 
 end
 
@@ -782,14 +836,15 @@ function love.draw()
 
     --scaling
     
-    love.window.setFullscreen(true)
     local screenWidth, screenHeight = love.window.getDesktopDimensions()
 
-   local scaleX =  math.floor(screenWidth / width)
-   local scaleY =  math.floor(screenHeight / height)
+   local scaleX =  (screenWidth / width)
+   local scaleY =  (screenHeight / height)
+  
     if scaleX == 1 and scaleY == 1 then
         scaleX, scaleY = (screenWidth / width), (screenHeight / height)
     end
+
     
 
     --[[ local xoffset = (windowWidth-width *2)/2 -- 960x540 in 1280x720 will produce black borders
@@ -818,6 +873,29 @@ function love.draw()
 
     end
 
+    if isDrawEventForSuddenDeath then
+        local eventX = (width / 4 + offsetX)
+        local eventY = (height / 4 + offsetY)
+        love.graphics.draw(eventBackgroundImage, eventX, eventY)
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(purpleColor)
+        love.graphics.print("SUDDEN DEATH mode is on.\n\nUnstoppable flames will spread\naround the board.\n\nBe QUICK or DIE!", eventX + tileW, eventY + tileH)
+        love.graphics.setFont(font)
+        love.graphics.setColor(charColor)
+    end
+
+    if isDrawEventForPrisonSpawn and turnCounter < 30 then
+        local eventX = (width / 4 + offsetX)
+        local eventY = (height / 4 + offsetY)
+        love.graphics.draw(eventBackgroundImage, eventX, eventY)
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(purpleColor)
+        love.graphics.print("A PRISON has spawned!\n\nYour character not dead yet.\nYou can free him,\nby moving to the prison cell\n\nYou wont have a chance\nlike this again!", eventX + tileW, eventY + tileH)
+        love.graphics.setFont(font)
+        love.graphics.setColor(charColor)
+    end
+
+
     love.graphics.draw(mouseArrow, mouseX, mouseY)
 
 end
@@ -840,21 +918,28 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
+
     if not drawEndGame then
+     
 
         if button == 2 then
             gameState:changeState(gameState.states.selectCharacter)
         end
 
-        if not enableEvent then
+        if not enableEvent and not isDrawEventForPrisonSpawn and not isDrawEventForSuddenDeath then
             for _, currentChar in ipairs(activePlayer.characters) do
-                if currentChar.isHovered then currentChar:click(x, y) end  
+
+                if currentChar.isHovered then 
+                    currentChar:click(x, y) 
+                end  
             
             end
 
             for _, currentChar in ipairs(inactivePlayer.characters) do
-                
-                if currentChar.isHovered then currentChar:click(x, y) end  
+
+                if currentChar.isHovered then 
+                    currentChar:click(x, y) 
+                end  
             
             end
 
@@ -876,6 +961,11 @@ function love.mousereleased(x, y, button, istouch, presses)
                 newTurn()
             end
 
+
+
+
+
+
         end
 
         if enableEvent and
@@ -886,11 +976,25 @@ function love.mousereleased(x, y, button, istouch, presses)
                 
         end
 
+        if isDrawEventForSuddenDeath and
+        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+            isDrawEventForSuddenDeath = false
+            
+        end
+
+        if isDrawEventForPrisonSpawn and
+        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+            isDrawEventForPrisonSpawn = false
+            
+        end
+
         if Item.drawItemOnScreen and
                 x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
                 y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
                 Item:confirmItemPickup()
-           end
+        end
 
         if isCancelButton then
             local sx = selectedChar.x * tileW + offsetX
@@ -908,8 +1012,10 @@ function love.mousereleased(x, y, button, istouch, presses)
 end
 
 function love.mousepressed( x, y, button, istouch, presses )
-    if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
-       isEndTurnButtonClicked = true
+    if not enableEvent and not enableEndGame and not isDrawEventForPrisonSpawn and not isDrawEventForSuddenDeath then
+        if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
+        isEndTurnButtonClicked = true
+        end
     end
 end
 

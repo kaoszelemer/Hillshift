@@ -837,6 +837,7 @@ end
 local function drawWarningForNextEvent()
 
     if eventTurnCounter >= nextTurnBeforeEvent - 2 then
+
         love.graphics.setFont(statFont)
         love.graphics.draw(eventWarningImage, width / 4, 30)
         love.graphics.draw(eventWarningImage, width / 4 + 640 - 128, 30)
@@ -869,7 +870,8 @@ function enableDrawAttack(character, enemy)
             drawnEnemyCharacter = enemy
             drawAttackAnim = true
             enemy.attackTime = love.timer.getTime()
-
+            fnumber = { x=(enemy.x * tileW + offsetX), y = (enemy.y) * tileH + offsetY, text = damage }
+            fnumberTween = tween.new(7, fnumber, {y= enemy.y + 0.1}, 'outSine')
            
             
 
@@ -883,9 +885,10 @@ function enableDrawAttack(character, enemy)
         action = function()
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
-
+            local angle = 2 * math.pi
             drawAttack = true
-        
+           
+
         end
     })
 
@@ -1021,18 +1024,30 @@ end
 
 function drawDamageFlyingNumbers()
 
-    if drawAttack then
+    if drawAttackAnim then
   
         local enemy = drawnEnemyCharacter
-        local duration = 3
+        local duration = 7
         if love.timer.getTime() - enemy.attackTime <= duration then
-          
-            love.graphics.rectangle("fill", enemy.x * tileW + offsetX, enemy.y * tileW + offsetY, tileW, tileH)
+
+
+
+
+
+            
+        
             love.graphics.setColor(selectedColor)
             love.graphics.setFont(font)
-           
-            love.graphics.print("-"..damage, enemy.x * tileW + offsetX, enemy.y * tileW + offsetY)
+            love.graphics.print("-"..fnumber.text, fnumber.x, fnumber.y)
             love.graphics.setColor(charColor)
+           -- love.graphics.rectangle("fill", fnumberTween.x, fnumberTween.y, 64,64)
+            --
+            --love.graphics.setFont(font)
+            print(fnumber, fnumber.x)
+            
+          --  love.graphics.print("-"..damage, fnumber.x * tileW + offsetX, fnumber.y * tileW + offsetY)
+          --  
+
 
 
         end
@@ -1041,22 +1056,6 @@ function drawDamageFlyingNumbers()
 end
 
 
-local function spawnChestIfPlayerIsBehind()
-
-    if chestCounter == 0 and #activePlayer.characters - #inactivePlayer.characters >= 2 or #inactivePlayer.characters - #activePlayer.characters >= 2 then
-        if inactivePlayer == playerOne then
-            while chestCounter ~= 1 do
-            spawnChestPlayerOne()
-            end
-        else
-            while chestCounter ~= 1 do
-            spawnChestPlayerTwo()
-            end
-        end
-
-    end
-
-end
 
 local function drawSpellAnimationsOnBoard()
     for _, currentChar in ipairs(activePlayer.characters) do
@@ -1150,9 +1149,9 @@ function board:update(dt)
 
    
     --if sequenceBufferTable
-
-    
-
+if drawAttack then
+    fnumberTween:update(dt)
+end
     local lightningTimerStop = 1
 
     for x = 1, 10 do
@@ -1180,7 +1179,7 @@ function board:update(dt)
   
 
     testBoardForOccupy(activePlayer, inactivePlayer)
-    spawnChestIfPlayerIsBehind()
+  
    
 end
 
@@ -1193,23 +1192,27 @@ function board:draw()
     drawChests()
     drawEndTurnButton()
     Cell:drawFireParticles()
+    Character:drawHealthBar()
+    Cell:drawPrisonCell()
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
+    drawStatsOnSideBarPlayerOne(playerOne)
+    drawStatsOnSideBarPlayerTwo(playerTwo)
     Character:drawCancelButton()
+    
     Character:drawValidIcons()
-    Character:drawHealthBar()
+    
     drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
     Character:drawAttackAnimation()
-    drawStatsOnSideBarPlayerOne(playerOne)
-    drawStatsOnSideBarPlayerTwo(playerTwo)
+   
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
     drawDamageFlyingNumbers()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
-    Cell:drawPrisonCell()
+    
     
 
 
