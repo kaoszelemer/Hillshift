@@ -1,11 +1,11 @@
 local IceWizard = Character:extend("IceWizard")
     function IceWizard:init(parentPlayer)
-        Character.init(self, 90, 5, 21, 3, love.graphics.newImage("/graphics/icewizard.png"), 
+        Character.init(self, 45, 3, 10, 3, love.graphics.newImage("/graphics/icewizard.png"), 
                     love.graphics.newImage("/graphics/icewizardanim.png"),
                     love.graphics.newImage("/graphics/icewizardhover.png"), 
                     love.graphics.newImage("/graphics/icewizardsink.png"), 
                     love.graphics.newImage("/graphics/icewizardsinkhover.png"), 
-                    parentPlayer, 1, 1, 0, 0, 0, false)
+                    parentPlayer, 1, 1)
     end
 
     function IceWizard:update(dt)

@@ -13,10 +13,9 @@ function Character:init(baseHP, baseDefense, baseAttack, id, image, idleAnimImag
     self.parentPlayer = parentPlayer
     self.actionPoints = actionPoints
     self.stepPoints = stepPoints
-    self.turnAttackModifier = turnAttackModifier
-    self.turnDefenseModifier = turnDefenseModifier
-    self.defenseCounter = defenseCounter
-    self.defenseState = defenseState
+    self.turnAttackModifier = 0
+    self.turnDefenseModifier = 0
+  
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -89,7 +88,7 @@ function Character:drawHealthBar()
     
 
     for _, currentChar in ipairs(activePlayer.characters) do
-            local healthBarMaxWidth = 0.3
+            local healthBarMaxWidth = 0.75
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
             love.graphics.setColor(charColor)
             love.graphics.rectangle("line", 5 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth + 1, 8)
@@ -106,7 +105,7 @@ function Character:drawHealthBar()
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-            local healthBarMaxWidth = 0.3
+            local healthBarMaxWidth = 0.75
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
             love.graphics.setColor(charColor)
             love.graphics.rectangle("line", 5 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth + 1, 8)
@@ -595,6 +594,19 @@ function Character:attack(enemy)
                 enableDrawAttack(self, enemy)
                 local dr = getDiceRoll()
                 self.diceRoll = dr
+
+                if boardGrid[self.x][self.y].isPoisoned then
+                    self.turnAttackModifier = self.turnAttackModifier - 3
+                    self.turnDefenseModifier = self.turnDefenseModifier - 1
+                end
+
+                if boardGrid[enemy.x][enemy.y].isPoisoned then
+                    enemy.turnAttackModifier = enemy.turnAttackModifier - 3
+                    enemy.turnDefenseModifier = enemy.turnDefenseModifier - 1
+                end
+
+                print(self.turnAttackModifier, self.turnDefenseModifier, enemy.turnDefenseModifier, enemy.turnAttackModifier)
+
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                 damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
 

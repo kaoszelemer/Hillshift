@@ -4,7 +4,7 @@ function Item11:init()
     love.graphics.newImage("graphics/item09image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Priest Axe",
-    "Axe Of Healing\n\n+1AT +12HP",
+    "Axe Of Healing\n\n+1AT +3HP",
     1,
     0,
     1)
@@ -25,7 +25,7 @@ function Item11:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     character.baseAttack = character.baseAttack + 1
-    character.baseHP = character.baseHP + 2
+    character.baseHP = character.baseHP + 3
 
 end
 

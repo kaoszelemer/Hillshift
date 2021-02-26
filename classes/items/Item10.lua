@@ -4,7 +4,7 @@ function Item10:init()
     love.graphics.newImage("graphics/item11image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Dwarf Hat",
-    "with visor\n\n+3DF +10HP",
+    "with visor\n\n+1DF +5HP",
     1,
     0,
     1)
@@ -25,7 +25,7 @@ function Item10:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     character.baseDefense = character.baseDefense + 1
-    character.baseHP = character.baseHP + 10
+    character.baseHP = character.baseHP + 5
 end
 
 return Item10

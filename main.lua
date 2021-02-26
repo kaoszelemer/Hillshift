@@ -318,10 +318,10 @@ function endTurn()
          ]]
         local cell = boardGrid[currentChar.x][currentChar.y]
 
-        if not cell.isPoisoned then
-            currentChar.turnDefenseModifier = 0
-            currentChar.turnAttackModifier = 0
-        end
+    
+        currentChar.turnDefenseModifier = 0
+        currentChar.turnAttackModifier = 0
+        
       --[[   if currentChar.defenseState then
             currentChar.turnDefenseModifier = 2
         end
@@ -329,9 +329,9 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            currentChar.baseHP = currentChar.baseHP - 20
-        elseif cell.isBurntField then
             currentChar.baseHP = currentChar.baseHP - 10
+        elseif cell.isBurntField then
+            currentChar.baseHP = currentChar.baseHP - 7
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
@@ -368,9 +368,9 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            currentChar.baseHP = currentChar.baseHP - 20
-        elseif cell.isBurntField then
             currentChar.baseHP = currentChar.baseHP - 10
+        elseif cell.isBurntField then
+            currentChar.baseHP = currentChar.baseHP - 7
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end

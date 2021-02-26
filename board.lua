@@ -234,7 +234,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -1 DF\n -1 AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print(currentChar.turnDefenseModifier.." DF\n"..currentChar.turnAttackModifier.."AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
@@ -246,7 +246,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -20 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.print(" -10 HP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
 
@@ -272,7 +272,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-10HP TURN END", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-7HP TURN END", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -322,10 +322,10 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
         love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
 
-        local minHealthBarHeight = 0.5
+        local minHealthBarHeight = 1.2
         love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
 
-        if currentChar.baseHP <= 30 then
+        if currentChar.baseHP <= 18 then
             love.graphics.setColor(selectedColor)
             love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
             love.graphics.setColor(charColor)
@@ -335,7 +335,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
             love.graphics.setColor(charColor)
         end
 
-        if currentChar.baseHP <= 30 then
+        if currentChar.baseHP <= 18 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
@@ -371,6 +371,7 @@ end
 
 
 
+
 local function drawStatsOnSideBarPlayerTwo(playertwo)
     for i, currentChar in ipairs(playertwo.characters) do
 
@@ -398,7 +399,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(cell.turnDefenseModifier.." DF\n"..cell.turnAttackModifier.." AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print(currentChar.turnDefenseModifier.." DF\n"..currentChar.turnAttackModifier.."AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
@@ -410,7 +411,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(" -20 HP\nNext Turn", modifierX + 36, sideBarY + 75)
+                        love.graphics.print(" -10 HP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
 
@@ -436,7 +437,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
                     if cell:instanceOf(BurntField) then
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print("-10HP Turn End", modifierX + 36, sideBarY + 110)
+                        love.graphics.print("-7HP Turn End", modifierX + 36, sideBarY + 110)
                         love.graphics.setColor(charColor)
                     end
 
@@ -486,10 +487,10 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         love.graphics.print(" DF: " ..  currentChar.baseDefense, sideBarX + tileW + 52, sideBarY + tileH + 20)
         love.graphics.print(" AT: " ..  currentChar.baseAttack, sideBarX + tileW + 52, sideBarY + tileH)
 
-        local minHealthBarHeight = 0.5
+        local minHealthBarHeight = 1.2
         love.graphics.rectangle("line", sideBarX + tileW + 51, sideBarY + tileH + 40, currentChar.baseHP * minHealthBarHeight + 1, 18)
 
-        if currentChar.baseHP <= 30 then
+        if currentChar.baseHP <= 18 then
             love.graphics.setColor(selectedColor)
             love.graphics.rectangle("fill", sideBarX + tileW + 52, sideBarY + tileH + 41, currentChar.baseHP * minHealthBarHeight, 17)
             love.graphics.setColor(charColor)
@@ -499,7 +500,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
             love.graphics.setColor(charColor)
         end
 
-        if currentChar.baseHP <= 30 then
+        if currentChar.baseHP <= 18 then
             love.graphics.setColor(selectedColor)
             love.graphics.print(" HP: " ..  currentChar.baseHP .. "!!!", sideBarX + tileW + 52, sideBarY + tileH + 40)
             love.graphics.setColor(charColor)
@@ -568,11 +569,25 @@ function drawPossibleDamageOnEnemyCharacter()
 
             if enemy ~= nil and attacker ~= nil then
 
-                if enemy.turnDefenseModifier == nil then turnDefenseModifier = 0 end
-                if enemy.turnAttackModifier == nil then turnAttackModifier = 0 end
-                
-            local minDamage = math.max(0, (1 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
-            local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifier + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+                if boardGrid[enemy.x][enemy.y].isPoisoned then
+                    enemy.turnAttackModifierPP = -3
+                    enemy.turnDefenseModifierPP = -1
+                else
+                    enemy.turnAttackModifierPP = 0
+                    enemy.turnDefenseModifierPP = 0
+                end
+
+                if boardGrid[attacker.x][attacker.y].isPoisoned then
+                    attacker.turnAttackModifierPP = -3
+                    attacker.turnDefenseModifierPP = -1
+                else
+                    attacker.turnAttackModifierPP = 0
+                    attacker.turnDefenseModifierPP = 0
+                end
+
+
+            local minDamage = math.max(0, (1 + attacker.baseAttack + attacker.turnAttackModifierPP + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifierPP))
+            local maxDamage = math.max(0, (6 + attacker.baseAttack + attacker.turnAttackModifierPP + boardGrid[attacker.x][attacker.y].attackModifier) - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifierPP))
 
           
                 love.graphics.setFont(littleFont)
@@ -853,8 +868,11 @@ function enableDrawAttack(character, enemy)
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
             drawAttackAnim = true
+            enemy.attackTime = love.timer.getTime()
+
+           
             
-          
+
         end
     })
 
@@ -865,12 +883,19 @@ function enableDrawAttack(character, enemy)
         action = function()
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
+
             drawAttack = true
-            
+        
         end
     })
 
-   
+
+
+         
+    
+       
+  
+
 
    
 
@@ -902,183 +927,121 @@ function drawAttackOnBoard()
             if character.diceRoll == 1 then
                 love.graphics.draw(diceImage, diceOne, diceX, diceY)
                 love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 2 then
                 love.graphics.draw(diceImage, diceTwo, diceX, diceY)
                  love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 3 then
                 love.graphics.draw(diceImage, diceThree, diceX, diceY)
                  love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 4 then
                 love.graphics.draw(diceImage, diceFour, diceX, diceY)
                  love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 5 then
                 love.graphics.draw(diceImage, diceFive, diceX, diceY)
                  love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 6 then
                 love.graphics.draw(diceImage, diceSix, diceX, diceY)
                  love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
 
 
-            if character.enableDivineDice == true then
-                love.graphics.print("Divine Dice:", divineDiceX - 20, diceY - 32)
-                love.graphics.setFont(pointFont)
-                
-                if character.divineDiceRoll == 1 then
-                    love.graphics.setColor(selectedColor)
-                    love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
-                    love.graphics.setColor(charColor)
-                    love.graphics.draw(divineDiceImage, diceOne, divineDiceX, diceY)
-                end
-                if character.divineDiceRoll == 2 then
-                    love.graphics.setColor(selectedColor)
-                    love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
-                    love.graphics.setColor(charColor)
-                    love.graphics.draw(divineDiceImage, diceTwo, divineDiceX, diceY)
-                end
-                if character.divineDiceRoll == 3 then
-                    love.graphics.setColor(selectedColor)
-                    love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
-                    love.graphics.setColor(charColor)
-                    love.graphics.draw(divineDiceImage, diceThree, divineDiceX, diceY)
-                end
-                if character.divineDiceRoll == 4 then
-                    love.graphics.setColor(selectedColor)
-                    love.graphics.print("-1 HP", divineDiceX + 80, diceY + 24)
-                    love.graphics.setColor(charColor)
-                    love.graphics.draw(divineDiceImage, diceFour, divineDiceX, diceY)
-                end
-                if character.divineDiceRoll == 5 then
-                    love.graphics.setColor(selectedColor)
-                    love.graphics.print("-1 HP", divineDiceX + 80, diceY + 32)
-                    love.graphics.setColor(charColor)
-                    love.graphics.draw(divineDiceImage, diceFive, divineDiceX, diceY)
-                    
-                end
-                if character.divineDiceRoll == 6 then
-                    love.graphics.setColor(selectedColor)
-                    love.graphics.print("-2 HP", divineDiceX + 80, diceY + 32)
-                    love.graphics.setColor(charColor)
-                    love.graphics.draw(divineDiceImage, diceSix, divineDiceX, diceY)
-                   
-                end
+          
 
                 
 
-            end
+        
            
 
         elseif enemy ~= nil and activePlayer == playerTwo then
     
                 local diceX = 985
                 local diceY = height - 100
-                local divineDiceX = diceX + tileW + tileW / 2
                 love.graphics.setFont(pointFont)
                 love.graphics.print("Dice:", diceX + 10, diceY - 32)
                 if character.diceRoll == 1 then
                     love.graphics.draw(diceImage, diceOne, diceX, diceY)
                      love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
                 end
                 if character.diceRoll == 2 then
                     love.graphics.draw(diceImage, diceTwo, diceX, diceY)
                      love.graphics.setColor(selectedColor)
-                    love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                    love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                     love.graphics.setColor(charColor)
                 end
                 if character.diceRoll == 3 then
                     love.graphics.draw(diceImage, diceThree, diceX, diceY)
                     love.graphics.setColor(selectedColor)
-                    love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                    love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                     love.graphics.setColor(charColor)
                 end
                 if character.diceRoll == 4 then
                     love.graphics.draw(diceImage, diceFour, diceX, diceY)
                      love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
                 end
                 if character.diceRoll == 5 then
                     love.graphics.draw(diceImage, diceFive, diceX, diceY)
                      love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
                 end
                 if character.diceRoll == 6 then
                     love.graphics.draw(diceImage, diceSix, diceX, diceY)
                      love.graphics.setColor(selectedColor)
-                love.graphics.print("-"..damage.."HP", diceX + divineDiceX + 80, diceY + 24)
+                love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
                 end
     
-                if character.enableDivineDice == true then
-                    love.graphics.print("Divine Dice:", divineDiceX - 20, diceY - 32)
-                    love.graphics.setFont(pointFont)
-                    
-                    if character.divineDiceRoll == 1 then
-                        love.graphics.setColor(selectedColor)
-                        love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
-                        love.graphics.setColor(charColor)
-                        love.graphics.draw(divineDiceImage, diceOne, divineDiceX, diceY)
-                    end
-                    if character.divineDiceRoll == 2 then
-                        love.graphics.setColor(selectedColor)
-                        love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
-                        love.graphics.setColor(charColor)
-                        love.graphics.draw(divineDiceImage, diceTwo, divineDiceX, diceY)
-                    end
-                    if character.divineDiceRoll == 3 then
-                        love.graphics.setColor(selectedColor)
-                        love.graphics.print("MISS!", divineDiceX + 80, diceY + 24)
-                        love.graphics.setColor(charColor)
-                        love.graphics.draw(divineDiceImage, diceThree, divineDiceX, diceY)
-                    end
-                    if character.divineDiceRoll == 4 then
-                        love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 HP", divineDiceX + 80, diceY + 24)
-                        love.graphics.setColor(charColor)
-                        love.graphics.draw(divineDiceImage, diceFour, divineDiceX, diceY)
-                    end
-                    if character.divineDiceRoll == 5 then
-                        love.graphics.setColor(selectedColor)
-                        love.graphics.print("-1 HP", divineDiceX + 80, diceY + 32)
-                        love.graphics.setColor(charColor)
-                        love.graphics.draw(divineDiceImage, diceFive, divineDiceX, diceY)
-                        
-                    end
-                    if character.divineDiceRoll == 6 then
-                        love.graphics.setColor(selectedColor)
-                        love.graphics.print("-2 HP", divineDiceX + 80, diceY + 32)
-                        love.graphics.setColor(charColor)
-                        love.graphics.draw(divineDiceImage, diceSix, divineDiceX, diceY)
-                       
-                    end
-    
-                    
-    
-                end
+              
+             
         end
     end
 
 end
+
+function drawDamageFlyingNumbers()
+
+    if drawAttack then
+  
+        local enemy = drawnEnemyCharacter
+        local duration = 3
+        if love.timer.getTime() - enemy.attackTime <= duration then
+          
+            flyingnumberx, flyingnumbery = enemy.x, enemy.y
+          
+            love.graphics.rectangle("fill", flyingnumberx * tileW + offsetX, flyingnumbery * tileW + offsetY, tileW, tileH)
+            love.graphics.setColor(selectedColor)
+            love.graphics.setFont(font)
+           
+            love.graphics.print("-"..damage, flyingnumberx * tileW + offsetX, flyingnumbery * tileW + offsetY)
+            love.graphics.setColor(charColor)
+
+
+        end
+    end
+
+end
+
 
 local function spawnChestIfPlayerIsBehind()
 
@@ -1187,9 +1150,17 @@ end
 
 function board:update(dt)
 
+    if drawAttack then
+    local flyingnumbervy = 2
+    local flyingnumbervx = 2
+
+    flyingnumberx = flyingnumberx + (flyingnumbervx * dt) -- We multiply by 'dt' so they move equally fast regardless of framerate.
+    flyingnumbery = flyingnumbery + (flyingnumbervy * dt)
+
+    end
     --if sequenceBufferTable
 
-   
+    
 
     local lightningTimerStop = 1
 
@@ -1214,7 +1185,8 @@ function board:update(dt)
     fireBorderAnimation:update(dt)
     frozenBorderAnimation:update(dt)
     poisonBorderAnimation:update(dt)
- 
+    
+  
 
     testBoardForOccupy(activePlayer, inactivePlayer)
     spawnChestIfPlayerIsBehind()
@@ -1242,6 +1214,7 @@ function board:draw()
     drawStatsOnSideBarPlayerTwo(playerTwo)
     drawRectanglesIfHoveredOrOccupied()
     drawAttackOnBoard()
+    drawDamageFlyingNumbers()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()

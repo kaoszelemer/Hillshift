@@ -6,7 +6,7 @@ function Event004:init()
         "World Peace",
         4,
         "...Gandhi would be proud...",
-        "YOUR characters\n+10HP",
+        "YOUR characters\n+5HP",
         1
     )
 end
@@ -30,7 +30,7 @@ function Event004:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP + 10
+        currentChar.baseHP = currentChar.baseHP + 5
     end
 
 

@@ -6,7 +6,7 @@ function Event013:init()
         "Sickness",
         13,
         "... thats like 2020 ...",
-        "ALL Characters -20HP",
+        "ALL Characters -5HP",
         0
     )
 end
@@ -29,13 +29,13 @@ function Event013:eventFunction()
 
 
     for _, currentChar in ipairs(playerOne.characters) do
-        currentChar.baseHP = currentChar.baseHP - 20
+        currentChar.baseHP = currentChar.baseHP - 5
         if currentChar.baseHP <= 0 then currentChar:kill() end
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
 
-        currentChar.baseHP = currentChar.baseHP - 20
+        currentChar.baseHP = currentChar.baseHP - 5
         if currentChar.baseHP <= 0 then currentChar:kill() end
     end
 

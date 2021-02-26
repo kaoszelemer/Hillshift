@@ -5,7 +5,7 @@ function Item07:init()
     love.graphics.newImage("graphics/weaponicon.png"),
     "Dagger of Jesus",
     "It embraces you\n\n+1A +10HP",
-    3,
+    1,
     0,
     1)
 end
@@ -24,8 +24,8 @@ end
 function Item07:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseAttack = character.baseAttack + 3
-    character.baseHP = character.baseHP + 10
+    character.baseAttack = character.baseAttack + 1
+    character.baseHP = character.baseHP + 5
 
 end
 

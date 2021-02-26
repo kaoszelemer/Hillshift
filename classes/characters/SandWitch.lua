@@ -1,11 +1,11 @@
 local SandWitch = Character:extend("SandWitch")
     function SandWitch:init(parentPlayer)
-        Character.init(self, 95, 4, 23, 8, love.graphics.newImage("/graphics/hillshifthag.png"), 
+        Character.init(self, 40, 3, 12, 8, love.graphics.newImage("/graphics/hillshifthag.png"), 
                     love.graphics.newImage("/graphics/hillshifthaganim.png"), 
                     love.graphics.newImage("/graphics/hillshifthaghover.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsink.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsinkhover.png"), 
-                    parentPlayer, 1, 1, 0, 0, 0, false)
+                    parentPlayer, 1, 1)
     end
 
     function SandWitch:update(dt)

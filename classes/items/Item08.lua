@@ -4,7 +4,7 @@ function Item08:init()
     love.graphics.newImage("graphics/item08image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Knife Of Hell",
-    "My hand!!!\n\n+4AT -10HP",
+    "My hand!!!\n\n+1AT -5HP",
     1,
     0,
     1)
@@ -25,7 +25,7 @@ function Item08:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     character.baseAttack = character.baseAttack + 1
-    character.baseHP = character.baseHP - 1
+    character.baseHP = character.baseHP - 5
     if character.baseHP <= 0 then character:kill() end
 
 end

@@ -1,11 +1,11 @@
 local Druid = Character:extend("Druid")
     function Druid:init(parentPlayer)
-        Character.init(self, 90, 6, 24, 5, love.graphics.newImage("/graphics/druid.png"),
+        Character.init(self, 45, 3, 12, 5, love.graphics.newImage("/graphics/druid.png"),
                     love.graphics.newImage("/graphics/druidanim.png"),
                     love.graphics.newImage("/graphics/druidhover.png"), 
                     love.graphics.newImage("/graphics/druidsink.png"), 
                     love.graphics.newImage("/graphics/druidsinkhover.png"), 
-                    parentPlayer, 1, 1, 0, 0, 0, false)
+                    parentPlayer, 1, 1)
     end
     function Druid:update(dt)
         self.animation:update(dt)

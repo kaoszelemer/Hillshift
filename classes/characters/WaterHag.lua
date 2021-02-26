@@ -1,12 +1,12 @@
 local WaterHag = Character:extend("WaterHag")
 
 function WaterHag:init(parentPlayer)
-    Character.init(self, 105, 5, 22, 9, love.graphics.newImage("/graphics/waterwitch.png"), 
+    Character.init(self, 50, 4, 11, 9, love.graphics.newImage("/graphics/waterwitch.png"), 
                 love.graphics.newImage("/graphics/waterwitchanim.png"), 
                 love.graphics.newImage("/graphics/waterwitchhover.png"), 
                 love.graphics.newImage("/graphics/waterwitchsink.png"), 
                 love.graphics.newImage("/graphics/waterwitchsinkhover.png"), 
-                parentPlayer, 1, 1, 0, 0, 0, false)
+                parentPlayer, 1, 1)
 end
 function WaterHag:update(dt)
     self.animation:update(dt)

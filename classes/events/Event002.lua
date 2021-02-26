@@ -6,7 +6,7 @@ function Event002:init()
         "Divine Heal",
         2,
         "i love Ancsigorl",
-        "All characters\n+10HP",
+        "All characters\n+5HP",
         1
     )
 end
@@ -30,11 +30,11 @@ function Event002:eventFunction()
 
 
     for _, currentChar in ipairs(playerOne.characters) do
-        currentChar.baseHP = currentChar.baseHP + 10
+        currentChar.baseHP = currentChar.baseHP + 5
     end
 
     for _, currentChar in ipairs(playerTwo.characters) do
-        currentChar.baseHP = currentChar.baseHP + 10
+        currentChar.baseHP = currentChar.baseHP + 5
     end
 
 

@@ -220,7 +220,7 @@ function Cell:onEntry(character)
                                 table.insert(character.parentPlayer.characters, currentChar)
                             end
                         })
-                        currentChar.baseHP = 75
+                        currentChar.baseHP = 35
                         local rndCellX = love.math.random(1, 10)
                         local rndCellY = love.math.random(1, 10)
                         table.insert(sequenceBufferTable, {
