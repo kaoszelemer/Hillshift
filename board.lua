@@ -104,7 +104,7 @@ local function initPlayerDeck(player)
         -- FULL DECK
         table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, Alchemist(player))
+      --  table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, IceWizard(player))
@@ -243,6 +243,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                         love.graphics.print("  0 SP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
+                    print(boardGrid[5][7].fireTurn)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
@@ -668,10 +669,10 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 6) --5,2
-        elseif i == 2 then currentChar:move(6, 6) --5,3
-        elseif i == 3 then currentChar:move(6, 7) --6,2
-        elseif i == 4 then currentChar:move(5, 7) --6,3
+        if     i == 1 then currentChar:move(5, 2) --5,2
+        elseif i == 2 then currentChar:move(6, 3) --5,3
+        elseif i == 3 then currentChar:move(6, 2) --6,2
+        elseif i == 4 then currentChar:move(5, 3) --6,3
         end
         currentChar.stepPoints = 1
     end
@@ -838,10 +839,12 @@ local function drawWarningForNextEvent()
 
     if eventTurnCounter >= nextTurnBeforeEvent - 2 then
 
-        love.graphics.setFont(statFont)
+        for i = 255, 0, -1 do
+        love.graphics.setColor(255,255,255,i)
         love.graphics.draw(eventWarningImage, width / 4, 30)
         love.graphics.draw(eventWarningImage, width / 4 + 640 - 128, 30)
         love.graphics.draw(eventWarningImage, width / 4, 700)
+        end
     end
 
 end
@@ -1023,6 +1026,7 @@ function drawAttackOnBoard()
 end
 
 function drawDamageFlyingNumbers()
+  
 
     if drawAttackAnim then
   
@@ -1030,24 +1034,23 @@ function drawDamageFlyingNumbers()
         local duration = 7
         if love.timer.getTime() - enemy.attackTime <= duration then
 
-
-
-
-
-            
+            love.graphics.setColor(yellowColor)
+            love.graphics.setFont(font)
+            love.graphics.print("-"..fnumber.text, fnumber.x + 1, fnumber.y - 1)
+            love.graphics.setColor(charColor)
         
             love.graphics.setColor(selectedColor)
             love.graphics.setFont(font)
             love.graphics.print("-"..fnumber.text, fnumber.x, fnumber.y)
             love.graphics.setColor(charColor)
+        
            -- love.graphics.rectangle("fill", fnumberTween.x, fnumberTween.y, 64,64)
             --
             --love.graphics.setFont(font)
-            print(fnumber, fnumber.x)
             
           --  love.graphics.print("-"..damage, fnumber.x * tileW + offsetX, fnumber.y * tileW + offsetY)
           --  
-
+     
 
 
         end
@@ -1149,9 +1152,9 @@ function board:update(dt)
 
    
     --if sequenceBufferTable
-if drawAttack then
-    fnumberTween:update(dt)
-end
+    if drawAttack then
+        fnumberTween:update(dt)
+    end
     local lightningTimerStop = 1
 
     for x = 1, 10 do

@@ -184,14 +184,15 @@ eventTurnCounter = 0
 lightningTimer = 0
 magicForestTimer = 0
 --Colors
-charColor = {167 / 255, 147 / 255, 173 / 255}
-cellOccupiedColor = {1, 192 / 255, 203 / 255}
-hoverColor = {0, 0, 1}
-selectedColor = {184 / 255, 0, 0}
-greenColor = {0, 1, 0}
-blackColor = {0, 0, 0}
-darkgreenColor = {0, 64 / 255, 21 / 255}
-purpleColor = {87 / 255, 0, 87 / 255}
+charColor = {167 / 255, 147 / 255, 173 / 255, 255}
+cellOccupiedColor = {1, 192 / 255, 203 / 255, 255}
+hoverColor = {0, 0, 1, 255}
+selectedColor = {184 / 255, 0, 0, 255}
+greenColor = {0, 1, 0, 255}
+blackColor = {0, 0, 0, 255}
+darkgreenColor = {0, 64 / 255, 21 / 255, 255}
+purpleColor = {87 / 255, 0, 87 / 255, 255}
+yellowColor = {1,1,0, 255}
 ---
 charH = 32
 charW = 32
@@ -236,9 +237,9 @@ function endTurn()
     turnCounter = turnCounter + 1
     
     eventTurnCounter = eventTurnCounter + 1
-    if turnCounter >= 30 then 
+    if turnCounter >= 20 then 
         isSuddenDeath = true 
-        if turnCounter == 31 then isDrawEventForSuddenDeath = true end
+        if turnCounter == 21 then isDrawEventForSuddenDeath = true end
         --eventTurnCounter = -40
         --chestCounter = 30
     end
@@ -292,8 +293,8 @@ function endTurn()
                     boardGrid[x][y].isPoisoned = false
                 end
 
-                if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 2 then
-                boardGrid[x][y].isOnFire = false
+                if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 3 then
+                    boardGrid[x][y].isOnFire = false
                 end
         
 
