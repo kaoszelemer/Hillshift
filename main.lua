@@ -291,6 +291,18 @@ function endTurn()
 
                 if boardGrid[x][y].isPoisoned and turnCounter - boardGrid[x][y].poisoningTurn == 2 then
                     boardGrid[x][y].isPoisoned = false
+                    for _, currentChar in ipairs(activePlayer.characters) do
+                        if currentChar == boardGrid[x][y].occupiedBy then
+                            currentChar.defenseModifier = currentChar.turnDefenseModifier + 1
+                            currentChar.attackModifier = currentChar.turnAttackModifier + 3
+                        end
+                    end
+                    for _, currentChar in ipairs(inactivePlayer.characters) do
+                        if currentChar == boardGrid[x][y].occupiedBy then
+                            currentChar.turnDefenseModifier = currentChar.turnDefenseModifier + 1
+                            currentChar.turnAttackModifier = currentChar.turnAttackModifier + 3
+                        end
+                    end
                 end
 
                 if boardGrid[x][y].isOnFire and turnCounter - boardGrid[x][y].fireTurn == 3 then
@@ -391,14 +403,7 @@ function endTurn()
         end
         local cell = boardGrid[currentChar.x][currentChar.y]
 
-        if  currentChar.defenseState and turnCounter - currentChar.defenseCounter >= 1 then
-            currentChar.defenseCounter = 0
-            currentChar.enableDefendDraw = false
-            currentChar.defenseState = false
-            currentChar.isInDefenseState = false
-            currentChar.turnDefenseModifier = 0
-            currentChar.turnAttackModifier = 0
-        end
+     
 
 
         if cell.isFrozen then

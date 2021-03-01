@@ -102,7 +102,7 @@ local function initPlayerDeck(player)
     else ]]
 
         -- FULL DECK
-        table.insert(player.characters, GeoGnome(player))
+       --[[  table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
       --  table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
@@ -110,19 +110,19 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, ThunderShaman(player))
         table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player))
+        table.insert(player.characters, WaterHag(player)) ]]
 
         --- ONLY ONE CHARACTER
---[[ 
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player)) ]]
+
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
 
         --AIR POISON FIRE SAND INTERACTIONS
 
@@ -234,7 +234,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                     if cell.isPoisoned then
                         love.graphics.draw(poisonIcon, modifierX, sideBarY + 36)
                         love.graphics.setColor(selectedColor)
-                        love.graphics.print(currentChar.turnDefenseModifier.." DF\n"..currentChar.turnAttackModifier.."AT", modifierX + 36, sideBarY + 39)
+                        love.graphics.print("-1 DF\n-3 AT", modifierX + 36, sideBarY + 39)
                         love.graphics.setColor(charColor)
                     end
                     if cell.isFrozen then
