@@ -7,6 +7,7 @@ class = require('lib.30log')
 anim8 = require('lib.anim8')
 flux = require('lib.flux')
 tween = require('lib.tween')
+sock = require('lib.sock')
 
 StateMachine = require('classes.StateMachine')
 
@@ -823,9 +824,70 @@ local function quitGame()
     love.event.push("quit")
 end
 
+local function loadNetworkingServer()
 
-function love.load()
+ server = sock.newServer("localhost", 22122)
+ server:on("connect", function(data, client)
+     local msg = "Server - Pong!"
+     client:send("hello", msg)
+ end)
+
+end
+
+local function loadNetworkingClient(ipaddress)
+    local IP = ipaddress
+    print("Joining to"..ipaddress)
+
+    client = sock.newClient(ipaddress, 22122)
+
+    client:on("connect", function(data)
+        print("Client connected to the server.")
+    end)
+    
+    client:on("disconnect", function(data)
+        print("Client disconnected from the server.")
+    end)
+
+    -- Custom callback, called whenever you send the event from the server
+    client:on("hello", function(msg)
+        print("The server reply to ping: " .. msg)
+    end)
+
+    client:connect()
+    
+    --  You can send different types of data
+    --[[ client:send("greeting", "Hello, my name is Inigo Montoya.")
+    client:send("isShooting", true)
+    client:send("bulletsLeft", 1)
+    client:send("position", {
+        x = 465.3,
+        y = 50,
+    }) ]]
+
+
+
+
+end
+
+function love.load(arg)
    -- love.window.setFullscreen(true, "desktop")
+
+    local a = arg[1]
+    local servercreator = "-create"
+    local serverjoiner = "-join"
+
+    if a == servercreator then 
+        
+        loadNetworkingServer()
+
+    end
+
+    if a == serverjoiner then
+
+        loadNetworkingClient(arg[2])
+
+    end
+
     love.window.setMode(width,height)
     --Particle systems
   

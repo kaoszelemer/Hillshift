@@ -837,7 +837,6 @@ end
 
 
 local function drawWarningForNextEvent()
-    print(eventTurnCounter, nextTurnBeforeEvent)
     if eventTurnCounter >= nextTurnBeforeEvent - 2 then
 
         for i = 255, 0, -1 do
