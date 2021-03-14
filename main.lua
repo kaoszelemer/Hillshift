@@ -915,10 +915,14 @@ function love.load(arg)
     --board betoltese
     
     board:load()
-    loadCharacterAnim()
+    if isServer then
+        loadCharacterAnim()
+    end
     Event:initEventTable()
     Item:initItemTable()
-    selectStartingPlayer()
+    if isServer then
+        selectStartingPlayer()
+    end
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
