@@ -567,33 +567,37 @@ function Character:kill()
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar then
             boardGrid[self.x][self.y].isOccupied = false
-            table.insert(deadPool, currentChar)
+            table.insert(deadPool, self)
             table.remove(self.parentPlayer.characters, index)
         end   
     end
 
-    if turnCounter < 30 then isDrawEventForPrisonSpawn = true end
+    if turnCounter < 20 and not isSuddenDeath then
 
-    if suddenDeath ~= true then
-        if #playerOne.characters == 3 and #playerTwo.characters == 4 then  
-            print("spawning prison for activeplayer")
-            spawnPrison(playerOne)
+        if isSuddenDeath ~= true then
+            if #playerOne.characters < 4  and playerOne.prisonCount == 0 then
+                print("spawning prison for PLAYER ONE")
+                isDrawEventForPrisonSpawn = true
+                spawnPrison(playerOne)
+            end
+
+            if #playerTwo.characters < 4 and playerTwo.prisonCount == 0 then
+                print("spawning prison for PLAYER TWO")
+                isDrawEventForPrisonSpawn = true
+                spawnPrison(playerTwo)
+            end
+
+            if #playerOne.characters == 2 and #playerTwo.characters == 4 then  
+                print("spawning chest for activeplayer")
+                spawnChestPlayerOne()
+            end
+
+            if #playerTwo.characters == 2 and #playerOne.characters == 4 then
+                print("spawning chest for inactiveplayer")
+                spawnChestPlayerTwo()
+            end
         end
 
-        if #playerTwo.characters == 3 and #playerOne.characters == 4 then
-            print("spawning prison for inactiveplayer")
-            spawnPrison(playerTwo)
-        end
-
-        if #playerOne.characters == 2 and #playerTwo.characters == 4 then  
-            print("spawning chest for activeplayer")
-            spawnChestPlayerOne()
-        end
-
-        if #playerTwo.characters == 2 and #playerOne.characters == 4 then
-            print("spawning chest for inactiveplayer")
-            spawnChestPlayerTwo()
-        end
     end
 
 

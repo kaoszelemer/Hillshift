@@ -1,5 +1,7 @@
 -- HillShift - project started: 2021.01.01
 
+isDebug = false
+
 --require
 class = require('lib.30log')
 anim8 = require('lib.anim8')
@@ -237,9 +239,9 @@ function endTurn()
     turnCounter = turnCounter + 1
     
     eventTurnCounter = eventTurnCounter + 1
-    if turnCounter >= 20 then 
+    if turnCounter == 20 then 
         isSuddenDeath = true 
-        if turnCounter == 21 then isDrawEventForSuddenDeath = true end
+        if turnCounter == 20 then isDrawEventForSuddenDeath = true end
         --eventTurnCounter = -40
         --chestCounter = 30
     end
@@ -259,7 +261,7 @@ function endTurn()
 
                         eventTurnCounter = -40
                         for v = 1, 10 do  
-                            if turnCounter == 30 + v then
+                            if turnCounter == 19 + v then
                             
                             
                                 boardGrid[v][y].isOnFire = true 
@@ -453,16 +455,17 @@ end
 
 
 function spawnPrison(player)
-    if player.prisonCount == 0 and turnCounter < 30 then
-        if player == playerTwo then
+    if turnCounter < 20 then
+        print(playerOne.prisonCount, playerTwo.prisonCount)
+        if player == playerTwo and playerTwo.prisonCount == 0 then
             boardGrid[1][10] = Field(1, 10)
             boardGrid[1][10].isPrison = true
-            player.prisonCount = player.prisonCount + 1
+            playerTwo.prisonCount = playerTwo.prisonCount + 1
         end
-        if player == playerOne and turnCounter < 30 then
+        if player == playerOne and playerOne.prisonCount == 0 then
             boardGrid[10][1] = Field(10, 1)
             boardGrid[10][1].isPrison = true
-            player.prisonCount = player.prisonCount + 1
+            playerOne.prisonCount = playerOne.prisonCount + 1
         end
     end
 end
@@ -470,7 +473,7 @@ end
 function enableEndGame()
 
     if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 then
-    drawEndGame = true
+        drawEndGame = true
     end
 
 
@@ -495,14 +498,23 @@ local function selectStartingPlayer()
 end
 
 local function testMouseForValidSpellDrawing(rMx, rMy)
+    pointerOnBottomLeftSide = false
+    pointerOnBottomRightSide = false
+    pointerOnBottomSide = false
+    pointerOnTopLeftSide = false
+    pointerOnTopRightSide = false
+    pointerOnTopSide = false
+    pointerOnLeftSide = false
+    pointerOnRightSide = false
 
     local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
     local  mY = math.floor((rMy / tileH) - offsetY / tileH)
  if gameState.state == gameState.states.selectSpellTargetArea or gameState.state == gameState.states.selectAttackTargetCharacter then
         for _, currentChar in ipairs(activePlayer.characters) do
 
+
             --- Fent lent jobbra balra
-            if currentChar.x < mX then
+            if currentChar.x < mX  then
                 pointerOnLeftSide = false
                 pointerOnRightSide = true
                 pointerOnTopSide = false
@@ -514,7 +526,7 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
                 pointerOnTopSide = false
                 pointerOnBottomSide = false
             end
-            if currentChar.y < mY  then
+            if currentChar.y < mY then
                 pointerOnTopSide = false
                 pointerOnBottomSide = true
                 pointerOnLeftSide = false
@@ -803,9 +815,18 @@ local function updateParticleSystems(dt)
     for step = 1, 96 do steamParticleSystem:update(0.0051606524114807) end
 end
 
-function love.load()
-    love.window.setFullscreen(true, "desktop")
 
+
+
+local function quitGame()
+    print("Quitting... Goodbye!")
+    love.event.push("quit")
+end
+
+
+function love.load()
+   -- love.window.setFullscreen(true, "desktop")
+    love.window.setMode(width,height)
     --Particle systems
   
 
@@ -822,7 +843,7 @@ function love.load()
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
-    --love.window.setMode(width,height)
+  
     love.mouse.setVisible(false)
 end
 
@@ -844,19 +865,14 @@ function love.draw()
     
     local screenWidth, screenHeight = love.window.getDesktopDimensions()
 
-   local scaleX =  (screenWidth / width)
-   local scaleY =  (screenHeight / height)
+    local scaleX =  (screenWidth / width)
+    local scaleY =  (screenHeight / height)
   
     if scaleX == 1 and scaleY == 1 then
         scaleX, scaleY = (screenWidth / width), (screenHeight / height)
     end
 
-    
-
-    --[[ local xoffset = (windowWidth-width *2)/2 -- 960x540 in 1280x720 will produce black borders
-    local yoffset = (windowHeight-yscale*2)/2 -- so image needs to be centered
-    love.graphics.translate(xoffset, yoffset) -- needed when centering so coordinates remain consistent ]]
-    love.graphics.scale(scaleX, scaleY)
+   -- love.graphics.scale(scaleX, scaleY)
 
 
     board:draw()
@@ -869,10 +885,11 @@ function love.draw()
         love.graphics.draw(endGameImage, boardGrid[1][1].x * tileW + offsetX, boardGrid[1][1].y * tileH + offsetY)
         love.graphics.setFont(actionMenuFont)
         love.graphics.setColor(selectedColor)
+        love.graphics.print("ALL HILLS WERE SHIFTED.\n\nThat means you killed\nall of your enemies.\nYou've made the world:", boardGrid[1][1].x * tileW + offsetX + tileW, boardGrid[1][1].y * tileH + offsetY + tileH * 2)
         if #activePlayer.characters == 0 then
-            love.graphics.print(inactivePlayer.name, 260 + offsetX, 580 + offsetY)
+            love.graphics.print(inactivePlayer.name, 360 + offsetX, 380 + offsetY)
         else
-            love.graphics.print(activePlayer.name, 260 + offsetX, 580 + offsetY)
+            love.graphics.print(activePlayer.name, 360 + offsetX, 380 + offsetY)
         end
         love.graphics.setFont(statFont)
         love.graphics.setColor(charColor)
@@ -890,7 +907,7 @@ function love.draw()
         love.graphics.setColor(charColor)
     end
 
-    if isDrawEventForPrisonSpawn and turnCounter < 30 then
+    if isDrawEventForPrisonSpawn and turnCounter < 20 then
         local eventX = (width / 4 + offsetX)
         local eventY = (height / 4 + offsetY)
         love.graphics.draw(eventBackgroundImage, eventX, eventY)
@@ -924,6 +941,21 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
+    if drawEndGame and
+       
+    x > (boardGrid[1][1].x * tileW + offsetX) + 106 and x < (boardGrid[1][1].x * tileW + offsetX) + 223 and
+    y > (boardGrid[1][1].y * tileH + offsetY) + 450 and y < (boardGrid[1][1].y * tileH + offsetY) + 492 then
+        quitGame()
+    end
+
+    if drawEndGame and
+       
+    x > (boardGrid[1][1].x * tileW + offsetX) + 435 and x < (boardGrid[1][1].x * tileW + offsetX) + 555 and
+    y > (boardGrid[1][1].y * tileH + offsetY) + 450 and y < (boardGrid[1][1].y * tileH + offsetY) + 492 then
+        isNewGame = true
+        newGame()
+    end
+
 
     if not drawEndGame then
      
@@ -967,11 +999,6 @@ function love.mousereleased(x, y, button, istouch, presses)
                 newTurn()
             end
 
-
-
-
-
-
         end
 
         if enableEvent and
@@ -1013,7 +1040,8 @@ function love.mousereleased(x, y, button, istouch, presses)
             end
 
         end
-        
+
+       
 
 end
 

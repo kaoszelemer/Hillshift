@@ -15,7 +15,6 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
     self.drawLightning = 0
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
-    self.prisonCount = 0
 end
 
 

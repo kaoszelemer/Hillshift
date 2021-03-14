@@ -96,24 +96,27 @@ cellQuadTable = {
     },
 }
 
+
+
 local function initPlayerDeck(player)
 
     --[[ if isDebug then debugHillShift(player)
     else ]]
 
         -- FULL DECK
-       --[[  table.insert(player.characters, GeoGnome(player))
+        table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
-      --  table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, FireMage(player))
         table.insert(player.characters, Druid(player))
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, ThunderShaman(player))
         table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player)) ]]
+        table.insert(player.characters, WaterHag(player))
 
         --- ONLY ONE CHARACTER
 
+        --[[ table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, Alchemist(player))
@@ -121,8 +124,7 @@ local function initPlayerDeck(player)
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, Alchemist(player))
         table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
+        table.insert(player.characters, Alchemist(player)) ]]
 
         --AIR POISON FIRE SAND INTERACTIONS
 
@@ -243,7 +245,6 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                         love.graphics.print("  0 SP\nNext Turn", modifierX + 36, sideBarY + 75)
                         love.graphics.setColor(charColor)
                     end
-                    print(boardGrid[5][7].fireTurn)
                     if cell.isOnFire then
                         love.graphics.draw(fireIcon, modifierX, sideBarY + 70)
                         love.graphics.setColor(selectedColor)
@@ -669,10 +670,10 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 2) --5,2
-        elseif i == 2 then currentChar:move(6, 3) --5,3
-        elseif i == 3 then currentChar:move(6, 2) --6,2
-        elseif i == 4 then currentChar:move(5, 3) --6,3
+        if     i == 1 then currentChar:move(5, 5) --5,2
+        elseif i == 2 then currentChar:move(6, 5) --5,3
+        elseif i == 3 then currentChar:move(6, 6) --6,2
+        elseif i == 4 then currentChar:move(5, 6) --6,3
         end
         currentChar.stepPoints = 1
     end
@@ -740,7 +741,7 @@ function createBoardGrid()
         end
     end
     table.insert(sequenceBufferTable, {
-        name = "spawningachest",
+        name = "spawningachestforplayerOne",
         duration = 1.2,
         sequenceTime = love.timer.getTime(),
         action = function()
@@ -751,7 +752,7 @@ function createBoardGrid()
         end
     })
     table.insert(sequenceBufferTable, {
-        name = "AirElementalblowFire",
+        name = "spawningachestforplayertwo",
         duration = 1.2,
         sequenceTime = love.timer.getTime(),
         action = function()
@@ -836,7 +837,7 @@ end
 
 
 local function drawWarningForNextEvent()
-
+    print(eventTurnCounter, nextTurnBeforeEvent)
     if eventTurnCounter >= nextTurnBeforeEvent - 2 then
 
         for i = 255, 0, -1 do
@@ -1116,6 +1117,61 @@ local function loadAnimations()
    geoGnomeSpellAnimationImage = love.graphics.newImage('graphics/geognomespellanim.png')
    local g = anim8.newGrid(32, 32, geoGnomeSpellAnimationImage:getWidth(), geoGnomeSpellAnimationImage:getHeight())
    geoGnomeSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+end
+
+function newGame()
+
+    print("newGame")
+    if isNewGame then
+    drawEndGame = false
+    isSuddenDeath = false
+
+    playerOne.prisonCount = 0
+    playerTwo.prisonCount = 0
+    chestCounter = 0
+    turnCounter = 0
+    eventTurnCounter = 0
+    nextTurnBeforeEvent = love.math.random(5, 9)
+    print("initing player decks")
+    initPlayerDeck(playerOne)
+    initPlayerDeck(playerTwo)
+    print(playerOne)
+  
+    print("loading character animations")
+    loadCharacterAnim()
+
+    print("initing boardGrid")
+    boardGrid = {}        
+    initBoardgrid()
+
+    print("moving characters to starting position")
+    moveCharactersToStartingPosition()
+
+    startingDicePlayerOne = love.math.random(1, 6)
+    startingDicePlayerTwo = love.math.random(1, 6)
+
+    if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
+
+    if rndPlayer == 1 then
+        activePlayer = playerOne
+        inactivePlayer = playerTwo
+    else
+        activePlayer = playerTwo
+        inactivePlayer = playerOne
+    end
+
+    for index, currentChar in ipairs(playerOne.characters) do
+        currentChar.baseHP = currentChar.maxHP
+    end
+    for index, currentChar in ipairs(playerTwo.characters) do
+        currentChar.baseHP = currentChar.maxHP
+    end
+
+
+
+    isNewGame = false
+    end
+
 end
 
 function board:load()
