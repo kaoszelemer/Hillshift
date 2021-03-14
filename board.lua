@@ -1174,28 +1174,29 @@ function newGame()
 end
 
 function board:load()
+    if isServer then 
+        playerOne = {
 
-    playerOne = {
+            name = "Player One",
+            characters = {}
 
-        name = "Player One",
-        characters = {}
+        }
 
-    }
+        playerTwo = {
 
-    playerTwo = {
+            name = "Player Two",
+            characters = {}
 
-        name = "Player Two",
-        characters = {}
+        }
+        playerOne.prisonCount = 0
+        playerTwo.prisonCount = 0
 
-    }
-    playerOne.prisonCount = 0
-    playerTwo.prisonCount = 0
-
-    initPlayerDeck(playerOne)
-    initPlayerDeck(playerTwo)
-    boardGrid = {}        
-    initBoardgrid()
-    moveCharactersToStartingPosition()
+        initPlayerDeck(playerOne)
+        initPlayerDeck(playerTwo)
+        boardGrid = {}        
+        initBoardgrid()
+        moveCharactersToStartingPosition()
+    end
 
     loadAnimations()
    

@@ -826,10 +826,15 @@ end
 
 local function loadNetworkingServer()
 
- server = sock.newServer("127.0.0.1", 22122)
+ server = sock.newServer("192.168.3.102", 22122)
  server:on("connect", function(data, client)
      local msg = "Server - Pong!"
+     local grid = boardGrid
+     local chars = inactivePlayer.characters
      client:send("hello", msg)
+     client:send("boardGrid", grid)
+     print(boardGrid, inactivePlayer.characters)
+     client:send("characters", chars)
  end)
 
 end
@@ -851,6 +856,12 @@ local function loadNetworkingClient(ipaddress)
     -- Custom callback, called whenever you send the event from the server
     client:on("hello", function(msg)
         print("The server reply to ping: " .. msg)
+    end)
+    client:on("boardGrid", function(grid)
+        print("querying boardGrid: " ..grid)
+    end)
+    client:on("hello", function(chars)
+        print("querying characters: " .. chars)
     end)
 
     client:connect()
