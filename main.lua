@@ -826,7 +826,7 @@ end
 
 local function loadNetworkingServer()
 
- server = sock.newServer("localhost", 22122)
+ server = sock.newServer("127.0.0.1", 22122)
  server:on("connect", function(data, client)
      local msg = "Server - Pong!"
      client:send("hello", msg)
@@ -879,13 +879,13 @@ function love.load(arg)
     if a == servercreator then 
         
         loadNetworkingServer()
-
+        isServer = true
     end
 
     if a == serverjoiner then
 
         loadNetworkingClient(arg[2])
-
+        isClient = true
     end
 
     love.window.setMode(width,height)
@@ -917,6 +917,13 @@ function love.update(dt)
     Character:update(dt)
     sequenceProcessor()
     enableEndGame()
+    if isServer then
+        server:update()
+    end
+
+    if isClient then
+        client:update()
+    end
     
 
 end
