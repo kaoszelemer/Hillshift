@@ -834,10 +834,14 @@ local function loadNetworkingServer()
      local p1 = playerOne
      local p2 = playerTwo
      client:send("hello", msg)
-     client:send("boardGrid", grid)
-     print(boardGrid, inactivePlayer.characters)
-     client:send("playerOne", p1)
-     client:send("playerTwo", p2)
+     for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y]:instanceOf(Mount) then
+                client:send("boardgrid", {x,y,1}
+            end
+        end
+    end
+
  end)
 
 end
@@ -862,6 +866,14 @@ local function loadNetworkingClient(ipaddress)
     end)
     client:on("boardGrid", function(grid)
         print("querying boardGrid: " ..grid)
+        local g = grid
+        for x = 1, 10 do
+            for y = 1, 10 do
+                if g[1] == boardGrid[x] and g[2] == boardGrid[y] and g[3] == 1 then
+                    boardGrid[x][y] = Mount(g[1], g[2])
+                end
+            end
+        end
     end)
     client:on("playerOne", function(p1)
         print("querying playerOne: " .. p1)
@@ -869,6 +881,8 @@ local function loadNetworkingClient(ipaddress)
     client:on("playerTwo", function(p2)
         print("querying playerTwo: " .. p2)
     end)
+
+
 
     client:connect()
     
