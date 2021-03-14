@@ -1174,7 +1174,6 @@ function newGame()
 end
 
 function board:load()
-    if isServer then 
         playerOne = {
 
             name = "Player One",
@@ -1196,7 +1195,6 @@ function board:load()
         boardGrid = {}        
         initBoardgrid()
         moveCharactersToStartingPosition()
-    end
 
     loadAnimations()
    
