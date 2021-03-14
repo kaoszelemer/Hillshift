@@ -831,10 +831,13 @@ local function loadNetworkingServer()
      local msg = "Server - Pong!"
      local grid = boardGrid
      local chars = inactivePlayer.characters
+     local p1 = playerOne
+     local p2 = playerTwo
      client:send("hello", msg)
      client:send("boardGrid", grid)
      print(boardGrid, inactivePlayer.characters)
-     client:send("characters", chars)
+     client:send("playerOne", p1)
+     client:send("playerTwo", p2)
  end)
 
 end
@@ -860,8 +863,11 @@ local function loadNetworkingClient(ipaddress)
     client:on("boardGrid", function(grid)
         print("querying boardGrid: " ..grid)
     end)
-    client:on("hello", function(chars)
-        print("querying characters: " .. chars)
+    client:on("playerOne", function(p1)
+        print("querying playerOne: " .. p1)
+    end)
+    client:on("playerTwo", function(p2)
+        print("querying playerTwo: " .. p2)
     end)
 
     client:connect()
