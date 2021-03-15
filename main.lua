@@ -871,35 +871,35 @@ local function loadNetworkingServer()
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(AirElemental) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 2}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(Alchemist) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 3}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(Druid) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 4}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(FireMage) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 5}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(IceWizard) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 6}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(SandWitch) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 7}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(ThunderShaman) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 8}
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(WaterHag) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = {currentChar.x, currentChar.y, 9}
                 server:sendToAll("characters", c)
             end
         end
@@ -951,6 +951,38 @@ local function loadNetworkingClient(ipaddress)
         if char[3] == 1 then
             table.remove(activePlayer.characters, 1)
             table.insert(activePlayer.characters, GeoGnome(activePlayer.characters))
+        end
+        if char[3] == 2 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, AirElemental(activePlayer.characters))
+        end
+        if char[3] == 3 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, Alchemist(activePlayer.characters))
+        end
+        if char[3] == 4 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, Druid(activePlayer.characters))
+        end
+        if char[3] == 5 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, FireMage(activePlayer.characters))
+        end
+        if char[3] == 6 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, IceWizard(activePlayer.characters))
+        end
+        if char[3] == 7 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, SandWitch(activePlayer.characters))
+        end
+        if char[3] == 8 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, ThunderShaman(activePlayer.characters))
+        end
+        if char[3] == 9 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, WaterHag(activePlayer.characters))
         end
     end)
  
