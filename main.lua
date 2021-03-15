@@ -826,7 +826,7 @@ end
 
 local function loadNetworkingServer()
 
- server = sock.newServer("192.168.3.102", 22122)
+ server = sock.newServer("192.168.3.101", 22122)
  server:on("connect", function(data, client)
      local msg = "Server - Pong!"
      local grid = boardGrid
@@ -834,14 +834,7 @@ local function loadNetworkingServer()
      local p1 = playerOne
      local p2 = playerTwo
      client:send("hello", msg)
-     for x = 1, 10 do
-        for y = 1, 10 do
-            if boardGrid[x][y]:instanceOf(Mount) then
-                client:send("boardgrid", {x,y,1}
-            end
-        end
-    end
-
+   
  end)
 
 end
@@ -865,22 +858,11 @@ local function loadNetworkingClient(ipaddress)
         print("The server reply to ping: " .. msg)
     end)
     client:on("boardGrid", function(grid)
-        print("querying boardGrid: " ..grid)
+        print("querying boardGrid: ")
         local g = grid
-        for x = 1, 10 do
-            for y = 1, 10 do
-                if g[1] == boardGrid[x] and g[2] == boardGrid[y] and g[3] == 1 then
-                    boardGrid[x][y] = Mount(g[1], g[2])
-                end
-            end
-        end
+       
     end)
-    client:on("playerOne", function(p1)
-        print("querying playerOne: " .. p1)
-    end)
-    client:on("playerTwo", function(p2)
-        print("querying playerTwo: " .. p2)
-    end)
+ 
 
 
 
