@@ -834,6 +834,31 @@ local function loadNetworkingServer()
      local p1 = playerOne
      local p2 = playerTwo
      client:send("hello", msg)
+
+     if isServer then
+        for x = 1, 10 do
+            for y = 1, 10 do
+                local grid = {}
+                if boardGrid[x][y]:instanceOf(Mount) then 
+                    grid = {x,y,1}
+                    server:sendToAll("boardGrid", grid)
+                end
+                if boardGrid[x][y]:instanceOf(Field) then 
+                    grid = {x,y,2}
+                    server:sendToAll("boardGrid", grid)
+                end
+                if boardGrid[x][y]:instanceOf(Lake) then 
+                    grid = {x,y,3}
+                    server:sendToAll("boardGrid", grid)
+                end
+                if boardGrid[x][y]:instanceOf(Forest) then 
+                    grid = {x,y,4}
+                    server:sendToAll("boardGrid", grid)
+                end
+                
+            end
+        end
+    end
    
  end)
 
@@ -860,8 +885,17 @@ local function loadNetworkingClient(ipaddress)
     client:on("boardGrid", function(grid)
         print("querying boardGrid: ")
         local g = grid
-        if g[3] = 1 then 
-            boardGrid[x][y] = Mount(g[1], g[2])
+        if g[3] == 1 then 
+            boardGrid[g[1]][g[2]] = Mount(g[1], g[2])
+        end
+        if g[3] == 2 then 
+            boardGrid[g[1]][g[2]] = Field(g[1], g[2])
+        end
+        if g[3] == 3 then 
+            boardGrid[g[1]][g[2]] = Lake(g[1], g[2])
+        end
+        if g[3] == 4 then 
+            boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
         end
        
     end)
