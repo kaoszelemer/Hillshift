@@ -865,8 +865,43 @@ local function loadNetworkingServer()
         --sending players
 
         for _, currentChar in ipairs(activePlayer.characters) do
-            server:sendToAll("characters", currentChar)
-            
+            local c = {}
+            if currentChar:instanceOf(GeoGnome) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(AirElemental) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(Alchemist) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(Druid) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(FireMage) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(IceWizard) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(SandWitch) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(ThunderShaman) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(WaterHag) then
+                c = {currentChar.x, currentChar.y, 1}
+                server:sendToAll("characters", c)
+            end
         end
 
     end
@@ -913,7 +948,10 @@ local function loadNetworkingClient(ipaddress)
 
     client:on("characters", function(char)
         print("querying characters")
-
+        if char[3] == 1 then
+            table.remove(activePlayer.characters, 1)
+            table.insert(activePlayer.characters, GeoGnome(activePlayer.characters))
+        end
     end)
  
 
