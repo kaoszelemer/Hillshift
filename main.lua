@@ -835,7 +835,10 @@ local function loadNetworkingServer()
      local p2 = playerTwo
      client:send("hello", msg)
 
-     if isServer then
+    if isServer then
+
+        --sending boardGrird
+
         for x = 1, 10 do
             for y = 1, 10 do
                 local grid = {}
@@ -858,6 +861,14 @@ local function loadNetworkingServer()
                 
             end
         end
+
+        --sending players
+
+        for _, currentChar in ipairs(activePlayer.characters) do
+            server:sendToAll("characters", currentChar)
+            
+        end
+
     end
    
  end)
@@ -882,8 +893,9 @@ local function loadNetworkingClient(ipaddress)
     client:on("hello", function(msg)
         print("The server reply to ping: " .. msg)
     end)
+
     client:on("boardGrid", function(grid)
-        print("querying boardGrid: ")
+        print("querying boardGrid")
         local g = grid
         if g[3] == 1 then 
             boardGrid[g[1]][g[2]] = Mount(g[1], g[2])
@@ -896,8 +908,12 @@ local function loadNetworkingClient(ipaddress)
         end
         if g[3] == 4 then 
             boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
-        end
-       
+        end   
+    end)
+
+    client:on("characters", function(char)
+        print("querying characters")
+
     end)
  
 
