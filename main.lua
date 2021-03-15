@@ -862,7 +862,7 @@ local function loadNetworkingServer()
             end
         end
 
-        --sending players
+        --sending characters
 
         for _, currentChar in ipairs(activePlayer.characters) do
             local c = {}
@@ -948,41 +948,45 @@ local function loadNetworkingClient(ipaddress)
 
     client:on("characters", function(char)
         print("querying characters")
-        if char[3] == 1 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, GeoGnome(activePlayer.characters))
-        end
-        if char[3] == 2 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, AirElemental(activePlayer.characters))
-        end
-        if char[3] == 3 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, Alchemist(activePlayer.characters))
-        end
-        if char[3] == 4 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, Druid(activePlayer.characters))
-        end
-        if char[3] == 5 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, FireMage(activePlayer.characters))
-        end
-        if char[3] == 6 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, IceWizard(activePlayer.characters))
-        end
-        if char[3] == 7 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, SandWitch(activePlayer.characters))
-        end
-        if char[3] == 8 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, ThunderShaman(activePlayer.characters))
-        end
-        if char[3] == 9 then
-            table.remove(activePlayer.characters, 1)
-            table.insert(activePlayer.characters, WaterHag(activePlayer.characters))
+        for index, currentChar in ipairs(activePlayer.characters) do
+
+            if char[3] == 1 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, GeoGnome(activePlayer.characters))
+            end
+            if char[3] == 2 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, AirElemental(activePlayer.characters))
+            end
+            if char[3] == 3 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, Alchemist(activePlayer.characters))
+            end
+            if char[3] == 4 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, Druid(activePlayer.characters))
+            end
+            if char[3] == 5 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, FireMage(activePlayer.characters))
+            end
+            if char[3] == 6 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, IceWizard(activePlayer.characters))
+            end
+            if char[3] == 7 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, SandWitch(activePlayer.characters))
+            end
+            if char[3] == 8 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, ThunderShaman(activePlayer.characters))
+            end
+            if char[3] == 9 then
+                currentChar:kill()
+                table.insert(activePlayer.characters, WaterHag(activePlayer.characters))
+            end
+
         end
     end)
  
