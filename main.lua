@@ -473,7 +473,7 @@ end
 
 function enableEndGame()
 
-    if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 then
+    if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 and turnCounter > 0 then
         drawEndGame = true
     end
 
@@ -950,42 +950,7 @@ local function loadNetworkingClient(ipaddress)
         print("querying characters")
         for index, currentChar in ipairs(activePlayer.characters) do
 
-            if char[3] == 1 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, GeoGnome(activePlayer.characters))
-            end
-            if char[3] == 2 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, AirElemental(activePlayer.characters))
-            end
-            if char[3] == 3 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, Alchemist(activePlayer.characters))
-            end
-            if char[3] == 4 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, Druid(activePlayer.characters))
-            end
-            if char[3] == 5 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, FireMage(activePlayer.characters))
-            end
-            if char[3] == 6 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, IceWizard(activePlayer.characters))
-            end
-            if char[3] == 7 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, SandWitch(activePlayer.characters))
-            end
-            if char[3] == 8 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, ThunderShaman(activePlayer.characters))
-            end
-            if char[3] == 9 then
-                currentChar:kill()
-                table.insert(activePlayer.characters, WaterHag(activePlayer.characters))
-            end
+            currentChar:kill()
 
         end
     end)
@@ -1120,7 +1085,7 @@ function love.draw()
         love.graphics.setColor(charColor)
     end
 
-    if isDrawEventForPrisonSpawn and turnCounter < 20 then
+    if isDrawEventForPrisonSpawn and turnCounter < 20 and turnCounter > 0 then
         local eventX = (width / 4 + offsetX)
         local eventY = (height / 4 + offsetY)
         love.graphics.draw(eventBackgroundImage, eventX, eventY)

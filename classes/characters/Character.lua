@@ -566,8 +566,8 @@ function Character:kill()
  
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar then
-            boardGrid[self.x][self.y].isOccupied = false
-            table.insert(deadPool, self)
+            if turnCounter ~= 0 then boardGrid[self.x][self.y].isOccupied = false end
+            if turnCounter ~= 0 then table.insert(deadPool, self) end
             table.remove(self.parentPlayer.characters, index)
         end   
     end
