@@ -473,7 +473,7 @@ end
 
 function enableEndGame()
 
-    if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 and turnCounter > 0 then
+    if (#activePlayer.characters < 1 or #inactivePlayer.characters < 1) and turnCounter > 0 then
         drawEndGame = true
     end
 
@@ -488,13 +488,13 @@ local function selectStartingPlayer()
 
         if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 
-        if rndPlayer == 1 then
-            activePlayer = playerOne
+       --[[  if rndPlayer == 1 then 
+     ]]     activePlayer = playerOne
             inactivePlayer = playerTwo
-        else
+       --[[  else
             activePlayer = playerTwo
             inactivePlayer = playerOne
-        end
+        end ]] 
    
 end
 
@@ -864,42 +864,81 @@ local function loadNetworkingServer()
 
         --sending characters
 
-        for _, currentChar in ipairs(activePlayer.characters) do
+        for _, currentChar in ipairs(playerOne.characters) do
             local c = {}
             if currentChar:instanceOf(GeoGnome) then
-                c = {currentChar.x, currentChar.y, 1}
+                c = 1
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(AirElemental) then
-                c = {currentChar.x, currentChar.y, 2}
+                c = 2
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(Alchemist) then
-                c = {currentChar.x, currentChar.y, 3}
+                c = 3
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(Druid) then
-                c = {currentChar.x, currentChar.y, 4}
+                c = 4
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(FireMage) then
-                c = {currentChar.x, currentChar.y, 5}
+                c = 5
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(IceWizard) then
-                c = {currentChar.x, currentChar.y, 6}
+                c = 6
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(SandWitch) then
-                c = {currentChar.x, currentChar.y, 7}
+                c = 7
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(ThunderShaman) then
-                c = {currentChar.x, currentChar.y, 8}
+                c = 8
                 server:sendToAll("characters", c)
             end
             if currentChar:instanceOf(WaterHag) then
-                c = {currentChar.x, currentChar.y, 9}
+                c = 9
+                server:sendToAll("characters", c)
+            end
+        end
+        for _, currentChar in ipairs(playerTwo.characters) do
+            local c = {}
+            if currentChar:instanceOf(GeoGnome) then
+                c = 10
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(AirElemental) then
+                c = 11
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(Alchemist) then
+                c = 12
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(Druid) then
+                c = 13
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(FireMage) then
+                c = 14
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(IceWizard) then
+                c = 15
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(SandWitch) then
+                c = 16
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(ThunderShaman) then
+                c = 17
+                server:sendToAll("characters", c)
+            end
+            if currentChar:instanceOf(WaterHag) then
+                c = 18
                 server:sendToAll("characters", c)
             end
         end
@@ -947,12 +986,75 @@ local function loadNetworkingClient(ipaddress)
     end)
 
     client:on("characters", function(char)
+
+      
+
+        local c = char
+
         print("querying characters")
-        for index, currentChar in ipairs(activePlayer.characters) do
 
-            currentChar:kill()
+            if c == 1 then
+                table.insert(playerOne.characters, GeoGnome(playerOne))
+            end
+            if c == 2 then
+                table.insert(playerOne.characters, AirElemental(playerOne))
+            end
+            if c == 3 then
+                table.insert(playerOne.characters, Alchemist(playerOne))
+            end
+            if c == 4 then
+                table.insert(playerOne.characters, Druid(playerOne))
+            end
+            if c == 5 then
+                table.insert(playerOne.characters, FireMage(playerOne))
+            end
+            if c == 6 then
+                table.insert(playerOne.characters, IceWizard(playerOne))
+            end
+            if c == 7 then
+                table.insert(playerOne.characters, SandWitch(playerOne))
+            end
+            if c == 8 then
+                table.insert(playerOne.characters, ThunderShaman(playerOne))
+            end
+            if c == 9 then
+                table.insert(playerOne.characters, WaterHag(playerOne))
+            end
 
-        end
+            if c == 10 then
+                table.insert(playerTwo.characters, GeoGnome(playerTwo))
+            end
+            if c == 11 then
+                table.insert(playerTwo.characters, AirElemental(playerTwo))
+            end
+            if c == 12 then
+                table.insert(playerTwo.characters, Alchemist(playerTwo))
+            end
+            if c == 13 then
+                table.insert(playerTwo.characters, Druid(playerTwo))
+            end
+            if c == 14 then
+                table.insert(playerTwo.characters, FireMage(playerTwo))
+            end
+            if c == 15 then
+                table.insert(playerTwo.characters, IceWizard(playerTwo))
+            end
+            if c == 16 then
+                table.insert(playerTwo.characters, SandWitch(playerTwo))
+            end
+            if c == 17 then
+                table.insert(playerTwo.characters, ThunderShaman(playerTwo))
+            end
+            if c == 18 then
+                table.insert(playerTwo.characters, WaterHag(playerTwo))
+            end
+          
+            moveCharactersToStartingPosition(playerOne)
+            moveCharactersToStartingPosition(playerTwo)
+            loadCharacterAnim()
+
+       
+
     end)
  
 

@@ -1197,9 +1197,10 @@ function board:load()
         }
         playerOne.prisonCount = 0
         playerTwo.prisonCount = 0
-
+        if isServer then
         initPlayerDeck(playerOne)
         initPlayerDeck(playerTwo)
+        end
         boardGrid = {}        
         initBoardgrid()
 
