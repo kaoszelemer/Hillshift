@@ -763,8 +763,14 @@ function createBoardGrid()
             end
         })
 
+     
     end
 
+    if isClient then
+      
+    
+    end
+     
     Cell:resetParticleDrawing()
 
 end
@@ -1238,6 +1244,17 @@ function board:update(dt)
   
 
     testBoardForOccupy(activePlayer, inactivePlayer)
+
+
+    for x = 1, 10 do
+        for y = 1, 10 do
+            local grid = {}
+            if boardGrid[x][y]:instanceOf(Mount) then 
+                grid = {x,y,1}
+                server:sendToAll("boardGrid", grid)
+            end
+        end
+    end
   
    
 end

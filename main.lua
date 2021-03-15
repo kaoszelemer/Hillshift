@@ -860,6 +860,9 @@ local function loadNetworkingClient(ipaddress)
     client:on("boardGrid", function(grid)
         print("querying boardGrid: ")
         local g = grid
+        if g[3] = 1 then 
+            boardGrid[x][y] = Mount(g[1], g[2])
+        end
        
     end)
  
