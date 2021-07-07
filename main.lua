@@ -1083,6 +1083,8 @@ function love.load(arg)
     local servercreator = "-create"
     local serverjoiner = "-join"
 
+    if a == nil then a = servercreator end
+
     if a == servercreator then 
         
         loadNetworkingServer()
