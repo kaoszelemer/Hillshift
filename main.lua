@@ -826,7 +826,7 @@ end
 
 local function loadNetworkingServer()
 
- server = sock.newServer("192.168.3.101", 22122)
+ server = sock.newServer("localhost", 22122)
  server:on("connect", function(data, client)
      local msg = "Server - Pong!"
      local grid = boardGrid

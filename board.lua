@@ -670,10 +670,10 @@ end
 
 local function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 5) --5,2
-        elseif i == 2 then currentChar:move(6, 5) --5,3
-        elseif i == 3 then currentChar:move(6, 6) --6,2
-        elseif i == 4 then currentChar:move(5, 6) --6,3
+        if     i == 1 then currentChar:move(5, 2) --5,2
+        elseif i == 2 then currentChar:move(5, 3) --5,3
+        elseif i == 3 then currentChar:move(6, 2) --6,2
+        elseif i == 4 then currentChar:move(6, 3) --6,3
         end
         currentChar.stepPoints = 1
     end
