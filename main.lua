@@ -826,8 +826,8 @@ end
 
 
 function love.load()
-   -- love.window.setFullscreen(true, "desktop")
-    love.window.setMode(width,height)
+    love.window.setFullscreen(true, "desktop")
+   -- love.window.setMode(width,height)
     --Particle systems
   
 
@@ -873,7 +873,7 @@ function love.draw()
         scaleX, scaleY = (screenWidth / width), (screenHeight / height)
     end
 
-   -- love.graphics.scale(scaleX, scaleY)
+    love.graphics.scale(scaleX, scaleY)
 
 
     board:draw()
