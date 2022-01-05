@@ -7,7 +7,7 @@ class = require('lib.30log')
 anim8 = require('lib.anim8')
 flux = require('lib.flux')
 tween = require('lib.tween')
-sock = require('lib.sock')
+ripple = require('lib.ripple')
 
 StateMachine = require('classes.StateMachine')
 
@@ -473,7 +473,7 @@ end
 
 function enableEndGame()
 
-    if (#activePlayer.characters < 1 or #inactivePlayer.characters < 1) and turnCounter > 0 then
+    if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 then
         drawEndGame = true
     end
 
@@ -488,13 +488,13 @@ local function selectStartingPlayer()
 
         if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 
-       --[[  if rndPlayer == 1 then 
-     ]]     activePlayer = playerOne
+        if rndPlayer == 1 then
+            activePlayer = playerOne
             inactivePlayer = playerTwo
-       --[[  else
+        else
             activePlayer = playerTwo
             inactivePlayer = playerOne
-        end ]] 
+        end
    
 end
 
@@ -824,279 +824,9 @@ local function quitGame()
     love.event.push("quit")
 end
 
-local function loadNetworkingServer()
 
- server = sock.newServer("localhost", 22122)
- server:on("connect", function(data, client)
-     local msg = "Server - Pong!"
-     local grid = boardGrid
-     local chars = inactivePlayer.characters
-     local p1 = playerOne
-     local p2 = playerTwo
-     client:send("hello", msg)
-
-    if isServer then
-
-        --sending boardGrird
-
-        for x = 1, 10 do
-            for y = 1, 10 do
-                local grid = {}
-                if boardGrid[x][y]:instanceOf(Mount) then 
-                    grid = {x,y,1}
-                    server:sendToAll("boardGrid", grid)
-                end
-                if boardGrid[x][y]:instanceOf(Field) then 
-                    grid = {x,y,2}
-                    server:sendToAll("boardGrid", grid)
-                end
-                if boardGrid[x][y]:instanceOf(Lake) then 
-                    grid = {x,y,3}
-                    server:sendToAll("boardGrid", grid)
-                end
-                if boardGrid[x][y]:instanceOf(Forest) then 
-                    grid = {x,y,4}
-                    server:sendToAll("boardGrid", grid)
-                end
-                
-            end
-        end
-
-        --sending characters
-
-        for _, currentChar in ipairs(playerOne.characters) do
-            local c = {}
-            if currentChar:instanceOf(GeoGnome) then
-                c = 1
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(AirElemental) then
-                c = 2
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(Alchemist) then
-                c = 3
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(Druid) then
-                c = 4
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(FireMage) then
-                c = 5
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(IceWizard) then
-                c = 6
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(SandWitch) then
-                c = 7
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(ThunderShaman) then
-                c = 8
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(WaterHag) then
-                c = 9
-                server:sendToAll("characters", c)
-            end
-        end
-        for _, currentChar in ipairs(playerTwo.characters) do
-            local c = {}
-            if currentChar:instanceOf(GeoGnome) then
-                c = 10
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(AirElemental) then
-                c = 11
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(Alchemist) then
-                c = 12
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(Druid) then
-                c = 13
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(FireMage) then
-                c = 14
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(IceWizard) then
-                c = 15
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(SandWitch) then
-                c = 16
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(ThunderShaman) then
-                c = 17
-                server:sendToAll("characters", c)
-            end
-            if currentChar:instanceOf(WaterHag) then
-                c = 18
-                server:sendToAll("characters", c)
-            end
-        end
-
-    end
-   
- end)
-
-end
-
-local function loadNetworkingClient(ipaddress)
-    local IP = ipaddress
-    print("Joining to"..ipaddress)
-
-    client = sock.newClient(ipaddress, 22122)
-
-    client:on("connect", function(data)
-        print("Client connected to the server.")
-    end)
-    
-    client:on("disconnect", function(data)
-        print("Client disconnected from the server.")
-    end)
-
-    -- Custom callback, called whenever you send the event from the server
-    client:on("hello", function(msg)
-        print("The server reply to ping: " .. msg)
-    end)
-
-    client:on("boardGrid", function(grid)
-        print("querying boardGrid")
-        local g = grid
-        if g[3] == 1 then 
-            boardGrid[g[1]][g[2]] = Mount(g[1], g[2])
-        end
-        if g[3] == 2 then 
-            boardGrid[g[1]][g[2]] = Field(g[1], g[2])
-        end
-        if g[3] == 3 then 
-            boardGrid[g[1]][g[2]] = Lake(g[1], g[2])
-        end
-        if g[3] == 4 then 
-            boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
-        end   
-    end)
-
-    client:on("characters", function(char)
-
-      
-
-        local c = char
-
-        print("querying characters")
-
-            if c == 1 then
-                table.insert(playerOne.characters, GeoGnome(playerOne))
-            end
-            if c == 2 then
-                table.insert(playerOne.characters, AirElemental(playerOne))
-            end
-            if c == 3 then
-                table.insert(playerOne.characters, Alchemist(playerOne))
-            end
-            if c == 4 then
-                table.insert(playerOne.characters, Druid(playerOne))
-            end
-            if c == 5 then
-                table.insert(playerOne.characters, FireMage(playerOne))
-            end
-            if c == 6 then
-                table.insert(playerOne.characters, IceWizard(playerOne))
-            end
-            if c == 7 then
-                table.insert(playerOne.characters, SandWitch(playerOne))
-            end
-            if c == 8 then
-                table.insert(playerOne.characters, ThunderShaman(playerOne))
-            end
-            if c == 9 then
-                table.insert(playerOne.characters, WaterHag(playerOne))
-            end
-
-            if c == 10 then
-                table.insert(playerTwo.characters, GeoGnome(playerTwo))
-            end
-            if c == 11 then
-                table.insert(playerTwo.characters, AirElemental(playerTwo))
-            end
-            if c == 12 then
-                table.insert(playerTwo.characters, Alchemist(playerTwo))
-            end
-            if c == 13 then
-                table.insert(playerTwo.characters, Druid(playerTwo))
-            end
-            if c == 14 then
-                table.insert(playerTwo.characters, FireMage(playerTwo))
-            end
-            if c == 15 then
-                table.insert(playerTwo.characters, IceWizard(playerTwo))
-            end
-            if c == 16 then
-                table.insert(playerTwo.characters, SandWitch(playerTwo))
-            end
-            if c == 17 then
-                table.insert(playerTwo.characters, ThunderShaman(playerTwo))
-            end
-            if c == 18 then
-                table.insert(playerTwo.characters, WaterHag(playerTwo))
-            end
-          
-            moveCharactersToStartingPosition(playerOne)
-            moveCharactersToStartingPosition(playerTwo)
-            loadCharacterAnim()
-
-       
-
-    end)
- 
-
-
-
-    client:connect()
-    
-    --  You can send different types of data
-    --[[ client:send("greeting", "Hello, my name is Inigo Montoya.")
-    client:send("isShooting", true)
-    client:send("bulletsLeft", 1)
-    client:send("position", {
-        x = 465.3,
-        y = 50,
-    }) ]]
-
-
-
-
-end
-
-function love.load(arg)
+function love.load()
    -- love.window.setFullscreen(true, "desktop")
-
-    local a = arg[1]
-    local servercreator = "-create"
-    local serverjoiner = "-join"
-
-    if a == nil then a = servercreator end
-
-    if a == servercreator then 
-        
-        loadNetworkingServer()
-        isServer = true
-    end
-
-    if a == serverjoiner then
-
-        loadNetworkingClient(arg[2])
-        isClient = true
-    end
-
     love.window.setMode(width,height)
     --Particle systems
   
@@ -1107,14 +837,10 @@ function love.load(arg)
     --board betoltese
     
     board:load()
-
-        loadCharacterAnim()
- 
+    loadCharacterAnim()
     Event:initEventTable()
     Item:initItemTable()
-
-        selectStartingPlayer()
-
+    selectStartingPlayer()
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
@@ -1130,13 +856,6 @@ function love.update(dt)
     Character:update(dt)
     sequenceProcessor()
     enableEndGame()
-    if isServer then
-        server:update()
-    end
-
-    if isClient then
-        client:update()
-    end
     
 
 end
@@ -1189,7 +908,7 @@ function love.draw()
         love.graphics.setColor(charColor)
     end
 
-    if isDrawEventForPrisonSpawn and turnCounter < 20 and turnCounter > 0 then
+    if isDrawEventForPrisonSpawn and turnCounter < 20 then
         local eventX = (width / 4 + offsetX)
         local eventY = (height / 4 + offsetY)
         love.graphics.draw(eventBackgroundImage, eventX, eventY)
