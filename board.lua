@@ -16,6 +16,7 @@ boardPicture = love.graphics.newImage("/graphics/tileset4.png")
 tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 prisonImage = love.graphics.newImage("/graphics/prison.png")
 --icons
+infoIcon = love.graphics.newImage("graphics/infoicon.png")
 attackIcon = love.graphics.newImage("graphics/attackicon.png")
 moveIcon = love.graphics.newImage("graphics/moveicon.png")
 spellIcon = love.graphics.newImage("graphics/spellicon.png")

@@ -5,7 +5,8 @@ function AirElemental:init(parentPlayer)
                 love.graphics.newImage("/graphics/airelementalhover.png"), 
                 love.graphics.newImage("/graphics/airelementalsink.png"),
                 love.graphics.newImage("/graphics/airelementalsinkhover.png"),
-                parentPlayer, 1, 1)
+                parentPlayer, 1, 1, 
+                "INFO ABOUT AIRELEMENTAL:\n\nThe AirElemental can blow\nPeoples, fire and sand\nFire and sand spreads\nrandomly, but people always move\nwhen blown.")
 end
 
 

@@ -6,7 +6,8 @@ function ThunderShaman:init(parentPlayer)
     love.graphics.newImage("/graphics/thundershamanhover.png"),
     love.graphics.newImage("/graphics/thundershamansink.png"), 
     love.graphics.newImage("/graphics/thundershamansinkhover.png"), 
-    parentPlayer, 1, 1)
+    parentPlayer, 1, 1,
+    "INFO ABOUT THUNDERSHAMAN:\n\nThe ThunderShaman gets help from\nOdin to create electricity.\nThunder sometimes destroy rocks,\nhurts people, and hurts\nthem more if they're in water")
 end
 
 function ThunderShaman:update(dt)

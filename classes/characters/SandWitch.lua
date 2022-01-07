@@ -5,7 +5,8 @@ local SandWitch = Character:extend("SandWitch")
                     love.graphics.newImage("/graphics/hillshifthaghover.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsink.png"), 
                     love.graphics.newImage("/graphics/hillshifthagsinkhover.png"), 
-                    parentPlayer, 1, 1)
+                    parentPlayer, 1, 1,
+                    "INFO ABOUT SANDWITCH:\n\nThe Sandwitch throws sand\nsand creates Desert tiles\nand deserts gives -DE. Sand can make lakes\ninto swamps what gives -AT ")
     end
 
     function SandWitch:update(dt)

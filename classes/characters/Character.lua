@@ -1,6 +1,6 @@
 local Character = class("Character")
 
-function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleAnimImage, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, turnAttackModifier, turnDefenseModifier, defenseCounter, defenseState)
+function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleAnimImage, imageHover, sinkImage, sinkImageHover, parentPlayer, actionPoints, stepPoints, infoText, defenseCounter, defenseState)
     self.maxHP = maxHP
     self.baseHP = baseHP
     self.baseDefense = baseDefense
@@ -16,7 +16,8 @@ function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleA
     self.stepPoints = stepPoints
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
-  
+    self.infoText = infoText
+    print(infoText)
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -68,6 +69,7 @@ function Character:draw()
     if gameState.state == gameState.states.selectCharacterAction then
         local x = selectedChar.x * tileW + offsetX
         local y = selectedChar.y * tileH + offsetY
+        love.graphics.draw(infoIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2))
         if selectedChar.actionPoints ~= 0 then love.graphics.draw(attackIcon, x, y) end
         if selectedChar.stepPoints ~= 0 then love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) end
         if selectedChar.actionPoints ~= 0 then love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) end

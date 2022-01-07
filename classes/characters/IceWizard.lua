@@ -5,7 +5,8 @@ local IceWizard = Character:extend("IceWizard")
                     love.graphics.newImage("/graphics/icewizardhover.png"), 
                     love.graphics.newImage("/graphics/icewizardsink.png"), 
                     love.graphics.newImage("/graphics/icewizardsinkhover.png"), 
-                    parentPlayer, 1, 1)
+                    parentPlayer, 1, 1,
+                    "INFO ABOUT ICEWIZARD:\n\nThe Icewizard can freeze\npeople, lakes. Frozen people can't move\nnext turn, Frozen lakes can be\niceskated, Ice cancels fire")
     end
 
     function IceWizard:update(dt)

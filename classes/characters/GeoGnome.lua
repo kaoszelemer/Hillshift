@@ -6,7 +6,8 @@ function GeoGnome:init(parentPlayer)
                 love.graphics.newImage("/graphics/geognomehover.png"), 
                 love.graphics.newImage("/graphics/geognomesink.png"), 
                 love.graphics.newImage("/graphics/geognomesinkhover.png"), 
-                parentPlayer, 1, 1)
+                parentPlayer, 1, 1,
+                "INFO ABOUT GEOGNOME:\n\nThe GeoGnome can make other\ntiles into mountains\nMountains give +AT\nMountains cancel all modifiers\n")
 end
 
 function GeoGnome:update(dt)

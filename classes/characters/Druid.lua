@@ -5,7 +5,8 @@ local Druid = Character:extend("Druid")
                     love.graphics.newImage("/graphics/druidhover.png"), 
                     love.graphics.newImage("/graphics/druidsink.png"), 
                     love.graphics.newImage("/graphics/druidsinkhover.png"), 
-                    parentPlayer, 1, 1)
+                    parentPlayer, 1, 1,
+                    "INFO ABOUT DRUID:\n\nThe Druid can make tiles\nto forests. Forests give +DE")
     end
     function Druid:update(dt)
         self.animation:update(dt)
