@@ -1055,6 +1055,28 @@ local function drawSpellAnimationsOnBoard()
 end
 
 local function loadAnimations()
+
+    ---Icons
+    local iconAnimSpeed = 0.05
+
+    spellIconAnimationImage = love.graphics.newImage('graphics/spelliconanim.png')
+    local g = anim8.newGrid(64, 64, spellIconAnimationImage:getWidth(), spellIconAnimationImage:getHeight())
+    spellIconAnimation = anim8.newAnimation(g('1-8', 1), iconAnimSpeed, 'pauseAtEnd')
+
+    attackIconAnimationImage = love.graphics.newImage('graphics/attackiconanim.png')
+    local g = anim8.newGrid(64, 64, attackIconAnimationImage:getWidth(), attackIconAnimationImage:getHeight())
+    attackIconAnimation = anim8.newAnimation(g('1-8', 1), iconAnimSpeed, 'pauseAtEnd')
+
+    infoIconAnimationImage = love.graphics.newImage('graphics/infoiconanim.png')
+    local g = anim8.newGrid(64, 64, infoIconAnimationImage:getWidth(), infoIconAnimationImage:getHeight())
+    infoIconAnimation = anim8.newAnimation(g('1-8', 1), iconAnimSpeed, 'pauseAtEnd')    
+    
+    moveIconAnimationImage = love.graphics.newImage('graphics/moveiconanim.png')
+    local g = anim8.newGrid(64, 64, moveIconAnimationImage:getWidth(), moveIconAnimationImage:getHeight())
+    moveIconAnimation = anim8.newAnimation(g('1-8', 1), iconAnimSpeed, 'pauseAtEnd')   
+    
+
+
     ---Borders
    fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
    local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
@@ -1237,6 +1259,7 @@ function board:draw()
    
     drawChests()
     drawEndTurnButton()
+    drawRectanglesIfHoveredOrOccupied()
     Cell:drawFireParticles()
     Character:drawHealthBar()
     Cell:drawPrisonCell()
@@ -1252,7 +1275,7 @@ function board:draw()
     drawPossibleDamageOnEnemyCharacter()
     Character:drawAttackAnimation()
    
-    drawRectanglesIfHoveredOrOccupied()
+   
     drawAttackOnBoard()
     drawDamageFlyingNumbers()
     Cell:drawLightningOnBoard()

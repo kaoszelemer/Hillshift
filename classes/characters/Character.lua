@@ -51,6 +51,10 @@ function Character:update(dt)
     end
 
     attackAnimation:update(dt)
+    spellIconAnimation:update(dt)
+    attackIconAnimation:update(dt)
+    infoIconAnimation:update(dt)
+    moveIconAnimation:update(dt)
     
 end
 
@@ -63,16 +67,67 @@ function Character:draw()
     elseif self.isHovered == true then love.graphics.draw(self.imageHover, x, y)
     else   love.graphics.draw(self.image, x, y)
     end ]]
-    
+    local mx, my = mouseX, mouseY
+
     self.animation:draw(self.idleAnimImage, x,y)
     
+
     if gameState.state == gameState.states.selectCharacterAction then
         local x = selectedChar.x * tileW + offsetX
         local y = selectedChar.y * tileH + offsetY
-        love.graphics.draw(infoIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2))
-        if selectedChar.actionPoints ~= 0 then love.graphics.draw(attackIcon, x, y) end
-        if selectedChar.stepPoints ~= 0 then love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) end
-        if selectedChar.actionPoints ~= 0 then love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) end
+        
+
+        if mx > x and my > y and mx < x + (tileW - tileW / 2) and my > y + (tileH - tileH / 2) and selectedChar.actionPoints ~= 0 then
+            isSpellIconAnimationPlaying = true
+            spellIconAnimation:draw(spellIconAnimationImage, x - 16, y + (tileH - tileH / 2) - 16)
+        else isSpellIconAnimationPlaying = false
+             spellIconAnimation:gotoFrame(1)
+             spellIconAnimation:resume()
+        end
+
+        if mx > x and mx < x + tileW / 2 and  my > y and my < y + tileH / 2 and selectedChar.actionPoints ~= 0 then
+            isAttackIconAnimationPlaying = true
+            attackIconAnimation:draw(attackIconAnimationImage, x - 16, y + (tileH - tileH / 2) - 48)
+        else isAttackIconAnimationPlaying = false
+             attackIconAnimation:gotoFrame(1)
+             attackIconAnimation:resume()
+        end
+
+        if mx > x + tileW / 2 and mx < x + tileW and my > y and my < y + tileH / 2 and selectedChar.stepPoints ~= 0 then
+            isMoveIconAnimationPlaying = true
+            moveIconAnimation:draw(moveIconAnimationImage, x + 16, y + (tileH - tileH / 2) - 48)
+        else isMoveIconAnimationPlaying = false
+             moveIconAnimation:gotoFrame(1)
+             moveIconAnimation:resume()
+        end
+
+        if mx > x + tileW / 2 and mx < x + tileW and my < y + tileH and my > y + tileH / 2 then
+            isInfoIconAnimationPlaying = true
+            infoIconAnimation:draw(infoIconAnimationImage, x + 16, y + (tileH - tileH / 2) - 16)
+        else isInfoIconAnimationPlaying = false
+             infoIconAnimation:gotoFrame(1)
+             infoIconAnimation:resume()
+        end
+        
+        if isInfoIconAnimationPlaying ~= true then
+            love.graphics.draw(infoIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2))
+        end
+        
+        
+        if selectedChar.actionPoints ~= 0 and isAttackIconAnimationPlaying ~= true then 
+            love.graphics.draw(attackIcon, x, y) 
+        end
+        
+             
+        if selectedChar.stepPoints ~= 0 and isMoveIconAnimationPlaying ~= true then 
+            love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) 
+        end
+
+        if selectedChar.actionPoints ~= 0 and isSpellIconAnimationPlaying ~= true then 
+            love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) 
+        end
+    
+    
     end
 
 end
@@ -512,7 +567,7 @@ function Character:chooseActionMenu(mx, my)
 
         -- JOBB ALSÓ NEGYED - INFO
 
-        if mx > cx + tileW / 2 and mx < cx + tileW and my < cy + tileH then
+        if mx > cx + tileW / 2 and mx < cx + tileW and my < cy + tileH and my > cy + tileH / 2 then
 
             drawInfoAboutCharacter(self)
 
