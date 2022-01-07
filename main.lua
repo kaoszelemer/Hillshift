@@ -816,7 +816,40 @@ local function updateParticleSystems(dt)
     for step = 1, 96 do steamParticleSystem:update(0.0051606524114807) end
 end
 
+function drawInfoAboutCharacter(character)
 
+    isDrawInfoAboutCharacter = true
+     
+      
+    if character.id == 1 then
+        isInfoAboutGeoGnome = true
+    end
+    if character.id == 2 then
+        isInfoAboutAlchemist = true
+    end
+    if character.id == 3 then
+        isInfoAboutIceWizard = true
+    end
+    if character.id == 4 then
+        isInfoAboutAirElemental = true
+    end
+    if character.id == 5 then
+        isInfoAboutDruid = true
+    end
+    if character.id == 6 then
+        isInfoAboutFireMage = true
+    end
+    if character.id == 7 then
+        isInfoAboutThunderShaman = true
+    end
+    if character.id == 8 then
+        isInfoAboutSandWitch = true
+    end
+    if character.id == 9 then
+        isInfoAboutWaterHag = true
+    end
+    
+end
 
 
 local function quitGame()
@@ -826,8 +859,8 @@ end
 
 
 function love.load()
-    love.window.setFullscreen(true, "desktop")
-   -- love.window.setMode(width,height)
+    --love.window.setFullscreen(true, "desktop")   <- fullscreen, drawban a skálálzás
+   love.window.setMode(width,height)
     --Particle systems
   
 
@@ -873,7 +906,7 @@ function love.draw()
         scaleX, scaleY = (screenWidth / width), (screenHeight / height)
     end
 
-    love.graphics.scale(scaleX, scaleY)
+    --love.graphics.scale(scaleX, scaleY)  -- fullscreen skálázás
 
 
     board:draw()
@@ -881,7 +914,59 @@ function love.draw()
     love.graphics.setColor(charColor)
     Item:drawCurrentItem()
 
-   
+    if isDrawInfoAboutCharacter then
+    
+        local eventX = (width / 4 + offsetX)
+        local eventY = (height / 4 + offsetY)
+        love.graphics.draw(eventBackgroundImage, eventX, eventY)
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(purpleColor)
+
+        if isInfoAboutAirElemental then 
+            love.graphics.print("INFO ABOUT AIRELEMENTAL:\n\nThe AirElemental can blow\nPeoples, fire and sand\nFire and sand spreads\nrandomly, but people always move\nwhen blown.", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutGeoGnome then 
+            love.graphics.print("INFO ABOUT GEOGNOME:\n\nThe GeoGnome can make other\ntiles into mountains\nMountains give +AT\nMountains cancel all modifiers\n", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutIceWizard then 
+            love.graphics.print("INFO ABOUT ICEWIZARD:\n\nThe Icewizard can freeze\npeople, lakes. Frozen people can't move\nnext turn, Frozen lakes can be\niceskated, Ice cancels fire", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutAlchemist then 
+            love.graphics.print("INFO ABOUT ALCHEMIST:\n\nThe Alchemist spits poison.\nPoison give -DE and -AT", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutDruid then 
+            love.graphics.print("INFO ABOUT DRUID:\n\nThe Druid can make tiles\nto forests. Forests give +DE", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutFireMage then 
+            love.graphics.print("INFO ABOUT FIREMAGE:\n\nThe FireMage can shoot fireballs\nFire burns down forests,\nevaporates water\n melts ice and sand. Also people tend\n to not like when they're\n on fire.", eventX + tileW, eventY + tileH)
+        end
+        
+        if isInfoAboutThunderShaman then 
+            love.graphics.print("INFO ABOUT THUNDERSHAMAN:\n\nThe ThunderShaman gets help from\nOdin to create electricity.\nThunder sometimes destroy rocks,\nhurts people, and hurts\nthem more if they're in water", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutSandWitch then 
+            love.graphics.print("INFO ABOUT SANDWITCH:\n\nThe Sandwitch throws sand\nsand creates Desert tiles\nand deserts gives -DE. Sand can make lakes\ninto swamps what gives -AT ", eventX + tileW, eventY + tileH)
+        end
+
+        if isInfoAboutWaterHag then 
+            love.graphics.print("INFO ABOUT WATERHAG:\n\nThe Waterhag create lakes\nPeople in lakes can't be attacked\nand more suspectible to thunder\nthey also only can move to land", eventX + tileW, eventY + tileH)
+        end
+
+
+
+        love.graphics.setFont(font)
+        love.graphics.setColor(charColor)    
+    
+    end
+
+
+
     if drawEndGame then
         love.graphics.draw(endGameImage, boardGrid[1][1].x * tileW + offsetX, boardGrid[1][1].y * tileH + offsetY)
         love.graphics.setFont(actionMenuFont)
@@ -918,6 +1003,8 @@ function love.draw()
         love.graphics.setFont(font)
         love.graphics.setColor(charColor)
     end
+
+
 
 
     love.graphics.draw(mouseArrow, mouseX, mouseY)
@@ -999,6 +1086,23 @@ function love.mousereleased(x, y, button, istouch, presses)
                 endTurn()
                 newTurn()
             end
+
+        end
+
+        if isDrawInfoAboutCharacter and
+             x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+             y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+
+                isDrawInfoAboutCharacter = false
+                isInfoAboutAirElemental = false
+                isInfoAboutGeoGnome = false
+                isInfoAboutAlchemist = false
+                isInfoAboutDruid = false
+                isInfoAboutFireMage = false
+                isInfoAboutIceWizard = false
+                isInfoAboutSandWitch = false
+                isInfoAboutThunderShaman = false
+                isInfoAboutWaterHag = false
 
         end
 

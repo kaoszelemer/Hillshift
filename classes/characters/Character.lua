@@ -507,6 +507,14 @@ function Character:chooseActionMenu(mx, my)
                     end
                     return
         end
+
+        -- JOBB ALSÓ NEGYED - INFO
+
+        if mx > cx + tileW / 2 and mx < cx + tileW and my < cy + tileH then
+
+            drawInfoAboutCharacter(self)
+
+        end
   
     end
     if mx ~= cx and my ~= cy then
