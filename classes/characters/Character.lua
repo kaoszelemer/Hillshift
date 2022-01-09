@@ -794,7 +794,13 @@ function Character:attack(enemy)
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
             end
-            soundEngine:playSFX(uhhSound)
+
+            local pp = "playrandomsound"
+
+            soundEngine:playSFX(pp)
+            
+
+
             table.insert(sequenceBufferTable, {
                 name = "resetingAttackState",
                 duration = 1.4,

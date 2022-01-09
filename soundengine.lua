@@ -13,8 +13,41 @@ local function drawMusicPlayer()
 end
 
 function soundEngine:playSFX(sound)
+
+    if sound == "playrandomsound" then
+
+        local rnd = love.math.random(1,10)
+        print(rnd)
+        if rnd == 1 then
+            uhhSounds.uh:play()
+        elseif rnd == 2 then
+            uhhSounds.uh1:play()
+        elseif rnd == 3 then
+            uhhSounds.uh2:play()
+        elseif rnd == 4 then
+            uhhSounds.uh3:play()
+        elseif rnd == 5 then
+            uhhSounds.uh4:play()
+        elseif rnd == 6 then
+            uhhSounds.uh5:play()
+        elseif rnd == 7 then
+            uhhSounds.uh6:play()
+        elseif rnd == 8 then
+            uhhSounds.uh7:play()
+        elseif rnd == 9 then
+            uhhSounds.uh8:play()
+        elseif rnd == 10 then
+            uhhSounds.uh9:play()
+        else
+
     
+        sound:play()
+        end
+        return
+    end
+
     sound:play()
+    
     
 end
 
@@ -51,8 +84,35 @@ function soundEngine:load()
     local thunder = love.audio.newSource("/sounds/thunder.mp3", "static")
     thunderSound = ripple.newSound(thunder, {volume = 0.75, loop = false})
 
-    local uh1 = love.audio.newSource("/sounds/char_uh.mp3", "static")
-    uhhSound = ripple.newSound(uh1, {volume = 0.75, loop = false})
+    local uh = love.audio.newSource("/sounds/char_uh.mp3", "static")
+    local uh1 = love.audio.newSource("/sounds/char_uh1.mp3", "static")
+    local uh2 = love.audio.newSource("/sounds/char_uh2.mp3", "static")
+    local uh3 = love.audio.newSource("/sounds/char_uh3.mp3", "static")
+    local uh4 = love.audio.newSource("/sounds/char_uh4.mp3", "static")
+    local uh5 = love.audio.newSource("/sounds/char_uh5.mp3", "static")
+    local uh6 = love.audio.newSource("/sounds/char_uh6.mp3", "static")
+    local uh7 = love.audio.newSource("/sounds/char_uh7.mp3", "static")
+    local uh8 = love.audio.newSource("/sounds/char_uh8.mp3", "static")
+    local uh9 = love.audio.newSource("/sounds/char_uh9.mp3", "static")
+
+
+    uhhSounds = {
+        uh = ripple.newSound(uh, {volume = 0.75, loop = false}),
+        uh1 = ripple.newSound(uh1, {volume = 0.75, loop = false}),
+        uh2 = ripple.newSound(uh2, {volume = 0.75, loop = false}),
+        uh3 = ripple.newSound(uh3, {volume = 0.75, loop = false}),
+        uh4 = ripple.newSound(uh4, {volume = 0.75, loop = false}),
+        uh5 = ripple.newSound(uh5, {volume = 0.75, loop = false}),
+        uh6 = ripple.newSound(uh6, {volume = 0.75, loop = false}),
+        uh7 = ripple.newSound(uh7, {volume = 0.75, loop = false}),
+        uh8 = ripple.newSound(uh8, {volume = 0.75, loop = false}),
+        uh9 = ripple.newSound(uh9, {volume = 0.75, loop = false}),
+        
+    }
+
+  
+    
+    
 
     local death = love.audio.newSource("/sounds/char_death.mp3", "static")
     deathSound = ripple.newSound(death, {volume = 0.75, loop = false})
