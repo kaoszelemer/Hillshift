@@ -45,6 +45,19 @@ function soundEngine:load()
     local steam = love.audio.newSource("/sounds/steam.mp3", "static")
     steamSound = ripple.newSound(steam, {volume = 0.75, loop = false})
 
+    local mount = love.audio.newSource("/sounds/mountain.mp3", "static")
+    mountSound = ripple.newSound(mount, {volume = 0.75, loop = false})
+
+    local thunder = love.audio.newSource("/sounds/thunder.mp3", "static")
+    thunderSound = ripple.newSound(thunder, {volume = 0.75, loop = false})
+
+    local uh1 = love.audio.newSource("/sounds/char_uh.mp3", "static")
+    uhhSound = ripple.newSound(uh1, {volume = 0.75, loop = false})
+
+    local death = love.audio.newSource("/sounds/char_death.mp3", "static")
+    deathSound = ripple.newSound(death, {volume = 0.75, loop = false})
+
+
     if isMusicOn then local instance = mainThemeMusic:play() end
 
 end

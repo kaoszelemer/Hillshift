@@ -719,6 +719,8 @@ end
 
 
 function Character:kill()
+
+    soundEngine:playSFX(deathSound)
  
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar then
@@ -792,6 +794,7 @@ function Character:attack(enemy)
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
             end
+            soundEngine:playSFX(uhhSound)
             table.insert(sequenceBufferTable, {
                 name = "resetingAttackState",
                 duration = 1.4,

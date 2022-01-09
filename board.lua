@@ -618,6 +618,7 @@ local function initBoardgrid()
             -- a mezők adatai itt kerülnek be a táblázatba
             if      selectedType == 1 then boardGrid[x][y] = Forest(x, y)
             elseif  selectedType == 2 then boardGrid[x][y] = Mount(x, y) 
+                
             elseif  selectedType == 3 then boardGrid[x][y] = Lake(x, y)    
             elseif  selectedType == 4 then boardGrid[x][y] = Field(x, y)
             end
@@ -726,6 +727,7 @@ function createBoardGrid()
                         boardGrid[x][y] = Forest(x, y)
                     elseif  selectedType == 2 then 
                         boardGrid[x][y] = Mount(x, y) 
+                        soundEngine:playSFX(mountSound)
                     elseif  selectedType == 3 then 
                         boardGrid[x][y] = Lake(x, y)    
                     elseif  selectedType == 4 then 

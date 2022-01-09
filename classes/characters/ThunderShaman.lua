@@ -24,6 +24,7 @@ function ThunderShaman:spell(targetCell)
                 for oY = -2, 2 do
                     if oY ~= 0 then
                         if self.y + oY > 0 and self.y + oY <= 10 then
+                            soundEngine:playSFX(thunderSound)
                             table.insert(sequenceBufferTable, {
                                 name = "ThunderShamanSpellUpAndDown",
                                 duration = 0.2,
@@ -80,6 +81,7 @@ function ThunderShaman:spell(targetCell)
             for oX = -2, 2 do
                 if oX ~= 0 then
                     if self.x + oX > 0 and self.x + oX <= 10 then
+                        soundEngine:playSFX(thunderSound)
                         table.insert(sequenceBufferTable, {
                             name = "ThunderShamanSpellLeftAndRight",
                             duration = 0.2,

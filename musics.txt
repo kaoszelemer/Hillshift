@@ -24,3 +24,7 @@ air elemental   - blow
 
 
 
+firemage
+ - fireball - done
+ - steam - done
+ -

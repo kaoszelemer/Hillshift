@@ -56,6 +56,7 @@ function GeoGnome:spell(targetCell)
                 self.spellTime = love.timer.getTime()
 
                 self.actionPoints = self.actionPoints - 1
+                soundEngine:playSFX(mountSound)
                 table.insert(sequenceBufferTable, {
                     name = "GeoGnomeSpell",
                     duration = 0.2,
