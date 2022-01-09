@@ -2,6 +2,7 @@
 
 --**** fullscreen or windowed
 isGameFullScreen = false
+isMusicOn = true
 
 --require
 
@@ -168,8 +169,9 @@ Event074 = require('classes.events.Event074')
 Event075 = require('classes.events.Event075')
 
 
-
+require ('soundengine')
 require ('board')
+
 
 
 
@@ -222,6 +224,9 @@ littleFont = love.graphics.newFont("EquipmentPro.ttf",14)
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
 endGameImage = love.graphics.newImage("graphics/endgame.png")
 itemBackgroundImage = love.graphics.newImage("graphics/itembackgroundimage.png")
+musicOnImage = love.graphics.newImage("graphics/musicon.png")
+musicOffImage = love.graphics.newImage("graphics/musicoff.png")
+
 --aktualis kijelolt karakter
 selectedChar = nil
 
@@ -874,6 +879,7 @@ function love.load()
     --board betoltese
     
     board:load()
+    soundEngine:load()
     loadCharacterAnim()
     Event:initEventTable()
     Item:initItemTable()
@@ -890,6 +896,7 @@ function love.update(dt)
     flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
     board:update(dt)
+    soundEngine:update(dt)
     Character:update(dt)
     sequenceProcessor()
     enableEndGame()
@@ -914,6 +921,7 @@ function love.draw()
 
     
     board:draw()
+    soundEngine:draw()
     Character:drawParticles()
     love.graphics.setColor(charColor)
     Item:drawCurrentItem()
@@ -1004,6 +1012,30 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
+
+    local instance = clickSound:play()
+
+    if x > width / 16 and x < (width / 16) + tileW and y > 0 and y < tileH then
+
+        if isMusicOff then 
+                mainThemeMusic:resume()
+                isMusicOff = false
+                isMusicOn = true
+                print('Music On') 
+        elseif
+        
+        isMusicOn then 
+                mainThemeMusic:pause()
+                isMusicOn = false
+                isMusicOff = true
+                print('Music Off')
+
+        else isMusicOff = true
+        end
+     
+    end
+
+
     if drawEndGame and
        
     x > (boardGrid[1][1].x * tileW + offsetX) + 106 and x < (boardGrid[1][1].x * tileW + offsetX) + 223 and

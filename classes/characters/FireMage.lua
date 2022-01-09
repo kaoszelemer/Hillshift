@@ -87,7 +87,9 @@ function FireMage:spell(targetCell)
                 local ny = self.ftTL.ny
                 self.spellTime = love.timer.getTime()
                 flux.to(self.ftTL, 0.5, {x = nx, y = ny}):ease("expoout")
-                
+
+                soundEngine:playSFX(fireBallSound)
+                print('sfx')
 
             table.insert(sequenceBufferTable, {
                 name = "FireMageSpellTopLeftCell",
@@ -100,12 +102,14 @@ function FireMage:spell(targetCell)
                     boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "TopLeftCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y - 1].isSteaming = true
+                                
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -120,12 +124,14 @@ function FireMage:spell(targetCell)
                     end
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "TopLeftCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y - 1].isSteaming = true
+                                
                             end
                         }) 
                         table.insert(sequenceBufferTable, {
@@ -141,12 +147,14 @@ function FireMage:spell(targetCell)
                     end
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                         name = "TopLeftCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y - 1].isSteaming = true
+                               
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -184,7 +192,8 @@ function FireMage:spell(targetCell)
             local ny = self.ftTR.ny
             self.spellTime = love.timer.getTime()
             flux.to(self.ftTR, 0.5, {x = nx, y = ny}):ease("expoout")
-            
+
+          
 
             table.insert(sequenceBufferTable, {
                 name = "FireMageSpellTopRightCell",
@@ -196,12 +205,14 @@ function FireMage:spell(targetCell)
                     boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "TopRightCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + 1][self.y - 1].isSteaming = true
+                               
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -216,12 +227,14 @@ function FireMage:spell(targetCell)
                     end
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y - 1].isFrozen then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "TopRightCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + 1][self.y - 1].isSteaming = true
+                              
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -236,6 +249,7 @@ function FireMage:spell(targetCell)
                     end
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "TopRightCellisSteaming",
                             duration = 0.1,
@@ -287,7 +301,7 @@ function FireMage:spell(targetCell)
             local ny = self.ftBL.ny
             self.spellTime = love.timer.getTime()
             flux.to(self.ftBL, 0.5, {x = nx, y = ny}):ease("expoout")
-
+            soundEngine:playSFX(fireBallSound)
             table.insert(sequenceBufferTable, {
                 name = "FireMageSpellBottomLeftCell",
                 duration = 0.2,
@@ -296,15 +310,17 @@ function FireMage:spell(targetCell)
 
                     boardGrid[self.x - 1][self.y + 1].isOnFire = true
                     boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
-
+                    
                 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "BottomLeftisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y + 1].isSteaming = true
+                              
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -319,12 +335,14 @@ function FireMage:spell(targetCell)
                     end
 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "BottomLeftisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y + 1].isSteaming = true
+                              
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -340,12 +358,14 @@ function FireMage:spell(targetCell)
 
 
                     if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
                             name = "BottomLeftisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x - 1][self.y + 1].isSteaming = true
+                              
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -385,6 +405,8 @@ function FireMage:spell(targetCell)
             self.spellTime = love.timer.getTime()
             flux.to(self.ftBR, 0.5, {x = nx, y = ny}):ease("expoout")
 
+            soundEngine:playSFX(fireBallSound)
+
             table.insert(sequenceBufferTable, {
                 name = "FireMageSpellBottomRightCell",
                 duration = 0.4,
@@ -395,12 +417,15 @@ function FireMage:spell(targetCell)
 
                     
                     if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
+                            
                             name = "BottomRightCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + 1][self.y + 1].isSteaming = true
+                               
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -415,12 +440,15 @@ function FireMage:spell(targetCell)
                     end
                     
                     if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
+                            
                             name = "BottomRightCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + 1][self.y + 1].isSteaming = true
+                             
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -435,12 +463,15 @@ function FireMage:spell(targetCell)
                     end
 
                     if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
+                        soundEngine:playSFX(steamSound)
                         table.insert(sequenceBufferTable, {
+
                             name = "BottomRightCellisSteaming",
                             duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + 1][self.y + 1].isSteaming = true
+                             
                             end
                         })
                         table.insert(sequenceBufferTable, {
@@ -449,6 +480,7 @@ function FireMage:spell(targetCell)
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
+                                soundEngine:playSFX(steamSound)
                             end
                         })
                         boardGrid[self.x + 1][self.y + 1].isOnFire = false
@@ -469,7 +501,7 @@ function FireMage:spell(targetCell)
             })
     
         end
-
+     
         gameState:changeState(gameState.states.selectCharacter)        
         
     end

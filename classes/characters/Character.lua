@@ -112,6 +112,7 @@ function Character:draw()
         if mx > x and my > y and mx < x + (tileW - tileW / 2) and my > y + (tileH - tileH / 2) and selectedChar.actionPoints ~= 0 then
             isSpellIconAnimationPlaying = true
             spellIconAnimation:draw(spellIconAnimationImage, x - 16, y + (tileH - tileH / 2) - 16)
+          
         else isSpellIconAnimationPlaying = false
              spellIconAnimation:gotoFrame(1)
              spellIconAnimation:resume()
@@ -120,6 +121,7 @@ function Character:draw()
         if mx > x and mx < x + tileW / 2 and  my > y and my < y + tileH / 2 and selectedChar.actionPoints ~= 0 then
             isAttackIconAnimationPlaying = true
             attackIconAnimation:draw(attackIconAnimationImage, x - 16, y + (tileH - tileH / 2) - 48)
+           
         else isAttackIconAnimationPlaying = false
              attackIconAnimation:gotoFrame(1)
              attackIconAnimation:resume()
@@ -128,6 +130,7 @@ function Character:draw()
         if mx > x + tileW / 2 and mx < x + tileW and my > y and my < y + tileH / 2 and selectedChar.stepPoints ~= 0 then
             isMoveIconAnimationPlaying = true
             moveIconAnimation:draw(moveIconAnimationImage, x + 16, y + (tileH - tileH / 2) - 48)
+       
         else isMoveIconAnimationPlaying = false
              moveIconAnimation:gotoFrame(1)
              moveIconAnimation:resume()
@@ -136,6 +139,7 @@ function Character:draw()
         if mx > x + tileW / 2 and mx < x + tileW and my < y + tileH and my > y + tileH / 2 then
             isInfoIconAnimationPlaying = true
             infoIconAnimation:draw(infoIconAnimationImage, x + 16, y + (tileH - tileH / 2) - 16)
+         
         else isInfoIconAnimationPlaying = false
              infoIconAnimation:gotoFrame(1)
              infoIconAnimation:resume()
@@ -143,6 +147,7 @@ function Character:draw()
         
         if isInfoIconAnimationPlaying ~= true then
             love.graphics.draw(infoIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2))
+         
         end
         
         

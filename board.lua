@@ -1057,6 +1057,12 @@ local function drawSpellAnimationsOnBoard()
 end
 
 
+local function musicPlayer()
+
+
+
+end
+
 
 
 local function loadAnimations()
@@ -1206,8 +1212,8 @@ function board:load()
     playerOne.prisonCount = 0
     playerTwo.prisonCount = 0
 
-    
-
+   -- loadSounds()
+   -- musicPlayer()
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
     boardGrid = {}        
@@ -1221,7 +1227,6 @@ function board:load()
 end
 
 function board:update(dt)
-
    
     --if sequenceBufferTable
     if drawAttack then
@@ -1300,6 +1305,10 @@ function board:draw()
     drawEventOnBoard()
     drawEventOnBackground()
     drawWarningForNextEvent()
+
+    ---MUSIC ON / OFF
+
+    --drawMusicPlayer()
 
 
     ---Item rajzolás
