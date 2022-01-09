@@ -17,7 +17,7 @@ function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleA
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
     self.infoText = infoText
-    print(infoText)
+   
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -54,10 +54,7 @@ function Character:update(dt)
     -- SPEECH BUBLES
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-
-        
-        
+    for _, currentChar in ipairs(activePlayer.characters) do   
         if currentChar.nextSpeakTime == nil or currentChar.nextSpeakTime < love.timer.getTime() then
             if currentChar.nextSpeakTime ~= nil then
                 local text = getTextForSpeech()
@@ -66,16 +63,10 @@ function Character:update(dt)
                 currentChar.lastSpeakTime = love.timer.getTime()
                 print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = love.math.random(23,120) + love.timer.getTime()
-                      
+            currentChar.nextSpeakTime = love.math.random(60,120) + love.timer.getTime()             
         end
-      
     end
-
-    for _, currentChar in ipairs(inactivePlayer.characters) do
-
-        
-        
+    for _, currentChar in ipairs(inactivePlayer.characters) do 
         if currentChar.nextSpeakTime == nil or currentChar.nextSpeakTime < love.timer.getTime() then
             if currentChar.nextSpeakTime ~= nil then
                 local text = getTextForSpeech()
@@ -84,17 +75,12 @@ function Character:update(dt)
                 currentChar.lastSpeakTime = love.timer.getTime()
                 print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = love.math.random(23,120) + love.timer.getTime()
-            
+            currentChar.nextSpeakTime = love.math.random(60,240) + love.timer.getTime()     
         end
-
     end
 
 
-   
-    
-  
-
+    -- ANIMATION UPDATES
 
     attackAnimation:update(dt)
     spellIconAnimation:update(dt)
@@ -491,21 +477,21 @@ function Character:drawValidIcons()
       
         if selectedChar and selectedChar == currentChar and gameState.state == gameState.states.selectSpellTargetArea and self.actionPoints ~= 0 then
             
-            if self.id == 1 or self.id == 9 then
+            if self.id == 1 or self.id == 9 then --GEOGNOME, WATERHAG
                 if self.y + 1 < 11 and pointerOnBottomSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
                 if self.y - 1 > 0 and pointerOnTopSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
                 if self.x + 1 < 11 and pointerOnRightSide then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
                 if self.x - 1 > 0 and pointerOnLeftSide then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
             end
 
-            if self.id == 5 then
+            if self.id == 5 then -- DRUID
                 if self.y + 1 < 11 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
                 if self.y - 1 > 0 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
                 if self.x + 1 < 11 then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
                 if self.x - 1 > 0 then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
             end
     
-        if self.id == 3 or self.id == 4 then
+        if self.id == 3 or self.id == 4 then --AIRELEMENTAL, ICEWIZARD
             if self.x - 1 > 0 and self.y - 1 > 0  and (pointerOnTopSide or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and (pointerOnBottomSide or pointerOnBottomRightSide or pointerOnBottomLeftSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y - 1 > 0 and (pointerOnTopSide  or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
@@ -514,7 +500,7 @@ function Character:drawValidIcons()
             if self.y + 1 < 11 and (pointerOnBottomSide or pointerOnBottomRightSide or pointerOnBottomLeftSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
         end
     
-        if self.id == 2 then
+        if self.id == 2 then -- ALCHEMIST
             if self.x - 1 > 0 and self.y - 1 > 0 and pointerOnTopLeftSide then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and pointerOnBottomLeftSide then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y - 1 > 0 and pointerOnTopRightSide then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
@@ -525,14 +511,14 @@ function Character:drawValidIcons()
             if self.x + 2 < 11 and self.y + 2 < 11 and pointerOnBottomRightSide then love.graphics.draw(validSpellImage, (self.x + 2) * tileW + offsetX, (self.y + 2) * tileH + offsetY) end
         end
     
-        if self.id == 6 then
+        if self.id == 6 then -- FIREMAGE
             if self.x - 1 > 0 and self.y - 1 > 0 and (pointerOnTopSide or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and (pointerOnBottomSide or pointerOnBottomLeftSide or pointerOnBottomRightSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y - 1 > 0 and (pointerOnTopSide  or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y + 1 < 11 and (pointerOnBottomSide  or pointerOnBottomLeftSide or pointerOnBottomRightSide) then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
         end
     
-        if self.id == 7 then
+        if self.id == 7 then -- THUNDERSHAMAN
             if self.y + 1 < 11 and (pointerOnBottomSide or pointerOnTopSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.y - 1 > 0 and (pointerOnBottomSide or pointerOnTopSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x + 1 < 11 and (pointerOnLeftSide or pointerOnRightSide) then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
@@ -543,7 +529,7 @@ function Character:drawValidIcons()
             if self.x - 2 > 0  and (pointerOnLeftSide or pointerOnRightSide) then love.graphics.draw(validSpellImage, (self.x - 2) * tileW + offsetX, (self.y) * tileH + offsetY) end
         end
 
-        if self.id == 8 then
+        if self.id == 8 then -- SANDWITCH
             if self.y + 1 < 11 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.y - 1 > 0 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
         end

@@ -33,10 +33,19 @@ function Event027:eventFunction()
         for i, currentChar in ipairs(activePlayer.characters) do
 
             if i == randomChar then
-                currentChar.stepPoints = currentChar.stepPoints + 1
-                if currentChar.y + 2 <= 10 and not boardGrid[currentChar.x][currentChar.y + 2].isOccupied then currentChar:move(currentChar.x, currentChar.y + 2, currentChar.x, currentChar.y)
-                elseif currentChar.y + 1 <= 10 and not boardGrid[currentChar.x][currentChar.y + 1].isOccupied then currentChar:move(currentChar.x, currentChar.y + 1, currentChar.x, currentChar.y)
-                else currentChar.stepPoints = currentChar.stepPoints - 1
+                
+
+                if currentChar.y + 2 <= 10 and not boardGrid[currentChar.x][currentChar.y + 2].isOccupied then 
+                    
+                    currentChar.stepPoints = currentChar.stepPoints + 1
+                    currentChar:move(currentChar.x, currentChar.y + 2, currentChar.x, currentChar.y)
+                    
+
+                elseif currentChar.y + 1 <= 10 and not boardGrid[currentChar.x][currentChar.y + 1].isOccupied then 
+                    
+                    currentChar.stepPoints = currentChar.stepPoints + 1
+                    currentChar:move(currentChar.x, currentChar.y + 1, currentChar.x, currentChar.y)
+
                 end
             end
                 
@@ -47,10 +56,13 @@ function Event027:eventFunction()
         for i, currentChar in ipairs(activePlayer.characters) do
 
             if i == randomChar then
-                currentChar.stepPoints = currentChar.stepPoints + 1
-                if currentChar.y - 2 > 0 and not boardGrid[currentChar.x][currentChar.y - 2].isOccupied  then currentChar:move(currentChar.x, currentChar.y - 2, currentChar.x, currentChar.y)
-                elseif currentChar.y - 1 > 0 and not boardGrid[currentChar.x][currentChar.y - 1].isOccupied then currentChar:move(currentChar.x, currentChar.y - 1, currentChar.x, currentChar.y)
-                else currentChar.stepPoints = currentChar.stepPoints - 1
+               
+                if currentChar.y - 2 > 0 and not boardGrid[currentChar.x][currentChar.y - 2].isOccupied  then 
+                    currentChar.stepPoints = currentChar.stepPoints + 1
+                    currentChar:move(currentChar.x, currentChar.y - 2, currentChar.x, currentChar.y)
+                elseif currentChar.y - 1 > 0 and not boardGrid[currentChar.x][currentChar.y - 1].isOccupied then 
+                    currentChar.stepPoints = currentChar.stepPoints + 1
+                    currentChar:move(currentChar.x, currentChar.y - 1, currentChar.x, currentChar.y)
                 end
             end
 

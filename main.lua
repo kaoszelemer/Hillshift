@@ -1,6 +1,7 @@
 -- HillShift - project started: 2021.01.01
 
-isDebug = false
+--**** fullscreen or windowed
+isGameFullScreen = false
 
 --require
 
@@ -467,7 +468,7 @@ end
 
 function spawnPrison(player)
     if turnCounter < 20 then
-        print(playerOne.prisonCount, playerTwo.prisonCount)
+        --print(playerOne.prisonCount, playerTwo.prisonCount)
         if player == playerTwo and playerTwo.prisonCount == 0 then
             boardGrid[1][10] = Field(1, 10)
             boardGrid[1][10].isPrison = true
@@ -518,64 +519,78 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
     pointerOnLeftSide = false
     pointerOnRightSide = false
 
-    local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
-    local  mY = math.floor((rMy / tileH) - offsetY / tileH)
+   
+    
  if gameState.state == gameState.states.selectSpellTargetArea or gameState.state == gameState.states.selectAttackTargetCharacter then
         for _, currentChar in ipairs(activePlayer.characters) do
 
+            
+            local  mX = math.floor((rMx / tileW) - offsetX / tileW) 
+            local  mY = math.floor((rMy / tileH) - offsetY / tileH)
 
-            --- Fent lent jobbra balra
-            if currentChar.x < mX  then
-                pointerOnLeftSide = false
-                pointerOnRightSide = true
-                pointerOnTopSide = false
-                pointerOnBottomSide = false
-            end
-            if currentChar.x  > mX then
-                pointerOnLeftSide = true
-                pointerOnRightSide = false
-                pointerOnTopSide = false
-                pointerOnBottomSide = false
-            end
-            if currentChar.y < mY then
-                pointerOnTopSide = false
-                pointerOnBottomSide = true
-                pointerOnLeftSide = false
-                pointerOnRightSide = false
-            end
-            if currentChar.y > mY then
-                pointerOnTopSide = true
-                pointerOnBottomSide = false
-                pointerOnLeftSide = false
-                pointerOnRightSide = false
-            end 
+           
+            if selectedChar and currentChar == selectedChar then
+
+                --- Fent lent jobbra balra
+                if currentChar.x < mX and currentChar.y == mY then
+                    pointerOnLeftSide = false
+                    pointerOnRightSide = true
+                    pointerOnTopSide = false
+                    pointerOnBottomSide = false
+               -- print(currentChar.x, mX, currentChar.y, mY)
+                end
+                if currentChar.x  > mX and currentChar.y == mY then
+                    pointerOnLeftSide = true
+                    pointerOnRightSide = false
+                    pointerOnTopSide = false
+                    pointerOnBottomSide = false
+            --      print(currentChar.x, mX, currentChar.y, mY)
+                --  print('pointerOnLeftSide')
+                end
+                if currentChar.y < mY and currentChar.x == mX then
+                    pointerOnTopSide = false
+                    pointerOnBottomSide = true
+                    pointerOnLeftSide = false
+                    pointerOnRightSide = false
+                --  print('pointerOnBottomSide')
+                end
+                if currentChar.y > mY and currentChar.x == mX then
+                    pointerOnTopSide = true
+                    pointerOnBottomSide = false
+                    pointerOnLeftSide = false
+                    pointerOnRightSide = false
+                --  print('pointerOnTopSide')
+                end 
 
             --4 irányba pl. alkimista
 
-            if  mX < currentChar.x and mY < currentChar.y then
-                pointerOnTopLeftSide = true
-                pointerOnTopRightSide = false
-                pointerOnBottomRightSide = false
-                pointerOnBottomLeftSide = false
+                if  mX < currentChar.x and mY < currentChar.y then
+                    pointerOnTopLeftSide = true
+                    pointerOnTopRightSide = false
+                    pointerOnBottomRightSide = false
+                    pointerOnBottomLeftSide = false
+                end
+                if  mX > currentChar.x and mY < currentChar.y then
+                    pointerOnTopLeftSide = false
+                    pointerOnTopRightSide = true
+                    pointerOnBottomRightSide = false
+                    pointerOnBottomLeftSide = false
+                end
+                if  mX < currentChar.x and mY > currentChar.y then
+                    pointerOnTopLeftSide = false
+                    pointerOnTopRightSide = false
+                    pointerOnBottomRightSide = false
+                    pointerOnBottomLeftSide = true
+                end
+                if  mX > currentChar.x and mY > currentChar.y then
+                    pointerOnTopLeftSide = false
+                    pointerOnTopRightSide = false
+                    pointerOnBottomRightSide = true
+                    pointerOnBottomLeftSide = false
+                end
+
             end
-            if  mX > currentChar.x and mY < currentChar.y then
-                pointerOnTopLeftSide = false
-                pointerOnTopRightSide = true
-                pointerOnBottomRightSide = false
-                pointerOnBottomLeftSide = false
-            end
-            if  mX < currentChar.x and mY > currentChar.y then
-                pointerOnTopLeftSide = false
-                pointerOnTopRightSide = false
-                pointerOnBottomRightSide = false
-                pointerOnBottomLeftSide = true
-            end
-            if  mX > currentChar.x and mY > currentChar.y then
-                pointerOnTopLeftSide = false
-                pointerOnTopRightSide = false
-                pointerOnBottomRightSide = true
-                pointerOnBottomLeftSide = false
-            end
+
         end
     else
         pointerOnBottomLeftSide = false
@@ -847,8 +862,9 @@ end
 
 
 function love.load()
-    love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
-  -- love.window.setMode(width,height)
+    if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
+    else love.window.setMode(width,height)
+    end        
     --Particle systems
   
 
@@ -894,7 +910,7 @@ function love.draw()
         scaleX, scaleY = (screenWidth / width), (screenHeight / height)
     end
 
-    love.graphics.scale(scaleX, scaleY)  -- fullscreen skálázás
+    if isGameFullScreen then love.graphics.scale(scaleX, scaleY) end -- fullscreen skálázás
 
     
     board:draw()
@@ -971,7 +987,8 @@ end
 
 function love.mousemoved( x, y, dx, dy, istouch )
 
-   testMouseForValidSpellDrawing(x, y)
+
+    testMouseForValidSpellDrawing(x, y)
 
    testMouseForInventoryHover(x, y)
 
