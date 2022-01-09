@@ -1,0 +1,26 @@
+
+music:
+zene
+win theme
+event
+
+
+common sounds:
+
+eger interakciok
+
+kattintas ikonokra
+lepes
+tamadas
+vizbe eses
+event confirm
+
+character sounds
+air elemental   - blow
+                - death
+                - got hit
+                - hits
+                - annoy
+
+
+

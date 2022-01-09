@@ -1054,6 +1054,9 @@ local function drawSpellAnimationsOnBoard()
     end
 end
 
+
+
+
 local function loadAnimations()
 
     ---Icons
@@ -1201,6 +1204,8 @@ function board:load()
     playerOne.prisonCount = 0
     playerTwo.prisonCount = 0
 
+    
+
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
     boardGrid = {}        
@@ -1255,16 +1260,19 @@ function board:draw()
     
     love.graphics.draw(hillShiftLogoImage, width / 4 + 128, 10)
     --drawModifier()
+    
     drawBoardGrid()
-   
     drawChests()
     drawEndTurnButton()
     drawRectanglesIfHoveredOrOccupied()
     Cell:drawFireParticles()
     Character:drawHealthBar()
+  
     Cell:drawPrisonCell()
+   
     drawCharactersOnBoard(playerOne)
     drawCharactersOnBoard(playerTwo)
+    Character:drawSpeechBubbles()
     drawStatsOnSideBarPlayerOne(playerOne)
     drawStatsOnSideBarPlayerTwo(playerTwo)
     Character:drawCancelButton()
@@ -1281,6 +1289,7 @@ function board:draw()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
+    
     
     
 

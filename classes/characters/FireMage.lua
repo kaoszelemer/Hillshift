@@ -6,7 +6,7 @@ local FireMage = Character:extend("FireMage")
                     love.graphics.newImage("/graphics/firemagesink.png"), 
                     love.graphics.newImage("/graphics/firemagesinkhover.png"), 
                     parentPlayer, 1, 1,
-                    "INFO ABOUT FIREMAGE:\n\nThe FireMage can shoot fireballs\nFire burns down forests,\nevaporates water\n melts ice and sand. Also people tend\n to not like when they're\n on fire.")
+                    "INFO ABOUT FIREMAGE:\n\nThe FireMage can shoot fireballs.\nFire burns down forests,\nevaporates water, melts ice and sand. \nAlso people tend to not like \nwhen they're on fire.")
     end
 
 function FireMage:update(dt)

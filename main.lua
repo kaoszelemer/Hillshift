@@ -3,13 +3,17 @@
 isDebug = false
 
 --require
+
+--libs
 class = require('lib.30log')
 anim8 = require('lib.anim8')
 flux = require('lib.flux')
 tween = require('lib.tween')
 ripple = require('lib.ripple')
 
+--own files
 StateMachine = require('classes.StateMachine')
+speechBubbleTextTable = require('speechbubbles')
 
 gameState = StateMachine({
     selectCharacter = {
@@ -184,8 +188,12 @@ nextTurnBeforeEvent = love.math.random(5, 9)
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
+--timers
 lightningTimer = 0
 magicForestTimer = 0
+gameStartTimer = love.timer.getTime()
+bubbleTimer = 0
+
 --Colors
 charColor = {167 / 255, 147 / 255, 173 / 255, 255}
 cellOccupiedColor = {1, 192 / 255, 203 / 255, 255}
@@ -238,14 +246,16 @@ end
 function endTurn()
     drawAttack = false
     turnCounter = turnCounter + 1
+    local maxTurns = 30
     
     eventTurnCounter = eventTurnCounter + 1
-    if turnCounter == 20 then 
+    if turnCounter == maxTurns then 
         isSuddenDeath = true 
-        if turnCounter == 20 then isDrawEventForSuddenDeath = true end
+        if turnCounter == maxTurns then isDrawEventForSuddenDeath = true end
         --eventTurnCounter = -40
         --chestCounter = 30
     end
+    print("   ****   Turn "..turnCounter.." begins.   ****")
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
@@ -262,7 +272,7 @@ function endTurn()
 
                         eventTurnCounter = -40
                         for v = 1, 10 do  
-                            if turnCounter == 19 + v then
+                            if turnCounter == maxTurns - 1 + v then
                             
                             
                                 boardGrid[v][y].isOnFire = true 
@@ -626,7 +636,13 @@ function loadCharacterAnim()
 
 end
 
+function getTextForSpeech()
 
+    textNumber = love.math.random(1, #speechBubbleTextTable)
+    local tfs = speechBubbleTextTable[textNumber]
+    return tfs
+
+end
 
 function spawnChestIfPlayerIsBehind()
 
@@ -831,8 +847,8 @@ end
 
 
 function love.load()
-    --love.window.setFullscreen(true, "desktop")   <- fullscreen, drawban a skálálzás
-   love.window.setMode(width,height)
+    love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
+  -- love.window.setMode(width,height)
     --Particle systems
   
 
@@ -878,9 +894,9 @@ function love.draw()
         scaleX, scaleY = (screenWidth / width), (screenHeight / height)
     end
 
-    --love.graphics.scale(scaleX, scaleY)  -- fullscreen skálázás
+    love.graphics.scale(scaleX, scaleY)  -- fullscreen skálázás
 
-
+    
     board:draw()
     Character:drawParticles()
     love.graphics.setColor(charColor)

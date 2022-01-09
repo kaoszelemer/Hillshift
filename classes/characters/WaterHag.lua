@@ -7,7 +7,7 @@ function WaterHag:init(parentPlayer)
                 love.graphics.newImage("/graphics/waterwitchsink.png"), 
                 love.graphics.newImage("/graphics/waterwitchsinkhover.png"), 
                 parentPlayer, 1, 1,
-                "INFO ABOUT WATERHAG:\n\nThe Waterhag create lakes\nPeople in lakes can't be attacked\nand more suspectible to thunder\nthey also only can move to land")
+                "INFO ABOUT WATERHAG:\n\nThe Waterhag creates lakes.\nPeople in lakes can't be attacked\nand more suspectible to thunder, \nthey also only can move to land")
 end
 function WaterHag:update(dt)
     self.animation:update(dt)

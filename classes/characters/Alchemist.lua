@@ -7,7 +7,7 @@ function Alchemist:init(parentPlayer)
                 love.graphics.newImage("/graphics/alchemistsinkhover.png"),
 
                 parentPlayer, 1, 1,
-                "INFO ABOUT ALCHEMIST:\n\nThe Alchemist spits poison.\nPoison give -DE and -AT")
+                "INFO ABOUT ALCHEMIST:\n\nThe Alchemist spits poisonclouds.\nPoison give minus to defense\nand more minus to attack\nbecause your eyes are bleeding\nin the clouds.")
 end
 
 function Alchemist:update(dt)
