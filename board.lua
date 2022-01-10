@@ -105,7 +105,7 @@ local function initPlayerDeck(player)
 
     --[[ if isDebug then debugHillShift(player)
     else ]]
-
+        if isGameClient ~= true then
         -- FULL DECK
         table.insert(player.characters, GeoGnome(player))
         table.insert(player.characters, AirElemental(player))
@@ -157,12 +157,14 @@ local function initPlayerDeck(player)
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player))
         table.insert(player.characters, IceWizard(player)) ]]
-
+    if isGameClient ~= true then
         while #player.characters ~= 4 do     
             local cardNumber = love.math.random(1, #player.characters)
             table.remove(player.characters, cardNumber)
         end
+    end
 
+    end
        
     
 
@@ -667,7 +669,7 @@ local function drawChests()
 
 end
 
-local function moveCharactersToStartingPosition()
+function moveCharactersToStartingPosition()
     for i, currentChar in ipairs(playerOne.characters) do
         if     i == 1 then currentChar:move(5, 2) --5,2
         elseif i == 2 then currentChar:move(5, 3) --5,3
@@ -703,66 +705,72 @@ end
 
 function createBoardGrid()
 
-    for y = 1, 10 do
-        for x = 1, 10 do 
-            table.insert(sequenceBufferTable, {
-                name = "creatingRandomizedBoard",
-                duration = 0.01,
-                sequenceTime = love.timer.getTime(),
-                action = function()
-            
-                    --start mezők beállítása  
-                    if      x == 5 and y == 2 or x == 5 and y == 3 or
-                            x == 6 and y == 2 or x == 6 and y == 3 or
-                            x == 5 and y == 8 or x == 6 and y == 8 or
-                            x == 5 and y == 9 or x == 6 and y == 9 then 
-                            
-                            selectedType = 4
-                    -- egyébként legyen random
-                    else    selectedType = love.math.random(1, #cellType)           
+    if isGameClient ~= true then
+
+        for y = 1, 10 do
+            for x = 1, 10 do 
+                table.insert(sequenceBufferTable, {
+                    name = "creatingRandomizedBoard",
+                    duration = 0.01,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                
+                        --start mezők beállítása  
+                        if      x == 5 and y == 2 or x == 5 and y == 3 or
+                                x == 6 and y == 2 or x == 6 and y == 3 or
+                                x == 5 and y == 8 or x == 6 and y == 8 or
+                                x == 5 and y == 9 or x == 6 and y == 9 then 
+                                
+                                selectedType = 4
+                        -- egyébként legyen random
+                        else    selectedType = love.math.random(1, #cellType)           
+                        end
+                        -- a mezők adatai itt kerülnek be a táblázatba
+                    
+                        if      selectedType == 1 then 
+                            boardGrid[x][y] = Forest(x, y)
+                        elseif  selectedType == 2 then 
+                            boardGrid[x][y] = Mount(x, y) 
+                            soundEngine:playSFX(mountSound)
+                        elseif  selectedType == 3 then 
+                            boardGrid[x][y] = Lake(x, y)    
+                        elseif  selectedType == 4 then 
+                            boardGrid[x][y] = Field(x, y)
+                        end
+                        boardGrid[x][y].isInstanced = true
                     end
-                    -- a mezők adatai itt kerülnek be a táblázatba
-                  
-                    if      selectedType == 1 then 
-                        boardGrid[x][y] = Forest(x, y)
-                    elseif  selectedType == 2 then 
-                        boardGrid[x][y] = Mount(x, y) 
-                        soundEngine:playSFX(mountSound)
-                    elseif  selectedType == 3 then 
-                        boardGrid[x][y] = Lake(x, y)    
-                    elseif  selectedType == 4 then 
-                        boardGrid[x][y] = Field(x, y)
-                    end
-                    boardGrid[x][y].isInstanced = true
+                })
+            end
+           
+        end
+        table.insert(sequenceBufferTable, {
+            name = "spawningachestforplayerOne",
+            duration = 1.2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+        
+                while chestCounter ~= 1 do
+                    spawnChestPlayerOne()
                 end
-            })
+            end
+        })
+        table.insert(sequenceBufferTable, {
+            name = "spawningachestforplayertwo",
+            duration = 1.2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+                while chestCounter ~= 2 do
+                    spawnChestPlayerTwo()
+                end
 
-        end
+            end
+        })
+
+        Cell:resetParticleDrawing()
+
+  
     end
-    table.insert(sequenceBufferTable, {
-        name = "spawningachestforplayerOne",
-        duration = 1.2,
-        sequenceTime = love.timer.getTime(),
-        action = function()
-    
-            while chestCounter ~= 1 do
-                spawnChestPlayerOne()
-            end
-        end
-    })
-    table.insert(sequenceBufferTable, {
-        name = "spawningachestforplayertwo",
-        duration = 1.2,
-        sequenceTime = love.timer.getTime(),
-        action = function()
-            while chestCounter ~= 2 do
-                spawnChestPlayerTwo()
-            end
 
-        end
-    })
-
-    Cell:resetParticleDrawing()
 
 end
 
@@ -1059,12 +1067,6 @@ local function drawSpellAnimationsOnBoard()
 end
 
 
-local function musicPlayer()
-
-
-
-end
-
 
 
 local function loadAnimations()
@@ -1221,7 +1223,6 @@ function board:load()
     boardGrid = {}        
     initBoardgrid()
     moveCharactersToStartingPosition()
-
     loadAnimations()
    
   

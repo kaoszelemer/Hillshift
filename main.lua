@@ -12,6 +12,9 @@ anim8 = require('lib.anim8')
 flux = require('lib.flux')
 tween = require('lib.tween')
 ripple = require('lib.ripple')
+sock = require('lib.sock')
+bitser = require('lib.bitser')
+smallfolks = require('lib.smallfolks')
 
 --own files
 StateMachine = require('classes.StateMachine')
@@ -499,6 +502,8 @@ end
 
 local function selectStartingPlayer()
    
+    if isGameClient ~= true then
+
         startingDicePlayerOne = love.math.random(1, 6)
         startingDicePlayerTwo = love.math.random(1, 6)
 
@@ -511,7 +516,7 @@ local function selectStartingPlayer()
             activePlayer = playerTwo
             inactivePlayer = playerOne
         end
-   
+    end
 end
 
 local function testMouseForValidSpellDrawing(rMx, rMy)
@@ -865,8 +870,199 @@ local function quitGame()
     love.event.push("quit")
 end
 
+function loadNetworking(arg)
 
-function love.load()
+        
+    local gameStartInstructions = arg[1]
+
+    if gameStartInstructions == nil then 
+        print("No load arguments, starting hot-seat mode")
+        isGameServer = false
+        isGameClient = false
+    end
+
+
+    if gameStartInstructions == "host" then
+
+        isGameServer = true
+        isGameClient = false
+
+
+        -- sending load parameters: board (done), starting player(done), chests and characters
+
+        
+
+        print("Argument: host, starting server mode")
+
+          -- Creating a server on any IP, port 22122
+        server = sock.newServer("*", 22122)
+    
+        -- Called when someone connects to the server
+        server:on("connect", function(data, client)
+        -- Send a message back to the connected client
+        local msg = "Hello from the server!"
+
+    
+
+    
+
+
+        -- ACTIVE PLAYER
+
+        local ap
+
+        if activePlayer == playerOne then 
+            ap = "playerONE"
+        else
+            ap = "playerTWO"
+        end
+
+
+        --CCHARACTERS
+
+        for i = 1, 4 do
+            server:sendToAll("activePlayerCharacters", activePlayer.characters[i].id)
+        end
+        
+        server:sendToAll("aktivjatekos", ap)
+        
+        -- BOARDRGID
+        for x = 1, 10 do
+            for y = 1, 10 do
+                local grid = {}
+                if boardGrid[x][y]:instanceOf(Mount) then 
+                    grid = {x,y,1}
+                    server:sendToAll("boardGrid", grid)
+                end
+                if boardGrid[x][y]:instanceOf(Field) then 
+                    grid = {x,y,2}
+                    server:sendToAll("boardGrid", grid)
+                end
+                if boardGrid[x][y]:instanceOf(Lake) then 
+                    grid = {x,y,3}
+                    server:sendToAll("boardGrid", grid)
+                end
+                if boardGrid[x][y]:instanceOf(Forest) then 
+                    grid = {x,y,4}
+                    server:sendToAll("boardGrid", grid)
+                end
+                
+            end
+        end
+
+      
+        
+
+        client:send("hello", msg)
+              
+        end)
+
+    end
+
+    if gameStartInstructions == "join" then
+        print(activePlayer.characters[1])
+       
+        isGameServer = false
+        isGameClient = true
+
+        print("Argument: join, starting client mode")
+
+            -- Creating a new client on localhost:22122
+        client = sock.newClient("localhost", 22122)
+     
+        -- Called when a connection is made to the server
+        client:on("connect", function(data)
+            print("Client connected to the server.")
+        end)
+        
+        -- Called when the client disconnects from the server
+        client:on("disconnect", function(data)
+            print("Client disconnected from the server.")
+        end)
+
+        -- Custom callback, called whenever you send the event from the server
+        client:on("hello", function(msg)
+            print("The server replied: " .. msg)
+        end)
+
+        client:on("boardGrid", function(grid)
+            print("querying boardGrid")
+            local g = grid
+            if g[3] == 1 then 
+                boardGrid[g[1]][g[2]] = Mount(g[1], g[2])
+            end
+            if g[3] == 2 then 
+                boardGrid[g[1]][g[2]] = Field(g[1], g[2])
+            end
+            if g[3] == 3 then 
+                boardGrid[g[1]][g[2]] = Lake(g[1], g[2])
+            end
+            if g[3] == 4 then 
+                boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
+            end   
+        end)
+
+        client:on("aktivjatekos", function(ap)
+            
+            print("activeplayer is "..ap)
+
+            if ap == "playerONE" then
+                activePlayer = playerOne
+                inactivePlayer = playerTwo
+            elseif ap =="playerTWO" then
+                activePlayer = playerTwo
+                inactivePlayer = playerOne
+            end
+        end)
+
+        client:on("activePlayerCharacters", function(ac)
+
+                print("activeplayer characters are: "..ac)
+
+
+            
+                --table.remove(activePlayer.characters, 1)
+
+                local nt = {}
+
+                for i = 1, 9 do      
+                    for index, currentChar in ipairs (activePlayer.characters) do
+                        print(currentChar.id)
+                        if ac == currentChar.id then
+                            print("inserting characters")
+                            table.insert(nt, currentChar)
+                        end
+                    
+                    end
+                end
+
+
+
+              
+
+        
+               -- board:moveCharactersToStartingPosition()
+
+            
+
+            
+        end)
+
+        client:connect()
+        
+        --  You can send different types of data
+       
+
+
+
+    end
+
+
+end
+
+function love.load(arg)
+
+
     if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
     else love.window.setMode(width,height)
     end        
@@ -889,9 +1085,23 @@ function love.load()
     love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
   
     love.mouse.setVisible(false)
+
+   loadNetworking(arg)
+    --- networking
+    
+   
+
+
+
+   
 end
 
 function love.update(dt)
+
+    if isGameServer then server:update() end
+    if isGameClient then client:update() end
+
+
     updateParticleSystems(dt)
     flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
@@ -990,6 +1200,10 @@ function love.draw()
 
 
     love.graphics.draw(mouseArrow, mouseX, mouseY)
+
+    --Debug for networking
+    if isGameServer then love.graphics.print("SERVER", width - 150, 10) end
+    if isGameClient then love.graphics.print("CLIENT", width - 150, 10) end
 
 end
 
