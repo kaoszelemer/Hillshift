@@ -916,10 +916,10 @@ local function initNetworking(arg)
 
         -- Called when someone connects to the server
         server:on("connect", function(data, client)
-        -- Send a message back to the connected client
-        local msg = "pong"
         
-        client:send("hello", msg)
+            local msg = "pong"
+            
+            client:send("hello", msg)
               
         end)
 
@@ -982,7 +982,17 @@ local function initNetworking(arg)
             client:send("playerOne.characters", a)      
         end)
 
+        server:on("clientendturn", function(cet)
+        
+            if cet == "endturnclicked" then
+                endTurn()
+                newTurn()
+
+            end
+
      
+        end)
+
     end
 
         
@@ -996,7 +1006,7 @@ local function initNetworking(arg)
             -- Creating a new client on localhost:22122
         client = sock.newClient("localhost", 22122)
      
-        -- Called when a connection is made to the server
+      
         client:on("connect", function(data)
             print("Client connected to the server.")
         end)
@@ -1110,14 +1120,17 @@ local function initNetworking(arg)
             end
         end)
 
-        client:on("chest", function(ch)
-
-                       
+        client:on("chest", function(ch)                    
                     if ch[3] == true then
                         boardGrid[ch[1]][ch[2]].isChest = true
                     end
+        end)
 
-
+        client:on("serverendturn", function(ebc)                    
+            if ebc == "endturnclicked" then
+                endTurn()
+                newTurn()
+            end
         end)
 
          
@@ -1385,8 +1398,18 @@ function love.mousereleased(x, y, button, istouch, presses)
 
             if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
                 isEndTurnButtonClicked = false
-                endTurn()
-                newTurn()
+
+                if isGameServer then
+                    server:sendToAll("serverendturn", "endturnclicked")
+                end
+                if isGameClient then
+                    client:send("clientendturn", "endturnclicked")
+                end
+
+               
+                    endTurn()
+                    newTurn()
+           
             end
 
         end
