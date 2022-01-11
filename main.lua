@@ -982,6 +982,13 @@ local function initNetworking(arg)
             client:send("playerOne.characters", a)      
         end)
 
+        server:on("clientmousepositions", function(mp)
+            if activePlayer == playerTwo then
+                mouseX = mp[1]
+                mouseY = mp[2]
+            end
+        end)
+
         server:on("clientendturn", function(cet)
         
             if cet == "endturnclicked" then
@@ -1133,6 +1140,13 @@ local function initNetworking(arg)
             end
         end)
 
+        client:on("servermousepositions", function(mp) 
+            if activePlayer == playerOne  then                 
+                mouseX = mp[1]
+                mouseY = mp[2]
+            end
+        end)
+
          
         client:connect()
 
@@ -1187,6 +1201,18 @@ function love.update(dt)
     updateParticleSystems(dt)
     flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
+    if isGameServer then
+        m = {}
+        m[1] = mouseX
+        m[2] = mouseY
+        server:sendToAll("servermousepositions", m)
+    end
+    if isGameClient then
+        m = {}
+        m[1] = mouseX
+        m[2] = mouseY
+        client:send("clientmousepositions", m)
+    end
     board:update(dt)
     soundEngine:update(dt)
     Character:update(dt)
