@@ -105,66 +105,120 @@ local function initPlayerDeck(player)
 
     --[[ if isDebug then debugHillShift(player)
     else ]]
-        if isGameClient ~= true then
+       
+       -- for networking
+
+        if player == "server" then
+            table.insert(playerOne.characters, GeoGnome(playerOne))
+            table.insert(playerOne.characters, AirElemental(playerOne))
+            table.insert(playerOne.characters, Alchemist(playerOne))
+            table.insert(playerOne.characters, FireMage(playerOne))
+            table.insert(playerOne.characters, Druid(playerOne))
+            table.insert(playerOne.characters, IceWizard(playerOne))
+            table.insert(playerOne.characters, ThunderShaman(playerOne))
+            table.insert(playerOne.characters, SandWitch(playerOne))
+            table.insert(playerOne.characters, WaterHag(playerOne))
+
+            while #playerOne.characters ~= 4 do     
+                local cardNumber = love.math.random(1, #playerOne.characters)
+                table.remove(playerOne.characters, cardNumber)
+            end
+
+            local h = "ez lesz majd a szerver spaklija"
+            print(h)
+            server:sendToAll("sendingshit", h)
+
+           --[[      local shit = "shit"
+               
+
+            client:send(shit)
+
+            end) ]]
+
+        elseif player == "client" then
+            print("klienspllakli")
+            table.insert(playerTwo.characters, GeoGnome(playerTwo))
+            table.insert(playerTwo.characters, AirElemental(playerTwo))
+            table.insert(playerTwo.characters, Alchemist(playerTwo))
+            table.insert(playerTwo.characters, FireMage(playerTwo))
+            table.insert(playerTwo.characters, Druid(playerTwo))
+            table.insert(playerTwo.characters, IceWizard(playerTwo))
+            table.insert(playerTwo.characters, ThunderShaman(playerTwo))
+            table.insert(playerTwo.characters, SandWitch(playerTwo))
+            table.insert(playerTwo.characters, WaterHag(playerTwo))
+
+            while #playerTwo.characters ~= 4 do     
+                local cardNumber = love.math.random(1, #playerTwo.characters)
+                table.remove(playerTwo.characters, cardNumber)
+            end
+
+            client:on("sendingshit", function(shit)
+                print("The server replied: " .. shit)
+            end)
+
+        else
+        
+       
+             
         -- FULL DECK
-        table.insert(player.characters, GeoGnome(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, Druid(player))
-        table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, ThunderShaman(player))
-        table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, WaterHag(player))
+            table.insert(player.characters, GeoGnome(player))
+            table.insert(player.characters, AirElemental(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, Druid(player))
+            table.insert(player.characters, IceWizard(player))
+            table.insert(player.characters, ThunderShaman(player))
+            table.insert(player.characters, SandWitch(player))
+            table.insert(player.characters, WaterHag(player))
 
-        --- ONLY ONE CHARACTER
+            --- ONLY ONE CHARACTER
 
-        --[[ table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player)) ]]
+            --[[ table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player)) ]]
 
-        --AIR POISON FIRE SAND INTERACTIONS
+            --AIR POISON FIRE SAND INTERACTIONS
 
-        --[[ table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, SandWitch(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, Alchemist(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player))
-        table.insert(player.characters, AirElemental(player)) ]]
+            --[[ table.insert(player.characters, SandWitch(player))
+            table.insert(player.characters, SandWitch(player))
+            table.insert(player.characters, SandWitch(player))
+            table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, Alchemist(player))
+            table.insert(player.characters, AirElemental(player))
+            table.insert(player.characters, AirElemental(player))
+            table.insert(player.characters, AirElemental(player)) ]]
 
 
-        -- DRUID FIRE ICE
-        --[[ table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, FireMage(player))
-        table.insert(player.characters, Druid(player))
-        table.insert(player.characters, Druid(player))
-        table.insert(player.characters, Druid(player))
-        table.insert(player.characters, Druid(player))
-        table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player))
-        table.insert(player.characters, IceWizard(player)) ]]
-    if isGameClient ~= true then
-        while #player.characters ~= 4 do     
-            local cardNumber = love.math.random(1, #player.characters)
-            table.remove(player.characters, cardNumber)
+            -- DRUID FIRE ICE
+            --[[ table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, FireMage(player))
+            table.insert(player.characters, Druid(player))
+            table.insert(player.characters, Druid(player))
+            table.insert(player.characters, Druid(player))
+            table.insert(player.characters, Druid(player))
+            table.insert(player.characters, IceWizard(player))
+            table.insert(player.characters, IceWizard(player))
+            table.insert(player.characters, IceWizard(player))
+            table.insert(player.characters, IceWizard(player)) ]]
+        
+            while #player.characters ~= 4 do     
+                local cardNumber = love.math.random(1, #player.characters)
+                table.remove(player.characters, cardNumber)
+            end
         end
-    end
 
-    end
+     
        
     
 
@@ -705,8 +759,6 @@ end
 
 function createBoardGrid()
 
-    if isGameClient ~= true then
-
         for y = 1, 10 do
             for x = 1, 10 do 
                 table.insert(sequenceBufferTable, {
@@ -769,7 +821,7 @@ function createBoardGrid()
         Cell:resetParticleDrawing()
 
   
-    end
+   
 
 
 end
@@ -1218,11 +1270,26 @@ function board:load()
 
    -- loadSounds()
    -- musicPlayer()
+   if isGameServer then
+    local s = "server"
+    initPlayerDeck(s)
+   elseif isGameClient then
+    local c = "client"
+    initPlayerDeck(c)
+   else
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
+   end
+
+   
     boardGrid = {}        
     initBoardgrid()
+
+   
     moveCharactersToStartingPosition()
+  
+
+
     loadAnimations()
    
   

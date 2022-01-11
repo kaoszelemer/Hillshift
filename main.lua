@@ -492,17 +492,20 @@ end
 
 function enableEndGame()
 
+    if turnCounter ~= 0 then 
+
     if #activePlayer.characters < 1 or #inactivePlayer.characters < 1 then
         drawEndGame = true
     end
 
+    end
 
 
 end
 
 local function selectStartingPlayer()
    
-    if isGameClient ~= true then
+   
 
         startingDicePlayerOne = love.math.random(1, 6)
         startingDicePlayerTwo = love.math.random(1, 6)
@@ -516,7 +519,7 @@ local function selectStartingPlayer()
             activePlayer = playerTwo
             inactivePlayer = playerOne
         end
-    end
+  
 end
 
 local function testMouseForValidSpellDrawing(rMx, rMy)
@@ -870,10 +873,92 @@ local function quitGame()
     love.event.push("quit")
 end
 
+local function initNetworking(arg)
+
+    local gameStartInstructions = arg[1]
+
+    if gameStartInstructions == nil then 
+        print("No load arguments, starting hot-seat mode")
+        isGameServer = false
+        isGameClient = false
+
+    return
+    end
+
+
+    if gameStartInstructions == "host" then
+
+        isGameServer = true
+        isGameClient = false
+
+
+        -- sending load parameters: board (done), starting player(done), chests and characters
+
+        
+
+        print("Argument: host, starting server mode")
+
+        -- Creating a server on any IP, port 22122
+        server = sock.newServer("*", 22122)
+        server:setSerialization(bitser.dumps, bitser.loads)
+
+        -- Called when someone connects to the server
+        server:on("connect", function(data, client)
+        -- Send a message back to the connected client
+        local msg = "Hello from the server!"
+        
+        client:send("hello", msg)
+              
+        end)
+    end
+
+        
+    if gameStartInstructions == "join" then
+               
+        isGameServer = false
+        isGameClient = true
+
+        print("Argument: join, starting client mode")
+
+            -- Creating a new client on localhost:22122
+        client = sock.newClient("localhost", 22122)
+     
+        -- Called when a connection is made to the server
+        client:on("connect", function(data)
+            print("Client connected to the server.")
+        end)
+        
+        -- Called when the client disconnects from the server
+        client:on("disconnect", function(data)
+            print("Client disconnected from the server.")
+        end)
+
+        -- Custom callback, called whenever you send the event from the server
+        client:on("hello", function(msg)
+            print("The server replied: " .. msg)
+        end)
+
+        client:on("shit", function(shit)
+        
+            print(shit)
+        
+        end)
+
+        client:connect()
+
+    end
+
+end
+
+
+
+
+
+
 function loadNetworking(arg)
 
         
-    local gameStartInstructions = arg[1]
+    localgameStartInstructions = arg[1]
 
     if gameStartInstructions == nil then 
         print("No load arguments, starting hot-seat mode")
@@ -1020,25 +1105,14 @@ function loadNetworking(arg)
                 print("activeplayer characters are: "..ac)
 
 
+           print(ac)
+           
+                        
+
+        
+            
             
                 --table.remove(activePlayer.characters, 1)
-
-                local nt = {}
-
-                for i = 1, 9 do      
-                    for index, currentChar in ipairs (activePlayer.characters) do
-                        print(currentChar.id)
-                        if ac == currentChar.id then
-                            print("inserting characters")
-                            table.insert(nt, currentChar)
-                        end
-                    
-                    end
-                end
-
-
-
-              
 
         
                -- board:moveCharactersToStartingPosition()
@@ -1048,6 +1122,7 @@ function loadNetworking(arg)
             
         end)
 
+       
         client:connect()
         
         --  You can send different types of data
@@ -1073,7 +1148,7 @@ function love.load(arg)
    
     
     --board betoltese
-    
+    initNetworking(arg)
     board:load()
     soundEngine:load()
     loadCharacterAnim()
@@ -1086,9 +1161,9 @@ function love.load(arg)
   
     love.mouse.setVisible(false)
 
-   loadNetworking(arg)
+   
     --- networking
-    
+   -- loadNetworking(arg)
    
 
 
@@ -1098,9 +1173,7 @@ end
 
 function love.update(dt)
 
-    if isGameServer then server:update() end
-    if isGameClient then client:update() end
-
+  
 
     updateParticleSystems(dt)
     flux.update(dt)
@@ -1110,7 +1183,10 @@ function love.update(dt)
     Character:update(dt)
     sequenceProcessor()
     enableEndGame()
-    
+
+    if isGameServer then server:update() end
+    if isGameClient then client:update() end
+
 
 end
 
