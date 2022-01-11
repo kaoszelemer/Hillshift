@@ -237,6 +237,7 @@ function Character:drawHealthBar()
     
 
     for _, currentChar in ipairs(activePlayer.characters) do
+            
             local healthBarMaxWidth = 0.75
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
             love.graphics.setColor(charColor)

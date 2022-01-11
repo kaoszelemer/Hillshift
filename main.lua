@@ -17,6 +17,9 @@ bitser = require('lib.bitser')
 smallfolks = require('lib.smallfolks')
 
 --own files
+
+helper = {}
+
 StateMachine = require('classes.StateMachine')
 speechBubbleTextTable = require('speechbubbles')
 
@@ -505,7 +508,14 @@ end
 
 local function selectStartingPlayer()
    
-   
+   if isGameServer then
+    activePlayer = playerOne
+    inactivePlayer = playerTwo
+   elseif isGameClient then
+    activePlayer = playerOne
+    inactivePlayer = playerTwo
+
+   else
 
         startingDicePlayerOne = love.math.random(1, 6)
         startingDicePlayerTwo = love.math.random(1, 6)
@@ -519,6 +529,8 @@ local function selectStartingPlayer()
             activePlayer = playerTwo
             inactivePlayer = playerOne
         end
+
+    end
   
 end
 
@@ -905,11 +917,72 @@ local function initNetworking(arg)
         -- Called when someone connects to the server
         server:on("connect", function(data, client)
         -- Send a message back to the connected client
-        local msg = "Hello from the server!"
+        local msg = "pong"
         
         client:send("hello", msg)
               
         end)
+
+        server:on("connect", function(data, client)
+
+            for x = 1, 10 do
+                for y = 1, 10 do
+                    local grid = {}
+                    if boardGrid[x][y]:instanceOf(Mount) then 
+                        grid = {x,y,1}
+                        client:send("boardGrid", grid)
+                    end
+                    if boardGrid[x][y]:instanceOf(Field) then 
+                        grid = {x,y,2}
+                        client:send("boardGrid", grid)
+                    end
+                    if boardGrid[x][y]:instanceOf(Lake) then 
+                        grid = {x,y,3}
+                        client:send("boardGrid", grid)
+                    end
+                    if boardGrid[x][y]:instanceOf(Forest) then 
+                        grid = {x,y,4}
+                        client:send("boardGrid", grid)
+                    end
+                                     
+                end
+            end
+
+        end)
+
+        server:on("connect", function(data, client)
+
+            for x = 1, 10 do
+                for y = 1, 10 do
+                    local chest = {}
+                    if boardGrid[x][y].isChest then
+                        chest = {x, y, true}
+                        client:send("chest", chest)
+                    end
+                end
+            end
+
+
+                    
+
+        end)
+
+
+        server:on("connect", function(data, client)
+            local a = {}
+            for i = 1, 4 do
+                a[i] = playerOne.characters[i].id 
+                       
+            end
+            
+            for i = 1, 4 do
+                a[i + 4] = playerTwo.characters[i].id
+                print(a[i])
+            end
+            client:send("playerOne.characters", a)      
+        end)
+
+     
     end
 
         
@@ -935,139 +1008,85 @@ local function initNetworking(arg)
 
         -- Custom callback, called whenever you send the event from the server
         client:on("hello", function(msg)
-            print("The server replied: " .. msg)
+            print("PING: " .. msg)
         end)
 
-        client:on("shit", function(shit)
-        
-            print(shit)
-        
-        end)
 
-        client:connect()
-
-    end
-
-end
-
-
-
-
-
-
-function loadNetworking(arg)
-
-        
-    localgameStartInstructions = arg[1]
-
-    if gameStartInstructions == nil then 
-        print("No load arguments, starting hot-seat mode")
-        isGameServer = false
-        isGameClient = false
-    end
-
-
-    if gameStartInstructions == "host" then
-
-        isGameServer = true
-        isGameClient = false
-
-
-        -- sending load parameters: board (done), starting player(done), chests and characters
-
-        
-
-        print("Argument: host, starting server mode")
-
-          -- Creating a server on any IP, port 22122
-        server = sock.newServer("*", 22122)
-    
-        -- Called when someone connects to the server
-        server:on("connect", function(data, client)
-        -- Send a message back to the connected client
-        local msg = "Hello from the server!"
-
-    
-
-    
-
-
-        -- ACTIVE PLAYER
-
-        local ap
-
-        if activePlayer == playerOne then 
-            ap = "playerONE"
-        else
-            ap = "playerTWO"
-        end
-
-
-        --CCHARACTERS
-
-        for i = 1, 4 do
-            server:sendToAll("activePlayerCharacters", activePlayer.characters[i].id)
-        end
-        
-        server:sendToAll("aktivjatekos", ap)
-        
-        -- BOARDRGID
-        for x = 1, 10 do
-            for y = 1, 10 do
-                local grid = {}
-                if boardGrid[x][y]:instanceOf(Mount) then 
-                    grid = {x,y,1}
-                    server:sendToAll("boardGrid", grid)
-                end
-                if boardGrid[x][y]:instanceOf(Field) then 
-                    grid = {x,y,2}
-                    server:sendToAll("boardGrid", grid)
-                end
-                if boardGrid[x][y]:instanceOf(Lake) then 
-                    grid = {x,y,3}
-                    server:sendToAll("boardGrid", grid)
-                end
-                if boardGrid[x][y]:instanceOf(Forest) then 
-                    grid = {x,y,4}
-                    server:sendToAll("boardGrid", grid)
-                end
-                
-            end
-        end
-
-      
-        
-
-        client:send("hello", msg)
-              
-        end)
-
-    end
-
-    if gameStartInstructions == "join" then
-        print(activePlayer.characters[1])
        
-        isGameServer = false
-        isGameClient = true
-
-        print("Argument: join, starting client mode")
-
-            -- Creating a new client on localhost:22122
-        client = sock.newClient("localhost", 22122)
-     
-        -- Called when a connection is made to the server
-        client:on("connect", function(data)
-            print("Client connected to the server.")
-        end)
+       
+    
         
-        -- Called when the client disconnects from the server
-        client:on("disconnect", function(data)
-            print("Client disconnected from the server.")
-        end)
+        client:on("playerOne.characters", function(c)
 
-        -- Custom callback, called whenever you send the event from the server
-        client:on("hello", function(msg)
-            print("The server replied: " .. msg)
+            for i = 1, 4 do 
+
+                if c[i] == 1 then
+                    table.insert(playerOne.characters, GeoGnome(playerOne))
+                end
+                if c[i] == 2 then
+                    table.insert(playerOne.characters, Alchemist(playerOne))
+                end
+                if c[i] == 3 then
+                    table.insert(playerOne.characters, IceWizard(playerOne))
+                end
+                if c[i] == 4 then
+                    table.insert(playerOne.characters, AirElemental(playerOne))
+                end
+                if c[i] == 5 then
+                    table.insert(playerOne.characters, Druid(playerOne))
+                end
+                if c[i] == 6 then
+                    table.insert(playerOne.characters, FireMage(playerOne))
+                end
+                if c[i] == 7 then
+                    table.insert(playerOne.characters, ThunderShaman(playerOne))
+                end
+                if c[i] == 8 then
+                    table.insert(playerOne.characters, SandWitch(playerOne))
+                end
+                if c[i] == 9 then
+                    table.insert(playerOne.characters, WaterHag(playerOne))
+                end  
+
+                playerOne.characters[i].x = i
+                playerOne.characters[i].y = i + 1
+              
+           
+                if c[i + 4] == 1 then
+                    table.insert(playerTwo.characters, GeoGnome(playerTwo))
+                end
+                if c[i + 4] == 2 then
+                    table.insert(playerTwo.characters, Alchemist(playerTwo))
+                end
+                if c[i + 4] == 3 then
+                    table.insert(playerTwo.characters, IceWizard(playerTwo))
+                end
+                if c[i + 4] == 4 then
+                    table.insert(playerTwo.characters, AirElemental(playerTwo))
+                end
+                if c[i + 4] == 5 then
+                    table.insert(playerTwo.characters, Druid(playerTwo))
+                end
+                if c[i + 4] == 6 then
+                    table.insert(playerTwo.characters, FireMage(playerTwo))
+                end
+                if c[i + 4] == 7 then
+                    table.insert(playerTwo.characters, ThunderShaman(playerTwo))
+                end
+                if c[i + 4] == 8 then
+                    table.insert(playerTwo.characters, SandWitch(playerTwo))
+                end
+                if c[i + 4] == 9 then
+                    table.insert(playerTwo.characters, WaterHag(playerTwo))
+                end  
+
+                playerTwo.characters[i].x = i
+                playerTwo.characters[i].y = i + 1
+              
+            end     
+            loadCharacterAnim()
+            moveCharactersToStartingPosition(playerOne)
+            moveCharactersToStartingPosition(playerTwo)       
         end)
 
         client:on("boardGrid", function(grid)
@@ -1084,56 +1103,30 @@ function loadNetworking(arg)
             end
             if g[3] == 4 then 
                 boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
-            end   
-        end)
-
-        client:on("aktivjatekos", function(ap)
-            
-            print("activeplayer is "..ap)
-
-            if ap == "playerONE" then
-                activePlayer = playerOne
-                inactivePlayer = playerTwo
-            elseif ap =="playerTWO" then
-                activePlayer = playerTwo
-                inactivePlayer = playerOne
+            end
+            if g[4] == 5 then
+                print('cs')
+                boardGrid[g[1]][g[2]].isChest = true
             end
         end)
 
-        client:on("activePlayerCharacters", function(ac)
+        client:on("chest", function(ch)
 
-                print("activeplayer characters are: "..ac)
+                       
+                    if ch[3] == true then
+                        boardGrid[ch[1]][ch[2]].isChest = true
+                    end
 
 
-           print(ac)
-           
-                        
-
-        
-            
-            
-                --table.remove(activePlayer.characters, 1)
-
-        
-               -- board:moveCharactersToStartingPosition()
-
-            
-
-            
         end)
 
-       
+         
         client:connect()
-        
-        --  You can send different types of data
-       
-
-
 
     end
 
-
 end
+
 
 function love.load(arg)
 
@@ -1150,8 +1143,11 @@ function love.load(arg)
     --board betoltese
     initNetworking(arg)
     board:load()
+    if isGameClient ~= true then
+        loadCharacterAnim()
+    end
     soundEngine:load()
-    loadCharacterAnim()
+   
     Event:initEventTable()
     Item:initItemTable()
     selectStartingPlayer()
@@ -1183,11 +1179,20 @@ function love.update(dt)
     Character:update(dt)
     sequenceProcessor()
     enableEndGame()
+  
 
     if isGameServer then server:update() end
-    if isGameClient then client:update() end
+    
+    if isGameClient then 
+        
+    client:update() 
+    
+    end
+    
+    
 
 
+    
 end
 
 function love.draw()

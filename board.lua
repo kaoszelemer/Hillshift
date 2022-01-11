@@ -124,19 +124,6 @@ local function initPlayerDeck(player)
                 table.remove(playerOne.characters, cardNumber)
             end
 
-            local h = "ez lesz majd a szerver spaklija"
-            print(h)
-            server:sendToAll("sendingshit", h)
-
-           --[[      local shit = "shit"
-               
-
-            client:send(shit)
-
-            end) ]]
-
-        elseif player == "client" then
-            print("klienspllakli")
             table.insert(playerTwo.characters, GeoGnome(playerTwo))
             table.insert(playerTwo.characters, AirElemental(playerTwo))
             table.insert(playerTwo.characters, Alchemist(playerTwo))
@@ -152,10 +139,14 @@ local function initPlayerDeck(player)
                 table.remove(playerTwo.characters, cardNumber)
             end
 
-            client:on("sendingshit", function(shit)
-                print("The server replied: " .. shit)
-            end)
+           
+        elseif player == "client" then
+            
+            return
 
+          
+
+        
         else
         
        
@@ -742,7 +733,7 @@ function moveCharactersToStartingPosition()
         currentChar.stepPoints = 1
     end
 
-    if gameState.state == gameState.states.selectCharacter then
+    if gameState.state == gameState.states.selectCharacter and isGameClient ~= true then
         table.insert(sequenceBufferTable, {
             name = "creatingRandomizedBoard",
             duration = 0.1,
@@ -1195,6 +1186,8 @@ local function loadAnimations()
    geoGnomeSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
 end
 
+
+
 function newGame()
 
     print("newGame")
@@ -1252,51 +1245,49 @@ end
 
 function board:load()
 
-    playerOne = {
+    
+        playerOne = {
 
-        name = "Player One",
-        characters = {}
+            name = "Player One",
+            characters = {}
 
-    }
+        }
 
-    playerTwo = {
+        playerTwo = {
 
-        name = "Player Two",
-        characters = {}
+            name = "Player Two",
+            characters = {}
 
-    }
-    playerOne.prisonCount = 0
-    playerTwo.prisonCount = 0
-
-   -- loadSounds()
-   -- musicPlayer()
-   if isGameServer then
-    local s = "server"
-    initPlayerDeck(s)
-   elseif isGameClient then
-    local c = "client"
-    initPlayerDeck(c)
-   else
-    initPlayerDeck(playerOne)
-    initPlayerDeck(playerTwo)
-   end
-
-   
-    boardGrid = {}        
-    initBoardgrid()
-
-   
-    moveCharactersToStartingPosition()
-  
+        }
 
 
-    loadAnimations()
-   
-  
+        playerOne.prisonCount = 0
+        playerTwo.prisonCount = 0
+
+        boardGrid = {} 
+        print('initing grid')
+        initBoardgrid()
+        print('loading animations')
+        loadAnimations() 
+    -- loadSounds()
+    -- musicPlayer()
+    if isGameServer then
+        local s = "server"
+     
+        initPlayerDeck(s)
+        moveCharactersToStartingPosition() 
+    elseif isGameClient then return
+    else
+        initPlayerDeck(playerOne)
+        initPlayerDeck(playerTwo)
+        moveCharactersToStartingPosition()
+    end
+
    
 end
 
 function board:update(dt)
+
    
     --if sequenceBufferTable
     if drawAttack then
