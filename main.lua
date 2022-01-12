@@ -980,7 +980,7 @@ local function initNetworking(arg)
                 a[i + 4] = playerTwo.characters[i].id
                 
             end
-            client:send("playerOne.characters", a)      
+            client:send("player.characters", a)      
         end)
 
         server:on("clientmousepositions", function(mp)
@@ -991,9 +991,9 @@ local function initNetworking(arg)
         end)
 
 
-        server:on("servercharacterpositionchanging", function(cp)
+        server:on("clientcharacterpositionchanging", function(cp)
 
-            print("SERVER:ON character positions changing")
+            print("SERVER:ON client character positions changing")
 
             if activePlayer == playerTwo then
 
@@ -1047,12 +1047,7 @@ local function initNetworking(arg)
             print("PING: " .. msg)
         end)
 
-
-       
-       
-    
-        
-        client:on("playerOne.characters", function(c)
+        client:on("player.characters", function(c)
 
             for i = 1, 4 do 
 
@@ -1166,16 +1161,16 @@ local function initNetworking(arg)
             end
         end)
 
-        client:on("clientcharacterpositionchanging", function(cp)
+        client:on("servercharacterpositionchanging", function(cp)
 
-            print("CLIENT:ON character positions changing")
+            print("CLIENT:ON server character positions changing")
 
         if activePlayer == playerOne then
-            for _, currentChar in ipairs(playerTwo.characters) do
+            for _, currentChar in ipairs(playerOne.characters) do
 
-
+                print(cp[1])
                 if cp[1] == currentChar.id then
-                    print("poschangin char: "..currentChar.name)
+                    print("client poschangin char: "..currentChar.name)
                     currentChar:move(cp[2], cp[3], cp[4], cp[5])
                 end
             end
