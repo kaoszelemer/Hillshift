@@ -256,6 +256,7 @@ function sequenceProcessor()
 end
 
 function endTurn()
+    isFirstTurn = false
     drawAttack = false
     turnCounter = turnCounter + 1
     local maxTurns = 30
@@ -977,7 +978,7 @@ local function initNetworking(arg)
             
             for i = 1, 4 do
                 a[i + 4] = playerTwo.characters[i].id
-                print(a[i])
+                
             end
             client:send("playerOne.characters", a)      
         end)
@@ -987,6 +988,24 @@ local function initNetworking(arg)
                 mouseX = mp[1]
                 mouseY = mp[2]
             end
+        end)
+
+
+        server:on("servercharacterpositionchanging", function(cp)
+
+            print("SERVER:ON character positions changing")
+
+            if activePlayer == playerTwo then
+
+                for _, currentChar in ipairs(playerTwo.characters) do
+
+                    if cp[1] == currentChar.id then
+                        print("poschangin char"..currentChar.name)
+                        currentChar:move(cp[2], cp[3], cp[4], cp[5])
+                    end
+                end
+            end
+          
         end)
 
         server:on("clientendturn", function(cet)
@@ -1067,6 +1086,7 @@ local function initNetworking(arg)
 
                 playerOne.characters[i].x = i
                 playerOne.characters[i].y = i + 1
+                
               
            
                 if c[i + 4] == 1 then
@@ -1102,8 +1122,7 @@ local function initNetworking(arg)
               
             end     
             loadCharacterAnim()
-            moveCharactersToStartingPosition(playerOne)
-            moveCharactersToStartingPosition(playerTwo)       
+            moveCharactersToStartingPosition()    
         end)
 
         client:on("boardGrid", function(grid)
@@ -1141,10 +1160,28 @@ local function initNetworking(arg)
         end)
 
         client:on("servermousepositions", function(mp) 
-            if activePlayer == playerOne  then                 
+            if activePlayer == playerOne  and mp[1] ~= mouseX and mp[2] ~= mouseY then                 
                 mouseX = mp[1]
                 mouseY = mp[2]
             end
+        end)
+
+        client:on("clientcharacterpositionchanging", function(cp)
+
+            print("CLIENT:ON character positions changing")
+
+        if activePlayer == playerOne then
+            for _, currentChar in ipairs(playerTwo.characters) do
+
+
+                if cp[1] == currentChar.id then
+                    print("poschangin char: "..currentChar.name)
+                    currentChar:move(cp[2], cp[3], cp[4], cp[5])
+                end
+            end
+        end
+
+
         end)
 
          
@@ -1201,13 +1238,12 @@ function love.update(dt)
     updateParticleSystems(dt)
     flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
-    if isGameServer then
+    if isGameServer and activePlayer == playerOne then
         m = {}
         m[1] = mouseX
         m[2] = mouseY
         server:sendToAll("servermousepositions", m)
-    end
-    if isGameClient then
+    elseif isGameClient and activePlayer == playerTwo then
         m = {}
         m[1] = mouseX
         m[2] = mouseY

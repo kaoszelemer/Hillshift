@@ -680,7 +680,9 @@ function Character:move(cx, cy, oldx, oldy)
 
 
     if self.stepPoints ~= 0 then
-        if self.x and self.y then
+        
+        print(self.x, self.y)
+        if self.x ~= nil and self.y ~= nil then
             boardGrid[self.x][self.y].isOccupied = false
             boardGrid[self.x][self.y].occupiedBy = nil
         end
@@ -692,6 +694,10 @@ function Character:move(cx, cy, oldx, oldy)
             if oldy == nil then oldy = 5 end
             self.x = oldx
             self.y = oldy
+            
+            --networking
+            
+
         
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
             table.insert(sequenceBufferTable, {
@@ -709,6 +715,16 @@ function Character:move(cx, cy, oldx, oldy)
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
+
+                    if isGameServer then
+                        local cp = {self.id, cx, cy, oldx, oldy}
+                        server:sendToAll("servercharacterpositionchanging", cp)
+                     end
+        
+                     if isGameClient then
+                        local cp = {self.id, cx, cy, oldx, oldy}
+                        client:send("clientcharacterpositionchanging", cp)
+                     end
                 end})
 
                     self.stepPoints = self.stepPoints - 1

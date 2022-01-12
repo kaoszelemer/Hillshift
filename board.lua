@@ -715,6 +715,7 @@ local function drawChests()
 end
 
 function moveCharactersToStartingPosition()
+
     for i, currentChar in ipairs(playerOne.characters) do
         if     i == 1 then currentChar:move(5, 2) --5,2
         elseif i == 2 then currentChar:move(5, 3) --5,3
