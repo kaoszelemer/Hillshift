@@ -15,9 +15,7 @@ local SandWitch = Character:extend("SandWitch")
     end
 
 function SandWitch:drawSpellAnimation()
-    if spellSentNw ~= true then
-        Character:spell(targetCell, self.id)
-    end
+ 
     
     
     local duration = 0.5
@@ -51,6 +49,9 @@ end
 
 
     function SandWitch:spell(targetCell)
+        if spellSentNw ~= true then
+            Character:spell(targetCell, self.id)
+        end
         if self.actionPoints ~= 0 then
         
             if targetCell.y == self.y + 1 or targetCell.y == self.y - 1 then
