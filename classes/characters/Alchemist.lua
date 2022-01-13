@@ -74,8 +74,7 @@ end
 
 function Alchemist:poisonBoardGrid(targetCell)
 
-                        local clsend
-                        local ssend
+                       print(targetCell)
       
                         if pointerOnTopLeftSide then 
                                 self.drawSpellTL = true
@@ -214,13 +213,28 @@ function Alchemist:poisonBoardGrid(targetCell)
 
 end
 
+function Alchemist:nwSpell(targetCell)
+        if self.actionPoints ~= 0 then
+                self:poisonBoardGrid(targetCell)
+          --      self.actionPoints = self.actionPoints - 1
+          --      gameState:changeState(gameState.states.selectCharacter)
+        end
+
+end
+
 function Alchemist:spell(targetCell)
-        Character:spell(targetCell)
+        
+       
+        if spellSentNw ~= true then              
+                Character:spell(targetCell, self.id)
+        end
+        
         if self.actionPoints ~= 0 then
                 self:poisonBoardGrid(targetCell)
                 self.actionPoints = self.actionPoints - 1
                 gameState:changeState(gameState.states.selectCharacter)
         end
+
 
 end
 

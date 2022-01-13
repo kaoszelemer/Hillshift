@@ -341,9 +341,104 @@ function AirElemental:blowSand(targetCell, tcx, tcy)
 end
 
 
+function AirElemental:nwSpell(targetCell, tcx, tcy)
+
+    local spreadX = 0
+    local spreadY = 0
+    if self.actionPoints ~= 0 then
+
+        for tcx = -1, 1 do
+           
+            
+                if tcy ~= 0 then
+                 
+                    
+                    --if (targetCell.x == self.x and targetCell.y == self.y + tcy) or (targetCell.x == self.x + tcx and targetCell.y == self.y + tcy) then
+                    if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + 1 <= 10 or self.y - 1 > 0) then
+                        tcy = -1
+                        if targetCell.y < self.y then  
+                            
+                            self:blowCharacter(targetCell, tcx, tcy)
+                            self:blowFire(targetCell, tcx, tcy)
+                            self:blowSand(targetCell, tcx, tcy)
+                            self:clearPoison(targetCell, tcx, tcy)
+                        
+                            if tcx == 0 and tcy < 0 then
+                                self.drawSpellTop = true
+                                self.aST = {x = self.x, y = self.y, nx = (self.x), ny = (self.y - 1)}
+                                local nx = self.aST.nx
+                                local ny = self.aST.ny
+                                self.spellTime = love.timer.getTime()
+                                flux.to(self.aST, 0.5, {x = nx, y = ny}):ease("expoout")
+                            elseif tcx == -1 and tcy < 0 then
+                                self.drawSpellTL = true
+                                self.asTL = {x = self.x, y = self.y, nx = (self.x - 1), ny = (self.y - 1)}
+                                local nx = self.asTL.nx
+                                local ny = self.asTL.ny
+                                self.spellTime = love.timer.getTime()
+                                flux.to(self.asTL, 0.5, {x = nx, y = ny}):ease("expoout")
+                            elseif tcx == 1 and tcy < 0 then
+                                self.drawSpellTR = true
+                                self.asTR = {x = self.x, y = self.y, nx = (self.x + 1), ny = (self.y - 1)}
+                                local nx = self.asTR.nx
+                                local ny = self.asTR.ny
+                                self.spellTime = love.timer.getTime()
+                                flux.to(self.asTR, 0.5, {x = nx, y = ny}):ease("expoout")
+                            end
+                        end
+                            
+            
+                      
+                        if targetCell.y > self.y then
+                         tcy = 1
+                            self:blowCharacter(targetCell, tcx, tcy)
+                            self:blowFire(targetCell, tcx, tcy)
+                            self:blowSand(targetCell, tcx, tcy)
+                            self:clearPoison(targetCell, tcx, tcy)
+
+                            if (self.x + tcx <= 10 or self.x + tcx > 0) and (self.y + tcy <= 10 or self.y + tcy > 0) then 
+                                if tcx == 0 and tcy > 0 then
+                                    self.drawSpellBottom = true
+                                    self.aSB = {x = self.x, y = self.y, nx = (self.x), ny = (self.y + 1)}
+                                    local nx = self.aSB.nx
+                                    local ny = self.aSB.ny
+                                    self.spellTime = love.timer.getTime()
+                                    flux.to(self.aSB, 0.5, {x = nx, y = ny}):ease("expoout")
+                                elseif tcx == -1 and tcy > 0 then
+                                    self.drawSpellBL = true
+                                    self.asBL = {x = self.x, y = self.y, nx = (self.x - 1), ny = (self.y + 1)}
+                                    local nx = self.asBL.nx
+                                    local ny = self.asBL.ny
+                                    self.spellTime = love.timer.getTime()
+                                    flux.to(self.asBL, 0.5, {x = nx, y = ny}):ease("expoout")
+                                elseif tcx == 1 and tcy > 0 then
+                                    self.drawSpellBR = true
+                                    self.asBR = {x = self.x, y = self.y, nx = (self.x + 1), ny = (self.y + 1)}
+                                    local nx = self.asBR.nx
+                                    local ny = self.asBR.ny
+                                    self.spellTime = love.timer.getTime()
+                                    flux.to(self.asBR, 0.5, {x = nx, y = ny}):ease("expoout")
+                                end
+                                
+
+                            end
+                            
+                        end
+                    end
+             
+                end
+            end
+        
+        
+        self.actionPoints = self.actionPoints - 1
+        gameState:changeState(gameState.states.selectCharacter)
+    end
+   
+
+end
 
 function AirElemental:spell(targetCell, tcx, tcy)
-    Character:spell(targetCell)
+
     local spreadX = 0
     local spreadY = 0
     if self.actionPoints ~= 0 then

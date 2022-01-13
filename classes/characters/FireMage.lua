@@ -67,8 +67,9 @@ end
 function FireMage:spell(targetCell)
 
 
-    Character:spell(targetCell)
-   
+    if self.spellSentNw == true then
+        Character:spell(targetCell)
+    end   
 
 
     if self.actionPoints ~= 0 then

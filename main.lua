@@ -1069,11 +1069,17 @@ local function initNetworking(arg)
            
             local x = bs[1]
             local y = bs[2]
-          
-            print("character doing spell")
-            print(boardGrid[x][y])
-            Character:spell(boardGrid[x][y])
-                     
+            local id = bs[3]
+            print("client doing spell on x: "..x.." y: "..y.."with character id: "..id)
+
+            if activePlayer == playerOne then
+                for _, currentChar in ipairs(activePlayer.characters) do
+                    if id == currentChar.id then
+                        currentChar:spell(boardGrid[x][y])
+                        spellSentNw = true
+                    end
+                end
+            end
             
         end)
 
@@ -1241,8 +1247,17 @@ local function initNetworking(arg)
            
             local x = bs[1]
             local y = bs[2]
+            local id = bs[3]
+            print("server doing spell on x: "..x.." y: "..y.."with character id: "..id)
 
-            Character:spell(boardGrid[x][y])
+            if activePlayer == playerOne then
+                for _, currentChar in ipairs(activePlayer.characters) do
+                    if id == currentChar.id then
+                        currentChar:spell(boardGrid[x][y])
+                        spellSentNw = false
+                    end
+                end
+            end
 
         
         end)

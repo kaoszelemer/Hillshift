@@ -15,8 +15,10 @@ function ThunderShaman:update(dt)
 end
 
 function ThunderShaman:spell(targetCell)
-    Character:spell(targetCell)
-    if self.actionPoints ~= 0 then
+    if self.spellSentNw == true then
+        Character:spell(targetCell)
+    end
+        if self.actionPoints ~= 0 then
     
         if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y - 2)) or
             (targetCell.x == self.x and (targetCell.y == self.y + 1 or targetCell.y == self.y + 2)) then

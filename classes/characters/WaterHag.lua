@@ -31,8 +31,9 @@ end
 
 
 function WaterHag:spell(targetCell)
-    Character:spell(targetCell)
-
+    if self.spellSentNw == true then
+        Character:spell(targetCell)
+    end
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
             or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
