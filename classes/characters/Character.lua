@@ -832,15 +832,16 @@ function Character:attack(enemy)
 end
 
 
-function Character:spell(targetCell, id)
+function Character:spell(targetCell, id, etc)
 
         if isGameServer and targetCell then
 
             local ssend = {}
-
+           
                 ssend[1] = targetCell.x
                 ssend[2] = targetCell.y
                 ssend[3] = id
+                ssend[4] = etc
                 spellSentNw = true
                 server:sendToAll("server_characterspell", ssend)
               
@@ -854,6 +855,7 @@ function Character:spell(targetCell, id)
                 clsend[1] = targetCell.x
                 clsend[2] = targetCell.y
                 clsend[3] = id
+                clsend[4] = etc
                 spellSentNw = true
                 client:send("client_characterspell", clsend)
                

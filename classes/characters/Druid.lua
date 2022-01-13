@@ -58,9 +58,12 @@ local Druid = Character:extend("Druid")
  
 
     function Druid:spell(targetCell)
-        if self.spellSentNw == true then
-            Character:spell(targetCell)
+               
+        if spellSentNw ~= true then
+            Character:spell(targetCell, self.id)
         end
+
+        
         if self.actionPoints ~= 0 then
         
         local burnFirstCell
