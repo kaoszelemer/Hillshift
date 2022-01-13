@@ -70,7 +70,12 @@ function Alchemist:drawSpellAnimation()
 
 end
 
+
+
 function Alchemist:poisonBoardGrid(targetCell)
+
+                        local clsend
+                        local ssend
       
                         if pointerOnTopLeftSide then 
                                 self.drawSpellTL = true
@@ -85,7 +90,7 @@ function Alchemist:poisonBoardGrid(targetCell)
                                                         boardGrid[self.x - 1][self.y - 1].isPoisoned = true 
                                                         boardGrid[self.x - 1][self.y - 1].poisoningTurn = turnCounter
                                                 end
-                                               
+
                                         end
                                 })
 
@@ -116,6 +121,7 @@ function Alchemist:poisonBoardGrid(targetCell)
                                                         boardGrid[self.x + 1][self.y - 1].attackModifier = boardGrid[self.x + 1][self.y - 1].attackModifier - 3
                                                         boardGrid[self.x + 1][self.y - 1].poisoningTurn = turnCounter
                                                 end
+
                                         end
                                 })
 
@@ -144,7 +150,6 @@ function Alchemist:poisonBoardGrid(targetCell)
                                                         boardGrid[self.x - 1][self.y + 1].isPoisoned = true 
                                                         boardGrid[self.x - 1][self.y + 1].defenseModifier = boardGrid[self.x - 1][self.y + 1].defenseModifier - 3
                                                         boardGrid[self.x - 1][self.y + 1].attackModifier = boardGrid[self.x - 1][self.y + 1].attackModifier - 3
-
                                                         boardGrid[self.x - 1][self.y + 1].poisoningTurn = turnCounter
                                                 end
                                         end
@@ -210,6 +215,7 @@ function Alchemist:poisonBoardGrid(targetCell)
 end
 
 function Alchemist:spell(targetCell)
+        Character:spell(targetCell)
         if self.actionPoints ~= 0 then
                 self:poisonBoardGrid(targetCell)
                 self.actionPoints = self.actionPoints - 1

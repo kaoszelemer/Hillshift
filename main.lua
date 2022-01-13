@@ -886,6 +886,52 @@ local function quitGame()
     love.event.push("quit")
 end
 
+local function testBoardForNetwork(forwho)
+
+    if forwho == "client" then
+
+        for x = 1, 10 do
+            for y = 1, 10 do 
+
+                local clsend = {}
+
+                if boardGrid[x][y].isPoisoned then
+                    
+                end
+
+            end
+        end
+    
+    end
+    
+    if forwho == "server" then
+
+        for x = 1, 10 do
+            for y = 1, 10 do 
+
+                local ssend = {}
+
+                if boardGrid[x][y].isPoisoned then
+                    ssend[1] = "poison"
+                    ssend[2] = x
+                    ssend[3] = y
+                    server:sendToAll("serverboardgridstatechange", ssend)
+                end
+
+            end
+        end
+
+    end
+
+
+
+
+
+    
+
+
+end
+
 local function initNetworking(arg)
 
     local gameStartInstructions = arg[1]
@@ -1017,6 +1063,18 @@ local function initNetworking(arg)
             end
 
      
+        end)
+
+        server:on("client_characterspell", function(bs)
+           
+            local x = bs[1]
+            local y = bs[2]
+          
+            print("character doing spell")
+            print(boardGrid[x][y])
+            Character:spell(boardGrid[x][y])
+                     
+            
         end)
 
     end
@@ -1165,20 +1223,29 @@ local function initNetworking(arg)
 
             print("CLIENT:ON server character positions changing")
 
-        if activePlayer == playerOne then
-            for _, currentChar in ipairs(playerOne.characters) do
+            if activePlayer == playerOne then
+                for _, currentChar in ipairs(playerOne.characters) do
 
-                print(cp[1])
-                if cp[1] == currentChar.id then
-                    print("client poschangin char: "..currentChar.name)
-                    currentChar:move(cp[2], cp[3], cp[4], cp[5])
+                    print(cp[1])
+                    if cp[1] == currentChar.id then
+                        print("client poschangin char: "..currentChar.name)
+                        currentChar:move(cp[2], cp[3], cp[4], cp[5])
+                    end
                 end
             end
-        end
 
 
         end)
 
+        client:on("server_characterspell", function(bs)
+           
+            local x = bs[1]
+            local y = bs[2]
+
+            Character:spell(boardGrid[x][y])
+
+        
+        end)
          
         client:connect()
 
@@ -1255,7 +1322,7 @@ function love.update(dt)
     
     if isGameClient then 
         
-    client:update() 
+        client:update()
     
     end
     
@@ -1523,8 +1590,8 @@ function love.mousereleased(x, y, button, istouch, presses)
 
         end
 
-       
-
+     
+     
 end
 
 function love.mousepressed( x, y, button, istouch, presses )

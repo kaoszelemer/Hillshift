@@ -1244,6 +1244,10 @@ function newGame()
 
 end
 
+
+
+
+
 function board:load()
 
     

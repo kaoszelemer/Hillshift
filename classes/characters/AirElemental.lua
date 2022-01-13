@@ -343,6 +343,7 @@ end
 
 
 function AirElemental:spell(targetCell, tcx, tcy)
+    Character:spell(targetCell)
     local spreadX = 0
     local spreadY = 0
     if self.actionPoints ~= 0 then

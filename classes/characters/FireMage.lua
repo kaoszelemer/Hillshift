@@ -67,7 +67,7 @@ end
 function FireMage:spell(targetCell)
 
 
-   
+    Character:spell(targetCell)
    
 
 
@@ -281,7 +281,7 @@ function FireMage:spell(targetCell)
                     end
                     self.drawSpellTR = false
                 end
-            })
+             })
 
         end
         

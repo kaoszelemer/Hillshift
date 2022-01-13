@@ -833,9 +833,29 @@ end
 
 
 function Character:spell(targetCell)
+    
+    local ssend = {}
+
+    if isGameServer and targetCell then
+            ssend[1] = targetCell.x
+            ssend[2] = targetCell.y
+            server:sendToAll("server_characterspell", ssend)
+
+    end
+
+    local clsend = {}
+
+    if isGameClient and targetCell then
+        
+            clsend[1] = targetCell.x
+            clsend[2] = targetCell.y
+            client:send("client_characterspell", clsend)
+    end
+   
+
+   
+
 end
-
-
 
 
 return Character

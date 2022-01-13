@@ -58,6 +58,7 @@ local Druid = Character:extend("Druid")
  
 
     function Druid:spell(targetCell)
+        Character:spell(targetCell)
         if self.actionPoints ~= 0 then
         
         local burnFirstCell
@@ -184,7 +185,6 @@ local Druid = Character:extend("Druid")
                             boardGrid[self.x - 1][self.y].isFrozen = true
                             freezeThirdCell = false 
                         end
-
                 end
             })
             end
@@ -219,7 +219,7 @@ local Druid = Character:extend("Druid")
                         boardGrid[self.x + 1][self.y].isFrozen = true
                         freezeFourthCell = false 
                     end
-            end
+                end
         })
 
         

@@ -15,6 +15,7 @@ local SandWitch = Character:extend("SandWitch")
     end
 
 function SandWitch:drawSpellAnimation()
+    Character:spell(targetCell)
         local duration = 0.5
         
         if self.drawSpellLeft then
