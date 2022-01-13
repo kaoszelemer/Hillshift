@@ -91,6 +91,8 @@ function GeoGnome:spell(targetCell)
             end
         })
 
+    spellSentNw = false
+
 
 end
 

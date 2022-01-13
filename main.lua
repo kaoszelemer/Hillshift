@@ -1262,6 +1262,8 @@ local function initNetworking(arg)
                 end
             end
 
+            print("CH: SPELL spellsentnw - clientside", spellSentNw)
+
         
         end)
          

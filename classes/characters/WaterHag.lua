@@ -120,6 +120,7 @@ function WaterHag:spell(targetCell)
     end
     gameState:changeState(gameState.states.selectCharacter)
     Cell:resetParticleDrawing()
+    spellSentNw = false
 end
 
 

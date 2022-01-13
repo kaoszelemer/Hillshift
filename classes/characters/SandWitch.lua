@@ -119,7 +119,7 @@ end
             Cell:resetParticleDrawing()
         end
     })
-
+    spellSentNw = false
     end
     
 return SandWitch

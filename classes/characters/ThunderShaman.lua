@@ -133,7 +133,7 @@ function ThunderShaman:spell(targetCell)
         end
 
         Cell:resetParticleDrawing()
-
+        spellSentNw = false
      
 
 

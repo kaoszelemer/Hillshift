@@ -63,7 +63,7 @@ local Druid = Character:extend("Druid")
             Character:spell(targetCell, self.id)
         end
 
-        
+
         if self.actionPoints ~= 0 then
         
         local burnFirstCell
@@ -236,6 +236,8 @@ local Druid = Character:extend("Druid")
             Cell:resetParticleDrawing()
         end
     end
+
+    spellSentNw = false
     end
     
 return Druid

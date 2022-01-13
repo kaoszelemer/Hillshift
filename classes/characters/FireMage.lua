@@ -506,6 +506,7 @@ function FireMage:spell(targetCell)
         gameState:changeState(gameState.states.selectCharacter)        
         
     end
+    spellSentNw = false
 end
 
 end

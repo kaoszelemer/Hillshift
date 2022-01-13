@@ -215,7 +215,7 @@ end
 
 function Alchemist:spell(targetCell, selfid, etc)
         
-       
+     
         if spellSentNw ~= true then
                 local alchemistSpell
                 if pointerOnTopLeftSide then
@@ -236,6 +236,8 @@ function Alchemist:spell(targetCell, selfid, etc)
                 self.actionPoints = self.actionPoints - 1
                 gameState:changeState(gameState.states.selectCharacter)
         end
+
+        spellSentNw = false
 
 
 end

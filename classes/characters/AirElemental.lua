@@ -441,6 +441,8 @@ function AirElemental:spell(targetCell, selfid, etc)
         self.actionPoints = self.actionPoints - 1
         gameState:changeState(gameState.states.selectCharacter)
     end
+
+    spellSentNw = false
    
 
 end

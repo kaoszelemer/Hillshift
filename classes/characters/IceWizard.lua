@@ -304,6 +304,7 @@ function IceWizard:spell(targetCell)
         end
     })
     Cell:resetParticleDrawing()
+    spellSentNw = false
 end
 
 
