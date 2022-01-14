@@ -170,17 +170,19 @@ function AirElemental:clearPoison(targetCell, tcx, tcy)
 end
 
 function AirElemental:blowFire(targetCell, tcx, tcy)
+
+print(chanceOfBurning)
     table.insert(sequenceBufferTable, {
         name = "AirElementalblowFire",
         duration = 0.2,
         sequenceTime = love.timer.getTime(),
         action = function()
 
-            local chanceOfBurning = love.math.random()
+          
+
             local fx = 0
             local fy = 0
             
-            if chanceOfBurning > 0.2 then 
                 if (self.x + fx + tcx <= 10 and self.x + fx + tcx > 0) and (self.y + fy + tcy <= 10 and self.y + fy + tcy > 0) then
 
                     if self.x == boardGrid[self.x + tcx][self.y + tcy].x then
@@ -203,7 +205,7 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                         fy = 1
                     end
                 end
-            end
+        
 
             if (self.x + fx + tcx <= 10 and self.x + fx + tcx > 0) and (self.y + fy + tcy <= 10 and self.y + fy + tcy > 0) then
 
@@ -345,10 +347,10 @@ function AirElemental:spell(targetCell, selfid, etc)
 
     local spreadX = 0
     local spreadY = 0
-
+    local chanceOfBurning = love.math.random()
           
     if spellSentNw ~= true then
-        Character:spell(targetCell, self.id)
+        Character:spell(targetCell, self.id, chanceOfBurning)
     end
 
 
@@ -367,7 +369,8 @@ function AirElemental:spell(targetCell, selfid, etc)
                         if targetCell.y < self.y then  
                             
                             self:blowCharacter(targetCell, tcx, tcy)
-                            self:blowFire(targetCell, tcx, tcy)
+                            print(chanceOfBurning)
+                            self:blowFire(targetCell, tcx, tcy, etc)
                             self:blowSand(targetCell, tcx, tcy)
                             self:clearPoison(targetCell, tcx, tcy)
                         

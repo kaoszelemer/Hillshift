@@ -62,13 +62,22 @@ function WaterHag:spell(targetCell)
                         end
                         
                         
-                        if boardGrid[targetCell.x][targetCell.y]:instanceOf(Lake) then
-                            local randomWaterSpreadX = love.math.random(0,1)
-                            local randomWaterSpreadY = love.math.random(0,1)
+                   --     if boardGrid[targetCell.x][targetCell.y]:instanceOf(Lake) then
 
-                            if targetCell.x + randomWaterSpreadX <= 10 and targetCell.x - randomWaterSpreadX > 0 and
-                            targetCell.y + randomWaterSpreadY <= 10 and targetCell.y - randomWaterSpreadY > 0 then                 
+                            --random spread
 
+
+                          --  local randomWaterSpreadX = love.math.random(0,1)
+                          --  local randomWaterSpreadY = love.math.random(0,1)
+                        --  if targetCell.x + randomWaterSpreadX <= 10 and targetCell.x - randomWaterSpreadX > 0 and
+                        --  targetCell.y + randomWaterSpreadY <= 10 and targetCell.y - randomWaterSpreadY > 0 then             
+                    
+
+
+                          --[[ if targetCell.x + randomWaterSpreadX <= 10 and targetCell.x - randomWaterSpreadX > 0 and
+                          targetCell.y + randomWaterSpreadY <= 10 and targetCell.y - randomWaterSpreadY > 0 then                 
+
+                          
                                 if love.math.random() < 0.25 then 
                                 
                                     boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
@@ -109,8 +118,8 @@ function WaterHag:spell(targetCell)
                                     boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y) 
                                     boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                 end
-                            end
-                        end
+                            end ]]
+                       -- end
                     end
                 })
                 

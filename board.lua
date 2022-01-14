@@ -717,10 +717,10 @@ end
 function moveCharactersToStartingPosition()
 
     for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 2) --5,2
-        elseif i == 2 then currentChar:move(5, 3) --5,3
-        elseif i == 3 then currentChar:move(6, 2) --6,2
-        elseif i == 4 then currentChar:move(6, 3) --6,3
+        if     i == 1 then currentChar:move(5, 5) --5,2
+        elseif i == 2 then currentChar:move(5, 6) --5,3
+        elseif i == 3 then currentChar:move(6, 5) --6,2
+        elseif i == 4 then currentChar:move(6, 6) --6,3
         end
         currentChar.stepPoints = 1
     end
@@ -906,9 +906,12 @@ function drawEventOnBackground()
         Event001:drawEventStuff()
 end
 
-function enableDrawAttack(character, enemy)
+function enableDrawAttack(character, enemy, dmg)
 
+    local minusHP = dmg or damage
 
+    print(damage)
+   
     table.insert(sequenceBufferTable, {
         name = "drawingAttackAnimation",
         duration = 0.0,
@@ -919,7 +922,8 @@ function enableDrawAttack(character, enemy)
             drawnEnemyCharacter = enemy
             drawAttackAnim = true
             enemy.attackTime = love.timer.getTime()
-            fnumber = { x=(enemy.x * tileW + offsetX), y = (enemy.y) * tileH + offsetY, text = damage }
+            fnumber = { x=(enemy.x * tileW + offsetX), y = (enemy.y) * tileH + offsetY, text = minusHP }
+            print("minusz HP:"..fnumber.text)
             fnumberTween = tween.new(7, fnumber, {y= enemy.y + 0.1}, 'outSine')
            
             
@@ -1075,7 +1079,7 @@ function drawDamageFlyingNumbers()
   
 
     if drawAttackAnim then
-  
+    
         local enemy = drawnEnemyCharacter
         local duration = 7
         if love.timer.getTime() - enemy.attackTime <= duration then
@@ -1096,11 +1100,10 @@ function drawDamageFlyingNumbers()
             
           --  love.graphics.print("-"..damage, fnumber.x * tileW + offsetX, fnumber.y * tileW + offsetY)
           --  
-     
-
-
         end
     end
+
+
 
 end
 

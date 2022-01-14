@@ -786,7 +786,7 @@ function Character:attack(enemy)
         sequenceTime = love.timer.getTime(),
         action = function()
             if gameState.state == gameState.states.selectAttackTargetCharacter and self.actionPoints ~= 0 then
-                enableDrawAttack(self, enemy)
+               
                 local dr = getDiceRoll()
                 self.diceRoll = dr
 
@@ -800,13 +800,25 @@ function Character:attack(enemy)
                     enemy.turnDefenseModifier = enemy.turnDefenseModifier - 1
                 end
 
-                print(self.turnAttackModifier, self.turnDefenseModifier, enemy.turnDefenseModifier, enemy.turnAttackModifier)
-
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                 damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
-
+                
                 enemy.baseHP = enemy.baseHP - damage
+
+                enableDrawAttack(self, enemy)
+                
                 if enemy.baseHP <= 0 then enemy:kill() end
+
+                if isGameServer then
+                    local cp = {enemy.id, damage, self.id}
+                    server:sendToAll("server_attack", cp)
+                 end
+    
+                 if isGameClient then
+                    local cp = {enemy.id, damage, self.id}
+                    client:send("client_attack", cp)
+                 end
+    
                 
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
@@ -815,8 +827,8 @@ function Character:attack(enemy)
             local pp = "playrandomsound"
 
             soundEngine:playSFX(pp)
-            
 
+   
 
             table.insert(sequenceBufferTable, {
                 name = "resetingAttackState",

@@ -193,7 +193,7 @@ offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 -- counters
 turnCounter = 0
 
-nextTurnBeforeEvent = love.math.random(5, 9)
+
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
@@ -455,9 +455,11 @@ function newTurn()
     gameState:changeState(gameState.states.selectCharacter)
 
         if not suddenDeath and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
-            Event:enableEvent()
-            eventTurnCounter = 0
-            nextTurnBeforeEventModifier = 0
+            
+                Event:enableEvent()
+                eventTurnCounter = 0
+                nextTurnBeforeEventModifier = 0
+   
         end
 
         for x = 1, 10 do
@@ -886,52 +888,6 @@ local function quitGame()
     love.event.push("quit")
 end
 
-local function testBoardForNetwork(forwho)
-
-    if forwho == "client" then
-
-        for x = 1, 10 do
-            for y = 1, 10 do 
-
-                local clsend = {}
-
-                if boardGrid[x][y].isPoisoned then
-                    
-                end
-
-            end
-        end
-    
-    end
-    
-    if forwho == "server" then
-
-        for x = 1, 10 do
-            for y = 1, 10 do 
-
-                local ssend = {}
-
-                if boardGrid[x][y].isPoisoned then
-                    ssend[1] = "poison"
-                    ssend[2] = x
-                    ssend[3] = y
-                    server:sendToAll("serverboardgridstatechange", ssend)
-                end
-
-            end
-        end
-
-    end
-
-
-
-
-
-    
-
-
-end
-
 local function initNetworking(arg)
 
     local gameStartInstructions = arg[1]
@@ -1029,6 +985,14 @@ local function initNetworking(arg)
             client:send("player.characters", a)      
         end)
 
+        server:on("connect", function(data, client)
+
+            local ntbe = love.math.random(5, 9)
+
+            client:send("nextturnbeforeevent", ntbe)
+
+        end)
+
         server:on("clientmousepositions", function(mp)
             if activePlayer == playerTwo then
                 mouseX = mp[1]
@@ -1070,19 +1034,54 @@ local function initNetworking(arg)
             local x = bs[1]
             local y = bs[2]
             local id = bs[3]
-            local whereto = bs[4]
+            local etc = bs[4]
 
             print("client doing spell on x: "..x.." y: "..y.."with character id: "..id)
 
             if activePlayer == playerTwo then
                 for _, currentChar in ipairs(activePlayer.characters) do
                     if id == currentChar.id then
-                        currentChar:spell(boardGrid[x][y], currentChar.id, whereto)
-                        spellSentNw = false
+                        currentChar:spell(boardGrid[x][y], currentChar.id, etc)
                     end
                 end
             end
             
+        end)
+
+        server:on("client_attack", function(ac)
+
+            local enemyid = ac[1]
+            local damage = ac[2]
+            local attackerid = ac[3]
+
+          
+            for _, enemyChar in ipairs(inactivePlayer.characters) do
+
+                if enemyid == enemyChar.id then
+                    enemyChar.baseHP = enemyChar.baseHP - damage
+                    
+                    for _, attackerChar in ipairs(activePlayer.characters) do
+                        if attackerChar.id == attackerid then
+                            
+                            print(attackerChar, enemyChar,damage)
+                            enableDrawAttack(attackerChar, enemyChar, damage)
+                            
+                        end
+                    end
+                end
+                    
+            end
+
+
+           
+
+        end)
+
+        server:on("client_event", function(ev)
+
+            enableEvent = true
+
+
         end)
 
     end
@@ -1111,6 +1110,14 @@ local function initNetworking(arg)
         -- Custom callback, called whenever you send the event from the server
         client:on("hello", function(msg)
             print("PING: " .. msg)
+        end)
+
+        client:on("nextturnbeforeevent", function(ntbe)
+
+            print(ntbe)
+
+            nextTurnBeforeEvent = ntbe
+
         end)
 
         client:on("player.characters", function(c)
@@ -1202,7 +1209,7 @@ local function initNetworking(arg)
                 boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
             end
             if g[4] == 5 then
-                print('cs')
+            
                 boardGrid[g[1]][g[2]].isChest = true
             end
         end)
@@ -1234,7 +1241,7 @@ local function initNetworking(arg)
             if activePlayer == playerOne then
                 for _, currentChar in ipairs(playerOne.characters) do
 
-                    print(cp[1])
+               
                     if cp[1] == currentChar.id then
                         print("client poschangin char: "..currentChar.name)
                         currentChar:move(cp[2], cp[3], cp[4], cp[5])
@@ -1266,6 +1273,34 @@ local function initNetworking(arg)
 
         
         end)
+
+        client:on("server_attack", function(ac)
+
+            local enemyid = ac[1]
+            local damage = ac[2]
+            local attackerid = ac[3]
+
+            for _, enemyChar in ipairs(inactivePlayer.characters) do
+
+                if enemyid == enemyChar.id then
+                    enemyChar.baseHP = enemyChar.baseHP - damage
+                
+
+                    for _, attackerChar in ipairs(activePlayer.characters) do
+                        if attackerChar.id == attackerid then
+                        
+                            enableDrawAttack(attackerChar, enemyChar, damage)
+        
+                        end
+                    end
+
+                end
+
+            end
+
+          
+
+        end)
          
         client:connect()
 
@@ -1287,7 +1322,13 @@ function love.load(arg)
    
     
     --board betoltese
+    if isGameClient ~= true then
+        nextTurnBeforeEvent = love.math.random(5, 9)
+    end
+
     initNetworking(arg)
+
+  
     board:load()
     if isGameClient ~= true then
         loadCharacterAnim()

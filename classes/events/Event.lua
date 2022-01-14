@@ -90,9 +90,18 @@ end
 
 function Event:enableEvent()
 
-
+    if isGameClient ~= true and isGameServer ~= true then
         enableEvent = true
         self.nextEventID = self:getNextEventID()
+    end
+
+    if isGameClient then
+        client:send("client_event", self:getNextEventID())
+    end
+
+    if isGameServer then
+        server:sendToAll("server_event", self:getNextEventID())
+    end
     
 
 end
