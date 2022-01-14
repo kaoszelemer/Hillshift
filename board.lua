@@ -1193,9 +1193,16 @@ end
 
 
 function newGame()
-
+  --[[   local ho = {"host"}
+    local cl = {"client"} ]]
     print("newGame")
-    if isNewGame then
+    
+  --[[   if isNewGame then
+        if isGameClient then
+            initNetworking(cl)
+        elseif isGameServer then
+            initNetworking(ho)
+        end ]]
     drawEndGame = false
     isSuddenDeath = false
 
@@ -1245,7 +1252,8 @@ function newGame()
     isNewGame = false
     end
 
-end
+
+
 
 
 

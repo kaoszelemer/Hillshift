@@ -90,19 +90,18 @@ end
 
 function Event:enableEvent()
 
-    if isGameClient ~= true and isGameServer ~= true then
-        enableEvent = true
-        self.nextEventID = self:getNextEventID()
-    end
+    neid = self:getNextEventID()
 
     if isGameClient then
-        client:send("client_event", self:getNextEventID())
+        client:send("client_event", neid)
+    elseif isGameServer then
+        server:sendToAll("server_event", neid)
+    else
+        enableEvent = true
+        self.nextEventID = neid
     end
-
-    if isGameServer then
-        server:sendToAll("server_event", self:getNextEventID())
-    end
-    
+    enableEvent = true
+    self.nextEventID = neid
 
 end
 
@@ -111,7 +110,7 @@ function Event:confirmEventWithClick()
     for index, event in ipairs(eventTable) do
         if event.enableDraw == true then
             table.insert(sequenceBufferTable, {
-                name = "WaterHagSpell",
+                name = "event confirmed with click",
                 duration = 0.3,
                 sequenceTime = love.timer.getTime(),
                 action = function()
@@ -146,11 +145,11 @@ function Event:drawCurrentEvent()
         local eventX = (width / 4 + offsetX)
         local eventY = (height / 4 + offsetY)
         love.graphics.draw(eventBackgroundImage, eventX - 12, eventY - 32)
-    
+       
         for index, event in ipairs(eventTable) do
           
             if self.nextEventID == index then
-
+              
                 currentEvent = event
                 currentEvent.enableDraw = true
                 love.graphics.setColor(purpleColor)

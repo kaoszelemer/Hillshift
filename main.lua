@@ -906,11 +906,6 @@ local function initNetworking(arg)
         isGameServer = true
         isGameClient = false
 
-
-        -- sending load parameters: board (done), starting player(done), chests and characters
-
-        
-
         print("Argument: host, starting server mode")
 
         -- Creating a server on any IP, port 22122
@@ -1000,7 +995,6 @@ local function initNetworking(arg)
             end
         end)
 
-
         server:on("clientcharacterpositionchanging", function(cp)
 
             print("SERVER:ON client character positions changing")
@@ -1078,6 +1072,13 @@ local function initNetworking(arg)
         end)
 
         server:on("client_event", function(ev)
+            print("client is doing an event")
+            for k, v in ipairs(eventTable) do
+                if k == ev then
+                    print(v)
+                    Event.nextEventID = ev
+                end
+            end
 
             enableEvent = true
 
@@ -1113,8 +1114,6 @@ local function initNetworking(arg)
         end)
 
         client:on("nextturnbeforeevent", function(ntbe)
-
-            print(ntbe)
 
             nextTurnBeforeEvent = ntbe
 
@@ -1299,6 +1298,19 @@ local function initNetworking(arg)
             end
 
           
+
+        end)
+
+        client:on("server_event", function(ev)
+            print("server is doing an event")
+            for k, v in ipairs(eventTable) do
+                if k == ev then
+                    print(v)
+                    Event.nextEventID = ev
+                end
+            end
+
+            enableEvent = true
 
         end)
          
