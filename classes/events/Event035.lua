@@ -13,6 +13,7 @@ end
 
 
 function Event035:drawEventStuff()
+  
 if self.enableDraw then
         love.graphics.setFont(statFont)
         love.graphics.draw(self.image, width / 4 + offsetX + 56, height / 4 + offsetY + 90)

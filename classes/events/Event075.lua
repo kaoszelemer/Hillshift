@@ -27,7 +27,7 @@ end
 
 function Event075:eventFunction()
     table.insert(sequenceBufferTable, {
-        name = "glassfactoryevent",
+        name = "nextturnevent",
         duration = 0.3,
         sequenceTime = love.timer.getTime(),
         action = function()

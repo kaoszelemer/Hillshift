@@ -13,7 +13,9 @@ end
 
 
 function Event001:drawEventStuff()
+    
 if self.enableDraw then
+       
         love.graphics.setFont(statFont)
         love.graphics.draw(self.image, width / 4 + offsetX + 76, height / 4 + offsetY + 110)
         love.graphics.print(self.name, width / 4 + offsetX + 56, height / 4 + offsetY + 26)
@@ -54,6 +56,7 @@ function Event001:eventFunction()
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[x][y] = Field(x, y)
+                                boardGrid[x][y].isInstanced = true
                             end
                         }) 
                     end
@@ -73,12 +76,14 @@ function Event001:eventFunction()
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[x][y] = Lake(x, y) 
+                                boardGrid[x][y].isInstanced = true
                             end
                         }) 
                     end
                     
                     if boardGrid[x][y]:instanceOf(Forest) then 
                         boardGrid[x][y] = BurntField(x, y)
+                        boardGrid[x][y].isInstanced = true
                         boardGrid[x][y].isBurntField = true
                         boardGrid[x][y].burntFieldTimer = turnCounter
                     end
