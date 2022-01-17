@@ -1,8 +1,13 @@
 -- HillShift - project started: 2021.01.01
 
 --**** fullscreen or windowed
+--creating randomgenerator object for sending state over network
+
+
+
 isGameFullScreen = false
 isMusicOn = true
+
 
 --require
 
@@ -922,6 +927,19 @@ local function initNetworking(arg)
         end)
 
         server:on("connect", function(data, client)
+        
+            local rng = {}
+            rng[1] = love.math.getRandomState()
+         --   love.math.setRandomState(rng[1])
+               
+            print("server sending random seed")
+            print(rng[1])
+            client:send("randomseed", rng)
+         
+        
+        end)
+
+        server:on("connect", function(data, client)
 
             for x = 1, 10 do
                 for y = 1, 10 do
@@ -1085,6 +1103,15 @@ local function initNetworking(arg)
 
         end)
 
+        server:on("printrandomnumberinconsole", function(eg)
+
+            if eg then
+                --print(love.math.random())
+                print(love.math.getRandomState())
+            end
+
+        end)
+
     end
 
         
@@ -1108,6 +1135,15 @@ local function initNetworking(arg)
             print("Client disconnected from the server.")
         end)
 
+        client:on("randomseed", function(rng)
+            print("client getting random seed")
+           
+            print(rng[1])
+            love.math.setRandomState(rng[1])
+            
+               
+        end)
+
         -- Custom callback, called whenever you send the event from the server
         client:on("hello", function(msg)
             print("PING: " .. msg)
@@ -1115,7 +1151,7 @@ local function initNetworking(arg)
 
         client:on("nextturnbeforeevent", function(ntbe)
 
-            nextTurnBeforeEvent = ntbe
+            nextTurnBeforeEvent = 50
 
         end)
 
@@ -1313,6 +1349,77 @@ local function initNetworking(arg)
             enableEvent = true
 
         end)
+
+        client:on("server_eventeffects", function(evfx)
+            print(evfx)
+            local status = evfx[1]
+            local x = evfx[2]
+            local y = evfx[3]
+
+            if status == "bf" then
+                boardGrid[x][y] = BurntField(x, y)
+                boardGrid[x][y].burntFieldTimer = turnCounter
+                boardGrid[x][y].isInstanced = true 
+            end
+
+            if status == "de" then
+                boardGrid[x][y] = Desert(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "fi" then
+                boardGrid[x][y] = Field(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "fo" then
+                boardGrid[x][y] = Forest(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "gl" then
+                boardGrid[x][y] = GlassMount(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "ic" then
+                boardGrid[x][y] = Ice(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "la" then
+                boardGrid[x][y] = Lake(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "ma" then
+                boardGrid[x][y] = MagicForest(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "mo" then
+                boardGrid[x][y] = Mount(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+            if status == "sw" then
+                boardGrid[x][y] = Swamp(x, y)
+                boardGrid[x][y].isInstanced = true
+            end
+
+
+
+            if status == "fire" then
+                boardGrid[x][y].isOnFire = true
+                boardGrid[x][y].fireTurn = turnCounter
+            end                
+        
+            if status == "poison" then
+                boardGrid[x][y].isPoisoned = true
+                boardGrid[x][y].poisonTurn = turnCounter
+            end                
+        
+            if status == "freeze" then
+                boardGrid[x][y].isFrozen = true
+                boardGrid[x][y].freezeTurn = turnCounter
+            end    
+            
+            boardGrid[x][y]:resetParticleDrawing()
+        
+        
+        end)
          
         client:connect()
 
@@ -1322,7 +1429,11 @@ end
 
 
 function love.load(arg)
-
+       --board betoltese
+       if isGameClient ~= true then
+         nextTurnBeforeEvent = 5
+    end
+    initNetworking(arg)
 
     if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
     else love.window.setMode(width,height)
@@ -1333,13 +1444,11 @@ function love.load(arg)
     loadParticleSystems()
    
     
-    --board betoltese
-    if isGameClient ~= true then
-        nextTurnBeforeEvent = love.math.random(5, 9)
-    end
+ 
 
-    initNetworking(arg)
-
+   
+    
+    
   
     board:load()
     if isGameClient ~= true then
@@ -1398,7 +1507,9 @@ function love.update(dt)
         client:update()
     
     end
-    
+
+  
+  
     
 
 
@@ -1518,6 +1629,7 @@ end
 
 function love.mousereleased(x, y, button, istouch, presses) 
 
+  
     local instance = clickSound:play()
 
     if x > width / 16 and x < (width / 16) + tileW and y > 0 and y < tileH then

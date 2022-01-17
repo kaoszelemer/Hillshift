@@ -13,7 +13,7 @@ end
 function Event:initEventTable()
 
     table.insert(eventTable, Event001())
-    table.insert(eventTable, Event002())
+   --[[  table.insert(eventTable, Event002())
     table.insert(eventTable, Event003())
     table.insert(eventTable, Event004())
     table.insert(eventTable, Event005())
@@ -84,7 +84,7 @@ function Event:initEventTable()
     table.insert(eventTable, Event072())
     table.insert(eventTable, Event073())
     table.insert(eventTable, Event074())
-    table.insert(eventTable, Event075())
+    table.insert(eventTable, Event075()) ]]
     
 end
 
@@ -106,22 +106,40 @@ function Event:enableEvent()
 end
 
 function Event:confirmEventWithClick()
+    
 
-    for index, event in ipairs(eventTable) do
-        if event.enableDraw == true then
-            table.insert(sequenceBufferTable, {
-                name = "event confirmed with click",
-                duration = 0.3,
-                sequenceTime = love.timer.getTime(),
-                action = function()
-                    event:eventFunction()
-                    event.enableDraw = false
-                end
-            })
+    if isGameClient ~= true then    
+        for index, event in ipairs(eventTable) do
+            if event.enableDraw == true then
+                table.insert(sequenceBufferTable, {
+                    name = "event confirmed with click",
+                    duration = 0.3,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        event:eventFunction()
+                        event.enableDraw = false
+                        table.insert(sequenceBufferTable, {
+                            name = "sending effex",
+                            duration = 2,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                Event:sendEffectsOverNw()
+                            end})
+                    end})
+            end
+        end
+        if isGameClient ~= true then 
+           -- Event:sendEffectsOverNw()
         end
     end
 
+  
+  
+
   enableEvent = false
+
+
+
   eventTurnCounter = 0
 
   
@@ -161,6 +179,100 @@ function Event:drawCurrentEvent()
 
     end
 
+
+end
+
+function Event:sendEffectsOverNw()
+
+    
+    local sendFx = {}
+    
+
+    server:sendToAll("server_confirmevent", true)
+
+    print("server sending event effects over network")
+    
+    for x = 1, 10 do
+        for y = 1, 10 do
+
+            if boardGrid[x][y]:instanceOf(BurntField) then
+                sendFx = {"bf", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Desert) then
+                sendFx = {"de", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Field) then
+                sendFx = {"fi", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Forest) then
+                sendFx = {"fo", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(GlassMount) then
+                sendFx = {"gl", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Ice) then
+                sendFx = {"ic", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Lake) then
+                sendFx = {"la", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(MagicForest) then
+                sendFx = {"ma", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Mount) then
+                sendFx = {"mo", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y]:instanceOf(Swamp) then
+                sendFx = {"sw", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            ----------------------------
+
+
+            if boardGrid[x][y].isOnFire then
+                sendFx = {"fire", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+            
+            if boardGrid[x][y].isPoisoned then
+                sendFx = {"poison", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+            if boardGrid[x][y].isFrozen then
+                sendFx = {"freeze", x, y}
+                server:sendToAll("server_eventeffects", sendFx)
+            end
+
+
+        end
+    end
+
+    
+    
+    
+
+    
+    
 
 end
 

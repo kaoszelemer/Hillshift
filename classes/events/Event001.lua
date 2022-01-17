@@ -94,12 +94,21 @@ function Event001:eventFunction()
                     end
 
                     boardGrid[x][y].fireTurn = turnCounter
-
+                  
                 end
             })
         end
     end
+
+   
+
+   
+       
     Cell:resetParticleDrawing()
+   
+   
+
+
 end
     
 
