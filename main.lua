@@ -921,22 +921,48 @@ local function initNetworking(arg)
         server:on("connect", function(data, client)
         
             local msg = "pong"
-            
+           
+           
+
+           
+           
+
             client:send("hello", msg)
+        
               
         end)
 
         server:on("connect", function(data, client)
-        
+          
             local rng = {}
             rng[1] = love.math.getRandomState()
          --   love.math.setRandomState(rng[1])
                
             print("server sending random seed")
-            print(rng[1])
+           
             client:send("randomseed", rng)
-         
-        
+            local s = "server"
+            initPlayerDeck(s)
+            for i = 1, 4 do
+            
+                activePlayer.characters[i].x = 3 + i
+                activePlayer.characters[i].y = 4 + i
+                inactivePlayer.characters[i].x = i
+                inactivePlayer.characters[i].y = i
+                
+
+
+            end
+            loadCharacterAnim()
+            table.insert(sequenceBufferTable, {
+                name = "resetSpellDrawing",
+                duration = 1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+            moveCharactersToStartingPosition()
+           
+                end})
+          
         end)
 
         server:on("connect", function(data, client)
@@ -1000,7 +1026,7 @@ local function initNetworking(arg)
 
         server:on("connect", function(data, client)
 
-            local ntbe = love.math.random(5, 9)
+           -- local ntbe = love.math.random(5, 9)
 
             client:send("nextturnbeforeevent", ntbe)
 
@@ -1430,7 +1456,7 @@ end
 
 function love.load(arg)
        --board betoltese
-       if isGameClient ~= true then
+    if isGameClient ~= true then
          nextTurnBeforeEvent = 5
     end
     initNetworking(arg)
@@ -1442,14 +1468,7 @@ function love.load(arg)
   
 
     loadParticleSystems()
-   
     
- 
-
-   
-    
-    
-  
     board:load()
     if isGameClient ~= true then
         loadCharacterAnim()

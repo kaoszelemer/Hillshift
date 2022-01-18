@@ -101,7 +101,7 @@ cellQuadTable = {
 
 
 
-local function initPlayerDeck(player)
+function initPlayerDeck(player)
 
     --[[ if isDebug then debugHillShift(player)
     else ]]
@@ -1287,11 +1287,8 @@ function board:load()
         loadAnimations() 
     -- loadSounds()
     -- musicPlayer()
-    if isGameServer then
-        local s = "server"
-     
-        initPlayerDeck(s)
-        moveCharactersToStartingPosition() 
+    if isGameServer then return
+      
     elseif isGameClient then return
     else
         initPlayerDeck(playerOne)

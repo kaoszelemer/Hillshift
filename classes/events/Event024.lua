@@ -1,5 +1,6 @@
 local Event024 = Event:extend("Event024")
 
+
 function Event024:init()
     Event.init(self,
         love.graphics.newImage("/graphics/Event014image.png"),
