@@ -108,7 +108,7 @@ function initPlayerDeck(player)
        
        -- for networking
 
-        if player == "server" then
+    --[[     if player == "server" then
             table.insert(playerOne.characters, GeoGnome(playerOne))
             table.insert(playerOne.characters, AirElemental(playerOne))
             table.insert(playerOne.characters, Alchemist(playerOne))
@@ -141,13 +141,39 @@ function initPlayerDeck(player)
 
            
         elseif player == "client" then
-            
-            return
 
-          
+            table.insert(playerOne.characters, GeoGnome(playerOne))
+            table.insert(playerOne.characters, AirElemental(playerOne))
+            table.insert(playerOne.characters, Alchemist(playerOne))
+            table.insert(playerOne.characters, FireMage(playerOne))
+            table.insert(playerOne.characters, Druid(playerOne))
+            table.insert(playerOne.characters, IceWizard(playerOne))
+            table.insert(playerOne.characters, ThunderShaman(playerOne))
+            table.insert(playerOne.characters, SandWitch(playerOne))
+            table.insert(playerOne.characters, WaterHag(playerOne))
+
+            while #playerOne.characters ~= 4 do     
+                local cardNumber = love.math.random(1, #playerOne.characters)
+                table.remove(playerOne.characters, cardNumber)
+            end
+            
+            table.insert(playerTwo.characters, GeoGnome(playerTwo))
+            table.insert(playerTwo.characters, AirElemental(playerTwo))
+            table.insert(playerTwo.characters, Alchemist(playerTwo))
+            table.insert(playerTwo.characters, FireMage(playerTwo))
+            table.insert(playerTwo.characters, Druid(playerTwo))
+            table.insert(playerTwo.characters, IceWizard(playerTwo))
+            table.insert(playerTwo.characters, ThunderShaman(playerTwo))
+            table.insert(playerTwo.characters, SandWitch(playerTwo))
+            table.insert(playerTwo.characters, WaterHag(playerTwo))
+
+            while #playerTwo.characters ~= 4 do     
+                local cardNumber = love.math.random(1, #playerTwo.characters)
+                table.remove(playerTwo.characters, cardNumber)
+            end
 
         
-        else
+        else ]]
         
        
              
@@ -207,8 +233,7 @@ function initPlayerDeck(player)
                 local cardNumber = love.math.random(1, #player.characters)
                 table.remove(player.characters, cardNumber)
             end
-        end
-
+       
      
        
     
@@ -734,7 +759,7 @@ function moveCharactersToStartingPosition()
         currentChar.stepPoints = 1
     end
 
-    if gameState.state == gameState.states.selectCharacter and isGameClient ~= true then
+    if gameState.state == gameState.states.selectCharacter then
         table.insert(sequenceBufferTable, {
             name = "creatingRandomizedBoard",
             duration = 0.1,

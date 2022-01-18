@@ -921,37 +921,32 @@ local function initNetworking(arg)
         server:on("connect", function(data, client)
         
             local msg = "pong"
-           
-           
-
-           
-           
 
             client:send("hello", msg)
-        
-              
+                
         end)
 
         server:on("connect", function(data, client)
           
             local rng = {}
             rng[1] = love.math.getRandomState()
-         --   love.math.setRandomState(rng[1])
+            love.math.setRandomState(rng[1])
                
             print("server sending random seed")
            
             client:send("randomseed", rng)
-            local s = "server"
-            initPlayerDeck(s)
+          
+            nextTurnBeforeEvent = love.math.random(5, 9)
+            initPlayerDeck(playerOne)
+            initPlayerDeck(playerTwo)
+           
             for i = 1, 4 do
             
-                activePlayer.characters[i].x = 3 + i
-                activePlayer.characters[i].y = 4 + i
-                inactivePlayer.characters[i].x = i
-                inactivePlayer.characters[i].y = i
-                
-
-
+                playerOne.characters[i].x = 3 + i
+                playerOne.characters[i].y = 3 + i
+                playerTwo.characters[i].x = 5 + i
+                playerTwo.characters[i].y = 3 + i
+    
             end
             loadCharacterAnim()
             table.insert(sequenceBufferTable, {
@@ -959,13 +954,11 @@ local function initNetworking(arg)
                 duration = 1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-            moveCharactersToStartingPosition()
-           
-                end})
-          
+                    moveCharactersToStartingPosition()
+                end})    
         end)
 
-        server:on("connect", function(data, client)
+      --[[   server:on("connect", function(data, client)
 
             for x = 1, 10 do
                 for y = 1, 10 do
@@ -990,7 +983,7 @@ local function initNetworking(arg)
                 end
             end
 
-        end)
+        end) ]]
 
         server:on("connect", function(data, client)
 
@@ -1010,7 +1003,7 @@ local function initNetworking(arg)
         end)
 
 
-        server:on("connect", function(data, client)
+    --[[     server:on("connect", function(data, client)
             local a = {}
             for i = 1, 4 do
                 a[i] = playerOne.characters[i].id 
@@ -1022,7 +1015,7 @@ local function initNetworking(arg)
                 
             end
             client:send("player.characters", a)      
-        end)
+        end) ]]
 
         server:on("connect", function(data, client)
 
@@ -1166,8 +1159,22 @@ local function initNetworking(arg)
            
             print(rng[1])
             love.math.setRandomState(rng[1])
-            
-               
+           -- moveCharactersToStartingPosition()
+            nextTurnBeforeEvent = love.math.random(5, 9)
+
+           initPlayerDeck(playerOne)
+           initPlayerDeck(playerTwo)
+          
+            for i = 1, 4 do
+                playerTwo.characters[i].x = i
+                playerTwo.characters[i].y = i + 1
+                playerOne.characters[i].x = i
+                playerOne.characters[i].y = i + 1
+            end
+           
+           loadCharacterAnim()
+           moveCharactersToStartingPosition()   
+                        
         end)
 
         -- Custom callback, called whenever you send the event from the server
@@ -1250,8 +1257,9 @@ local function initNetworking(arg)
                 playerTwo.characters[i].y = i + 1
               
             end     
-            loadCharacterAnim()
-            moveCharactersToStartingPosition()    
+
+
+             
         end)
 
         client:on("boardGrid", function(grid)
@@ -1456,8 +1464,8 @@ end
 
 function love.load(arg)
        --board betoltese
-    if isGameClient ~= true then
-         nextTurnBeforeEvent = 5
+    if isGameClient ~= true and isGameServer ~= true then
+         nextTurnBeforeEvent = love.math.random(5, 9)
     end
     initNetworking(arg)
 
