@@ -525,8 +525,7 @@ local function selectStartingPlayer()
 
    else
 
-        startingDicePlayerOne = love.math.random(1, 6)
-        startingDicePlayerTwo = love.math.random(1, 6)
+       
 
         if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 
@@ -537,8 +536,8 @@ local function selectStartingPlayer()
             activePlayer = playerTwo
             inactivePlayer = playerOne
         end
-
     end
+   
   
 end
 
@@ -1026,10 +1025,10 @@ local function initNetworking(arg)
         end)
 
         server:on("clientmousepositions", function(mp)
-            if activePlayer == playerTwo then
+          --[[   if activePlayer == playerTwo then
                 mouseX = mp[1]
                 mouseY = mp[2]
-            end
+            end ]]
         end)
 
         server:on("clientcharacterpositionchanging", function(cp)
@@ -1182,106 +1181,6 @@ local function initNetworking(arg)
             print("PING: " .. msg)
         end)
 
-        client:on("nextturnbeforeevent", function(ntbe)
-
-            nextTurnBeforeEvent = 50
-
-        end)
-
-        client:on("player.characters", function(c)
-
-            for i = 1, 4 do 
-
-                if c[i] == 1 then
-                    table.insert(playerOne.characters, GeoGnome(playerOne))
-                end
-                if c[i] == 2 then
-                    table.insert(playerOne.characters, Alchemist(playerOne))
-                end
-                if c[i] == 3 then
-                    table.insert(playerOne.characters, IceWizard(playerOne))
-                end
-                if c[i] == 4 then
-                    table.insert(playerOne.characters, AirElemental(playerOne))
-                end
-                if c[i] == 5 then
-                    table.insert(playerOne.characters, Druid(playerOne))
-                end
-                if c[i] == 6 then
-                    table.insert(playerOne.characters, FireMage(playerOne))
-                end
-                if c[i] == 7 then
-                    table.insert(playerOne.characters, ThunderShaman(playerOne))
-                end
-                if c[i] == 8 then
-                    table.insert(playerOne.characters, SandWitch(playerOne))
-                end
-                if c[i] == 9 then
-                    table.insert(playerOne.characters, WaterHag(playerOne))
-                end  
-
-                playerOne.characters[i].x = i
-                playerOne.characters[i].y = i + 1
-                
-              
-           
-                if c[i + 4] == 1 then
-                    table.insert(playerTwo.characters, GeoGnome(playerTwo))
-                end
-                if c[i + 4] == 2 then
-                    table.insert(playerTwo.characters, Alchemist(playerTwo))
-                end
-                if c[i + 4] == 3 then
-                    table.insert(playerTwo.characters, IceWizard(playerTwo))
-                end
-                if c[i + 4] == 4 then
-                    table.insert(playerTwo.characters, AirElemental(playerTwo))
-                end
-                if c[i + 4] == 5 then
-                    table.insert(playerTwo.characters, Druid(playerTwo))
-                end
-                if c[i + 4] == 6 then
-                    table.insert(playerTwo.characters, FireMage(playerTwo))
-                end
-                if c[i + 4] == 7 then
-                    table.insert(playerTwo.characters, ThunderShaman(playerTwo))
-                end
-                if c[i + 4] == 8 then
-                    table.insert(playerTwo.characters, SandWitch(playerTwo))
-                end
-                if c[i + 4] == 9 then
-                    table.insert(playerTwo.characters, WaterHag(playerTwo))
-                end  
-
-                playerTwo.characters[i].x = i
-                playerTwo.characters[i].y = i + 1
-              
-            end     
-
-
-             
-        end)
-
-        client:on("boardGrid", function(grid)
-            print("querying boardGrid")
-            local g = grid
-            if g[3] == 1 then 
-                boardGrid[g[1]][g[2]] = Mount(g[1], g[2])
-            end
-            if g[3] == 2 then 
-                boardGrid[g[1]][g[2]] = Field(g[1], g[2])
-            end
-            if g[3] == 3 then 
-                boardGrid[g[1]][g[2]] = Lake(g[1], g[2])
-            end
-            if g[3] == 4 then 
-                boardGrid[g[1]][g[2]] = Forest(g[1], g[2])
-            end
-            if g[4] == 5 then
-            
-                boardGrid[g[1]][g[2]].isChest = true
-            end
-        end)
 
         client:on("chest", function(ch)                    
                     if ch[3] == true then
@@ -1296,13 +1195,7 @@ local function initNetworking(arg)
             end
         end)
 
-        client:on("servermousepositions", function(mp) 
-            if activePlayer == playerOne  and mp[1] ~= mouseX and mp[2] ~= mouseY then                 
-                mouseX = mp[1]
-                mouseY = mp[2]
-            end
-        end)
-
+    
         client:on("servercharacterpositionchanging", function(cp)
 
             print("CLIENT:ON server character positions changing")
@@ -1383,7 +1276,7 @@ local function initNetworking(arg)
             enableEvent = true
 
         end)
-
+--[[ 
         client:on("server_eventeffects", function(evfx)
             print(evfx)
             local status = evfx[1]
@@ -1453,7 +1346,7 @@ local function initNetworking(arg)
             boardGrid[x][y]:resetParticleDrawing()
         
         
-        end)
+        end) ]]
          
         client:connect()
 
@@ -1467,20 +1360,21 @@ function love.load(arg)
     if isGameClient ~= true and isGameServer ~= true then
          nextTurnBeforeEvent = love.math.random(5, 9)
     end
+
     initNetworking(arg)
 
     if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
     else love.window.setMode(width,height)
-    end        
+    end       
     --Particle systems
-  
-
     loadParticleSystems()
-    
+
     board:load()
+
     if isGameClient ~= true then
         loadCharacterAnim()
     end
+    
     soundEngine:load()
    
     Event:initEventTable()
@@ -1735,17 +1629,21 @@ function love.mousereleased(x, y, button, istouch, presses)
             if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
                 isEndTurnButtonClicked = false
 
-                if isGameServer then
+                if isGameServer and activePlayer == playerOne then
                     server:sendToAll("serverendturn", "endturnclicked")
-                end
-                if isGameClient then
-                    client:send("clientendturn", "endturnclicked")
-                end
-
-               
                     endTurn()
                     newTurn()
-           
+                end
+                if isGameClient and activePlayer == playerTwo then
+                    client:send("clientendturn", "endturnclicked")
+                    endTurn()
+                    newTurn()
+                end
+
+                if isGameClient ~= true and isGameServer ~= true then
+                    endTurn()
+                    newTurn()
+                end
             end
 
         end
@@ -1807,10 +1705,13 @@ function love.mousereleased(x, y, button, istouch, presses)
 end
 
 function love.mousepressed( x, y, button, istouch, presses )
-    if not enableEvent and not enableEndGame and not isDrawEventForPrisonSpawn and not isDrawEventForSuddenDeath then
-        if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
-        isEndTurnButtonClicked = true
-        end
+
+    
+    if not enableEvent and not enableEndGame and not isDrawEventForPrisonSpawn and not isDrawEventForSuddenDeath and
+       
+            (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
+                isEndTurnButtonClicked = true
+       
     end
 end
 
