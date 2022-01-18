@@ -953,7 +953,7 @@ local function initNetworking(arg)
                 duration = 1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    moveCharactersToStartingPosition()
+                   moveCharactersToStartingPosition()
                 end})    
         end)
 
@@ -1002,19 +1002,7 @@ local function initNetworking(arg)
         end)
 
 
-    --[[     server:on("connect", function(data, client)
-            local a = {}
-            for i = 1, 4 do
-                a[i] = playerOne.characters[i].id 
-                       
-            end
-            
-            for i = 1, 4 do
-                a[i + 4] = playerTwo.characters[i].id
-                
-            end
-            client:send("player.characters", a)      
-        end) ]]
+
 
         server:on("connect", function(data, client)
 
@@ -1024,18 +1012,13 @@ local function initNetworking(arg)
 
         end)
 
-        server:on("clientmousepositions", function(mp)
-          --[[   if activePlayer == playerTwo then
-                mouseX = mp[1]
-                mouseY = mp[2]
-            end ]]
-        end)
+  
 
         server:on("clientcharacterpositionchanging", function(cp)
 
             print("SERVER:ON client character positions changing")
 
-            if activePlayer == playerTwo then
+          
 
                 for _, currentChar in ipairs(playerTwo.characters) do
 
@@ -1044,7 +1027,7 @@ local function initNetworking(arg)
                         currentChar:move(cp[2], cp[3], cp[4], cp[5])
                     end
                 end
-            end
+         
           
         end)
 
@@ -1167,8 +1150,10 @@ local function initNetworking(arg)
             for i = 1, 4 do
                 playerTwo.characters[i].x = i
                 playerTwo.characters[i].y = i + 1
-                playerOne.characters[i].x = i
-                playerOne.characters[i].y = i + 1
+            end
+            for i = 1, 4  do
+                playerOne.characters[i].x = i + 1
+                playerOne.characters[i].y = i 
             end
            
            loadCharacterAnim()
@@ -1200,7 +1185,7 @@ local function initNetworking(arg)
 
             print("CLIENT:ON server character positions changing")
 
-            if activePlayer == playerOne then
+            
                 for _, currentChar in ipairs(playerOne.characters) do
 
                
@@ -1209,7 +1194,7 @@ local function initNetworking(arg)
                         currentChar:move(cp[2], cp[3], cp[4], cp[5])
                     end
                 end
-            end
+           
 
 
         end)
@@ -1443,8 +1428,11 @@ function love.draw()
     if isGameFullScreen then love.graphics.scale(scaleX, scaleY) end -- fullscreen skálázás
 
     
+
     board:draw()
     soundEngine:draw()
+
+
     Character:drawParticles()
     love.graphics.setColor(charColor)
     Item:drawCurrentItem()

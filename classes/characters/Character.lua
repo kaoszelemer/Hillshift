@@ -728,6 +728,7 @@ function Character:move(cx, cy, oldx, oldy)
                 end})
 
                     self.stepPoints = self.stepPoints - 1
+                    
                
     end
    
