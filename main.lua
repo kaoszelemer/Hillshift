@@ -1403,17 +1403,7 @@ function love.update(dt)
     updateParticleSystems(dt)
     flux.update(dt)
     mouseX, mouseY = love.mouse.getPosition()
-    if isGameServer and activePlayer == playerOne then
-        m = {}
-        m[1] = mouseX
-        m[2] = mouseY
-        server:sendToAll("servermousepositions", m)
-    elseif isGameClient and activePlayer == playerTwo then
-        m = {}
-        m[1] = mouseX
-        m[2] = mouseY
-        client:send("clientmousepositions", m)
-    end
+ 
     board:update(dt)
     soundEngine:update(dt)
     Character:update(dt)
