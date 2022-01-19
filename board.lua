@@ -1014,31 +1014,31 @@ function drawAttackOnBoard()
             end
             if character.diceRoll == 2 then
                 love.graphics.draw(diceImage, diceTwo, diceX, diceY)
-                 love.graphics.setColor(selectedColor)
+                love.graphics.setColor(selectedColor)
                 love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 3 then
                 love.graphics.draw(diceImage, diceThree, diceX, diceY)
-                 love.graphics.setColor(selectedColor)
+                love.graphics.setColor(selectedColor)
                 love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 4 then
                 love.graphics.draw(diceImage, diceFour, diceX, diceY)
-                 love.graphics.setColor(selectedColor)
+                love.graphics.setColor(selectedColor)
                 love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 5 then
                 love.graphics.draw(diceImage, diceFive, diceX, diceY)
-                 love.graphics.setColor(selectedColor)
+                love.graphics.setColor(selectedColor)
                 love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end
             if character.diceRoll == 6 then
                 love.graphics.draw(diceImage, diceSix, diceX, diceY)
-                 love.graphics.setColor(selectedColor)
+                love.graphics.setColor(selectedColor)
                 love.graphics.print("-"..damage.."HP", diceX + 80, diceY + 24)
                 love.graphics.setColor(charColor)
             end

@@ -1067,8 +1067,7 @@ local function initNetworking(arg)
         server:on("client_attack", function(ac)
 
             local enemyid = ac[1]
-            local damage = ac[2]
-            local attackerid = ac[3]
+            local attackerid = ac[2]
 
           
             for _, enemyChar in ipairs(inactivePlayer.characters) do
@@ -1092,28 +1091,7 @@ local function initNetworking(arg)
 
         end)
 
-        server:on("client_event", function(ev)
-        --[[     print("client is doing an event")
-            for k, v in ipairs(eventTable) do
-                if k == ev then
-                    print(v)
-                    Event.nextEventID = ev
-                end
-            end
-
-            enableEvent = true
- ]]
-
-        end)
-
-        server:on("printrandomnumberinconsole", function(eg)
-
-            if eg then
-                --print(love.math.random())
-                print(love.math.getRandomState())
-            end
-
-        end)
+    
 
     end
 
@@ -1259,8 +1237,7 @@ local function initNetworking(arg)
 
         client:on("server_attack", function(ac)
             local enemyid = ac[1]
-            local damage = ac[2]
-            local attackerid = ac[3]
+            local attackerid = ac[2]
 
           for _, enemyChar in ipairs(inactivePlayer.characters) do
 
@@ -1269,7 +1246,7 @@ local function initNetworking(arg)
                     
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
-                            print(attackerChar.name, enemyChar.name)
+                           -- print(attackerChar.name, enemyChar.name)
                             attackerChar:attack(enemyChar, true)
                                                
                         end
@@ -1281,90 +1258,6 @@ local function initNetworking(arg)
           
 
         end)
-
- --[[        client:on("server_event", function(ev)
-            print("server is doing an event")
-            for k, v in ipairs(eventTable) do
-                if k == ev then
-                    print(v)
-                    Event.nextEventID = ev
-                end
-            end
-
-            enableEvent = true
-
-        end) ]]
---[[ 
-        client:on("server_eventeffects", function(evfx)
-            print(evfx)
-            local status = evfx[1]
-            local x = evfx[2]
-            local y = evfx[3]
-
-            if status == "bf" then
-                boardGrid[x][y] = BurntField(x, y)
-                boardGrid[x][y].burntFieldTimer = turnCounter
-                boardGrid[x][y].isInstanced = true 
-            end
-
-            if status == "de" then
-                boardGrid[x][y] = Desert(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "fi" then
-                boardGrid[x][y] = Field(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "fo" then
-                boardGrid[x][y] = Forest(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "gl" then
-                boardGrid[x][y] = GlassMount(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "ic" then
-                boardGrid[x][y] = Ice(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "la" then
-                boardGrid[x][y] = Lake(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "ma" then
-                boardGrid[x][y] = MagicForest(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "mo" then
-                boardGrid[x][y] = Mount(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-            if status == "sw" then
-                boardGrid[x][y] = Swamp(x, y)
-                boardGrid[x][y].isInstanced = true
-            end
-
-
-
-            if status == "fire" then
-                boardGrid[x][y].isOnFire = true
-                boardGrid[x][y].fireTurn = turnCounter
-            end                
-        
-            if status == "poison" then
-                boardGrid[x][y].isPoisoned = true
-                boardGrid[x][y].poisonTurn = turnCounter
-            end                
-        
-            if status == "freeze" then
-                boardGrid[x][y].isFrozen = true
-                boardGrid[x][y].freezeTurn = turnCounter
-            end    
-            
-            boardGrid[x][y]:resetParticleDrawing()
-        
-        
-        end) ]]
          
         client:connect()
 

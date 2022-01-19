@@ -604,7 +604,19 @@ function Character:click(mX, mY)
             (self.x - 1 > 0 and self.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y + 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
             (self.x + 1 <= 10 and self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false ) or
             (self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false ) then
-            selectedChar:attack(self)
+                if isGameServer then
+                    local cp = {self.id, selectedChar.id}
+                    server:sendToAll("server_attack", cp)
+                 end
+    
+                 if isGameClient then
+                    local cp = {self.id, selectedChar.id}
+                    client:send("client_attack", cp)
+                 end
+
+                
+                    selectedChar:attack(self)
+
         end
     end
  
@@ -788,15 +800,7 @@ function Character:attack(enemy, nw)
         action = function()
             if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
                 
-                if isGameServer then
-                    local cp = {enemy.id, damage, self.id}
-                    server:sendToAll("server_attack", cp)
-                 end
-    
-                 if isGameClient then
-                    local cp = {enemy.id, damage, self.id}
-                    client:send("client_attack", cp)
-                 end
+         
     
                 local dr = getDiceRoll()
                 self.diceRoll = dr
