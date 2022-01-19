@@ -525,7 +525,8 @@ local function selectStartingPlayer()
 
    else
 
-       
+        startingDicePlayerOne = love.math.random(1,6)
+        startingDicePlayerTwo = love.math.random(1,6)       
 
         if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 
@@ -937,52 +938,54 @@ local function initNetworking(arg)
           
             nextTurnBeforeEvent = love.math.random(5, 9)
             initPlayerDeck(playerOne)
-            initPlayerDeck(playerTwo)
-           
-            for i = 1, 4 do
-            
-                playerOne.characters[i].x = 3 + i
-                playerOne.characters[i].y = 3 + i
-                playerTwo.characters[i].x = 5 + i
-                playerTwo.characters[i].y = 3 + i
-    
-            end
+            initPlayerDeck(playerTwo)      
+                      
             loadCharacterAnim()
-            table.insert(sequenceBufferTable, {
-                name = "resetSpellDrawing",
-                duration = 1,
-                sequenceTime = love.timer.getTime(),
-                action = function()
-                   moveCharactersToStartingPosition()
-                end})    
+            
+            for i, currentChar in ipairs(playerOne.characters) do
+                if     i == 1 then 
+                    currentChar.x = 5 
+                    currentChar.y = 2 --5,2
+                elseif i == 2 then 
+                    currentChar.x = 5 --5,3
+                    currentChar.y = 3
+                elseif i == 3 then 
+                    currentChar.x = 6 --6,2
+                    currentChar.y = 2
+                elseif i == 4 then 
+                    currentChar.x = 6
+                    currentChar.y = 3 --6,3
+                end
+                currentChar.stepPoints = 1
+            end
+    
+            for i, currentChar in ipairs(playerTwo.characters) do
+                if     i == 1 then 
+                    currentChar.x = 5 
+                    currentChar.y = 8 --5,2
+                elseif i == 2 then 
+                    currentChar.x = 5 --5,3
+                    currentChar.y = 9
+                elseif i == 3 then 
+                    currentChar.x = 6 --6,2
+                    currentChar.y = 8
+                elseif i == 4 then 
+                    currentChar.x = 6
+                    currentChar.y = 9 --6,3
+                end
+                currentChar.stepPoints = 1
+            end
+
+              table.insert(sequenceBufferTable, {
+                  name = "moving characters to starting position",
+                  duration = 1,
+                  sequenceTime = love.timer.getTime(),
+                  action = function()
+                   createBoardGrid()
+                  end})    
         end)
 
-      --[[   server:on("connect", function(data, client)
-
-            for x = 1, 10 do
-                for y = 1, 10 do
-                    local grid = {}
-                    if boardGrid[x][y]:instanceOf(Mount) then 
-                        grid = {x,y,1}
-                        client:send("boardGrid", grid)
-                    end
-                    if boardGrid[x][y]:instanceOf(Field) then 
-                        grid = {x,y,2}
-                        client:send("boardGrid", grid)
-                    end
-                    if boardGrid[x][y]:instanceOf(Lake) then 
-                        grid = {x,y,3}
-                        client:send("boardGrid", grid)
-                    end
-                    if boardGrid[x][y]:instanceOf(Forest) then 
-                        grid = {x,y,4}
-                        client:send("boardGrid", grid)
-                    end
-                                     
-                end
-            end
-
-        end) ]]
+    
 
         server:on("connect", function(data, client)
 
@@ -1008,7 +1011,7 @@ local function initNetworking(arg)
 
            -- local ntbe = love.math.random(5, 9)
 
-            client:send("nextturnbeforeevent", ntbe)
+         --   client:send("nextturnbeforeevent", ntbe)
 
         end)
 
@@ -1020,10 +1023,10 @@ local function initNetworking(arg)
 
           
 
-                for _, currentChar in ipairs(playerTwo.characters) do
+                for _, currentChar in ipairs(activePlayer.characters) do
 
                     if cp[1] == currentChar.id then
-                        print("poschangin char"..currentChar.name)
+                        print("poschangin char"..currentChar.name, currentChar.parentPlayer.name)
                         currentChar:move(cp[2], cp[3], cp[4], cp[5])
                     end
                 end
@@ -1071,14 +1074,13 @@ local function initNetworking(arg)
             for _, enemyChar in ipairs(inactivePlayer.characters) do
 
                 if enemyid == enemyChar.id then
-                    enemyChar.baseHP = enemyChar.baseHP - damage
+                    
                     
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
                             
-                            print(attackerChar, enemyChar,damage)
-                            enableDrawAttack(attackerChar, enemyChar, damage)
-                            
+                            attackerChar:attack(enemyChar, true)
+                                               
                         end
                     end
                 end
@@ -1091,7 +1093,7 @@ local function initNetworking(arg)
         end)
 
         server:on("client_event", function(ev)
-            print("client is doing an event")
+        --[[     print("client is doing an event")
             for k, v in ipairs(eventTable) do
                 if k == ev then
                     print(v)
@@ -1100,7 +1102,7 @@ local function initNetworking(arg)
             end
 
             enableEvent = true
-
+ ]]
 
         end)
 
@@ -1141,24 +1143,58 @@ local function initNetworking(arg)
            
             print(rng[1])
             love.math.setRandomState(rng[1])
-           -- moveCharactersToStartingPosition()
+        
             nextTurnBeforeEvent = love.math.random(5, 9)
 
            initPlayerDeck(playerOne)
            initPlayerDeck(playerTwo)
-          
-            for i = 1, 4 do
-                playerTwo.characters[i].x = i
-                playerTwo.characters[i].y = i + 1
-            end
-            for i = 1, 4  do
-                playerOne.characters[i].x = i + 1
-                playerOne.characters[i].y = i 
-            end
+         
            
            loadCharacterAnim()
-           moveCharactersToStartingPosition()   
-                        
+           
+      
+           for i, currentChar in ipairs(playerOne.characters) do
+                if     i == 1 then 
+                    currentChar.x = 5 
+                    currentChar.y = 2 --5,2
+                elseif i == 2 then 
+                    currentChar.x = 5 --5,3
+                    currentChar.y = 3
+                elseif i == 3 then 
+                    currentChar.x = 6 --6,2
+                    currentChar.y = 2
+                elseif i == 4 then 
+                    currentChar.x = 6
+                    currentChar.y = 3 --6,3
+                end
+                currentChar.stepPoints = 1
+            end
+
+            for i, currentChar in ipairs(playerTwo.characters) do
+                if     i == 1 then 
+                    currentChar.x = 5 
+                    currentChar.y = 8 --5,2
+                elseif i == 2 then 
+                    currentChar.x = 5 --5,3
+                    currentChar.y = 9
+                elseif i == 3 then 
+                    currentChar.x = 6 --6,2
+                    currentChar.y = 8
+                elseif i == 4 then 
+                    currentChar.x = 6
+                    currentChar.y = 9 --6,3
+                end
+                currentChar.stepPoints = 1
+            end
+
+            table.insert(sequenceBufferTable, {
+              name = "moving characters to starting position",
+              duration = 0.03,
+              sequenceTime = love.timer.getTime(),
+              action = function()
+               createBoardGrid()
+              end})  
+                 
         end)
 
         -- Custom callback, called whenever you send the event from the server
@@ -1186,7 +1222,7 @@ local function initNetworking(arg)
             print("CLIENT:ON server character positions changing")
 
             
-                for _, currentChar in ipairs(playerOne.characters) do
+                for _, currentChar in ipairs(activePlayer.characters) do
 
                
                     if cp[1] == currentChar.id then
@@ -1222,34 +1258,31 @@ local function initNetworking(arg)
         end)
 
         client:on("server_attack", function(ac)
-
             local enemyid = ac[1]
             local damage = ac[2]
             local attackerid = ac[3]
 
-            for _, enemyChar in ipairs(inactivePlayer.characters) do
+          for _, enemyChar in ipairs(inactivePlayer.characters) do
 
                 if enemyid == enemyChar.id then
-                    enemyChar.baseHP = enemyChar.baseHP - damage
-                
-
+                    
+                    
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
-                        
-                            enableDrawAttack(attackerChar, enemyChar, damage)
-        
+                            print(attackerChar.name, enemyChar.name)
+                            attackerChar:attack(enemyChar, true)
+                                               
                         end
                     end
-
                 end
-
+                    
             end
 
           
 
         end)
 
-        client:on("server_event", function(ev)
+ --[[        client:on("server_event", function(ev)
             print("server is doing an event")
             for k, v in ipairs(eventTable) do
                 if k == ev then
@@ -1260,7 +1293,7 @@ local function initNetworking(arg)
 
             enableEvent = true
 
-        end)
+        end) ]]
 --[[ 
         client:on("server_eventeffects", function(evfx)
             print(evfx)
@@ -1356,7 +1389,7 @@ function love.load(arg)
 
     board:load()
 
-    if isGameClient ~= true then
+    if isGameClient ~= true and isGameServer ~= true then
         loadCharacterAnim()
     end
     

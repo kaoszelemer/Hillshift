@@ -739,25 +739,28 @@ local function drawChests()
 
 end
 
-function moveCharactersToStartingPosition()
+function moveCharactersToStartingPosition(arg)
 
-    for i, currentChar in ipairs(playerOne.characters) do
-        if     i == 1 then currentChar:move(5, 5) --5,2
-        elseif i == 2 then currentChar:move(5, 6) --5,3
-        elseif i == 3 then currentChar:move(6, 5) --6,2
-        elseif i == 4 then currentChar:move(6, 6) --6,3
+        for i, currentChar in ipairs(playerOne.characters) do
+            if     i == 1 then currentChar:move(5, 5) --5,2
+            elseif i == 2 then currentChar:move(5, 6) --5,3
+            elseif i == 3 then currentChar:move(6, 5) --6,2
+            elseif i == 4 then currentChar:move(6, 6) --6,3
+            end
+            currentChar.stepPoints = 1
         end
-        currentChar.stepPoints = 1
-    end
 
-    for i, currentChar in ipairs(playerTwo.characters) do
-        if     i == 1 then currentChar:move(5, 8) --5,8
-        elseif i == 2 then currentChar:move(5, 9) --5,9
-        elseif i == 3 then currentChar:move(6, 8) --6,8
-        elseif i == 4 then currentChar:move(6, 9) --6,9
+        for i, currentChar in ipairs(playerTwo.characters) do
+            if     i == 1 then currentChar:move(5, 8) --5,8
+            elseif i == 2 then currentChar:move(5, 9) --5,9
+            elseif i == 3 then currentChar:move(6, 8) --6,8
+            elseif i == 4 then currentChar:move(6, 9) --6,9
+            end
+            currentChar.stepPoints = 1
         end
-        currentChar.stepPoints = 1
-    end
+   
+
+    
 
     if gameState.state == gameState.states.selectCharacter then
         table.insert(sequenceBufferTable, {
@@ -770,6 +773,8 @@ function moveCharactersToStartingPosition()
         })
 
     end
+
+
 
 
 end
@@ -931,11 +936,8 @@ function drawEventOnBackground()
         Event001:drawEventStuff()
 end
 
-function enableDrawAttack(character, enemy, dmg)
+function enableDrawAttack(character, enemy)
 
-    local minusHP = dmg or damage
-
-    print(damage)
    
     table.insert(sequenceBufferTable, {
         name = "drawingAttackAnimation",
@@ -947,8 +949,7 @@ function enableDrawAttack(character, enemy, dmg)
             drawnEnemyCharacter = enemy
             drawAttackAnim = true
             enemy.attackTime = love.timer.getTime()
-            fnumber = { x=(enemy.x * tileW + offsetX), y = (enemy.y) * tileH + offsetY, text = minusHP }
-            print("minusz HP:"..fnumber.text)
+            fnumber = { x=(enemy.x * tileW + offsetX), y = (enemy.y) * tileH + offsetY, text = damage }
             fnumberTween = tween.new(7, fnumber, {y= enemy.y + 0.1}, 'outSine')
            
             

@@ -780,17 +780,27 @@ function Character:kill()
 
 end
 
-function Character:attack(enemy)
+function Character:attack(enemy, nw)
     table.insert(sequenceBufferTable, {
         name = "AttackEnemyCharacter",
         duration = 0.1,
         sequenceTime = love.timer.getTime(),
         action = function()
-            if gameState.state == gameState.states.selectAttackTargetCharacter and self.actionPoints ~= 0 then
-               
+            if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
+                
+                if isGameServer then
+                    local cp = {enemy.id, damage, self.id}
+                    server:sendToAll("server_attack", cp)
+                 end
+    
+                 if isGameClient then
+                    local cp = {enemy.id, damage, self.id}
+                    client:send("client_attack", cp)
+                 end
+    
                 local dr = getDiceRoll()
                 self.diceRoll = dr
-
+               
                 if boardGrid[self.x][self.y].isPoisoned then
                     self.turnAttackModifier = self.turnAttackModifier - 3
                     self.turnDefenseModifier = self.turnDefenseModifier - 1
@@ -810,16 +820,7 @@ function Character:attack(enemy)
                 
                 if enemy.baseHP <= 0 then enemy:kill() end
 
-                if isGameServer then
-                    local cp = {enemy.id, damage, self.id}
-                    server:sendToAll("server_attack", cp)
-                 end
-    
-                 if isGameClient then
-                    local cp = {enemy.id, damage, self.id}
-                    client:send("client_attack", cp)
-                 end
-    
+               
                 
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
@@ -838,7 +839,10 @@ function Character:attack(enemy)
                 action = function()
                     gameState:changeState(gameState.states.selectCharacter)
                 end
+
+           
             })
+            print(love.math.getRandomState())
         end
     })
    
