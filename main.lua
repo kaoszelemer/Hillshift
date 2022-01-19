@@ -913,8 +913,16 @@ local function initNetworking(arg)
 
         print("Argument: host, starting server mode")
 
+        if arg[2] == nil then
+            arg[2] = "*"
+        end
+
+        if arg[3] == nil then
+            arg[3] = 22122
+        end
+
         -- Creating a server on any IP, port 22122
-        server = sock.newServer("*", 22122)
+        server = sock.newServer(arg[2], arg[3])
         server:setSerialization(bitser.dumps, bitser.loads)
 
         -- Called when someone connects to the server
@@ -923,7 +931,7 @@ local function initNetworking(arg)
             local msg = "pong"
 
             client:send("hello", msg)
-                
+            clientIsConnected = true
         end)
 
         server:on("connect", function(data, client)
@@ -1101,10 +1109,18 @@ local function initNetworking(arg)
         isGameServer = false
         isGameClient = true
 
+        if arg[2] == nil then
+            arg[2] = "localhost"
+        end
+
+        if arg[3] == nil then
+            arg[3] = 22122
+        end
+
         print("Argument: join, starting client mode")
 
             -- Creating a new client on localhost:22122
-        client = sock.newClient("localhost", 22122)
+        client = sock.newClient(arg[2], arg[3])
      
       
         client:on("connect", function(data)
@@ -1356,6 +1372,9 @@ function love.draw()
     
 
     board:draw()
+
+   
+
     soundEngine:draw()
 
 
@@ -1424,14 +1443,30 @@ function love.draw()
     end
 
 
+   --Debug for networking
+
+        
+   if isGameServer and clientIsConnected ~= true then
+            local eventX = (width / 4 + offsetX) - 2 * tileW
+            local eventY = (height / 4 + offsetY)
+            love.graphics.draw(eventBackgroundImage, eventX, eventY)
+            love.graphics.setFont(statFont)
+            love.graphics.setColor(purpleColor)
+            love.graphics.print("\n\n\nWAITING FOR CLIENT TO JOIN", eventX + tileW, eventY + tileH)
+            love.graphics.setFont(font)
+            love.graphics.setColor(charColor)
+
+    end
+
+
+    if isGameServer then love.graphics.print("SERVER", width - 150, 10) end
+    if isGameClient then love.graphics.print("CLIENT", width - 150, 10) end
 
 
     love.graphics.draw(mouseArrow, mouseX, mouseY)
 
-    --Debug for networking
-    if isGameServer then love.graphics.print("SERVER", width - 150, 10) end
-    if isGameClient then love.graphics.print("CLIENT", width - 150, 10) end
 
+ 
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
