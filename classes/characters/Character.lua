@@ -716,8 +716,7 @@ function Character:move(cx, cy, oldx, oldy)
             
             local arriveX = self.x
             local arriveY = self.y
-            if oldx == nil then oldx = 5 end
-            if oldy == nil then oldy = 5 end
+            
             self.x = oldx
             self.y = oldy
             
@@ -742,15 +741,6 @@ function Character:move(cx, cy, oldx, oldy)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
 
-                    if isGameServer then
-                        local cp = {self.id, cx, cy, oldx, oldy}
-                        server:sendToAll("servercharacterpositionchanging", cp)
-                     end
-        
-                     if isGameClient then
-                        local cp = {self.id, cx, cy, oldx, oldy}
-                        client:send("clientcharacterpositionchanging", cp)
-                     end
                 end})
 
                     self.stepPoints = self.stepPoints - 1

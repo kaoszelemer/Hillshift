@@ -179,6 +179,18 @@ function Cell:click()
 
 
     if gameState.state == gameState.states.selectMoveTargetCell and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
+
+        
+        if isGameServer then
+            local cp = {selectedChar.id, self.x, self.y, selectedChar.x, selectedChar.y}
+            server:sendToAll("servercharacterpositionchanging", cp)
+         end
+
+         if isGameClient then
+            local cp = {selectedChar.id, self.x, self.y, selectedChar.x, selectedChar.y}
+            client:send("clientcharacterpositionchanging", cp)
+         end
+
         for x = -1, 1 do
             for y = -1, 1 do
                if x ~= 0 or y ~= 0 then 
