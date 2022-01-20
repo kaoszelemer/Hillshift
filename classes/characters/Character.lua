@@ -759,7 +759,7 @@ function Character:kill()
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar then
             boardGrid[self.x][self.y].isOccupied = false
-            table.remove(deadPool)
+            table.remove(deadPool, 1)
             table.insert(deadPool, currentChar)
             table.remove(self.parentPlayer.characters, index)
         end   

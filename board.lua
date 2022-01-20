@@ -1287,7 +1287,7 @@ function newGame()
 
 function board:load()
 
-    
+ 
         playerOne = {
 
             name = "Player One",
@@ -1313,6 +1313,7 @@ function board:load()
         loadAnimations() 
     -- loadSounds()
     -- musicPlayer()
+
     if isGameServer then return
       
     elseif isGameClient then return
