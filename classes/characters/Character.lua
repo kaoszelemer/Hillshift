@@ -588,11 +588,25 @@ end
 
 function Character:click(mX, mY)
 
-    if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) then
-        selectedChar = self
-        selectedChar.isActionMenuDrawn = true
-        gameState:changeState(gameState.states.selectCharacterAction)
-        return
+    if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
+        isGameServer and activePlayer == playerOne then
+            selectedChar = self
+            selectedChar.isActionMenuDrawn = true
+            gameState:changeState(gameState.states.selectCharacterAction)
+            return
+    elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
+        isGameClient and activePlayer == playerTwo then
+            selectedChar = self
+            selectedChar.isActionMenuDrawn = true
+            gameState:changeState(gameState.states.selectCharacterAction)
+            return
+    
+    elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
+        isGameClient ~= true and isGameServer ~= true then
+            selectedChar = self
+            selectedChar.isActionMenuDrawn = true
+            gameState:changeState(gameState.states.selectCharacterAction)
+            return
     end
 
     if selectedChar and selectedChar.parentPlayer ~= self.parentPlayer and gameState.state == gameState.states.selectAttackTargetCharacter then
