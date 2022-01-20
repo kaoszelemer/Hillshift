@@ -853,44 +853,7 @@ function Character:attack(enemy, nw)
 end
 
 
-function Character:spell(targetCell, id, etc)
-
-        if isGameServer and targetCell then
-
-            local ssend = {}
-           
-                ssend[1] = targetCell.x
-                ssend[2] = targetCell.y
-                ssend[3] = id
-                ssend[4] = etc
-                spellSentNw = true
-                print("CH: SPELL spellsentnw - serverside", spellSentNw)
-                server:sendToAll("server_characterspell", ssend)
-              
-
-        end
-
-        
-        if isGameClient and targetCell then
-                print("character:spell client side")
-                local clsend = {}
-                clsend[1] = targetCell.x
-                clsend[2] = targetCell.y
-                clsend[3] = id
-                clsend[4] = etc
-                spellSentNw = true
-                print("spellsentnw", spellSentNw)
-                client:send("client_characterspell", clsend)
-               
-        end
-
-  
-
-        
-   
-
-   
-
+function Character:spell(targetCell)
 end
 
 

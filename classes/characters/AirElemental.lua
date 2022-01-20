@@ -343,18 +343,12 @@ function AirElemental:blowSand(targetCell, tcx, tcy)
 end
 
 
-function AirElemental:spell(targetCell, selfid, etc)
+function AirElemental:spell(targetCell)
 
     local spreadX = 0
     local spreadY = 0
     local chanceOfBurning = love.math.random()
-          
-    if spellSentNw ~= true then
-        Character:spell(targetCell, self.id, chanceOfBurning)
-    end
-
-
-
+ 
     if self.actionPoints ~= 0 then
 
         for tcx = -1, 1 do
@@ -445,7 +439,6 @@ function AirElemental:spell(targetCell, selfid, etc)
         gameState:changeState(gameState.states.selectCharacter)
     end
 
-    spellSentNw = false
    
 
 end

@@ -215,30 +215,14 @@ end
 
 function Alchemist:spell(targetCell, selfid, etc)
         
-     
-        if spellSentNw ~= true then
-                local alchemistSpell
-                if pointerOnTopLeftSide then
-                        alchemistSpell = "tl"
-                elseif pointerOnTopRightSide then
-                        alchemistSpell = "tr"
-                elseif pointerOnBottomLeftSide then
-                        alchemistSpell = "bl"
-                elseif pointerOnBottomRightSide then
-                        alchemistSpell = "br"
-                end
-
-                Character:spell(targetCell, self.id, alchemistSpell)
-        end
-        
+    
         if self.actionPoints ~= 0 then
                 self:poisonBoardGrid(targetCell, selfid, etc)
                 self.actionPoints = self.actionPoints - 1
                 gameState:changeState(gameState.states.selectCharacter)
         end
 
-        spellSentNw = false
-
+ 
 
 end
 

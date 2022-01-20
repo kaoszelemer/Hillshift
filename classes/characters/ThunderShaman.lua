@@ -15,9 +15,7 @@ function ThunderShaman:update(dt)
 end
 
 function ThunderShaman:spell(targetCell)
-    if spellSentNw ~= true then
-        Character:spell(targetCell, self.id)
-    end
+ 
 
         if self.actionPoints ~= 0 then
     
@@ -133,7 +131,7 @@ function ThunderShaman:spell(targetCell)
         end
 
         Cell:resetParticleDrawing()
-        spellSentNw = false
+     
      
 
 

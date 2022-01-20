@@ -34,9 +34,7 @@ end
 
 
 function GeoGnome:spell(targetCell)
-    if spellSentNw ~= true then
-        Character:spell(targetCell, self.id)
-    end
+
 
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
@@ -91,7 +89,6 @@ function GeoGnome:spell(targetCell)
             end
         })
 
-    spellSentNw = false
 
 
 end

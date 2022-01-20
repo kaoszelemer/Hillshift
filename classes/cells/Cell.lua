@@ -191,6 +191,27 @@ function Cell:click()
     
     end
     if selectedChar and self.occupiedBy ~= selectedChar and gameState.state == gameState.states.selectSpellTargetArea then
+        
+        if isGameServer then
+            local ssend = {}
+            ssend[1] = self.x
+            ssend[2] = self.y
+            ssend[3] = selectedChar.id
+            print("Cell:click - spell serverside")
+            server:sendToAll("server_characterspell", ssend)
+        end
+
+        
+        if isGameClient then
+                local clsend = {}
+                clsend[1] = self.x
+                clsend[2] = self.y
+                clsend[3] = selectedChar.id
+                print("cell:click - spell client side")
+                client:send("client_characterspell", clsend)
+        end
+
+
             selectedChar:spell(self)
     end
 

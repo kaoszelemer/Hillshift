@@ -66,11 +66,7 @@ end
 
 function FireMage:spell(targetCell)
 
-        
-    if spellSentNw ~= true then
-        Character:spell(targetCell, self.id)
-    end
-
+  
 
     if self.actionPoints ~= 0 then
        --[[  self.ftTL = {}
@@ -506,7 +502,7 @@ function FireMage:spell(targetCell)
         gameState:changeState(gameState.states.selectCharacter)        
         
     end
-    spellSentNw = false
+   
 end
 
 end
