@@ -72,10 +72,10 @@ end
 
 
 
-function Alchemist:poisonBoardGrid(targetCell, selfid, etc)
+function Alchemist:poisonBoardGrid(targetCell)
 
            
-                        if pointerOnTopLeftSide or etc == "tl" then 
+                        if pointerOnTopLeftSide then 
                                 self.drawSpellTL = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -105,7 +105,7 @@ function Alchemist:poisonBoardGrid(targetCell, selfid, etc)
                                         end
                                 })
 
-                        elseif pointerOnTopRightSide or etc == "tr" then
+                        elseif pointerOnTopRightSide then
                                 self.drawSpellTR = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -136,7 +136,7 @@ function Alchemist:poisonBoardGrid(targetCell, selfid, etc)
                                                 end
                                         end
                                 })
-                        elseif pointerOnBottomLeftSide or etc == "bl" then
+                        elseif pointerOnBottomLeftSide then
                                 self.drawSpellBL = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -167,7 +167,7 @@ function Alchemist:poisonBoardGrid(targetCell, selfid, etc)
                                         end
                                 })
 
-                        elseif pointerOnBottomRightSide or etc == "br" then
+                        elseif pointerOnBottomRightSide then
                                 self.drawSpellBR = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -213,7 +213,7 @@ function Alchemist:poisonBoardGrid(targetCell, selfid, etc)
 end
 
 
-function Alchemist:spell(targetCell, selfid, etc)
+function Alchemist:spell(targetCell)
         
     
         if self.actionPoints ~= 0 then

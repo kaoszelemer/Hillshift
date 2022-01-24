@@ -6,7 +6,7 @@ function AirElemental:init(parentPlayer)
                 love.graphics.newImage("/graphics/airelementalsink.png"),
                 love.graphics.newImage("/graphics/airelementalsinkhover.png"),
                 parentPlayer, 1, 1, 
-                "INFO ABOUT AIRELEMENTAL:\n\nThe AirElemental can blow people,\nfire and sand what spreads randomly,\nbut people always move\nwhen blown.\nAir also clears poison.")
+                "INFO ABOUT AIRELEMENTAL:\n\nThe AirElemental can blow people,\nfire and sand what spreads randomly,\nbut people always move\nwhen blown.")
 end
 
 
@@ -363,6 +363,7 @@ function AirElemental:spell(targetCell)
                         if targetCell.y < self.y then  
                             
                             self:blowCharacter(targetCell, tcx, tcy)
+                            print(chanceOfBurning)
                             self:blowFire(targetCell, tcx, tcy, etc)
                             self:blowSand(targetCell, tcx, tcy)
                             self:clearPoison(targetCell, tcx, tcy)
