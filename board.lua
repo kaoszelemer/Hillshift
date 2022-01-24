@@ -1411,7 +1411,15 @@ function board:draw()
     
     drawBoardGrid()
     drawChests()
-    drawEndTurnButton()
+
+    if isGameServer and playerOne == activePlayer then
+        drawEndTurnButton()
+    elseif isGameClient and playerTwo == activePlayer then
+        drawEndTurnButton()
+    elseif isGameClient ~= true and isGameServer ~= true then
+        drawEndTurnButton()
+    end
+
     drawRectanglesIfHoveredOrOccupied()
     Cell:drawFireParticles()
     Character:drawHealthBar()
