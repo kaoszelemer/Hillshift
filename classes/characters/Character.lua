@@ -707,7 +707,6 @@ function Character:move(cx, cy, oldx, oldy)
 
     if self.stepPoints ~= 0 then
         
-        print(self.x, self.y)
         if self.x ~= nil and self.y ~= nil then
             boardGrid[self.x][self.y].isOccupied = false
             boardGrid[self.x][self.y].occupiedBy = nil

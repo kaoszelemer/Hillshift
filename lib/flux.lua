@@ -107,7 +107,7 @@ function tween:init()
   for k, v in pairs(self.vars) do
     local x = self.obj[k]
     if type(x) ~= "number" then
-      error("bad value on object key '" .. k .. "'; expected number")
+      error("bad value on object key '" .. k .. "'; expected number, this is what we got instead:"..v)
     end
     self.vars[k] = { start = x, diff = v - x }
   end

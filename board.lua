@@ -758,14 +758,12 @@ function moveCharactersToStartingPosition(arg)
             end
             currentChar.stepPoints = 1
         end
-   
-
     
 
     if gameState.state == gameState.states.selectCharacter then
         table.insert(sequenceBufferTable, {
             name = "creatingRandomizedBoard",
-            duration = 0.1,
+            duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
                 createBoardGrid()
@@ -777,11 +775,12 @@ function moveCharactersToStartingPosition(arg)
 
 
 
+
 end
 
 function createBoardGrid()
 
-        for y = 1, 10 do
+    for y = 1, 10 do
             for x = 1, 10 do 
                 table.insert(sequenceBufferTable, {
                     name = "creatingRandomizedBoard",
@@ -817,6 +816,8 @@ function createBoardGrid()
             end
            
         end
+
+
         table.insert(sequenceBufferTable, {
             name = "spawningachestforplayerOne",
             duration = 1.2,
@@ -1315,13 +1316,52 @@ function board:load()
     -- musicPlayer()
 
     if isGameServer then return
-      
-    elseif isGameClient then return
-    else
-        initPlayerDeck(playerOne)
-        initPlayerDeck(playerTwo)
-        moveCharactersToStartingPosition()
     end
+      
+    if isGameClient then return
+    end
+
+    initPlayerDeck(playerOne)
+    initPlayerDeck(playerTwo)      
+              
+    loadCharacterAnim()
+    
+    for i, currentChar in ipairs(playerOne.characters) do
+        if     i == 1 then 
+            currentChar.x = 5 
+            currentChar.y = 2 --5,2
+        elseif i == 2 then 
+            currentChar.x = 5 --5,3
+            currentChar.y = 3
+        elseif i == 3 then 
+            currentChar.x = 6 --6,2
+            currentChar.y = 2
+        elseif i == 4 then 
+            currentChar.x = 6
+            currentChar.y = 3 --6,3
+        end
+        currentChar.stepPoints = 1
+    end
+
+    for i, currentChar in ipairs(playerTwo.characters) do
+        if     i == 1 then 
+            currentChar.x = 5 
+            currentChar.y = 8 --5,2
+        elseif i == 2 then 
+            currentChar.x = 5 --5,3
+            currentChar.y = 9
+        elseif i == 3 then 
+            currentChar.x = 6 --6,2
+            currentChar.y = 8
+        elseif i == 4 then 
+            currentChar.x = 6
+            currentChar.y = 9 --6,3
+        end
+        currentChar.stepPoints = 1
+    end
+
+    createBoardGrid()
+    
 
    
 end

@@ -233,6 +233,7 @@ littleFont = love.graphics.newFont("EquipmentPro.ttf",14)
 
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
+mouseArrowP2 = love.graphics.newImage("/graphics/mousearrowp2.png")
 endGameImage = love.graphics.newImage("graphics/endgame.png")
 itemBackgroundImage = love.graphics.newImage("graphics/itembackgroundimage.png")
 musicOnImage = love.graphics.newImage("graphics/musicon.png")
@@ -1306,6 +1307,7 @@ function love.load(arg)
     Event:initEventTable()
     Item:initItemTable()
     selectStartingPlayer()
+
     --beallitasok
     love.window.setTitle("HillShift")
     love.graphics.setBackgroundColor(39 / 255,0,66 / 255)
