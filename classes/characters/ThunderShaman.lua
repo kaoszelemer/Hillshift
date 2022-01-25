@@ -128,11 +128,12 @@ function ThunderShaman:spell(targetCell)
 
         
             gameState:changeState(gameState.states.selectCharacter)
+            print("RND STATE AFTER SPELL Tundersemen: "..love.math.getRandomState())
         end
 
         Cell:resetParticleDrawing()
      
-        print("RND STATE AFTER SPELL Tundersemen: "..love.math.getRandomState())
+      
 
 
 

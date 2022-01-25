@@ -71,7 +71,7 @@ function GeoGnome:spell(targetCell)
                    
                 })
                     gameState:changeState(gameState.states.selectCharacter)
-
+                    print("RND STATE AFTER SPELL Gmon: "..love.math.getRandomState())
 
             end
         
@@ -92,7 +92,7 @@ function GeoGnome:spell(targetCell)
             end
         })
 
-        print("RND STATE AFTER SPELL Gmon: "..love.math.getRandomState())
+       
 
 
 end

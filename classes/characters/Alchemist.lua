@@ -220,9 +220,10 @@ function Alchemist:spell(targetCell, direction)
                 self:poisonBoardGrid(targetCell, direction)
                 self.actionPoints = self.actionPoints - 1
                 gameState:changeState(gameState.states.selectCharacter)
+                print("RND STATE AFTER SPELL Alch: "..love.math.getRandomState())
         end
 
-        print("RND STATE AFTER SPELL Alch: "..love.math.getRandomState())
+
 
 
 end

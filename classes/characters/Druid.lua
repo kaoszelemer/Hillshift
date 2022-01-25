@@ -228,11 +228,12 @@ local Druid = Character:extend("Druid")
             
             end
             gameState:changeState(gameState.states.selectCharacter)
+            print("RND STATE AFTER SPELL Drui: "..love.math.getRandomState())
             Cell:resetParticleDrawing()
         end
     end
 
-    print("RND STATE AFTER SPELL Drui: "..love.math.getRandomState())
+   
 
    
     end

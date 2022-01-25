@@ -279,6 +279,7 @@ function IceWizard:spell(targetCell)
         end
        
         gameState:changeState(gameState.states.selectCharacter)
+        print("RND STATE AFTER SPELL IW: "..love.math.getRandomState())
         end
     end
 
@@ -301,7 +302,7 @@ function IceWizard:spell(targetCell)
     })
     Cell:resetParticleDrawing()
 
-    print("RND STATE AFTER SPELL IW: "..love.math.getRandomState())
+
 
 end
 

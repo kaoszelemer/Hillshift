@@ -500,12 +500,12 @@ function FireMage:spell(targetCell)
         end
      
         gameState:changeState(gameState.states.selectCharacter)        
-        
+        print("RND STATE AFTER SPELL fire: "..love.math.getRandomState())
     end
    
 end
 
-print("RND STATE AFTER SPELL fire: "..love.math.getRandomState())
+
 
 
 end

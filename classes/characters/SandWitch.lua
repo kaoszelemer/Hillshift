@@ -104,7 +104,7 @@ end
                 
 
             gameState:changeState(gameState.states.selectCharacter)
-
+            print("RND STATE AFTER SPELL Switch: "..love.math.getRandomState())
         end
     end
     table.insert(sequenceBufferTable, {
@@ -120,7 +120,7 @@ end
     })
 
 
-    print("RND STATE AFTER SPELL Switch: "..love.math.getRandomState())
+  
 
     end
     
