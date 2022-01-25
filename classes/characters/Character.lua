@@ -54,7 +54,7 @@ function Character:update(dt)
     -- SPEECH BUBLES
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do   
+--[[     for _, currentChar in ipairs(activePlayer.characters) do   
         if currentChar.nextSpeakTime == nil or currentChar.nextSpeakTime < love.timer.getTime() then
             if currentChar.nextSpeakTime ~= nil then
                 local text = getTextForSpeech()
@@ -77,7 +77,7 @@ function Character:update(dt)
             end
             currentChar.nextSpeakTime = randomFunction(60,240,"characterupadte - next speak time") + love.timer.getTime()     
         end
-    end
+    end ]]
 
 
     -- ANIMATION UPDATES
