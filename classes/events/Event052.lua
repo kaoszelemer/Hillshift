@@ -27,14 +27,14 @@ end
 
 function Event052:eventFunction()
 
-    for x = 1, (love.math.random(1, 40)) do
+    for x = 1, (randomFunction(1, 40, "event52")) do
         table.insert(sequenceBufferTable, {
             name = "glassfactoryevent",
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                rndCellX = randomFunction(1, 10, "event52")
+                rndCellY = randomFunction(1, 10, "event52")
                 boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true
             end

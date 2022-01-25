@@ -63,7 +63,7 @@ function Character:update(dt)
                 currentChar.lastSpeakTime = love.timer.getTime()
                 print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = love.math.random(60,120) + love.timer.getTime()             
+            currentChar.nextSpeakTime = randomFunction(60,120,"characterupdate - next speak time") + love.timer.getTime()             
         end
     end
     for _, currentChar in ipairs(inactivePlayer.characters) do 
@@ -75,7 +75,7 @@ function Character:update(dt)
                 currentChar.lastSpeakTime = love.timer.getTime()
                 print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = love.math.random(60,240) + love.timer.getTime()     
+            currentChar.nextSpeakTime = randomFunction(60,240,"characterupadte - next speak time") + love.timer.getTime()     
         end
     end
 

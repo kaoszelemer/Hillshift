@@ -204,6 +204,7 @@ function Cell:click()
 
     
     end
+
     if selectedChar and self.occupiedBy ~= selectedChar and gameState.state == gameState.states.selectSpellTargetArea then
         
         if isGameServer then
@@ -297,8 +298,8 @@ function Cell:onEntry(character)
                                 duration = 0.3,
                                 sequenceTime = love.timer.getTime(),
                                 action = function()
-                                    currentChar.x = love.math.random(1, 10)
-                                    currentChar.y = love.math.random(1, 10)
+                                    currentChar.x = randomFunction(1, 10, "cell:onentry prison")
+                                    currentChar.y = randomFunction(1, 10, "cell:onentry prison")
                                     if boardGrid[currentChar.x][currentChar.y].isOccupied then
                                         currentChar.x = 1
                                         currentChar.y = 1

@@ -35,8 +35,8 @@ function Event074:eventFunction()
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                rndCellX = randomFunction(1, 10, "event74")
+                rndCellY = randomFunction(1, 10, "event74")
 
                 boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true

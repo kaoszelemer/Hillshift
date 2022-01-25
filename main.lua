@@ -245,6 +245,23 @@ selectedChar = nil
 --event tábla
 eventTable = {}
 
+function randomFunction(a, b, infotext)
+
+    local c
+
+    if a == nil and b == nil then
+        c = love.math.random()
+    else        
+        c = love.math.random(a, b)
+    end
+    
+    local d = love.math.getRandomState()
+    if activePlayer ~= nil then
+        print("** "..activePlayer.name.." has runned a randomfunction. The result is: "..c..". The function where it was runned is "..infotext.. ". The randomstate is: "..d)
+    end
+    return c
+end
+
 function sequenceProcessor()
 
 
@@ -353,13 +370,13 @@ function endTurn()
 
                 if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 3 then
 
-                    if love.math.random() < 0.25 then boardGrid[x][y] = Forest(x, y) end
-                    if love.math.random() < 0.25 then boardGrid[x][y] = Mount(x, y) end
-                    if love.math.random() < 0.25 then boardGrid[x][y] = Lake(x, y) end
-                    if love.math.random() < 0.25 then boardGrid[x][y] = Field(x, y) end
-                    if love.math.random() < 0.12 then boardGrid[x][y] = Desert(x, y) end
-                    if love.math.random() < 0.10 then boardGrid[x][y] = Swamp(x, y) end
-                    if love.math.random() < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Forest(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Mount(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Lake(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Field(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.12 then boardGrid[x][y] = Desert(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.10 then boardGrid[x][y] = Swamp(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
 
                 end
             
@@ -537,8 +554,8 @@ local function selectStartingPlayer()
 
    else
 
-        startingDicePlayerOne = love.math.random(1,6)
-        startingDicePlayerTwo = love.math.random(1,6)       
+        startingDicePlayerOne = randomFunction(1,6, "selectStartingPlayer")
+        startingDicePlayerTwo = randomFunction(1,6, "selectStartingPlayer")      
 
         if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 
@@ -698,7 +715,7 @@ end
 
 function getTextForSpeech()
 
-    textNumber = love.math.random(1, #speechBubbleTextTable)
+    textNumber = randomFunction(1, #speechBubbleTextTable, "getTextForSpeech")
     local tfs = speechBubbleTextTable[textNumber]
     return tfs
 
@@ -956,7 +973,7 @@ local function initNetworking(arg)
            
             client:send("randomseed", rng)
           
-            nextTurnBeforeEvent = love.math.random(5, 9)
+            nextTurnBeforeEvent = randomFunction(5, 9, "server:on connect - next turn before event")
             initPlayerDeck(playerOne)
             initPlayerDeck(playerTwo)      
                       
@@ -1153,7 +1170,7 @@ local function initNetworking(arg)
             print(rng[1])
             love.math.setRandomState(rng[1])
         
-            nextTurnBeforeEvent = love.math.random(5, 9)
+            nextTurnBeforeEvent = randomFunction(5, 9, "client on: connect")
 
            initPlayerDeck(playerOne)
            initPlayerDeck(playerTwo)
@@ -1303,7 +1320,7 @@ end
 function love.load(arg)
        --board betoltese
     if isGameClient ~= true and isGameServer ~= true then
-         nextTurnBeforeEvent = love.math.random(5, 9)
+         nextTurnBeforeEvent = randomFunction(5, 9, "Love:load - next turn before event")
     end
 
     initNetworking(arg)

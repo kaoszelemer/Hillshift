@@ -35,8 +35,8 @@ function Event025:eventFunction()
                 duration = 0.1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    rndCellX = love.math.random(1, 10)
-                    rndCellY = love.math.random(1, 10)
+                    rndCellX = randomFunction(1, 10, "event25")
+                    rndCellY = randomFunction(1, 10, "event25")
                     if boardGrid[x][y]:instanceOf(Forest) then 
                         boardGrid[x][y] = Field(x, y) 
                         boardGrid[x][y].isInstanced = true

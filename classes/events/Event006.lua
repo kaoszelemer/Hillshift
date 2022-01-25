@@ -30,8 +30,8 @@ function Event006:eventFunction()
    
 
     for x = 1, 40 do
-            rndCellX = love.math.random(1, 10)
-            rndCellY = love.math.random(1, 10)
+            rndCellX = randomFunction(1, 10, "event6")
+            rndCellY = randomFunction(1, 10, "event6")
             
             if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
                 boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 

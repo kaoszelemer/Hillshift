@@ -28,15 +28,15 @@ end
 function Event018:eventFunction()
 
 
-        for y = 1, (love.math.random(1,100)) do
+        for y = 1, (randomFunction(1,100, "event18")) do
             table.insert(sequenceBufferTable, {
                 name = "FlameThroWErEvent",
                 duration = 0.1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
     
-                    local rndCellX = love.math.random(1, 10)
-                    local rndCellY = love.math.random(1, 10)
+                    local rndCellX = randomFunction(1, 10, "event18")
+                    local rndCellY = randomFunction(1, 10, "event18")
                     if not boardGrid[rndCellX][rndCellY].isOnFire then boardGrid[rndCellX][rndCellY].isOnFire = true end
 
                         if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 

@@ -28,15 +28,15 @@ end
 function Event017:eventFunction()
 
 
-    for x = 1, (love.math.random(1, 100)) do
+    for x = 1, (randomFunction(1, 100, "event17")) do
         table.insert(sequenceBufferTable, {
             name = "MushroomDNAEvent",
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                rndCellX = randomFunction(1, 10, "event17")
+                rndCellY = randomFunction(1, 10, "event17")
                 boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true
             end

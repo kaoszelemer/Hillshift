@@ -230,7 +230,7 @@ function initPlayerDeck(player)
             table.insert(player.characters, IceWizard(player)) ]]
         
             while #player.characters ~= 4 do     
-                local cardNumber = love.math.random(1, #player.characters)
+                local cardNumber = randomFunction(1, #player.characters, "initPlayerDeck")
                 table.remove(player.characters, cardNumber)
             end
        
@@ -269,7 +269,7 @@ local function testBoardForOccupy(activeplayer, inactiveplayer)
 end
 
 function getDiceRoll()
-   local diceRoll = love.math.random(1, 6)
+   local diceRoll = randomFunction(1, 6, "getDiceRoll")
    return diceRoll
 end
 
@@ -685,7 +685,7 @@ local function initBoardgrid()
                     
                     selectedType = 4
             -- egyébként legyen random
-            --else    selectedType = love.math.random(1, #cellType)           
+               
             end
             -- a mezők adatai itt kerülnek be a táblázatba
             if      selectedType == 1 then boardGrid[x][y] = Forest(x, y)
@@ -703,8 +703,9 @@ end
 
 function spawnChestPlayerOne()
     
-    local rndCellX = love.math.random(1, 2) --1 3
-    local rndCellY = love.math.random(1, 4) --2 4
+    local rndCellX = randomFunction(1, 2, "spawnChestPlayerOne") --1 3
+    local rndCellY = randomFunction(1, 4, "spawnChestPlayerOne") --2 4
+
 
         if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
@@ -715,8 +716,8 @@ function spawnChestPlayerOne()
 end
 
 function spawnChestPlayerTwo()
-    local rndCellX = love.math.random(9, 10) --7 9
-    local rndCellY = love.math.random(7, 10) --6 9
+    local rndCellX = randomFunction(9, 10, "spawnChestPlayerTwo") --7 9
+    local rndCellY = randomFunction(7, 10, "spawnChestPlayerTwo") --6 9
 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
@@ -796,7 +797,7 @@ function createBoardGrid()
                                 
                                 selectedType = 4
                         -- egyébként legyen random
-                        else    selectedType = love.math.random(1, #cellType)           
+                        else    selectedType = randomFunction(1, #cellType, "createBoardGrid")           
                         end
                         -- a mezők adatai itt kerülnek be a táblázatba
                     
@@ -1238,7 +1239,7 @@ function newGame()
     chestCounter = 0
     turnCounter = 0
     eventTurnCounter = 0
-    nextTurnBeforeEvent = love.math.random(5, 9)
+    nextTurnBeforeEvent = randomFunction(5, 9, "newGame - next turn before event")
     print("initing player decks")
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
@@ -1254,8 +1255,8 @@ function newGame()
     print("moving characters to starting position")
     moveCharactersToStartingPosition()
 
-    startingDicePlayerOne = love.math.random(1, 6)
-    startingDicePlayerTwo = love.math.random(1, 6)
+    startingDicePlayerOne = randomFunction(1, 6, "newGame - starting dice player one")
+    startingDicePlayerTwo = randomFunction(1, 6, "newGame - starting dice player two")
 
     if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 

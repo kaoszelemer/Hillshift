@@ -35,9 +35,9 @@ function Event021:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                local chance = love.math.random()
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                local chance = randomFunction(nil, nil, "event21")
+                rndCellX = randomFunction(1, 10, "event21")
+                rndCellY = randomFunction(1, 10, "event21")
                 if chance < 0.2 and boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then
                      boardGrid[rndCellX][rndCellY] = MagicForest(rndCellX, rndCellY)
                      boardGrid[rndCellX][rndCellY].isInstanced = true

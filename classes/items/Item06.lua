@@ -25,7 +25,7 @@ function Item06:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
 
-    local chance = love.math.random()
+    local chance = randomFunction(nil, nil, "item6")
 
     if chance > 0.5 then
     character.baseAttack = character.baseAttack + 1

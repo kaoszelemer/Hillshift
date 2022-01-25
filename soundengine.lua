@@ -16,7 +16,7 @@ function soundEngine:playSFX(sound)
 
     if sound == "playrandomsound" then
 
-        local rnd = love.math.random(1,10)
+        local rnd = randomFunction(1,10,"soundengine playsfx")
         print(rnd)
         if rnd == 1 then
             uhhSounds.uh:play()

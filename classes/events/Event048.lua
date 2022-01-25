@@ -34,8 +34,8 @@ function Event048:eventFunction()
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                rndCellX = randomFunction(1, 10, "event48")
+                rndCellY = randomFunction(1, 10, "event48")
                 if not boardGrid[rndCellX][rndCellY].isPoisoned then
                     boardGrid[rndCellX][rndCellY].isPoisoned = true
                     boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
@@ -49,8 +49,8 @@ function Event048:eventFunction()
             duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
-                    rndCellX = love.math.random(1, 10)
-                    rndCellY = love.math.random(1, 10)
+                    rndCellX = randomFunction(1, 10, "event48")
+                    rndCellY = randomFunction(1, 10, "event48")
                     if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then
                          boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 
                          boardGrid[rndCellX][rndCellY].isInstanced = true
@@ -70,8 +70,8 @@ function Event048:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                rndCellX = randomFunction(1, 10, "event48")
+                rndCellY = randomFunction(1, 10, "event48")
                 if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end  
                 if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
                     table.insert(sequenceBufferTable, {

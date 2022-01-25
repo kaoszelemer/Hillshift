@@ -28,7 +28,7 @@ end
 function Event027:eventFunction()
 
     if activePlayer == playerOne then
-        local randomChar = love.math.random(1,#activePlayer.characters)
+        local randomChar = randomFunction(1,#activePlayer.characters, "event27")
 
         for i, currentChar in ipairs(activePlayer.characters) do
 

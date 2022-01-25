@@ -347,7 +347,7 @@ function AirElemental:spell(targetCell)
 
     local spreadX = 0
     local spreadY = 0
-    local chanceOfBurning = love.math.random()
+    local chanceOfBurning = randomFunction(nil, nil, "airelemental: spell")
  
     if self.actionPoints ~= 0 then
 

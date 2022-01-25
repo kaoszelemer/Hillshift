@@ -35,8 +35,8 @@ function Event014:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                local rndCellX = love.math.random(1,10)
-                local rndCellY = love.math.random(1,10)
+                local rndCellX = randomFunction(1,10, "event14")
+                local rndCellY = randomFunction(1,10, "event14")
                 if not boardGrid[rndCellX][rndCellY].isOccupied then
                     currentChar.stepPoints = currentChar.stepPoints + 1
                     currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)
@@ -51,8 +51,8 @@ function Event014:eventFunction()
             duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
-                local rndCellX = love.math.random(1,10)
-                local rndCellY = love.math.random(1,10)
+                local rndCellX = randomFunction(1,10, "event14")
+                local rndCellY = randomFunction(1,10, "event14")
                 if not boardGrid[rndCellX][rndCellY].isOccupied then
                         currentChar.stepPoints = currentChar.stepPoints + 1
                         currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)

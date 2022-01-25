@@ -134,7 +134,7 @@ end
 
 function Event:getNextEventID()
 
-    local nextEventID = love.math.random(1, #eventTable)
+    local nextEventID = randomFunction(1, #eventTable, "getnexteventid")
     return nextEventID
 
 end

@@ -27,15 +27,15 @@ end
 
 function Event005:eventFunction()
 
-    for x = 1, (love.math.random(1, 100)) do
+    for x = 1, (randomFunction(1, 100, "armageddon event")) do
         table.insert(sequenceBufferTable, {
             name = "DesertificationEvent",
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = love.math.random(1, 10)
-                rndCellY = love.math.random(1, 10)
+                rndCellX = randomFunction(1, 10, "armageddon evenet")
+                rndCellY = randomFunction(1, 10, "armageddon eveent")
                 if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then boardGrid[rndCellX][rndCellY] = Swamp(rndCellX, rndCellY)
                 elseif boardGrid[rndCellX][rndCellY].isOnFire then
                      boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)

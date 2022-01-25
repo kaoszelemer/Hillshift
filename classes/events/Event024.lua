@@ -28,12 +28,12 @@ end
 
 function Event024:eventFunction()
 
-    local randomChar = love.math.random(1, #inactivePlayer.characters)
+    local randomChar = randomFunction(1, #inactivePlayer.characters, "event24")
 
     for index, currentChar in ipairs(inactivePlayer.characters) do
         if randomChar == index then
-                local rndCellX = love.math.random(1,10)
-                local rndCellY = love.math.random(1,10)
+                local rndCellX = randomFunction(1,10, "event24")
+                local rndCellY = randomFunction(1,10, "event24")
             if not boardGrid[rndCellX][rndCellY].isOccupied then
                 currentChar.stepPoints = currentChar.stepPoints + 1
                 currentChar:move(rndCellX, rndCellY, currentChar.x, currentChar.y)

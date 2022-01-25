@@ -32,7 +32,7 @@ end
 
 local function getRandomItemFromItemTable()
 
-    local randomItem = love.math.random(1, #itemTable)
+    local randomItem = randomFunction(1, #itemTable, "getrandomitemfromitemtable")
     return randomItem
     
 end
