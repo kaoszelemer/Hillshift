@@ -518,13 +518,13 @@ function spawnPrison(player)
     if turnCounter < 20 then
         --print(playerOne.prisonCount, playerTwo.prisonCount)
         if player == playerTwo and playerTwo.prisonCount == 0 then
-            boardGrid[1][10] = Field(1, 10)
-            boardGrid[1][10].isPrison = true
+            boardGrid[3][8] = Field(3, 8)
+            boardGrid[3][8].isPrison = true
             playerTwo.prisonCount = playerTwo.prisonCount + 1
         end
         if player == playerOne and playerOne.prisonCount == 0 then
-            boardGrid[10][1] = Field(10, 1)
-            boardGrid[10][1].isPrison = true
+            boardGrid[8][3] = Field(8, 3)
+            boardGrid[8][3].isPrison = true
             playerOne.prisonCount = playerOne.prisonCount + 1
         end
     end

@@ -703,8 +703,8 @@ end
 
 function spawnChestPlayerOne()
     
-    local rndCellX = randomFunction(1, 2, "spawnChestPlayerOne") --1 3
-    local rndCellY = randomFunction(1, 4, "spawnChestPlayerOne") --2 4
+    local rndCellX = randomFunction(2, 3, "spawnChestPlayerOne") --1 3
+    local rndCellY = randomFunction(3, 4, "spawnChestPlayerOne") --2 4
 
 
         if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
@@ -717,7 +717,7 @@ end
 
 function spawnChestPlayerTwo()
     local rndCellX = randomFunction(9, 10, "spawnChestPlayerTwo") --7 9
-    local rndCellY = randomFunction(7, 10, "spawnChestPlayerTwo") --6 9
+    local rndCellY = randomFunction(6, 8, "spawnChestPlayerTwo") --6 9
 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
