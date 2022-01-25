@@ -65,6 +65,7 @@ function GeoGnome:spell(targetCell)
                     action = function()
                         
                         boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
+                        boardGrid[targetCell.x][targetCell.y].isInstanced = true
                        
                     end
                    
@@ -77,7 +78,7 @@ function GeoGnome:spell(targetCell)
     end
     table.insert(sequenceBufferTable, {
             name = "resetParticleDrawing",
-            duration = 1.5,
+            duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
@@ -85,6 +86,8 @@ function GeoGnome:spell(targetCell)
                 self.drawParticlesRight = false
                 self.drawParticlesTop = false
                 self.drawParticlesBottom = false
+
+                boardGrid[targetCell.x][targetCell.y]:resetParticleDrawing()
 
             end
         })

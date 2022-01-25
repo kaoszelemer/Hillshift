@@ -488,6 +488,13 @@ function newTurn()
 
 end
 
+function screenShake(duration, magnitude)
+
+   --[[  isScreenShake = true
+    shakeTime, shakeDuration, shakeMagnitude = 0, duration or 1, magnitude or 5
+ ]]
+end
+
 
 function spawnPrison(player)
     if turnCounter < 20 then
@@ -1359,8 +1366,13 @@ function love.update(dt)
     
     end
 
-  
-  
+    if isScreenShake then
+        if shakeTime < shakeDuration then
+                shakeTime = shakeTime + dt
+        else
+            isScreenShake = false
+        end
+    end
   
 
 
@@ -1368,7 +1380,13 @@ function love.update(dt)
 end
 
 function love.draw()
-
+ --[[    if isScreenShake then
+        if shakeTime < shakeDuration then
+            local dx = love.math.random(-shakeMagnitude, shakeMagnitude)
+            local dy = love.math.random(-shakeMagnitude, shakeMagnitude)
+            love.graphics.translate(dx, dy)
+        end
+    end ]]
     --scaling
     
     local screenWidth, screenHeight = love.window.getDesktopDimensions()
@@ -1478,7 +1496,7 @@ function love.draw()
 
     love.graphics.draw(mouseArrow, mouseX, mouseY)
 
-
+  
  
 end
 
@@ -1501,8 +1519,7 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
-
-  
+    
     local instance = clickSound:play()
 
     if x > width / 16 and x < (width / 16) + tileW and y > 0 and y < tileH then

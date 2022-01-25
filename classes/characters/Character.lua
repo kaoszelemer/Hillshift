@@ -838,7 +838,7 @@ function Character:attack(enemy, nw)
             local pp = "playrandomsound"
 
             soundEngine:playSFX(pp)
-
+         
    
 
             table.insert(sequenceBufferTable, {
