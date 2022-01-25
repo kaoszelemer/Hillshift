@@ -84,6 +84,9 @@ function soundEngine:load()
     local thunder = love.audio.newSource("/sounds/thunder.mp3", "static")
     thunderSound = ripple.newSound(thunder, {volume = 0.75, loop = false})
 
+    local water = love.audio.newSource("/sounds/water.mp3", "static")
+    waterSound = ripple.newSound(water, {volume = 0.75, loop = false})
+
     local uh = love.audio.newSource("/sounds/char_uh.mp3", "static")
     local uh1 = love.audio.newSource("/sounds/char_uh1.mp3", "static")
     local uh2 = love.audio.newSource("/sounds/char_uh2.mp3", "static")
@@ -118,7 +121,7 @@ function soundEngine:load()
     deathSound = ripple.newSound(death, {volume = 0.75, loop = false})
 
     local endturn = love.audio.newSource("/sounds/endturn.mp3", "static")
-    endTurnSound = ripple.newSound(endturn, {volume = 0.12, loop = false})
+    endTurnSound = ripple.newSound(endturn, {volume = 0.5, loop = false})
 
     if isMusicOn then local instance = mainThemeMusic:play() end
 
