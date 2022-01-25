@@ -117,6 +117,8 @@ function soundEngine:load()
     local death = love.audio.newSource("/sounds/char_death.mp3", "static")
     deathSound = ripple.newSound(death, {volume = 0.75, loop = false})
 
+    local endturn = love.audio.newSource("/sounds/endturn.mp3", "static")
+    endTurnSound = ripple.newSound(endturn, {volume = 0.12, loop = false})
 
     if isMusicOn then local instance = mainThemeMusic:play() end
 

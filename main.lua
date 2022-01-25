@@ -262,6 +262,7 @@ function sequenceProcessor()
 end
 
 function endTurn()
+    soundEngine:playSFX(endTurnSound)
     isFirstTurn = false
     drawAttack = false
     turnCounter = turnCounter + 1
