@@ -439,7 +439,8 @@ function AirElemental:spell(targetCell)
         gameState:changeState(gameState.states.selectCharacter)
     end
 
-   
+    print("RND STATE AFTER SPELL AirE: "..love.math.getRandomState())
+
 
 end
     

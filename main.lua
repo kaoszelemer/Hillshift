@@ -453,6 +453,9 @@ function endTurn()
         gameState:changeState(gameState.states.selectCharacter)
 
     end
+
+    print("RND STATE IN ENDTURN: "..love.math.getRandomState())
+
 end
 
 function newTurn()
@@ -1059,13 +1062,16 @@ local function initNetworking(arg)
             local x = bs[1]
             local y = bs[2]
             local id = bs[3]
-           
+            local dir = bs[4]
 
             print("client doing spell on x: "..x.." y: "..y)
 
             if activePlayer == playerTwo then
                 for _, currentChar in ipairs(activePlayer.characters) do
-                    if id == currentChar.id then
+                    if id == currentChar.id and id == 2 then
+                        currentChar:spell(boardGrid[x][y], dir)
+                    
+                    elseif id == currentChar.id then
                         currentChar:spell(boardGrid[x][y])
                     end
                 end
@@ -1235,12 +1241,16 @@ local function initNetworking(arg)
             local x = bs[1]
             local y = bs[2]
             local id = bs[3]
+            local dir = bs[4]
         
             print("server doing spell on x: "..x.." y: "..y)
 
             if activePlayer == playerOne then
                 for _, currentChar in ipairs(activePlayer.characters) do
-                    if id == currentChar.id then
+                    if id == currentChar.id and id == 2 then
+                        currentChar:spell(boardGrid[x][y], dir)
+                    
+                    elseif id == currentChar.id then
                         currentChar:spell(boardGrid[x][y])
                     end
                 end

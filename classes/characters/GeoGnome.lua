@@ -89,6 +89,7 @@ function GeoGnome:spell(targetCell)
             end
         })
 
+        print("RND STATE AFTER SPELL Gmon: "..love.math.getRandomState())
 
 
 end

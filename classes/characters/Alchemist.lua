@@ -72,10 +72,10 @@ end
 
 
 
-function Alchemist:poisonBoardGrid(targetCell)
+function Alchemist:poisonBoardGrid(targetCell, direction)
 
            
-                        if pointerOnTopLeftSide then 
+                        if pointerOnTopLeftSide or direction == "tl" then 
                                 self.drawSpellTL = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -105,7 +105,7 @@ function Alchemist:poisonBoardGrid(targetCell)
                                         end
                                 })
 
-                        elseif pointerOnTopRightSide then
+                        elseif pointerOnTopRightSide  or direction == "tr" then
                                 self.drawSpellTR = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -136,7 +136,7 @@ function Alchemist:poisonBoardGrid(targetCell)
                                                 end
                                         end
                                 })
-                        elseif pointerOnBottomLeftSide then
+                        elseif pointerOnBottomLeftSide  or direction == "bl" then
                                 self.drawSpellBL = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -167,7 +167,7 @@ function Alchemist:poisonBoardGrid(targetCell)
                                         end
                                 })
 
-                        elseif pointerOnBottomRightSide then
+                        elseif pointerOnBottomRightSide  or direction == "br" then
                                 self.drawSpellBR = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -213,16 +213,17 @@ function Alchemist:poisonBoardGrid(targetCell)
 end
 
 
-function Alchemist:spell(targetCell)
+function Alchemist:spell(targetCell, direction)
         
     
         if self.actionPoints ~= 0 then
-                self:poisonBoardGrid(targetCell)
+                self:poisonBoardGrid(targetCell, direction)
                 self.actionPoints = self.actionPoints - 1
                 gameState:changeState(gameState.states.selectCharacter)
         end
 
- 
+        print("RND STATE AFTER SPELL Alch: "..love.math.getRandomState())
+
 
 end
 

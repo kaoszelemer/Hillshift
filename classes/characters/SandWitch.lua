@@ -118,6 +118,10 @@ end
             Cell:resetParticleDrawing()
         end
     })
+
+
+    print("RND STATE AFTER SPELL Switch: "..love.math.getRandomState())
+
     end
     
 return SandWitch

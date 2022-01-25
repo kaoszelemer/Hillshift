@@ -300,6 +300,9 @@ function IceWizard:spell(targetCell)
         end
     })
     Cell:resetParticleDrawing()
+
+    print("RND STATE AFTER SPELL IW: "..love.math.getRandomState())
+
 end
 
 

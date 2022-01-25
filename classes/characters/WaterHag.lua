@@ -127,7 +127,8 @@ function WaterHag:spell(targetCell)
     end
     gameState:changeState(gameState.states.selectCharacter)
     Cell:resetParticleDrawing()
-  
+    print("RND STATE AFTER SPELL Whag: "..love.math.getRandomState())
+
 end
 
 

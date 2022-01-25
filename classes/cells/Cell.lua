@@ -204,6 +204,25 @@ function Cell:click()
             ssend[1] = self.x
             ssend[2] = self.y
             ssend[3] = selectedChar.id
+
+                if selectedChar.id == 2 then
+
+                    local direction
+
+                    if pointerOnTopLeftSide then 
+                        direction = "tl"
+                    elseif pointerOnTopRightSide then
+                        direction = "tr"
+                    elseif pointerOnBottomRightSide then
+                        direction = "br"
+                    elseif pointerOnBottomLeftSide then
+                        direction = "bl"
+                    end
+                
+                    ssend[4] = direction
+                
+                end
+
             print("Cell:click - spell serverside")
             server:sendToAll("server_characterspell", ssend)
         end
@@ -215,11 +234,35 @@ function Cell:click()
                 clsend[2] = self.y
                 clsend[3] = selectedChar.id
                 print("cell:click - spell client side")
+
+                if selectedChar.id == 2 then
+
+                    local direction
+
+                    if pointerOnTopLeftSide then 
+                        direction = "tl"
+                    elseif pointerOnTopRightSide then
+                        direction = "tr"
+                    elseif pointerOnBottomRightSide then
+                        direction = "br"
+                    elseif pointerOnBottomLeftSide then
+                        direction = "bl"
+                    end
+                
+                    clsend[4] = direction
+                
+                end
+
+
+
                 client:send("client_characterspell", clsend)
         end
 
 
             selectedChar:spell(self)
+
+           
+
     end
 
 end

@@ -630,7 +630,6 @@ function Character:click(mX, mY)
 
                 
                     selectedChar:attack(self)
-
         end
     end
  
@@ -746,6 +745,9 @@ function Character:move(cx, cy, oldx, oldy)
                     
                
     end
+
+    print("RND STATE IN MOVE: "..love.math.getRandomState())
+
    
 end
 
@@ -849,7 +851,7 @@ function Character:attack(enemy, nw)
 
            
             })
-            print(love.math.getRandomState())
+            print("RND STATE IN ATTACK: "..love.math.getRandomState())
         end
     })
    

@@ -505,6 +505,9 @@ function FireMage:spell(targetCell)
    
 end
 
+print("RND STATE AFTER SPELL fire: "..love.math.getRandomState())
+
+
 end
    
 return FireMage

@@ -132,7 +132,8 @@ function ThunderShaman:spell(targetCell)
 
         Cell:resetParticleDrawing()
      
-     
+        print("RND STATE AFTER SPELL Tundersemen: "..love.math.getRandomState())
+
 
 
      

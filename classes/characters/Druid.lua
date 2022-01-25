@@ -232,6 +232,8 @@ local Druid = Character:extend("Druid")
         end
     end
 
+    print("RND STATE AFTER SPELL Drui: "..love.math.getRandomState())
+
    
     end
     
