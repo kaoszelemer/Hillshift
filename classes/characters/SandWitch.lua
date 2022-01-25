@@ -116,6 +116,7 @@ end
             self.drawSpellLeft = false
             self.drawSpellRight = false
             Cell:resetParticleDrawing()
+            soundEngine:playSFX(desertSound)
         end
     })
 

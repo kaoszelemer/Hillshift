@@ -720,6 +720,7 @@ function Character:move(cx, cy, oldx, oldy)
             
             --networking
             
+            soundEngine:playSFX(stepSound)
 
         
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
@@ -837,6 +838,7 @@ function Character:attack(enemy, nw)
 
             local pp = "playrandomsound"
 
+            soundEngine:playSFX(knifeSound)
             soundEngine:playSFX(pp)
          
    

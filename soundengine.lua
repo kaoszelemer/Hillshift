@@ -86,6 +86,27 @@ function soundEngine:load()
 
     local water = love.audio.newSource("/sounds/water.mp3", "static")
     waterSound = ripple.newSound(water, {volume = 0.75, loop = false})
+  
+    local air = love.audio.newSource("/sounds/airblow.mp3", "static")
+    airBlowSound = ripple.newSound(air, {volume = 0.75, loop = false})
+  
+    local knife = love.audio.newSource("/sounds/knife.mp3", "static")
+    knifeSound = ripple.newSound(knife, {volume = 0.75, loop = false})
+  
+    local forest = love.audio.newSource("/sounds/forest.mp3", "static")
+    forestSound = ripple.newSound(forest, {volume = 0.75, loop = false})
+  
+    local desert = love.audio.newSource("/sounds/desert.mp3", "static")
+    desertSound = ripple.newSound(desert, {volume = 0.75, loop = false})
+  
+    local ice = love.audio.newSource("/sounds/ice.mp3", "static")
+    iceSound = ripple.newSound(ice, {volume = 0.75, loop = false})
+  
+    local poison = love.audio.newSource("/sounds/poison.mp3", "static")
+    poisonSound = ripple.newSound(poison, {volume = 0.5, loop = false})
+
+    local step = love.audio.newSource("/sounds/step.mp3", "static")
+    stepSound = ripple.newSound(step, {volume = 0.5, loop = false})
 
     local uh = love.audio.newSource("/sounds/char_uh.mp3", "static")
     local uh1 = love.audio.newSource("/sounds/char_uh1.mp3", "static")

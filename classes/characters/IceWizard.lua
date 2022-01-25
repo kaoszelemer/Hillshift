@@ -301,6 +301,7 @@ function IceWizard:spell(targetCell)
         end
     })
     Cell:resetParticleDrawing()
+    soundEngine:playSFX(iceSound)
 
 
 
