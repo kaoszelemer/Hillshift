@@ -748,7 +748,7 @@ function moveCharactersToStartingPosition(arg)
             elseif i == 3 then currentChar:move(6, 5) --6,2
             elseif i == 4 then currentChar:move(6, 6) --6,3
             end
-            currentChar.stepPoints = 1
+            currentChar.stepPoints = 2
         end
 
         for i, currentChar in ipairs(playerTwo.characters) do
@@ -757,7 +757,7 @@ function moveCharactersToStartingPosition(arg)
             elseif i == 3 then currentChar:move(6, 8) --6,8
             elseif i == 4 then currentChar:move(6, 9) --6,9
             end
-            currentChar.stepPoints = 1
+            currentChar.stepPoints = 2
         end
     
 
@@ -1341,7 +1341,7 @@ function board:load()
             currentChar.x = 6
             currentChar.y = 3 --6,3
         end
-        currentChar.stepPoints = 1
+        currentChar.stepPoints = 2
     end
 
     for i, currentChar in ipairs(playerTwo.characters) do
@@ -1358,7 +1358,7 @@ function board:load()
             currentChar.x = 6
             currentChar.y = 9 --6,3
         end
-        currentChar.stepPoints = 1
+        currentChar.stepPoints = 2
     end
 
     createBoardGrid()

@@ -400,7 +400,7 @@ function endTurn()
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar.defenseCounter = 0
-        currentChar.stepPoints = 1
+        currentChar.stepPoints = 2
         currentChar.actionPoints = 1
         if currentChar.stepPointModify then 
             currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
@@ -993,7 +993,7 @@ local function initNetworking(arg)
                     currentChar.x = 6
                     currentChar.y = 3 --6,3
                 end
-                currentChar.stepPoints = 1
+                currentChar.stepPoints = 2
             end
     
             for i, currentChar in ipairs(playerTwo.characters) do
@@ -1010,7 +1010,7 @@ local function initNetworking(arg)
                     currentChar.x = 6
                     currentChar.y = 9 --6,3
                 end
-                currentChar.stepPoints = 1
+                currentChar.stepPoints = 2
             end
 
               table.insert(sequenceBufferTable, {
@@ -1193,7 +1193,7 @@ local function initNetworking(arg)
                     currentChar.x = 6
                     currentChar.y = 3 --6,3
                 end
-                currentChar.stepPoints = 1
+                currentChar.stepPoints = 2
             end
 
             for i, currentChar in ipairs(playerTwo.characters) do
@@ -1210,7 +1210,7 @@ local function initNetworking(arg)
                     currentChar.x = 6
                     currentChar.y = 9 --6,3
                 end
-                currentChar.stepPoints = 1
+                currentChar.stepPoints = 2
             end
 
             table.insert(sequenceBufferTable, {
