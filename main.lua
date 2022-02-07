@@ -433,6 +433,22 @@ function endTurn()
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end
+
+
+        if currentChar.isPoisoned then
+            print(turnCounter - currentChar.poisoningTurn)
+            if turnCounter - currentChar.poisoningTurn == 3 then
+                currentChar.isPoisoned = false
+             
+            end
+            if turnCounter - currentChar.poisoningTurn == 1 then
+                currentChar.baseHP = currentChar.baseHP - 2
+            end
+            if turnCounter - currentChar.poisoningTurn == 2 then
+                currentChar.baseHP = currentChar.baseHP - 1
+            end
+        end   
+
         if currentChar.baseHP <= 0 then currentChar:kill() end
       
     end
@@ -453,7 +469,18 @@ function endTurn()
         end
         local cell = boardGrid[currentChar.x][currentChar.y]
 
-     
+        if currentChar.isPoisoned then
+            if turnCounter - currentChar.poisoningTurn == 3 then
+                currentChar.isPoisoned = false
+            end
+            if turnCounter - currentChar.poisoningTurn == 1 then
+                currentChar.baseHP = currentChar.baseHP - 2
+            end
+            if turnCounter - currentChar.poisoningTurn == 2 then
+                currentChar.baseHP = currentChar.baseHP - 1
+               
+            end
+        end           
 
 
         if cell.isFrozen then

@@ -70,9 +70,8 @@ end
                         action = function()
                             if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then
                                 boardGrid[self.x][self.y - 1] = Swamp(self.x, self.y - 1)
-                                if boardGrid[self.x][self.y - 1].isOccupied then
                                     for index, currentChar in ipairs (activePlayer.characters) do
-                                        if currentChar.x == self.x and currentChar.y == self.y - 1 then
+                                        if currentChar.x == self.x and currentChar.y == self.y + 1 then
                                             if currentChar.stepPoints == 1 then
                                                 currentChar.stepPoints = currentChar.stepPoints - 1
                                             elseif currentChar.stepPoints == 2 then
@@ -80,11 +79,12 @@ end
                                             end
                                         end
                                     end
-                                end
+                                
+                                
                             else
                                 boardGrid[self.x][self.y - 1] = Desert(self.x, self.y - 1)
                                 boardGrid[self.x][self.y - 1].isInstanced = true
-                                if boardGrid[self.x][self.y - 1].isOccupied then
+                                
                                     for index, currentChar in ipairs (activePlayer.characters) do
                                         if currentChar.x == self.x and currentChar.y == self.y - 1 then
                                             if currentChar.stepPoints ~= 0 then
@@ -92,7 +92,7 @@ end
                                             end
                                         end
                                     end
-                                end
+                                
                             end
                         end
                     })
@@ -113,8 +113,6 @@ end
                         action = function()
                             if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then
                                 boardGrid[self.x][self.y + 1] = Swamp(self.x, self.y + 1)
-                                if boardGrid[self.x][self.y + 1].isOccupied then
-                               
                                     for index, currentChar in ipairs (activePlayer.characters) do
                                         if currentChar.x == self.x and currentChar.y == self.y + 1 then
                                             if currentChar.stepPoints == 1 then
@@ -124,12 +122,11 @@ end
                                             end
                                         end
                                     end
-                                end
+                                
                             else
                                 boardGrid[self.x][self.y + 1] = Desert(self.x, self.y + 1)
                                 boardGrid[self.x][self.y + 1].isInstanced = true
                                 print(self.x, self.y, boardGrid[self.x][self.y + 1].isOccupied)
-                                if boardGrid[self.x][self.y + 1].isOccupied then
                                   
                                     for index, currentChar in ipairs (activePlayer.characters) do
                                         if currentChar.x == self.x and currentChar.y == self.y + 1 then
@@ -138,7 +135,7 @@ end
                                             end
                                         end
                                     end
-                                end
+                            
                             end
                         end
                     })

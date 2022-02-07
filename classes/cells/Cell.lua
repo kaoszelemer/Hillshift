@@ -343,6 +343,47 @@ function Cell:onEntry(character)
         end
     end
 
+    if self.isOnFire then
+
+        for index, currentChar in ipairs(activePlayer.characters) do
+            if currentChar == selectedChar then
+                currentChar.baseHP = currentChar.baseHP - 5
+            end
+
+        end
+
+        for index, currentChar in ipairs(inactivePlayer.characters) do
+            if currentChar == selectedChar then
+                currentChar.baseHP = currentChar.baseHP - 5
+            end
+
+        end
+    end
+
+    if self.isPoisoned then
+
+        for index, currentChar in ipairs(activePlayer.characters) do
+            if currentChar == selectedChar then
+                currentChar.baseHP = currentChar.baseHP - 3
+                currentChar.isPoisoned = true
+                currentChar.poisoningTurn = turnCounter
+            end
+        end
+    
+            for index, currentChar in ipairs(inactivePlayer.characters) do
+                if currentChar == selectedChar then
+                    currentChar.baseHP = currentChar.baseHP - 3
+                    currentChar.isPoisoned = true
+                    currentChar.poisoningTurn = turnCounter
+                end
+            end
+        end
+    
+
+
+
+
+
 
 
 

@@ -498,9 +498,25 @@ function FireMage:spell(targetCell)
             })
     
         end
+
+        table.insert(sequenceBufferTable, {
+            name = "burningCharacters",
+            duration = 0.1,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                    for x = 1, 10 do
+                            for y = 1, 10 do
+
+                                    if boardGrid[x][y].isOnFire and boardGrid[x][y].occupiedBy ~= nil  then
+                                        
+                                            boardGrid[x][y].occupiedBy.baseHP =  boardGrid[x][y].occupiedBy.baseHP - 5
+                                    end
+                            end
+                    end
+            end})
      
         gameState:changeState(gameState.states.selectCharacter)        
-        print("RND STATE AFTER SPELL fire: "..love.math.getRandomState())
     end
    
 end
