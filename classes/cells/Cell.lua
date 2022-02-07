@@ -15,9 +15,21 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
     self.drawLightning = 0
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
+    
 end
 
+function Cell:update(dt)
 
+    for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y].drawDamageOnBoard == true then
+                dmgTween:update(dt)
+              
+            end
+        end
+    end
+
+end
 
 function Cell:moveSelectedCharIfValidOffset(ox, oy)
     
@@ -151,6 +163,58 @@ function Cell:drawLightningOnBoard()
             end
         end
     end
+
+
+end
+
+function Cell:damageOnBoard(dmg)
+
+ 
+    for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y].drawDamageOnBoard == true then
+
+                dmgToDraw = { x=(x * tileW + offsetX), y = y * tileH + offsetY, text = dmg }
+                dmgTween = tween.new(1, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
+                boardGrid[x][y].drawDamageTime = love.timer.getTime()
+                
+              
+            end
+        end
+    end
+
+end
+
+function Cell:drawDamageOnBoard()
+
+    for x = 1, 10 do
+        for y = 1, 10 do
+            if boardGrid[x][y].drawDamageOnBoard == true then
+               
+                local duration = 2
+                if love.timer.getTime() - boardGrid[x][y].drawDamageTime <= duration then
+        
+                    love.graphics.setColor(yellowColor)
+                    love.graphics.setFont(font)
+                    love.graphics.print("-"..dmgToDraw.text, dmgToDraw.x + 1, dmgToDraw.y - 1)
+                    love.graphics.setColor(charColor)
+                
+                    love.graphics.setColor(selectedColor)
+                    love.graphics.setFont(font)
+                    love.graphics.print("-"..dmgToDraw.text, dmgToDraw.x, dmgToDraw.y)
+                    love.graphics.setColor(charColor)
+                else
+                    boardGrid[x][y].drawDamageOnBoard = false
+
+                end
+                
+            end
+                        
+        end
+    end
+
+
+
 
 
 end
@@ -344,17 +408,23 @@ function Cell:onEntry(character)
     end
 
     if self.isOnFire then
-
+        local fireDamage = 5
         for index, currentChar in ipairs(activePlayer.characters) do
             if currentChar == selectedChar then
-                currentChar.baseHP = currentChar.baseHP - 5
+                currentChar.baseHP = currentChar.baseHP - fireDamage
+                boardGrid[self.x][self.y].drawDamageOnBoard = true
+                boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
+                self:damageOnBoard(fireDamage)
             end
 
         end
 
         for index, currentChar in ipairs(inactivePlayer.characters) do
             if currentChar == selectedChar then
-                currentChar.baseHP = currentChar.baseHP - 5
+                currentChar.baseHP = currentChar.baseHP - fireDamage
+                boardGrid[self.x][self.y].drawDamageOnBoard = true
+                boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
+                self:damageOnBoard(fireDamage)
             end
 
         end

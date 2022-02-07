@@ -66,7 +66,7 @@ end
 
 function FireMage:spell(targetCell)
 
-  
+    local spellDamage = 5
 
     if self.actionPoints ~= 0 then
        --[[  self.ftTL = {}
@@ -86,8 +86,7 @@ function FireMage:spell(targetCell)
                 flux.to(self.ftTL, 0.5, {x = nx, y = ny}):ease("expoout")
 
                 soundEngine:playSFX(fireBallSound)
-                print('sfx')
-
+                
             table.insert(sequenceBufferTable, {
                 name = "FireMageSpellTopLeftCell",
                 duration = 0.2,
@@ -96,6 +95,14 @@ function FireMage:spell(targetCell)
 
                     
                     boardGrid[self.x - 1][self.y - 1].isOnFire = true
+
+                    if boardGrid[self.x - 1][self.y - 1].isOccupied then
+                        boardGrid[self.x - 1][self.y - 1].occupiedBy.baseHP =  boardGrid[self.x - 1][self.y - 1].occupiedBy.baseHP - spellDamage
+                        boardGrid[self.x - 1][self.y - 1].drawDamageOnBoard = true
+                        boardGrid[self.x - 1][self.y - 1].drawDamageTime = love.timer.getTime()
+                        Cell:damageOnBoard(spellDamage)
+                    end
+
                     boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
 
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
@@ -178,7 +185,7 @@ function FireMage:spell(targetCell)
                     self.drawSpellTL = false
                 end
             })
-
+            
         end
 
         if self.x + 1 <= 10 and self.y - 1 > 0 then
@@ -199,6 +206,14 @@ function FireMage:spell(targetCell)
                 action = function()
 
                     boardGrid[self.x + 1][self.y - 1].isOnFire = true
+
+                    if  boardGrid[self.x + 1][self.y - 1].isOccupied then
+                        boardGrid[self.x + 1][self.y - 1].occupiedBy.baseHP =  boardGrid[self.x + 1][self.y - 1].occupiedBy.baseHP - spellDamage
+                        boardGrid[self.x + 1][self.y - 1].drawDamageOnBoard = true
+                        boardGrid[self.x + 1][self.y - 1].drawDamageTime = love.timer.getTime()
+                        Cell:damageOnBoard(spellDamage)
+                    end
+
                     boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
 
                     if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
@@ -306,6 +321,12 @@ function FireMage:spell(targetCell)
                 action = function()
 
                     boardGrid[self.x - 1][self.y + 1].isOnFire = true
+                    if boardGrid[self.x - 1][self.y + 1].isOccupied then
+                        boardGrid[self.x - 1][self.y + 1].occupiedBy.baseHP =  boardGrid[self.x - 1][self.y + 1].occupiedBy.baseHP - spellDamage
+                        boardGrid[self.x - 1][self.y + 1].drawDamageOnBoard = true
+                        boardGrid[self.x - 1][self.y + 1].drawDamageTime = love.timer.getTime()
+                        Cell:damageOnBoard(spellDamage)
+                    end
                     boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
                     
                 
@@ -410,6 +431,14 @@ function FireMage:spell(targetCell)
                 sequenceTime = love.timer.getTime(),
                 action = function()
                     boardGrid[self.x + 1][self.y + 1].isOnFire = true
+
+                    if boardGrid[self.x + 1][self.y + 1].isOccupied then
+                        boardGrid[self.x + 1][self.y + 1].occupiedBy.baseHP =  boardGrid[self.x + 1][self.y + 1].occupiedBy.baseHP - spellDamage
+                        boardGrid[self.x + 1][self.y + 1].drawDamageOnBoard = true
+                        boardGrid[self.x + 1][self.y + 1].drawDamageTime = love.timer.getTime()
+                        Cell:damageOnBoard(spellDamage)
+                    end
+                    
                     boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
 
                     
@@ -500,21 +529,19 @@ function FireMage:spell(targetCell)
         end
 
         table.insert(sequenceBufferTable, {
-            name = "burningCharacters",
-            duration = 0.1,
+            name = "resetdamagedraw",
+            duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
-
-                    for x = 1, 10 do
-                            for y = 1, 10 do
-
-                                    if boardGrid[x][y].isOnFire and boardGrid[x][y].occupiedBy ~= nil  then
-                                        
-                                            boardGrid[x][y].occupiedBy.baseHP =  boardGrid[x][y].occupiedBy.baseHP - 5
-                                    end
-                            end
+                for x = 1, 10 do
+                    for y = 1, 10 do
+                        boardGrid[x][y].drawDamageOnBoard = false
                     end
-            end})
+                end
+
+            end
+        })
+  
      
         gameState:changeState(gameState.states.selectCharacter)        
     end

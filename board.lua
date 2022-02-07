@@ -1369,7 +1369,7 @@ end
 
 function board:update(dt)
 
-   
+  
     --if sequenceBufferTable
     if drawAttack then
         fnumberTween:update(dt)
@@ -1401,7 +1401,7 @@ function board:update(dt)
   
 
     testBoardForOccupy(activePlayer, inactivePlayer)
-  
+    Cell:update(dt)
    
 end
 
@@ -1443,6 +1443,7 @@ function board:draw()
    
     drawAttackOnBoard()
     drawDamageFlyingNumbers()
+    Cell:drawDamageOnBoard()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()

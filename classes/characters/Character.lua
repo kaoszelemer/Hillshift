@@ -50,6 +50,9 @@ function Character:update(dt)
         drawAttackAnim = false
     end
 
+  
+
+
 
     -- SPEECH BUBLES
 
