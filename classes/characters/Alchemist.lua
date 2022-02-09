@@ -108,7 +108,7 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                         end
                                 })
 
-                                print(tc[1], "sdjsapdoadspoksakopdkopsakopsdakopskop")
+                     
 
                         elseif pointerOnTopRightSide  or direction == "tr" then
                                 self.drawSpellTR = true
@@ -202,10 +202,14 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                         for x = 1, 10 do
                                                 for y = 1, 10 do
 
-                                                        if boardGrid[x][y].isPoisoned and boardGrid[x][y].occupiedBy ~= nil  then
+                                                        if boardGrid[x][y].isPoisoned and boardGrid[x][y].occupiedBy ~= nil and boardGrid[x][y].occupiedBy.isPoisoned ~= true then
                                                                 boardGrid[x][y].occupiedBy.isPoisoned = true
                                                                 boardGrid[x][y].occupiedBy.poisoningTurn = turnCounter
                                                                 boardGrid[x][y].occupiedBy.baseHP =  boardGrid[x][y].occupiedBy.baseHP - 3
+                                                                boardGrid[x][y].drawDamageOnBoard = true
+                                                                boardGrid[x][y].drawDamageTime = love.timer.getTime()
+                                                                boardGrid[x][y]:damageOnBoard(3)
+
                                                         end
                                                 end
                                         end

@@ -432,19 +432,27 @@ function Cell:onEntry(character)
 
     if self.isPoisoned then
 
+        local poisonDamage = 3
+
         for index, currentChar in ipairs(activePlayer.characters) do
-            if currentChar == selectedChar then
-                currentChar.baseHP = currentChar.baseHP - 3
+            if currentChar == selectedChar and currentChar.isPoisoned ~= true then
+                currentChar.baseHP = currentChar.baseHP - poisonDamage
                 currentChar.isPoisoned = true
                 currentChar.poisoningTurn = turnCounter
+                boardGrid[self.x][self.y].drawDamageOnBoard = true
+                boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
+                Cell:damageOnBoard(poisonDamage)
             end
         end
     
             for index, currentChar in ipairs(inactivePlayer.characters) do
-                if currentChar == selectedChar then
-                    currentChar.baseHP = currentChar.baseHP - 3
+                if currentChar == selectedChar and currentChar.isPoisoned ~= true then
+                    currentChar.baseHP = currentChar.baseHP - poisonDamage
                     currentChar.isPoisoned = true
                     currentChar.poisoningTurn = turnCounter
+                    boardGrid[self.x][self.y].drawDamageOnBoard = true
+                    boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
+                    Cell:damageOnBoard(poisonDamage)
                 end
             end
         end
