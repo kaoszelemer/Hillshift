@@ -72,13 +72,11 @@ function Cell:drawVolcanoAnim()
 
             if boardGrid[x][y].isErupting then
 
-                print('SOMOJIHDOIFJOIDJSOIJFSDOIJOISJFJOIS')
-
                  if love.timer.getTime() - boardGrid[x][y].eruptionTimer <= duration then
                
-                    eruptionAnimation:draw(eruptionAnimationImage, x * tileW + offsetX, y * tileH + offsetY)
+                     eruptionAnimation:draw(eruptionAnimationImage, (x * tileW + offsetX) - tileW, (y * tileH + offsetY) - tileH)
 
-                   end
+                 end
             
           end
 

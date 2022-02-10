@@ -20,13 +20,7 @@ function Volcano:boom(bx, by)
     local d = 0.3
   
    
-    for x = 1, 10 do
-        for y = 1, 10 do
-            if boardGrid[x][y].isErupting then
-                print('erupting!!')
-            end
-        end
-    end
+  
     
 
     
@@ -145,6 +139,8 @@ function Volcano:boom(bx, by)
    
 
     boardGrid[bx][by] = Mount(bx, by)
+    boardGrid[bx][by].isErupting = true
+    boardGrid[bx][by].eruptionTimer = love.timer.getTime()
     isVolcanoOnBoard = false
 
   
