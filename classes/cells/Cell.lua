@@ -20,6 +20,8 @@ end
 
 function Cell:update(dt)
 
+    --tween
+
     for x = 1, 10 do
         for y = 1, 10 do
             if boardGrid[x][y].drawDamageOnBoard == true then
@@ -29,6 +31,61 @@ function Cell:update(dt)
         end
     end
 
+    --animations
+
+    ghostAnimation:update(dt)
+    eruptionAnimation:update(dt)
+
+
+
+end
+
+
+function Cell:drawGhostAnim()
+
+    local duration = 1
+    
+    for x = 1,10 do
+        for y = 1, 10 do
+
+            if boardGrid[x][y].drawGhost then
+
+                if love.timer.getTime() - boardGrid[x][y].ghostTimer <= duration then
+               
+                    ghostAnimation:draw(ghostAnimationImage, x * tileW + offsetX, y * tileH + offsetY)
+
+                end
+            
+            end
+        end
+    end
+
+   
+end
+
+function Cell:drawVolcanoAnim()
+
+    local duration = 1
+   
+    for x = 1,10 do
+        for y = 1, 10 do
+
+            if boardGrid[x][y].isErupting then
+
+                print('SOMOJIHDOIFJOIDJSOIJFSDOIJOISJFJOIS')
+
+                 if love.timer.getTime() - boardGrid[x][y].eruptionTimer <= duration then
+               
+                    eruptionAnimation:draw(eruptionAnimationImage, x * tileW + offsetX, y * tileH + offsetY)
+
+                   end
+            
+          end
+
+        end
+    end
+
+   
 end
 
 function Cell:moveSelectedCharIfValidOffset(ox, oy)

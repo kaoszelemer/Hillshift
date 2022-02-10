@@ -1146,6 +1146,18 @@ end
 
 local function loadAnimations()
 
+    --Cell:entry
+    ghostAnimationImage = love.graphics.newImage('graphics/ghostanim.png')
+    local g = anim8.newGrid(64, 64, ghostAnimationImage:getWidth(), ghostAnimationImage:getHeight())
+    ghostAnimation = anim8.newAnimation(g('1-8', 1), 0.1)
+
+
+    --cell etc
+
+    eruptionAnimationImage = love.graphics.newImage('graphics/eruption.png')
+    local g = anim8.newGrid(192, 192, eruptionAnimationImage:getWidth(), eruptionAnimationImage:getHeight())
+    eruptionAnimation = anim8.newAnimation(g('1-4', 1), 0.1)
+
     ---Icons
     local iconAnimSpeed = 0.05
 
@@ -1447,6 +1459,8 @@ function board:draw()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
+    Cell:drawGhostAnim()
+    Cell:drawVolcanoAnim()
     
     
     

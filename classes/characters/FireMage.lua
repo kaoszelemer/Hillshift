@@ -66,6 +66,9 @@ end
 
 function FireMage:spell(targetCell)
 
+   
+
+
     local spellDamage = 5
 
     if self.actionPoints ~= 0 then

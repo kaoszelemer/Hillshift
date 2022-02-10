@@ -12,7 +12,11 @@ function GlassMount:init(x, y)
      1000)
 end
 
+
+
 function GlassMount:onEntry(character, ax, ay)
+
+    
    
     table.insert(sequenceBufferTable, {
         name = "GlassMountSlide",

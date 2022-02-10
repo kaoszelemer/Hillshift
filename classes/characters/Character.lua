@@ -28,6 +28,7 @@ function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleA
         Desert = true,
         Swamp = true,
         GlassMount = true,
+        Graveyard = true,
     }
 
    
@@ -759,7 +760,11 @@ end
 
 function Character:kill()
 
+
     soundEngine:playSFX(deathSound)
+
+    boardGrid[self.x][self.y] = Graveyard(self.x, self.y)
+    
  
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar then

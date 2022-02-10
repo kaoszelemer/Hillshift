@@ -108,6 +108,14 @@ function soundEngine:load()
     local step = love.audio.newSource("/sounds/step.mp3", "static")
     stepSound = ripple.newSound(step, {volume = 0.5, loop = false})
 
+    local ghost = love.audio.newSource("/sounds/ghost.mp3", "static")
+    ghostSound = ripple.newSound(ghost, {volume = 0.5, loop = false})
+
+    local eruption = love.audio.newSource("/sounds/eruption.mp3", "static")
+    eruptionSound = ripple.newSound(eruption, {volume = 0.5, loop = false})
+
+    
+
     local uh = love.audio.newSource("/sounds/char_uh.mp3", "static")
     local uh1 = love.audio.newSource("/sounds/char_uh1.mp3", "static")
     local uh2 = love.audio.newSource("/sounds/char_uh2.mp3", "static")

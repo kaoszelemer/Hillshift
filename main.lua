@@ -75,6 +75,10 @@ Desert = require('classes.cells.Desert')
 Swamp = require('classes.cells.Swamp')
 GlassMount = require('classes.cells.GlassMount')
 Ice = require('classes.cells.Ice')
+Graveyard = require('classes.cells.Graveyard')
+Volcano = require('classes.cells.Volcano')
+
+
 Character = require('classes.characters.Character')
 GeoGnome = require('classes.characters.GeoGnome')
 Druid = require('classes.characters.Druid')
@@ -299,11 +303,41 @@ function endTurn()
     local burnCell
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
-      
+        if turnCounter > 5 and isVolcanoOnBoard ~= true then
+            local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
+            local vx = randomFunction(1, 10, "volcanoX")
+            local vy = randomFunction(1, 10, "volcanoY")
+
+            if rngv < 0.3 then
+                if boardGrid[vx][vy].isOccupied ~= true then
+                    boardGrid[vx][vy] = Volcano(vx, vy)
+                    boardGrid[vx][vy].isOccupied = true
+                    isVolcanoOnBoard = true
+                    boardGrid[vx][vy].volcanoCounter = 5
+                end
+            end
+
+        end
+
+
 
 
     for x = 1, 10 do
         for y = 1, 10 do
+
+            if boardGrid[x][y].volcanoCounter ~= nil then
+
+                boardGrid[x][y].volcanoCounter = boardGrid[x][y].volcanoCounter - 1
+
+                if boardGrid[x][y].volcanoCounter <= 0 then
+                    boardGrid[x][y].eruptionTimer = love.timer.getTime()
+                    boardGrid[x][y].isErupting = true
+                    Volcano:boom(x, y)
+                end
+                
+
+            end
+
 
             if isSuddenDeath then
 
