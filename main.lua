@@ -77,6 +77,7 @@ GlassMount = require('classes.cells.GlassMount')
 Ice = require('classes.cells.Ice')
 Graveyard = require('classes.cells.Graveyard')
 Volcano = require('classes.cells.Volcano')
+Shrine = require('classes.cells.Shrine')
 
 
 Character = require('classes.characters.Character')
@@ -201,7 +202,7 @@ offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 
 -- counters
 turnCounter = 0
-
+magicForestCounter = 0
 
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
@@ -287,7 +288,7 @@ function endTurn()
     isFirstTurn = false
     drawAttack = false
     turnCounter = turnCounter + 1
-    local maxTurns = 30
+    local maxTurns = 20
     
     eventTurnCounter = eventTurnCounter + 1
     if turnCounter == maxTurns then 
@@ -303,27 +304,67 @@ function endTurn()
     local burnCell
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
-        if turnCounter > 5 and isVolcanoOnBoard ~= true then
-            local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
-            local vx = randomFunction(1, 10, "volcanoX")
-            local vy = randomFunction(1, 10, "volcanoY")
 
-            if rngv < 0.3 then
-                if boardGrid[vx][vy].isOccupied ~= true then
-                    boardGrid[vx][vy] = Volcano(vx, vy)
-                    boardGrid[vx][vy].isOccupied = true
-                    isVolcanoOnBoard = true
-                    boardGrid[vx][vy].volcanoCounter = 5
-                end
+        
+
+
+
+
+    if turnCounter > 5 and isVolcanoOnBoard ~= true then
+        local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
+        local vx = randomFunction(2, 9, "volcanoX")
+        local vy = randomFunction(2, 9, "volcanoY")
+
+        if rngv < 0.3 then
+            if boardGrid[vx][vy].isOccupied ~= true then
+                boardGrid[vx][vy] = Volcano(vx, vy)
+                boardGrid[vx][vy].isOccupied = true
+                isVolcanoOnBoard = true
+                boardGrid[vx][vy].volcanoCounter = 5
             end
-
         end
 
+    end
+
+    if turnCounter > 8 and isShrineOnBoard ~= true then
+        local rngs = randomFunction(nil, nil, "endTurnShrineAppearsChance")
+        local vx = randomFunction(2, 9, "shrineX")
+        local vy = randomFunction(2, 9, "shrineY")
+
+        if rngs < 0.5 then
+            if boardGrid[vx][vy].isOccupied ~= true then
+                boardGrid[vx][vy] = Shrine(vx, vy)
+                isShrineOnBoard = true
+            end
+        end
+    end
 
 
+    local magicForestChance = randomFunction(nil, nil, "magicforesttompitas")
+    local forestCounter = 0
+    local mfX = randomFunction(2, 9, "magicforestx")
+    local mfY = randomFunction(2, 9, "magicforesty")
 
     for x = 1, 10 do
         for y = 1, 10 do
+            
+       
+            
+            if boardGrid[x][y]:instanceOf(Forest) then
+                forestCounter = forestCounter + 1
+                if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter <= 2 then
+                    print(forestCounter)
+                    boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
+                    magicForestTimer = turnCounter
+                    magicForestCounter = magicForestCounter + 1
+                    
+                end
+            end
+
+
+
+
+
 
             if boardGrid[x][y].volcanoCounter ~= nil then
 
