@@ -488,12 +488,25 @@ function Character:drawValidIcons()
       
         if selectedChar and selectedChar == currentChar and gameState.state == gameState.states.selectSpellTargetArea and self.actionPoints ~= 0 then
             
-            if self.id == 1 or self.id == 9 then --GEOGNOME, WATERHAG
+            if self.id == 9 then --GEOGNOME, WATERHAG
                 if self.y + 1 < 11 and pointerOnBottomSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
                 if self.y - 1 > 0 and pointerOnTopSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
                 if self.x + 1 < 11 and pointerOnRightSide then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
                 if self.x - 1 > 0 and pointerOnLeftSide then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
             end
+
+            if self.id == 1  then
+                for x = -1, 1 do
+                    for y = -1, 1 do
+                        if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
+                            if x ~= 0 or y ~= 0 then
+                                love.graphics.draw(validSpellImage, (self.x + x) * tileW + offsetX, (self.y + y) * tileH + offsetY)
+                            end
+                        end
+                    end
+                end
+            end
+
 
             if self.id == 5 then -- DRUID
                 if self.y + 1 < 11 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
