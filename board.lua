@@ -46,6 +46,7 @@ eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
 sideBarBackGround = love.graphics.newImage("/graphics/sidebarbackground.png")
 sideBarBackGroundWithZeroActionPointsImage = love.graphics.newImage("/graphics/sidebarbackgroundwithzeroactionpoints.png")
+tileHelpBackGround = love.graphics.newImage("/graphics/tilehelpbackground.png")
 
 --Cell drawables
 lightningImage = love.graphics.newImage("/graphics/lightning.png")
@@ -287,6 +288,9 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
         local sideBarX = 10
         local sideBarY = (i * 150) - 80
+
+        love.graphics.draw(tileHelpBackGround, sideBarX, (4 * 150) + 60)
+
 
         if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
             love.graphics.draw(sideBarBackGroundWithZeroActionPointsImage, sideBarX, sideBarY)

@@ -9,7 +9,8 @@ function Swamp:init(x, y)
         love.graphics.newQuad(128, 64, tileW, tileH, tilesetW, tilesetH),
         0,
         -3,
-     1000)
+     1000,
+    "-2SP on entry, -DEFENSE")
 end
 
 

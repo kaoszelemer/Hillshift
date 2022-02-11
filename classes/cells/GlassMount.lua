@@ -9,7 +9,8 @@ function GlassMount:init(x, y)
         love.graphics.newQuad(320, 64, tileW, tileH, tilesetW, tilesetH),
         2,
         2,
-     1000)
+     1000,
+    "you slide down on entry at the\nexact opposite side of the glassmountain")
 end
 
 

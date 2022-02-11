@@ -1,6 +1,6 @@
 local Cell = class("Cell")
 
-function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
+function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP, infoText)
     self.x = x
     self.y = y
     self.isWalkable = isWalkable
@@ -8,6 +8,9 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP)
     self.attackModifier = attackModifier
     self.defenseModifier = defenseModifier
     self.HP = HP
+    self.infoText = infoText
+
+
     self.poisoningTurn = 0
     self.fireTurn = 0
     self.freezeTurn = 0

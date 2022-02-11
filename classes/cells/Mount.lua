@@ -9,7 +9,8 @@ function Mount:init(x, y)
         love.graphics.newQuad(256, 64, tileW, tileH, tilesetW, tilesetH),
         2,
         0,
-        5)
+        5,
+    "+ATTACK when youre on a mountain")
 end
 
 function Mount:spawnParticlesWhenInstanced()

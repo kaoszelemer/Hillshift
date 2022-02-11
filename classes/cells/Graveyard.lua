@@ -9,7 +9,8 @@ function Graveyard:init(x, y)
         love.graphics.newQuad(448, 0, tileW, tileH, tilesetW, tilesetH),
         0,
         0,
-     1000)
+     1000,
+    "you run away in fear on entry to \na random neighbouring tile")
 end
 
 

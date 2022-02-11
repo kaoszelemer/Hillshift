@@ -9,7 +9,8 @@ function Field:init(x, y)
         love.graphics.newQuad(256, 0, tileW, tileH, tilesetW, tilesetH),
         0,
         0,
-     1000)
+     1000,
+        "Gives no modifiers. It's quiet.")
 end
 
 

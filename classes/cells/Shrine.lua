@@ -9,7 +9,8 @@ function Shrine:init(x, y)
         love.graphics.newQuad(192, 0, tileW, tileH, tilesetW, tilesetH),
         -2,
         0,
-        1000)
+        1000,
+    "+5HP on entry")
 end
 
 function Shrine:onEntry(selectedChar, ax, ay)

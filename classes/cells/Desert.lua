@@ -9,7 +9,8 @@ function Desert:init(x, y)
         love.graphics.newQuad(384, 0, tileW, tileH, tilesetW, tilesetH),
         -2,
         0,
-        1000)
+        1000,
+        "-1SP on entry, -AT if you stay there")
 end
 
 

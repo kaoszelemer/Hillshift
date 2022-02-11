@@ -9,7 +9,8 @@ function Volcano:init(x, y)
         love.graphics.newQuad(384, 64, tileW, tileH, tilesetW, tilesetH),
         0,
         0,
-        1000)
+        1000,
+        "its gonna erupt in a few turns\nsetting everything around it\nire.")
 end
 
 
