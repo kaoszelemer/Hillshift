@@ -127,37 +127,37 @@ function Cell:spawnParticlesWhenInstanced()
                 if cell:instanceOf(Mount) then
                     love.graphics.draw(rockParticleSystem, x, y) 
                     rockParticleSystem:emit(200)
-                    screenShake(0.05, 1)
+             
                 end
                 
                 if cell:instanceOf(Forest) or cell:instanceOf(Field) then
                     love.graphics.draw(forestFieldParticleSystem, x, y) 
                     forestFieldParticleSystem:emit(200)
-                    screenShake(0.05, 1)
+                 
                 end
 
                 if cell:instanceOf(Lake) then
                     love.graphics.draw(waterParticleSystem, x, y) 
                     waterParticleSystem:emit(2000)
-                    screenShake(0.05, 1)
+                  
                 end
 
                 if cell:instanceOf(Desert) then
                     love.graphics.draw(desertParticleSystem, x, y) 
                     desertParticleSystem:emit(200)
-                    screenShake(0.05, 1)
+              
                 end
 
                 if cell:instanceOf(Ice) then
                     love.graphics.draw(iceParticleSystem, x, y) 
                     desertParticleSystem:emit(200)
-                    screenShake(0.05, 1)
+                 
                 end
 
                 if cell:instanceOf(GlassMount) then
                     love.graphics.draw(glassParticleSystem, x, y) 
                     glassParticleSystem:emit(200)
-                    screenShake(0.05, 1)
+               
                 end
 
                 if cell:instanceOf(MagicForest) then
@@ -168,7 +168,7 @@ function Cell:spawnParticlesWhenInstanced()
                     love.graphics.draw(magicParticleSystem, x, y) 
                     desertParticleSystem:emit(200)
                     desertParticleSystem:emit(200)
-                    screenShake(0.05, 1)
+               
                 end
 
             end

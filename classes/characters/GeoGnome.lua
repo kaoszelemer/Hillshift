@@ -108,32 +108,34 @@ function GeoGnome:spell(targetCell)
 
             for x = -1, 1 do
                 for y = -1, 1 do
-                    if x ~= 0 or y ~= 0 then
-                        table.insert(sequenceBufferTable, {
-                            name = "GeoGnomeSpell",
-                            duration = 0.4,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                 boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
-                                 boardGrid[self.x + x][self.y + y].isInstanced = true
-                            end})
-                        
-                        table.insert(sequenceBufferTable, {
-                            name = "resetParticleDrawing",
-                            duration = 0.3,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                    
-                                boardGrid[self.x + x][self.y + y]:resetParticleDrawing()
-                
-                            end})
+                    if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
+                        if x ~= 0 or y ~= 0 then
+                            table.insert(sequenceBufferTable, {
+                                name = "GeoGnomeSpell",
+                                duration = 0.4,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
+                                    boardGrid[self.x + x][self.y + y].isInstanced = true
+                                end})
+                            
+                            table.insert(sequenceBufferTable, {
+                                name = "resetParticleDrawing",
+                                duration = 0.3,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                        
+                                    boardGrid[self.x + x][self.y + y]:resetParticleDrawing()
+                    
+                                end})
 
-                        if boardGrid[self.x + x][self.y + y].isOccupied then
-                            boardGrid[self.x + x][self.y + y].occupiedBy.baseHP = boardGrid[self.x + x][self.y + y].occupiedBy.baseHP - 1
-                            boardGrid[self.x + x][self.y + y].drawDamageOnBoard = true
-                            boardGrid[self.x + x][self.y + y]:damageOnBoard("1HP")
+                            if boardGrid[self.x + x][self.y + y].isOccupied then
+                                boardGrid[self.x + x][self.y + y].occupiedBy.baseHP = boardGrid[self.x + x][self.y + y].occupiedBy.baseHP - 1
+                                boardGrid[self.x + x][self.y + y].drawDamageOnBoard = true
+                                boardGrid[self.x + x][self.y + y]:damageOnBoard("1HP")
+                            end
+        
                         end
-
                     end
                 end
             end

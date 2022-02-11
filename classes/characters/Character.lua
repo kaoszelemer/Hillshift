@@ -815,7 +815,7 @@ function Character:attack(enemy, nw)
         action = function()
             if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
                 
-         
+                
     
                 local dr = getDiceRoll()
                 self.diceRoll = dr
@@ -836,6 +836,7 @@ function Character:attack(enemy, nw)
                 enemy.baseHP = enemy.baseHP - damage
 
                 enableDrawAttack(self, enemy)
+              
                 
                 if enemy.baseHP <= 0 then enemy:kill() end
 
@@ -849,7 +850,7 @@ function Character:attack(enemy, nw)
 
             soundEngine:playSFX(knifeSound)
             soundEngine:playSFX(pp)
-         
+  
    
 
             table.insert(sequenceBufferTable, {

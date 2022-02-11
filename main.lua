@@ -648,9 +648,9 @@ end
 
 function screenShake(duration, magnitude)
 
-   --[[  isScreenShake = true
+    isScreenShake = true
     shakeTime, shakeDuration, shakeMagnitude = 0, duration or 1, magnitude or 5
- ]]
+
 end
 
 
@@ -1573,13 +1573,13 @@ function love.update(dt)
 end
 
 function love.draw()
- --[[    if isScreenShake then
+    if isScreenShake then
         if shakeTime < shakeDuration then
-            local dx = love.math.random(-shakeMagnitude, shakeMagnitude)
-            local dy = love.math.random(-shakeMagnitude, shakeMagnitude)
+            local dx = randomFunction(-shakeMagnitude, shakeMagnitude, "screenShake")
+            local dy = randomFunction(-shakeMagnitude, shakeMagnitude, "screenShake")
             love.graphics.translate(dx, dy)
         end
-    end ]]
+    end
     --scaling
     
     local screenWidth, screenHeight = love.window.getDesktopDimensions()
