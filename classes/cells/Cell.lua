@@ -192,6 +192,13 @@ function Cell:spawnParticlesWhenInstanced()
 
             end
 
+            if cell.isSmoking then
+                smokeParticleSystem:emit(54)
+              love.graphics.setBlendMode("add")
+                love.graphics.draw(smokeParticleSystem, x , y + tileW - (tileW / 4))
+              love.graphics.setBlendMode("alpha")
+            end
+
             
 
 

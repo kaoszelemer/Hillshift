@@ -370,10 +370,18 @@ function endTurn()
 
                 boardGrid[x][y].volcanoCounter = boardGrid[x][y].volcanoCounter - 1
 
+                if boardGrid[x][y].volcanoCounter <= 3 then
+
+                    boardGrid[x][y].isSmoking = true
+
+                end
+
+
                 if boardGrid[x][y].volcanoCounter <= 0 then
                     boardGrid[x][y].eruptionTimer = love.timer.getTime()
                     boardGrid[x][y].isErupting = true
                     Volcano:boom(x, y)
+                    boardGrid[x][y].isSmoking = false
                 end
                 
 
@@ -998,6 +1006,40 @@ local function loadParticleSystems()
     burntFieldParticleSystem:setSpread(0.31415927410126)
     burntFieldParticleSystem:setTangentialAcceleration(-0.099513381719589, 0)
 
+    smokeParticeImage = love.graphics.newImage("graphics/smokeparticle.png")
+    smokeParticeImage:setFilter("linear", "linear")
+    smokeParticleSystem = love.graphics.newParticleSystem(smokeParticeImage, 8)
+    smokeParticleSystem:setDirection(-1.5707963705063)
+    smokeParticleSystem:setEmissionArea("uniform", 1, 15, 3.1415927410126, false)
+    smokeParticleSystem:setEmissionRate(23)
+    smokeParticleSystem:setEmitterLifetime(-1)
+    smokeParticleSystem:setInsertMode("top")
+    smokeParticleSystem:setLinearAcceleration(0, 0, 0.1, 0.4)
+    smokeParticleSystem:setLinearDamping(-0.0017912408802658, 8.0408802032471)
+    smokeParticleSystem:setOffset(50, 50)
+    smokeParticleSystem:setParticleLifetime(3, 5)
+    smokeParticleSystem:setRadialAcceleration(0, 0)
+    smokeParticleSystem:setRelativeRotation(false)
+    smokeParticleSystem:setRotation(0, 0)
+    smokeParticleSystem:setSizeVariation(0)
+    smokeParticleSystem:setSpeed(0.0001, 0.0001)
+    smokeParticleSystem:setSpin(1.5131316184998, -1.3010431528091)
+    smokeParticleSystem:setSpinVariation(0)
+    smokeParticleSystem:setSpread(0)
+    smokeParticleSystem:setTangentialAcceleration(-0.099513381719589, 0)
+    
+    
+
+-- At start time:
+-- ps:start()
+-- ps:emit(54)
+-- At draw time:
+-- love.graphics.setBlendMode("alpha")
+-- love.graphics.draw(ps, 0+0, 0+0)
+
+
+
+
     steamParticleImage = love.graphics.newImage("graphics/steamparticle.png")
     steamParticleImage:setFilter("linear","linear")
     steamParticleSystem = love.graphics.newParticleSystem(steamParticleImage, 16)
@@ -1038,6 +1080,7 @@ local function updateParticleSystems(dt)
     --Other Particle systems
     bloodParticleSystem:update(dt)
     burntFieldParticleSystem:update(dt)
+    for step = 1, 84 do smokeParticleSystem:update(0.017179389794668)  end
     for step = 1, 96 do steamParticleSystem:update(0.0051606524114807) end
 end
 
