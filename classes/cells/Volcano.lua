@@ -10,7 +10,7 @@ function Volcano:init(x, y)
         0,
         0,
         1000,
-        "its gonna erupt in a few turns\nsetting everything around it\nire.")
+        "its gonna erupt in a few turns\nsetting everything around it\non Fire.")
 end
 
 

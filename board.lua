@@ -292,6 +292,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         love.graphics.draw(tileHelpBackGround, sideBarX, (4 * 150) + 60)
 
 
+
         if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
             love.graphics.draw(sideBarBackGroundWithZeroActionPointsImage, sideBarX, sideBarY)
         else
@@ -301,6 +302,10 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
         for _, row in ipairs(boardGrid) do
             for _, cell in ipairs(row) do
+
+                if cell.isHovered then
+                   -- print('hovered')
+                end
 
                 if cell.isOccupied and cell.occupiedBy == currentChar then
 
@@ -863,12 +868,14 @@ local function drawRectanglesIfHoveredOrOccupied()
         local currentTileX = (currentCell.x) * tileW
         local currentTileY = (currentCell.y) * tileH
 
-        if boardGrid[i][j].isHovered == true then
-        love.graphics.setLineWidth(8)
-        love.graphics.setColor(hoverColor)
-        love.graphics.rectangle("line", currentTileX + offsetX , currentTileY + offsetY, tileW, tileH)
-        love.graphics.setColor(charColor)
-        love.graphics.setLineWidth(1)
+        if isDebugDrawHoveredTiles then
+            if boardGrid[i][j].isHovered == true then
+            love.graphics.setLineWidth(8)
+            love.graphics.setColor(hoverColor)
+            love.graphics.rectangle("line", currentTileX + offsetX , currentTileY + offsetY, tileW, tileH)
+            love.graphics.setColor(charColor)
+            love.graphics.setLineWidth(1)
+            end
         end
         
         if boardGrid[i][j].isOccupied == true and boardGrid[i][j].occupiedBy and boardGrid[i][j].occupiedBy.parentPlayer == activePlayer then

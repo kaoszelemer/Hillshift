@@ -7,6 +7,7 @@
 
 isGameFullScreen = false
 isMusicOn = true
+isDebugDrawHoveredTiles = false
 
 
 --require
@@ -1707,6 +1708,12 @@ function love.mousemoved( x, y, dx, dy, istouch )
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar:updateHover(x, y)
         currentChar:enablePossibleDamageDraw()
+    end
+
+    for _, row in ipairs(boardGrid) do
+        for _, cell in ipairs(row) do
+            cell:updateHover(x, y)
+        end
     end
 
 end

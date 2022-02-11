@@ -21,6 +21,17 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP, 
     
 end
 
+function Cell:updateHover(mX, mY)
+    local  mouseCellCoordinateX = math.floor((mX / tileW) - offsetX / tileW) 
+    local  mouseCellCoordinateY = math.floor((mY / tileH) - offsetY / tileH)
+
+    if  mouseCellCoordinateX == self.x and mouseCellCoordinateY == self.y then
+        self.isHovered = true
+    else
+        self.isHovered = false
+    end
+end
+
 function Cell:update(dt)
 
     --tween
