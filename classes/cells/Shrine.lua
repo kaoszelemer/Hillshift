@@ -14,6 +14,8 @@ end
 
 function Shrine:onEntry(selectedChar, ax, ay)
 
+    soundEngine:playSFX(shrineSound)
+
     selectedChar.baseHP = selectedChar.baseHP + 5
     boardGrid[self.x][self.y] = Field(self.x, self.y)
     boardGrid[self.x][self.y].drawDamageOnBoard = true

@@ -1722,9 +1722,8 @@ function love.mousereleased(x, y, button, istouch, presses)
                 isMusicOff = false
                 isMusicOn = true
                 print('Music On') 
-        elseif
         
-        isMusicOn then 
+        elseif  isMusicOn then 
                 mainThemeMusic:pause()
                 isMusicOn = false
                 isMusicOff = true

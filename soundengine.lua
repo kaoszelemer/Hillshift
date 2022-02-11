@@ -6,8 +6,10 @@ local function drawMusicPlayer()
 
     if isMusicOn then
         love.graphics.draw(musicOnImage, width / 16 , 0)
+    end
         
-    elseif isMusicOff then love.graphics.draw(musicOffImage, width / 16 , 0)
+    if isMusicOff then 
+        love.graphics.draw(musicOffImage, width / 16 , 0)
     end
 
 end
@@ -62,7 +64,7 @@ function soundEngine:load()
 
       
     local music1 = love.audio.newSource("/sounds/hs_maintheme.mp3", "static")
-    mainThemeMusic = ripple.newSound(music1, {volume = .5, loop = true})
+    mainThemeMusic = ripple.newSound(music1, {volume = .1, loop = true})
 
     --
 
@@ -113,6 +115,11 @@ function soundEngine:load()
 
     local eruption = love.audio.newSource("/sounds/eruption.mp3", "static")
     eruptionSound = ripple.newSound(eruption, {volume = 0.5, loop = false})
+
+    local shrine = love.audio.newSource("/sounds/shrine.mp3", "static")
+    shrineSound = ripple.newSound(shrine, {volume = 0.5, loop = false})
+
+
 
     
 
