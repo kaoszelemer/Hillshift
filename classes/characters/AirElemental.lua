@@ -125,6 +125,9 @@ function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)
                     boardGrid[self.x + tcx][self.y + tcy].occupiedBy.baseHP = boardGrid[self.x + tcx][self.y + tcy].occupiedBy.baseHP - 2
                     boardGrid[self.x + tcx][self.y + tcy].drawDamageOnBoard = true
                     boardGrid[self.x + tcx][self.y + tcy]:damageOnBoard("2HP")
+                    if boardGrid[self.x + tcx][self.y + tcy].occupiedBy.baseHP <= 0 then
+                        boardGrid[self.x + tcx][self.y + tcy].occupiedBy:kill()
+                    end
                 end
 
 
@@ -178,7 +181,7 @@ end
 
 function AirElemental:blowFire(targetCell, tcx, tcy)
 
-print(chanceOfBurning)
+
     table.insert(sequenceBufferTable, {
         name = "AirElementalblowFire",
         duration = 0.2,

@@ -104,6 +104,9 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x - 1][self.y - 1].drawDamageOnBoard = true
                         boardGrid[self.x - 1][self.y - 1].drawDamageTime = love.timer.getTime()
                         Cell:damageOnBoard(spellDamage)
+                        if boardGrid[self.x - 1][self.y - 1].occupiedBy.baseHP <= 0 then
+                            boardGrid[self.x - 1][self.y - 1].occupiedBy:kill()
+                        end
                     end
 
                     boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
@@ -215,6 +218,9 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x + 1][self.y - 1].drawDamageOnBoard = true
                         boardGrid[self.x + 1][self.y - 1].drawDamageTime = love.timer.getTime()
                         Cell:damageOnBoard(spellDamage)
+                        if boardGrid[self.x + 1][self.y - 1].occupiedBy.baseHP <= 0 then
+                            boardGrid[self.x + 1][self.y - 1].occupiedBy:kill()
+                        end
                     end
 
                     boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
@@ -329,6 +335,9 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x - 1][self.y + 1].drawDamageOnBoard = true
                         boardGrid[self.x - 1][self.y + 1].drawDamageTime = love.timer.getTime()
                         Cell:damageOnBoard(spellDamage)
+                        if boardGrid[self.x - 1][self.y + 1].occupiedBy.baseHP <= 0 then
+                            boardGrid[self.x - 1][self.y + 1].occupiedBy:kill()
+                        end
                     end
                     boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
                     
@@ -440,6 +449,9 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x + 1][self.y + 1].drawDamageOnBoard = true
                         boardGrid[self.x + 1][self.y + 1].drawDamageTime = love.timer.getTime()
                         Cell:damageOnBoard(spellDamage)
+                        if boardGrid[self.x + 1][self.y + 1].occupiedBy.baseHP <= 0 then
+                            boardGrid[self.x + 1][self.y + 1].occupiedBy:kill()
+                        end
                     end
                     
                     boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
