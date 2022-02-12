@@ -28,21 +28,21 @@ end
 function Event022:eventFunction()
 
   for i, currentChar in ipairs(playerOne.characters) do
-    if     i == 1 then currentChar:move(5, 1, currentChar.x, currentChar.y)
-    elseif i == 2 then currentChar:move(5, 2, currentChar.x, currentChar.y)
-    elseif i == 3 then currentChar:move(6, 1, currentChar.x, currentChar.y)
-    elseif i == 4 then currentChar:move(6, 2, currentChar.x, currentChar.y)
+    if     i == 1 then currentChar:move(5, 2, currentChar.x, currentChar.y)
+    elseif i == 2 then currentChar:move(5, 3, currentChar.x, currentChar.y)
+    elseif i == 3 then currentChar:move(6, 2, currentChar.x, currentChar.y)
+    elseif i == 4 then currentChar:move(6, 3, currentChar.x, currentChar.y)
     end
-    currentChar.stepPoints = 1
+    currentChar.stepPoints = 2
   end
 
 for i, currentChar in ipairs(playerTwo.characters) do
-    if     i == 1 then currentChar:move(5, 9, currentChar.x, currentChar.y)
-    elseif i == 2 then currentChar:move(5, 10, currentChar.x, currentChar.y)
-    elseif i == 3 then currentChar:move(6, 9, currentChar.x, currentChar.y)
-    elseif i == 4 then currentChar:move(6, 10, currentChar.x, currentChar.y)
+    if     i == 1 then currentChar:move(5, 8, currentChar.x, currentChar.y)
+    elseif i == 2 then currentChar:move(5, 9, currentChar.x, currentChar.y)
+    elseif i == 3 then currentChar:move(6, 8, currentChar.x, currentChar.y)
+    elseif i == 4 then currentChar:move(6, 9, currentChar.x, currentChar.y)
     end
-    currentChar.stepPoints = 1
+    currentChar.stepPoints = 2
 end
 
 end
