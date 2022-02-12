@@ -16,4 +16,15 @@ function Lake:init(x, y)
 )
 end
 
+function Lake:onEntry(char, ax, ay)
+
+    char.actionPoints = 0
+    char.stepPoints = 0
+
+    boardGrid[self.x][self.y].drawDamageOnBoard = true
+    boardGrid[self.x][self.y]:damageOnBoard("-1AP, -2SP")
+
+
+end
+
 return Lake

@@ -21,7 +21,7 @@ function Desert:onEntry(currentChar, ax, ay)
    
                 currentChar.stepPoints = currentChar.stepPoints - 1
                 boardGrid[self.x][self.y].drawDamageOnBoard = true
-                boardGrid[self.x][self.y]:damageOnBoard("1SP")
+                boardGrid[self.x][self.y]:damageOnBoard("-1SP")
 
 end
 

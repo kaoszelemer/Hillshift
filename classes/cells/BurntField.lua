@@ -19,7 +19,7 @@ function BurntField:init(x, y)
 
         char.baseHP = char.baseHP - 3
         boardGrid[self.x][self.y].drawDamageOnBoard = true
-        boardGrid[self.x][self.y]:damageOnBoard("3HP")
+        boardGrid[self.x][self.y]:damageOnBoard("-3HP")
         if char.baseHP <= 0 then
             char:kill()
         end

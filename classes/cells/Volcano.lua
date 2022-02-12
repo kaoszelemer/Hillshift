@@ -151,7 +151,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx - 1][by].isOccupied then
                     boardGrid[bx - 1][by].occupiedBy.baseHP = boardGrid[bx - 1][by].occupiedBy.baseHP - 5
                     boardGrid[bx - 1][by].drawDamageOnBoard = true
-                    boardGrid[bx - 1][by]:damageOnBoard(5)
+                    boardGrid[bx - 1][by]:damageOnBoard("-5HP")
                     if boardGrid[bx - 1][by].occupiedBy.baseHP <= 0 then
                         boardGrid[bx - 1][by].occupiedBy:kill()
                     end
@@ -241,7 +241,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx + 1][by].isOccupied then
                     boardGrid[bx + 1][by].occupiedBy.baseHP = boardGrid[bx + 1][by].occupiedBy.baseHP - 5
                     boardGrid[bx + 1][by].drawDamageOnBoard = true
-                    boardGrid[bx + 1][by]:damageOnBoard(5)
+                    boardGrid[bx + 1][by]:damageOnBoard("-5HP")
                     if boardGrid[bx + 1][by].occupiedBy.baseHP <= 0 then
                         boardGrid[bx + 1][by].occupiedBy:kill()
                     end
@@ -330,7 +330,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx - 1][by - 1].isOccupied then
                     boardGrid[bx - 1][by - 1].occupiedBy.baseHP = boardGrid[bx - 1][by - 1].occupiedBy.baseHP - 5
                     boardGrid[bx - 1][by - 1].drawDamageOnBoard = true
-                    boardGrid[bx - 1][by - 1]:damageOnBoard(5)
+                    boardGrid[bx - 1][by - 1]:damageOnBoard("-5HP")
                     if boardGrid[bx - 1][by - 1].occupiedBy.baseHP <= 0 then
                         boardGrid[bx - 1][by - 1].occupiedBy:kill()
                     end
@@ -421,7 +421,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx + 1][by - 1].isOccupied then
                     boardGrid[bx + 1][by - 1].occupiedBy.baseHP = boardGrid[bx + 1][by - 1].occupiedBy.baseHP - 5
                     boardGrid[bx + 1][by - 1].drawDamageOnBoard = true
-                    boardGrid[bx + 1][by - 1]:damageOnBoard(5)
+                    boardGrid[bx + 1][by - 1]:damageOnBoard("-5HP")
                     if boardGrid[bx + 1][by - 1].occupiedBy.baseHP <= 0 then
                         boardGrid[bx + 1][by - 1].occupiedBy:kill()
                     end
@@ -509,7 +509,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx - 1][by + 1].isOccupied then
                     boardGrid[bx - 1][by + 1].occupiedBy.baseHP = boardGrid[bx - 1][by + 1].occupiedBy.baseHP - 5
                     boardGrid[bx - 1][by + 1].drawDamageOnBoard = true
-                    boardGrid[bx - 1][by + 1]:damageOnBoard(5)
+                    boardGrid[bx - 1][by + 1]:damageOnBoard("-5HP")
                     if boardGrid[bx - 1][by + 1].occupiedBy.baseHP <= 0 then
                         boardGrid[bx - 1][by + 1].occupiedBy:kill()
                     end
@@ -598,7 +598,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx + 1][by+1].isOccupied then
                     boardGrid[bx + 1][by+1].occupiedBy.baseHP = boardGrid[bx - 1][by+1].occupiedBy.baseHP - 5
                     boardGrid[bx + 1][by + 1].drawDamageOnBoard = true
-                    boardGrid[bx + 1][by+1]:damageOnBoard(5)
+                    boardGrid[bx + 1][by+1]:damageOnBoard("-5HP")
                     if boardGrid[bx + 1][by + 1].occupiedBy.baseHP <= 0 then
                         boardGrid[bx + 1][by + 1].occupiedBy:kill()
                     end
@@ -687,7 +687,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx][by + 1].isOccupied then
                     boardGrid[bx][by + 1].occupiedBy.baseHP = boardGrid[bx][by + 1].occupiedBy.baseHP - 5
                     boardGrid[bx][by + 1].drawDamageOnBoard = true
-                    boardGrid[bx][by + 1]:damageOnBoard(5)
+                    boardGrid[bx][by + 1]:damageOnBoard("-5HP")
                     if boardGrid[bx][by + 1].occupiedBy.baseHP <= 0 then
                         boardGrid[bx][by + 1].occupiedBy:kill()
                     end
@@ -776,7 +776,7 @@ function Volcano:boom(bx, by)
                 if  boardGrid[bx][by - 1].isOccupied then
                     boardGrid[bx][by - 1].occupiedBy.baseHP = boardGrid[bx][by - 1].occupiedBy.baseHP - 5
                     boardGrid[bx][by - 1].drawDamageOnBoard = true
-                    boardGrid[bx][by - 1]:damageOnBoard(5)
+                    boardGrid[bx][by - 1]:damageOnBoard("-5HP")
                     if boardGrid[bx][by- 1].occupiedBy.baseHP <= 0 then
                         boardGrid[bx][by - 1].occupiedBy:kill()
                     end

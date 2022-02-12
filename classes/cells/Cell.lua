@@ -273,12 +273,12 @@ function Cell:drawDamageOnBoard()
         
                     love.graphics.setColor(yellowColor)
                     love.graphics.setFont(font)
-                    love.graphics.print("-"..dmgToDraw.text, dmgToDraw.x + 1, dmgToDraw.y - 1)
+                    love.graphics.print(dmgToDraw.text, dmgToDraw.x + 1, dmgToDraw.y - 1)
                     love.graphics.setColor(charColor)
                 
                     love.graphics.setColor(selectedColor)
                     love.graphics.setFont(font)
-                    love.graphics.print("-"..dmgToDraw.text, dmgToDraw.x, dmgToDraw.y)
+                    love.graphics.print(dmgToDraw.text, dmgToDraw.x, dmgToDraw.y)
                     love.graphics.setColor(charColor)
                 else
                     boardGrid[x][y].drawDamageOnBoard = false
@@ -504,7 +504,7 @@ function Cell:onEntry(character)
                 currentChar.baseHP = currentChar.baseHP - fireDamage
                 boardGrid[self.x][self.y].drawDamageOnBoard = true
                 boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                self:damageOnBoard(fireDamage)
+                self:damageOnBoard("-5HP")
             end
 
         end
@@ -514,7 +514,7 @@ function Cell:onEntry(character)
                 currentChar.baseHP = currentChar.baseHP - fireDamage
                 boardGrid[self.x][self.y].drawDamageOnBoard = true
                 boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                self:damageOnBoard(fireDamage)
+                self:damageOnBoard("-5HP")
             end
 
         end
@@ -531,7 +531,7 @@ function Cell:onEntry(character)
                 currentChar.poisoningTurn = turnCounter
                 boardGrid[self.x][self.y].drawDamageOnBoard = true
                 boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                Cell:damageOnBoard(poisonDamage)
+                Cell:damageOnBoard("-3HP")
             end
         end
     
@@ -542,7 +542,7 @@ function Cell:onEntry(character)
                     currentChar.poisoningTurn = turnCounter
                     boardGrid[self.x][self.y].drawDamageOnBoard = true
                     boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                    Cell:damageOnBoard(poisonDamage)
+                    Cell:damageOnBoard("-3HP")
                 end
             end
         end

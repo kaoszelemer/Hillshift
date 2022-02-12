@@ -103,7 +103,7 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x - 1][self.y - 1].occupiedBy.baseHP =  boardGrid[self.x - 1][self.y - 1].occupiedBy.baseHP - spellDamage
                         boardGrid[self.x - 1][self.y - 1].drawDamageOnBoard = true
                         boardGrid[self.x - 1][self.y - 1].drawDamageTime = love.timer.getTime()
-                        Cell:damageOnBoard(spellDamage)
+                        Cell:damageOnBoard("-5HP")
                         if boardGrid[self.x - 1][self.y - 1].occupiedBy.baseHP <= 0 then
                             boardGrid[self.x - 1][self.y - 1].occupiedBy:kill()
                         end
@@ -217,7 +217,7 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x + 1][self.y - 1].occupiedBy.baseHP =  boardGrid[self.x + 1][self.y - 1].occupiedBy.baseHP - spellDamage
                         boardGrid[self.x + 1][self.y - 1].drawDamageOnBoard = true
                         boardGrid[self.x + 1][self.y - 1].drawDamageTime = love.timer.getTime()
-                        Cell:damageOnBoard(spellDamage)
+                        Cell:damageOnBoard("-5HP")
                         if boardGrid[self.x + 1][self.y - 1].occupiedBy.baseHP <= 0 then
                             boardGrid[self.x + 1][self.y - 1].occupiedBy:kill()
                         end
@@ -334,7 +334,7 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x - 1][self.y + 1].occupiedBy.baseHP =  boardGrid[self.x - 1][self.y + 1].occupiedBy.baseHP - spellDamage
                         boardGrid[self.x - 1][self.y + 1].drawDamageOnBoard = true
                         boardGrid[self.x - 1][self.y + 1].drawDamageTime = love.timer.getTime()
-                        Cell:damageOnBoard(spellDamage)
+                        Cell:damageOnBoard("-5HP")
                         if boardGrid[self.x - 1][self.y + 1].occupiedBy.baseHP <= 0 then
                             boardGrid[self.x - 1][self.y + 1].occupiedBy:kill()
                         end
@@ -448,7 +448,7 @@ function FireMage:spell(targetCell)
                         boardGrid[self.x + 1][self.y + 1].occupiedBy.baseHP =  boardGrid[self.x + 1][self.y + 1].occupiedBy.baseHP - spellDamage
                         boardGrid[self.x + 1][self.y + 1].drawDamageOnBoard = true
                         boardGrid[self.x + 1][self.y + 1].drawDamageTime = love.timer.getTime()
-                        Cell:damageOnBoard(spellDamage)
+                        Cell:damageOnBoard("-5HP")
                         if boardGrid[self.x + 1][self.y + 1].occupiedBy.baseHP <= 0 then
                             boardGrid[self.x + 1][self.y + 1].occupiedBy:kill()
                         end
