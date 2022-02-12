@@ -10,7 +10,10 @@ function Lake:init(x, y)
         0,
         0,
      1000,
-    "you cant attack someone in a lake\nand you only can move to land")
+    "you cant attack someone in a lake\nand you only can move to land",
+    "Lake"
+
+)
 end
 
 return Lake

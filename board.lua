@@ -19,6 +19,8 @@ tilesetW, tilesetH = boardPicture:getWidth(), boardPicture:getHeight()
 prisonImage = love.graphics.newImage("/graphics/prison.png")
 --icons
 infoIcon = love.graphics.newImage("graphics/infoicon.png")
+
+
 attackIcon = love.graphics.newImage("graphics/attackicon.png")
 moveIcon = love.graphics.newImage("graphics/moveicon.png")
 spellIcon = love.graphics.newImage("graphics/spellicon.png")
@@ -274,6 +276,46 @@ function getDiceRoll()
    return diceRoll
 end
 
+function drawTileHelper()
+
+  
+
+    if isTileHelperOn then
+        love.graphics.draw(tileHelperOnImage, width / 16 + tileW, 0)
+        love.graphics.draw(tileHelpBackGround, 10, 660)
+        for _, row in ipairs(boardGrid) do
+            for _, cell in ipairs(row) do
+                if cell.isHovered then
+                    love.graphics.setFont(statFont)
+                    love.graphics.setColor(purpleColor)
+                    love.graphics.print(cell.name, tileW / 2 + tileW / 8, (4*150 + 60) + tileH / 4)
+                    love.graphics.setFont(littleFont)
+                    love.graphics.print(cell.infoText, tileW / 2 + tileW / 8, (4*150 + 60) + tileH / 2)
+                    love.graphics.setColor(charColor)
+                    love.graphics.setFont(statFont)
+                   
+                end
+            end
+        end
+
+    end
+
+    if isTileHelperOff then
+        love.graphics.draw(tileHelperOffImage, width / 16 + tileW, 0)
+    end
+
+    if isTileHelperHoverTextOn then
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(purpleColor)
+        love.graphics.rectangle("fill", mouseX - tileW / 2, (mouseY + tileH / 2) + 4, tileW * 2 + 12, 12)
+        love.graphics.setColor(charColor)
+        love.graphics.print("tile helper on/off", mouseX - tileW / 2, mouseY + tileH / 2)
+        love.graphics.setColor(charColor)
+        love.graphics.setFont(statFont)
+    end
+
+end
+
 local function drawCharactersOnBoard(player)
     -- státuszok alapján beállítom a színeket
     for _, currentChar in ipairs(player.characters) do
@@ -289,8 +331,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         local sideBarX = 10
         local sideBarY = (i * 150) - 80
 
-        love.graphics.draw(tileHelpBackGround, sideBarX, (4 * 150) + 60)
-
+        
 
 
         if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
@@ -1434,6 +1475,7 @@ function board:draw()
     --drawModifier()
     
     drawBoardGrid()
+    drawTileHelper()
     drawChests()
 
     if isGameServer and playerOne == activePlayer then

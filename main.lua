@@ -8,6 +8,7 @@
 isGameFullScreen = false
 isMusicOn = true
 isDebugDrawHoveredTiles = false
+isTileHelperOn = true
 
 
 --require
@@ -244,6 +245,8 @@ endGameImage = love.graphics.newImage("graphics/endgame.png")
 itemBackgroundImage = love.graphics.newImage("graphics/itembackgroundimage.png")
 musicOnImage = love.graphics.newImage("graphics/musicon.png")
 musicOffImage = love.graphics.newImage("graphics/musicoff.png")
+tileHelperOnImage = love.graphics.newImage("graphics/tilehelperon.png")
+tileHelperOffImage = love.graphics.newImage("graphics/tilehelperoff.png")
 
 --aktualis kijelolt karakter
 selectedChar = nil
@@ -1604,6 +1607,8 @@ function love.draw()
    
 
     soundEngine:draw()
+  
+    
 
 
     Character:drawParticles()
@@ -1719,6 +1724,20 @@ function love.mousemoved( x, y, dx, dy, istouch )
         end
     end
 
+    if x > width / 16 and x < (width / 16) + tileW and y > 0 and y < tileH then
+        isMusicHoverTextOn = true
+    else
+        isMusicHoverTextOn = false
+    end
+
+
+    if x > width / 16 + tileW and x < width / 16 + (tileW * 2) and y > 0 and y < tileH then
+        isTileHelperHoverTextOn = true
+    else
+        isTileHelperHoverTextOn = false
+    end
+    
+
 end
 
 function love.mousereleased(x, y, button, istouch, presses) 
@@ -1743,6 +1762,25 @@ function love.mousereleased(x, y, button, istouch, presses)
         end
      
     end
+
+    if x > width / 16 + tileW and x < width / 16 + (tileW * 2) and y > 0 and y < tileH then
+
+        if isTileHelperOff then
+            isTileHelperOff = false
+            isTileHelperOn = true
+            print("Tile Helper On")
+
+        elseif isTileHelperOn then
+            isTileHelperOn = false
+            isTileHelperOff = true
+        else
+            isTileHelperOff = true
+        end
+                
+
+
+    end
+
 
 
     if drawEndGame and

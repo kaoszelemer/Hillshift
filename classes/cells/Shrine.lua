@@ -10,7 +10,8 @@ function Shrine:init(x, y)
         -2,
         0,
         1000,
-    "+5HP on entry")
+    "+5HP on entry",
+    "Shrine")
 end
 
 function Shrine:onEntry(selectedChar, ax, ay)

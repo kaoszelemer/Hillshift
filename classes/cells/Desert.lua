@@ -10,7 +10,9 @@ function Desert:init(x, y)
         -2,
         0,
         1000,
-        "-1SP on entry, -AT if you stay there")
+        "-1SP on entry, -AT if you stay there",
+        "Desert"
+    )
 end
 
 

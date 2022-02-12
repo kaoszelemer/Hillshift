@@ -10,7 +10,8 @@ function Mount:init(x, y)
         2,
         0,
         5,
-    "+ATTACK when youre on a mountain")
+    "+ATTACK when youre on a mountain",
+    "Mountain")
 end
 
 function Mount:spawnParticlesWhenInstanced()

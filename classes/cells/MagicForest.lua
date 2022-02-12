@@ -10,7 +10,8 @@ function MagicForest:init(x, y)
         0,
         0,
      1000,
-    "i dont remember right now")
+    "i dont remember right now",
+    "Magic Forest")
 end
 
 

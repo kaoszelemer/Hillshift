@@ -10,7 +10,9 @@ function Field:init(x, y)
         0,
         0,
      1000,
-        "Gives no modifiers. It's quiet.")
+        "Gives no modifiers. It's quiet.",
+        "Field" 
+    )
 end
 
 

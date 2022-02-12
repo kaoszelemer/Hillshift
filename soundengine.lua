@@ -12,7 +12,19 @@ local function drawMusicPlayer()
         love.graphics.draw(musicOffImage, width / 16 , 0)
     end
 
+    if isMusicHoverTextOn then
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(purpleColor)
+        love.graphics.rectangle("fill", mouseX - tileW / 2, (mouseY + tileH / 2) + 4, tileW + tileW / 2, 12)
+        love.graphics.setColor(charColor)
+        love.graphics.print("Music on/off", mouseX - tileW / 2, mouseY + tileH / 2)
+        love.graphics.setColor(charColor)
+        love.graphics.setFont(statFont)
+    end
+
 end
+
+
 
 function soundEngine:playSFX(sound)
 

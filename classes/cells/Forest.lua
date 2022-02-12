@@ -10,7 +10,8 @@ function Forest:init(x, y)
     0,
     2,
  1000,
-    "gives +DEFENSE, when burned down it becames a burnt field\nProtects from fire.")
+    "gives +DEFENSE, when burned down\n it becames a burnt field\nProtects from fire.",
+    "Forest" )
 end
 
 

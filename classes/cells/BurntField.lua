@@ -10,7 +10,8 @@ function BurntField:init(x, y)
         0,
         0,
         1000,
-        "Damages 7 at turn end, after 2 turns it becames a field"    
+        "Damages 7 at turn end, after 2 turns it becames a field",
+        "Burnt Field"    
     )
 end
 
