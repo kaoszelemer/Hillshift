@@ -14,5 +14,17 @@ function Swamp:init(x, y)
     "Swamp")
 end
 
+function Swamp:onEntry(currentChar, ax, ay)
+
+
+        currentChar.stepPoints = 0
+        boardGrid[self.x][self.y].drawDamageOnBoard = true
+        boardGrid[self.x][self.y]:damageOnBoard("2SP")
+
+
+
+
+end
+
 
 return Swamp

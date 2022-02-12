@@ -489,29 +489,9 @@ function Cell:onEntry(character)
     end
 
 
-    if self:instanceOf(Desert) then
+  
 
-        for index, currentChar in ipairs(activePlayer.characters) do
 
-            if currentChar.stepPoints ~= 0 then
-                currentChar.stepPoints = currentChar.stepPoints - 1
-            end
-
-        end
-    end
-
-    if self:instanceOf(Swamp) then
-
-        for index, currentChar in ipairs(activePlayer.characters) do
-
-            if currentChar.stepPoints == 2 then
-                currentChar.stepPoints = currentChar.stepPoints - 2
-            elseif currentChar.stepPoints == 1 then
-                currentChar.stepPoints = currentChar.stepPoints - 1
-            end
-
-        end
-    end
 
     if self.isOnFire then
         local fireDamage = 5
