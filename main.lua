@@ -517,18 +517,16 @@ function endTurn()
  ]]
         if cell.isFrozen then
             currentChar.stepPoints = 0
-        elseif cell.isOnFire then
-            local fd = "-10HP"
-            currentChar.baseHP = currentChar.baseHP - 10
             cell.drawDamageOnBoard = true
             cell.drawDamageTime = love.timer.getTime()
-            cell:damageOnBoard(fd)
+            cell:damageOnBoard("-2SP")
+        elseif cell.isOnFire then
+           
+            currentChar:damage(currentChar, 10)
+            
 
         elseif cell.isBurntField then
-            currentChar.baseHP = currentChar.baseHP - 7
-            cell.drawDamageOnBoard = true
-            cell.drawDamageTime = love.timer.getTime()
-            cell:damageOnBoard("-7HP")
+           currentChar:damage(currentChar, 7)
 
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
@@ -544,16 +542,10 @@ function endTurn()
              
             end
             if turnCounter - currentChar.poisoningTurn == 1 then
-                currentChar.baseHP = currentChar.baseHP - 2
-                cell.drawDamageOnBoard = true
-                cell.drawDamageTime = love.timer.getTime()
-                cell:damageOnBoard("-2HP")
+                currentChar:damage(currentChar, 2)
             end
             if turnCounter - currentChar.poisoningTurn == 2 then
-                currentChar.baseHP = currentChar.baseHP - 1
-                cell.drawDamageOnBoard = true
-                cell.drawDamageTime = love.timer.getTime()
-                cell:damageOnBoard("-1HP")
+                currentChar:damage(currentChar, 1)
             end
         end   
 
@@ -582,16 +574,10 @@ function endTurn()
                 currentChar.isPoisoned = false
             end
             if turnCounter - currentChar.poisoningTurn == 1 then
-                currentChar.baseHP = currentChar.baseHP - 2
-                cell.drawDamageOnBoard = true
-                cell.drawDamageTime = love.timer.getTime()
-                cell:damageOnBoard("-2HP")
+                currentChar:damage(currentChar, 2)
             end
             if turnCounter - currentChar.poisoningTurn == 2 then
-                currentChar.baseHP = currentChar.baseHP - 1
-                cell.drawDamageOnBoard = true
-                cell.drawDamageTime = love.timer.getTime()
-                cell:damageOnBoard("-1HP")
+                currentChar:damage(currentChar, 1)
                
             end
         end           
@@ -600,16 +586,9 @@ function endTurn()
         if cell.isFrozen then
             currentChar.stepPoints = 0
         elseif cell.isOnFire then
-            local fd = "-10HP"
-            currentChar.baseHP = currentChar.baseHP - 10
-            cell.drawDamageOnBoard = true
-            cell.drawDamageTime = love.timer.getTime()
-            cell:damageOnBoard(fd)
+            currentChar:damage(currentChar, 10)
         elseif cell.isBurntField then
-            currentChar.baseHP = currentChar.baseHP - 7
-            cell.drawDamageOnBoard = true
-            cell.drawDamageTime = love.timer.getTime()
-            cell:damageOnBoard("-7HP")
+            currentChar:damage(currentChar, 7)
         elseif cell:instanceOf(Lake) then
             currentChar.actionPoints = 0
         end

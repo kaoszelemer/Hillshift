@@ -149,12 +149,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx - 1][by].isOnFire = true
                 boardGrid[bx - 1][by].fireTurn = turnCounter
                 if  boardGrid[bx - 1][by].isOccupied then
-                    boardGrid[bx - 1][by].occupiedBy.baseHP = boardGrid[bx - 1][by].occupiedBy.baseHP - 5
-                    boardGrid[bx - 1][by].drawDamageOnBoard = true
-                    boardGrid[bx - 1][by]:damageOnBoard("-5HP")
-                    if boardGrid[bx - 1][by].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx - 1][by].occupiedBy:kill()
-                    end
+                    boardGrid[bx - 1][by].occupiedBy:damage(boardGrid[bx - 1][by].occupiedBy, 5)
                 end
 
                 table.insert(sequenceBufferTable, {
@@ -239,12 +234,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx + 1][by].isOnFire = true
                 boardGrid[bx + 1][by].fireTurn = turnCounter
                 if  boardGrid[bx + 1][by].isOccupied then
-                    boardGrid[bx + 1][by].occupiedBy.baseHP = boardGrid[bx + 1][by].occupiedBy.baseHP - 5
-                    boardGrid[bx + 1][by].drawDamageOnBoard = true
-                    boardGrid[bx + 1][by]:damageOnBoard("-5HP")
-                    if boardGrid[bx + 1][by].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx + 1][by].occupiedBy:kill()
-                    end
+                    boardGrid[bx + 1][by].occupiedBy:damage(boardGrid[bx + 1][by].occupiedBy, 5)
                 end
 
                 table.insert(sequenceBufferTable, {
@@ -328,12 +318,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx - 1][by - 1].isOnFire = true
                 boardGrid[bx - 1][by - 1].fireTurn = turnCounter
                 if  boardGrid[bx - 1][by - 1].isOccupied then
-                    boardGrid[bx - 1][by - 1].occupiedBy.baseHP = boardGrid[bx - 1][by - 1].occupiedBy.baseHP - 5
-                    boardGrid[bx - 1][by - 1].drawDamageOnBoard = true
-                    boardGrid[bx - 1][by - 1]:damageOnBoard("-5HP")
-                    if boardGrid[bx - 1][by - 1].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx - 1][by - 1].occupiedBy:kill()
-                    end
+                    boardGrid[bx - 1][by - 1].occupiedBy:damage(boardGrid[bx - 1][by - 1].occupiedBy, 5)
                 end
             end
 
@@ -419,12 +404,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx + 1][by - 1].isOnFire = true
                 boardGrid[bx + 1][by - 1].fireTurn = turnCounter
                 if  boardGrid[bx + 1][by - 1].isOccupied then
-                    boardGrid[bx + 1][by - 1].occupiedBy.baseHP = boardGrid[bx + 1][by - 1].occupiedBy.baseHP - 5
-                    boardGrid[bx + 1][by - 1].drawDamageOnBoard = true
-                    boardGrid[bx + 1][by - 1]:damageOnBoard("-5HP")
-                    if boardGrid[bx + 1][by - 1].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx + 1][by - 1].occupiedBy:kill()
-                    end
+                    boardGrid[bx + 1][by - 1].occupiedBy:damage(boardGrid[bx + 1][by - 1].occupiedBy, 5)
                 end
             end
             table.insert(sequenceBufferTable, {
@@ -507,12 +487,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx - 1][by + 1].isOnFire = true
                 boardGrid[bx - 1][by + 1].fireTurn = turnCounter
                 if  boardGrid[bx - 1][by + 1].isOccupied then
-                    boardGrid[bx - 1][by + 1].occupiedBy.baseHP = boardGrid[bx - 1][by + 1].occupiedBy.baseHP - 5
-                    boardGrid[bx - 1][by + 1].drawDamageOnBoard = true
-                    boardGrid[bx - 1][by + 1]:damageOnBoard("-5HP")
-                    if boardGrid[bx - 1][by + 1].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx - 1][by + 1].occupiedBy:kill()
-                    end
+                    boardGrid[bx - 1][by + 1].occupiedBy:damage(5)
                 end
             end
 
@@ -596,12 +571,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx + 1][by + 1].isOnFire = true
                 boardGrid[bx + 1][by + 1].fireTurn = turnCounter
                 if  boardGrid[bx + 1][by+1].isOccupied then
-                    boardGrid[bx + 1][by+1].occupiedBy.baseHP = boardGrid[bx + 1][by+1].occupiedBy.baseHP - 5
-                    boardGrid[bx + 1][by + 1].drawDamageOnBoard = true
-                    boardGrid[bx + 1][by+1]:damageOnBoard("-5HP")
-                    if boardGrid[bx + 1][by + 1].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx + 1][by + 1].occupiedBy:kill()
-                    end
+                    boardGrid[bx + 1][by + 1].occupiedBy:damage(boardGrid[bx + 1][by + 1].occupiedBy, 5)
                 end
             end
 
@@ -685,12 +655,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx][by + 1].isOnFire = true
                 boardGrid[bx][by + 1].fireTurn = turnCounter
                 if  boardGrid[bx][by + 1].isOccupied then
-                    boardGrid[bx][by + 1].occupiedBy.baseHP = boardGrid[bx][by + 1].occupiedBy.baseHP - 5
-                    boardGrid[bx][by + 1].drawDamageOnBoard = true
-                    boardGrid[bx][by + 1]:damageOnBoard("-5HP")
-                    if boardGrid[bx][by + 1].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx][by + 1].occupiedBy:kill()
-                    end
+                    boardGrid[bx][by + 1].occupiedBy:damage(boardGrid[bx][by + 1].occupiedBy, 5)
                 end
             end
 
@@ -774,12 +739,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx][by - 1].isOnFire = true
                 boardGrid[bx][by - 1].fireTurn = turnCounter
                 if  boardGrid[bx][by - 1].isOccupied then
-                    boardGrid[bx][by - 1].occupiedBy.baseHP = boardGrid[bx][by - 1].occupiedBy.baseHP - 5
-                    boardGrid[bx][by - 1].drawDamageOnBoard = true
-                    boardGrid[bx][by - 1]:damageOnBoard("-5HP")
-                    if boardGrid[bx][by- 1].occupiedBy.baseHP <= 0 then
-                        boardGrid[bx][by - 1].occupiedBy:kill()
-                    end
+                    boardGrid[bx][by - 1].occupiedBy:damage(boardGrid[bx1][by - 1].occupiedBy, 5)
                 end
             end
 

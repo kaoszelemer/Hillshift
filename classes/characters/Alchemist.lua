@@ -205,13 +205,7 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                                         if boardGrid[x][y].isPoisoned and boardGrid[x][y].occupiedBy ~= nil and boardGrid[x][y].occupiedBy.isPoisoned ~= true then
                                                                 boardGrid[x][y].occupiedBy.isPoisoned = true
                                                                 boardGrid[x][y].occupiedBy.poisoningTurn = turnCounter
-                                                                boardGrid[x][y].occupiedBy.baseHP =  boardGrid[x][y].occupiedBy.baseHP - 3
-                                                                boardGrid[x][y].drawDamageOnBoard = true
-                                                                boardGrid[x][y].drawDamageTime = love.timer.getTime()
-                                                                boardGrid[x][y]:damageOnBoard("-3HP")
-                                                                if boardGrid[x][y].occupiedBy.baseHP <= 0 then
-                                                                        boardGrid[x][y].occupiedBy:kill()
-                                                                end
+                                                                boardGrid[x][y].occupiedBy:damage(boardGrid[x][y].occupiedBy, 3)
 
                                                         end
                                                 end

@@ -36,9 +36,9 @@ function ThunderShaman:spell(targetCell)
                                     boardGrid[self.x][self.y + oY].drawLightning = true
                                     lightningTimer = love.timer.getTime()
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Lake) and boardGrid[self.x][self.y + oY].isOccupied then
-                                        boardGrid[self.x][self.y + oY].occupiedBy.baseHP = boardGrid[self.x][self.y + oY].occupiedBy.baseHP - 20
+                                        boardGrid[self.x][self.y + oY].occupiedBy:damage(boardGrid[self.x][self.y + oY].occupiedBy, 20)
                                     elseif boardGrid[self.x][self.y + oY].isOccupied then
-                                        boardGrid[self.x][self.y + oY].occupiedBy.baseHP = boardGrid[self.x][self.y + oY].occupiedBy.baseHP - 10
+                                        boardGrid[self.x][self.y + oY].occupiedBy:damage(boardGrid[self.x][self.y + oY].occupiedBy, 10)
                                     end
                                     
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Mount) then
@@ -93,9 +93,9 @@ function ThunderShaman:spell(targetCell)
                                 lightningTimer = love.timer.getTime()
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Lake) and boardGrid[self.x + oX][self.y].isOccupied then
                             
-                                    boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 20
+                                    boardGrid[self.x + oX][self.y].occupiedBy:damage(boardGrid[self.x + oX][self.y].occupiedBy, 20)
                                 elseif boardGrid[self.x + oX][self.y].isOccupied then
-                                    boardGrid[self.x + oX][self.y].occupiedBy.baseHP = boardGrid[self.x + oX][self.y].occupiedBy.baseHP - 10
+                                    boardGrid[self.x + oX][self.y].occupiedBy:damage(boardGrid[self.x + oX][self.y].occupiedBy, 10)
                                 end
                 
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Mount) then

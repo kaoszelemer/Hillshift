@@ -716,7 +716,24 @@ function Character:chooseActionMenu(mx, my)
     self.drawBattle = false
 end
         
-    
+function Character:damage(char, dmg)
+    table.insert(sequenceBufferTable, {
+        name = "AirElementalblowCharacter",
+        duration = 1,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+            char.baseHP = char.baseHP - dmg
+            boardGrid[char.x][char.y].drawDamageOnBoard = true
+            boardGrid[char.x][char.y]:damageOnBoard("-"..dmg.."HP")
+
+            if char.baseHP <= 0 then 
+                char:kill()
+            end
+        end})
+
+
+
+end
 
 function Character:move(cx, cy, oldx, oldy)
     
@@ -852,12 +869,12 @@ function Character:attack(enemy, nw)
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                 damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
                 
-                enemy.baseHP = enemy.baseHP - damage
+                enemy:damage(enemy, damage)  
 
                 enableDrawAttack(self, enemy)
               
                 
-                if enemy.baseHP <= 0 then enemy:kill() end
+              
 
                
                 

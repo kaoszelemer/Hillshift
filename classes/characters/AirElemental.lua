@@ -122,12 +122,7 @@ function AirElemental:blowCharacter(targetCell, tcx, tcy, ox, oy)
             if self.x + tcx > 0 and self.x + tcx <= 10 and self.y + tcy > 0 and self.y + tcy <= 10 and boardGrid[self.x + tcx][self.y + tcy].isOccupied then
 
                 if self.parentPlayer ~= boardGrid[self.x + tcx][self.y + tcy].occupiedBy.parentPlayer then
-                    boardGrid[self.x + tcx][self.y + tcy].occupiedBy.baseHP = boardGrid[self.x + tcx][self.y + tcy].occupiedBy.baseHP - 2
-                    boardGrid[self.x + tcx][self.y + tcy].drawDamageOnBoard = true
-                    boardGrid[self.x + tcx][self.y + tcy]:damageOnBoard("-2HP")
-                    if boardGrid[self.x + tcx][self.y + tcy].occupiedBy.baseHP <= 0 then
-                        boardGrid[self.x + tcx][self.y + tcy].occupiedBy:kill()
-                    end
+                    boardGrid[self.x + tcx][self.y + tcy].occupiedBy:damage(boardGrid[self.x + tcx][self.y + tcy].occupiedBy, 2)
                 end
 
 

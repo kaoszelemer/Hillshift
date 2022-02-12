@@ -228,15 +228,6 @@ function Cell:drawLightningOnBoard()
         for y = 1, 10 do
             if boardGrid[x][y].drawLightning == true then
                 love.graphics.draw(lightningImage, boardGrid[x][y].x * tileW + offsetX, boardGrid[x][y].y * tileH + offsetY)
-                love.graphics.setColor(selectedColor)
-                love.graphics.setFont(font)
-                if boardGrid[x][y]:instanceOf(Lake) and boardGrid[x][y].isOccupied then
-                    love.graphics.print("-20", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
-                elseif boardGrid[x][y].isOccupied then
-                    love.graphics.print("-10", boardGrid[x][y].x * tileW + offsetX + 8, boardGrid[x][y].y * tileH + offsetY + 8)
-                end
-                love.graphics.setColor(charColor)
-                love.graphics.setFont(statFont)
             end
         end
     end
@@ -501,20 +492,14 @@ function Cell:onEntry(character)
         local fireDamage = 5
         for index, currentChar in ipairs(activePlayer.characters) do
             if currentChar == selectedChar then
-                currentChar.baseHP = currentChar.baseHP - fireDamage
-                boardGrid[self.x][self.y].drawDamageOnBoard = true
-                boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                self:damageOnBoard("-5HP")
+                currentChar:damage(currentChar, fireDamage)
             end
 
         end
 
         for index, currentChar in ipairs(inactivePlayer.characters) do
             if currentChar == selectedChar then
-                currentChar.baseHP = currentChar.baseHP - fireDamage
-                boardGrid[self.x][self.y].drawDamageOnBoard = true
-                boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                self:damageOnBoard("-5HP")
+                currentChar:damage(currentChar, fireDamage)
             end
 
         end
@@ -526,23 +511,19 @@ function Cell:onEntry(character)
 
         for index, currentChar in ipairs(activePlayer.characters) do
             if currentChar == selectedChar and currentChar.isPoisoned ~= true then
-                currentChar.baseHP = currentChar.baseHP - poisonDamage
+                
                 currentChar.isPoisoned = true
                 currentChar.poisoningTurn = turnCounter
-                boardGrid[self.x][self.y].drawDamageOnBoard = true
-                boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                Cell:damageOnBoard("-3HP")
+                currentChar:damage(currentChar, 3)
             end
         end
     
             for index, currentChar in ipairs(inactivePlayer.characters) do
                 if currentChar == selectedChar and currentChar.isPoisoned ~= true then
-                    currentChar.baseHP = currentChar.baseHP - poisonDamage
+                 
                     currentChar.isPoisoned = true
                     currentChar.poisoningTurn = turnCounter
-                    boardGrid[self.x][self.y].drawDamageOnBoard = true
-                    boardGrid[self.x][self.y].drawDamageTime = love.timer.getTime()
-                    Cell:damageOnBoard("-3HP")
+                    currentChar:damage(currentChar, 3)
                 end
             end
         end

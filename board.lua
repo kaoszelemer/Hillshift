@@ -996,8 +996,7 @@ function enableDrawAttack(character, enemy)
             drawnEnemyCharacter = enemy
             drawAttackAnim = true
             enemy.attackTime = love.timer.getTime()
-            fnumber = { x=(enemy.x * tileW + offsetX), y = (enemy.y) * tileH + offsetY, text = damage }
-            fnumberTween = tween.new(7, fnumber, {y= enemy.y + 0.1}, 'outSine')
+            
            
             
 
@@ -1148,37 +1147,7 @@ function drawAttackOnBoard()
 
 end
 
-function drawDamageFlyingNumbers()
-  
 
-    if drawAttackAnim then
-    
-        local enemy = drawnEnemyCharacter
-        local duration = 7
-        if love.timer.getTime() - enemy.attackTime <= duration then
-
-            love.graphics.setColor(yellowColor)
-            love.graphics.setFont(font)
-            love.graphics.print("-"..fnumber.text, fnumber.x + 1, fnumber.y - 1)
-            love.graphics.setColor(charColor)
-        
-            love.graphics.setColor(selectedColor)
-            love.graphics.setFont(font)
-            love.graphics.print("-"..fnumber.text, fnumber.x, fnumber.y)
-            love.graphics.setColor(charColor)
-        
-           -- love.graphics.rectangle("fill", fnumberTween.x, fnumberTween.y, 64,64)
-            --
-            --love.graphics.setFont(font)
-            
-          --  love.graphics.print("-"..damage, fnumber.x * tileW + offsetX, fnumber.y * tileW + offsetY)
-          --  
-        end
-    end
-
-
-
-end
 
 local function drawSpellAnimationsOnBoard()
     for _, currentChar in ipairs(activePlayer.characters) do
@@ -1428,9 +1397,7 @@ function board:update(dt)
 
   
     --if sequenceBufferTable
-    if drawAttack then
-        fnumberTween:update(dt)
-    end
+    
     local lightningTimerStop = 1
 
     for x = 1, 10 do
@@ -1500,7 +1467,7 @@ function board:draw()
    
    
     drawAttackOnBoard()
-    drawDamageFlyingNumbers()
+  
     Cell:drawDamageOnBoard()
     Cell:drawLightningOnBoard()
     

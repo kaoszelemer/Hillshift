@@ -25,8 +25,7 @@ function Item08:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     character.baseAttack = character.baseAttack + 1
-    character.baseHP = character.baseHP - 5
-    if character.baseHP <= 0 then character:kill() end
+    character:damage(currentChar, 5)
 
 end
 

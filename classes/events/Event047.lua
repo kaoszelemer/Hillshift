@@ -29,13 +29,11 @@ function Event047:eventFunction()
 
 
     for _, currentChar in ipairs(activePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP - 5
-        if currentChar.baseHP <= 0 then currentChar:kill() end
+        currentChar:damage(currentChar, 5)
     end
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.baseHP = currentChar.baseHP - 5
-        if currentChar.baseHP <= 0 then currentChar:kill() end
+        currentChar:damage(currentChar, 5)
     end
 
 
