@@ -315,7 +315,7 @@ function endTurn()
 
 
 
-    if turnCounter > 2 and isVolcanoOnBoard ~= true then
+    if turnCounter > 1 and isVolcanoOnBoard ~= true then
         local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
        
 
@@ -326,7 +326,7 @@ function endTurn()
                 boardGrid[vx][vy] = Volcano(vx, vy)
                 boardGrid[vx][vy].isOccupied = true
                 isVolcanoOnBoard = true
-                boardGrid[vx][vy].volcanoCounter = 5
+                boardGrid[vx][vy].volcanoCounter = 3
             end
         end
 
@@ -378,7 +378,7 @@ function endTurn()
 
                 boardGrid[x][y].volcanoCounter = boardGrid[x][y].volcanoCounter - 1
 
-                if boardGrid[x][y].volcanoCounter <= 3 then
+                if boardGrid[x][y].volcanoCounter == 1 then
 
                     boardGrid[x][y].isSmoking = true
 
