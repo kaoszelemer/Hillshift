@@ -631,6 +631,7 @@ function newTurn()
 
         if not suddenDeath and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             
+                soundEngine:playSFX(eventSound)
                 Event:enableEvent()
                 eventTurnCounter = 0
                 nextTurnBeforeEventModifier = 0

@@ -126,10 +126,13 @@ function soundEngine:load()
     ghostSound = ripple.newSound(ghost, {volume = 0.5, loop = false})
 
     local eruption = love.audio.newSource("/sounds/eruption.mp3", "static")
-    eruptionSound = ripple.newSound(eruption, {volume = 0.5, loop = false})
+    eruptionSound = ripple.newSound(eruption, {volume = 0.7, loop = false})
 
     local shrine = love.audio.newSource("/sounds/shrine.mp3", "static")
     shrineSound = ripple.newSound(shrine, {volume = 0.5, loop = false})
+    
+    local event = love.audio.newSource("/sounds/event.mp3", "static")
+    eventSound = ripple.newSound(event, {volume = 0.75, loop = false})
 
 
 
