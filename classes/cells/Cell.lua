@@ -430,9 +430,37 @@ function Cell:onEntry(character)
 
 
     if self.isPrison then
-                    for index, currentChar in ipairs(deadPool) do
+         
 
-                        if character.parentPlayer == currentChar.parentPlayer then
+                       if character.parentPlayer == playerOne then
+
+                            table.insert(sequenceBufferTable, {
+                                name = "startingCellwasOccupiedSoMovingToanotherPosition",
+                                duration = 0.3,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    deadPool.playerOne[1].x = randomFunction(1, 10, "cell:onentry prison")
+                                    deadPool.playerOne[1].y = randomFunction(1, 10, "cell:onentry prison")
+                                    if boardGrid[deadPool.playerOne[1].x][deadPool.playerOne[1].y].isOccupied then
+                                        deadPool.playerOne[1].x = 1
+                                        deadPool.playerOne[1].y = 1
+                                    end
+                                    deadPool.playerOne[1].baseHP = math.floor((deadPool.playerOne[1].maxHP / 100) * 60)
+                                    table.insert(character.parentPlayer.characters, deadPool.playerOne[1])
+                                    table.remove(deadPool.playerOne)
+                                end
+                            })
+
+                             self.isPrison = false
+
+                        end
+
+                
+                    
+
+                       if character.parentPlayer == playerTwo then
+
+                        local currentChar = deadPool.playerTwo[1]
 
                             table.insert(sequenceBufferTable, {
                                 name = "startingCellwasOccupiedSoMovingToanotherPosition",
@@ -447,14 +475,15 @@ function Cell:onEntry(character)
                                     end
                                     currentChar.baseHP = math.floor((currentChar.maxHP / 100) * 60)
                                     table.insert(character.parentPlayer.characters, currentChar)
+                                    table.remove(deadPool.playerTwo)
                                 end
                             })
 
                              self.isPrison = false
-
                         end
+                 
 
-                    end
+               
                 
             
     end

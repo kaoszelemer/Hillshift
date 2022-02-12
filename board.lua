@@ -414,11 +414,7 @@ local function drawStatsOnSideBarPlayerOne(playerone)
                         love.graphics.setColor(charColor)
                     end
 
-                    if cell:instanceOf(MagicForest) then
-                        love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1SP TURN END", modifierX + 36, sideBarY + 110)
-                        love.graphics.setColor(charColor)
-                    end
+                   
 
                     if cell:instanceOf(Swamp) then
                         love.graphics.setColor(selectedColor)
@@ -576,11 +572,6 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
                         love.graphics.setColor(charColor)
                     end
 
-                    if cell:instanceOf(MagicForest) then
-                        love.graphics.setColor(darkgreenColor)
-                        love.graphics.print("+1SP Turn End", modifierX + 36, sideBarY + 110)
-                        love.graphics.setColor(charColor)
-                    end
 
                     if cell:instanceOf(Swamp) then
                         love.graphics.setColor(selectedColor)
@@ -753,12 +744,14 @@ end
 
 function spawnChestPlayerOne()
     
-    local rndCellX = randomFunction(2, 3, "spawnChestPlayerOne") --1 3
+    local rndCellX = randomFunction(1, 2, "spawnChestPlayerOne") --1 3
     local rndCellY = randomFunction(3, 4, "spawnChestPlayerOne") --2 4
 
 
         if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+
+
             boardGrid[rndCellX][rndCellY].isChest = true
             chestCounter = chestCounter + 1
         
@@ -767,7 +760,7 @@ end
 
 function spawnChestPlayerTwo()
     local rndCellX = randomFunction(9, 10, "spawnChestPlayerTwo") --7 9
-    local rndCellY = randomFunction(6, 8, "spawnChestPlayerTwo") --6 9
+    local rndCellY = randomFunction(7, 8, "spawnChestPlayerTwo") --6 9
 
     if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
         and not boardGrid[rndCellX][rndCellY].isOccupied  then 

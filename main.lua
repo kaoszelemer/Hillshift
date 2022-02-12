@@ -93,7 +93,8 @@ ThunderShaman = require('classes.characters.ThunderShaman')
 SandWitch = require('classes.characters.SandWitch')
 WaterHag = require('classes.characters.WaterHag')
 
-deadPool = {}
+deadPool = {playerOne = {}, playerTwo = {}}
+
 
 
 Item = require('classes.items.Item')
@@ -358,9 +359,9 @@ function endTurn()
             
             if boardGrid[x][y]:instanceOf(Forest) then
                 forestCounter = forestCounter + 1
-                if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter <= 2 then
-                    local mfX = randomFunction(2, 9, "magicforestx")
-                    local mfY = randomFunction(2, 9, "magicforesty")
+                if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter < 1 then
+                    local mfX = randomFunction(3, 8, "magicforestx")
+                    local mfY = randomFunction(3, 8, "magicforesty")
                     boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
                     magicForestTimer = turnCounter
                     magicForestCounter = magicForestCounter + 1
@@ -636,18 +637,7 @@ function newTurn()
    
         end
 
-        for x = 1, 10 do
-            for y = 1, 10 do
-                for _, currentChar in ipairs(activePlayer.characters) do
-
-                    if boardGrid[x][y].x == currentChar.x and boardGrid[x][y].y == currentChar.y and boardGrid[x][y]:instanceOf(MagicForest) then
-                        currentChar.actionPoints = currentChar.actionPoints + 1
-                    end
-                end
-
-
-            end
-        end
+    
 
     Cell:resetParticleDrawing()
 

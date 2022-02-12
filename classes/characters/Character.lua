@@ -781,12 +781,18 @@ function Character:kill()
     
  
     for index, currentChar in ipairs(self.parentPlayer.characters) do
-        if self == currentChar then
+        if self == currentChar and self.parentPlayer == playerOne and #deadPool.playerOne <= 1 then
             boardGrid[self.x][self.y].isOccupied = false
-            table.remove(deadPool, 1)
-            table.insert(deadPool, currentChar)
+            table.insert(deadPool.playerOne, currentChar)
             table.remove(self.parentPlayer.characters, index)
         end   
+        if self == currentChar and self.parentPlayer == playerTwo and #deadPool.playerTwo <= 1 then
+            boardGrid[self.x][self.y].isOccupied = false
+            table.insert(deadPool.playerTwo, currentChar)
+            table.remove(self.parentPlayer.characters, index)
+        end   
+
+
     end
 
     if turnCounter < 20 and not isSuddenDeath then
