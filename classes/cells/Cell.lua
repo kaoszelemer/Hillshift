@@ -446,6 +446,8 @@ function Cell:onEntry(character)
                                         deadPool.playerOne[1].y = 1
                                     end
                                     deadPool.playerOne[1].baseHP = math.floor((deadPool.playerOne[1].maxHP / 100) * 60)
+                                    deadPool.playerOne[1].actionPoints = 0
+                                    deadPool.playerOne[1].stepPoints = 0
                                     table.insert(character.parentPlayer.characters, deadPool.playerOne[1])
                                     table.remove(deadPool.playerOne)
                                 end
@@ -474,6 +476,8 @@ function Cell:onEntry(character)
                                         currentChar.y = 1
                                     end
                                     currentChar.baseHP = math.floor((currentChar.maxHP / 100) * 60)
+                                    currentChar.actionPoints = 0
+                                    currentChar.stepPoints = 0
                                     table.insert(character.parentPlayer.characters, currentChar)
                                     table.remove(deadPool.playerTwo)
                                 end
