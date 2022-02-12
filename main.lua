@@ -313,10 +313,11 @@ function endTurn()
 
     if turnCounter > 2 and isVolcanoOnBoard ~= true then
         local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
-        local vx = randomFunction(2, 9, "volcanoX")
-        local vy = randomFunction(2, 9, "volcanoY")
+       
 
         if rngv < 0.15 then
+            local vx = randomFunction(2, 9, "volcanoX")
+            local vy = randomFunction(2, 9, "volcanoY")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Volcano(vx, vy)
                 boardGrid[vx][vy].isOccupied = true
@@ -329,10 +330,11 @@ function endTurn()
 
     if turnCounter > 8 and isShrineOnBoard ~= true then
         local rngs = randomFunction(nil, nil, "endTurnShrineAppearsChance")
-        local vx = randomFunction(2, 9, "shrineX")
-        local vy = randomFunction(2, 9, "shrineY")
+   
 
         if rngs < 0.5 then
+            local vx = randomFunction(2, 9, "shrineX")
+            local vy = randomFunction(2, 9, "shrineY")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Shrine(vx, vy)
                 isShrineOnBoard = true
@@ -343,18 +345,19 @@ function endTurn()
 
     local magicForestChance = randomFunction(nil, nil, "magicforesttompitas")
     local forestCounter = 0
-    local mfX = randomFunction(2, 9, "magicforestx")
-    local mfY = randomFunction(2, 9, "magicforesty")
-
+  
     for x = 1, 10 do
         for y = 1, 10 do
-            
+
+        
+        
        
             
             if boardGrid[x][y]:instanceOf(Forest) then
                 forestCounter = forestCounter + 1
                 if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter <= 2 then
-                    print(forestCounter)
+                    local mfX = randomFunction(2, 9, "magicforestx")
+                    local mfY = randomFunction(2, 9, "magicforesty")
                     boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
                     magicForestTimer = turnCounter
                     magicForestCounter = magicForestCounter + 1
