@@ -10,7 +10,7 @@ function Lake:init(x, y)
         0,
         0,
      1000,
-    "you cant attack someone in a lake\nand you only can move to land",
+    "You cant attack someone in a lake\nand you only can move to land\nYou can't directly step in it\nIt takes away your SP and AP on entry.",
     "Lake"
 
 )

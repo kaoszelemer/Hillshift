@@ -10,7 +10,7 @@ function Swamp:init(x, y)
         0,
         -3,
      1000,
-    "-2SP on entry, -DEFENSE",
+    "-2SP on entry, -DEFENSE if you stay there",
     "Swamp")
 end
 

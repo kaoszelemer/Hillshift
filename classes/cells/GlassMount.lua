@@ -10,7 +10,7 @@ function GlassMount:init(x, y)
         2,
         2,
      1000,
-    "you slide down on entry at the\nexact opposite side of the glassmountain",
+    "you slide down on entry at the\nexact opposite side of the glassmountain\n+2AT, +2DF if you can stop on it.",
     "Glass Mountain"    
 )
 end

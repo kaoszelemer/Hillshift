@@ -10,7 +10,7 @@ function Graveyard:init(x, y)
         0,
         0,
      1000,
-    "you run away in fear on entry to \na random neighbouring tile",
+    "Only ghosts live there\nYou run away in fear on entry to \na random neighbouring tile",
     "Graveyard"
 )
 end
