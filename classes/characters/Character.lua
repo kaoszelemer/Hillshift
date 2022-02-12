@@ -718,7 +718,7 @@ end
         
 function Character:damage(char, dmg)
     table.insert(sequenceBufferTable, {
-        name = "AirElementalblowCharacter",
+        name = "damaging character",
         duration = 1,
         sequenceTime = love.timer.getTime(),
         action = function()
