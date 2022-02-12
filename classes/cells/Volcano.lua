@@ -596,7 +596,7 @@ function Volcano:boom(bx, by)
                 boardGrid[bx + 1][by + 1].isOnFire = true
                 boardGrid[bx + 1][by + 1].fireTurn = turnCounter
                 if  boardGrid[bx + 1][by+1].isOccupied then
-                    boardGrid[bx + 1][by+1].occupiedBy.baseHP = boardGrid[bx - 1][by+1].occupiedBy.baseHP - 5
+                    boardGrid[bx + 1][by+1].occupiedBy.baseHP = boardGrid[bx + 1][by+1].occupiedBy.baseHP - 5
                     boardGrid[bx + 1][by + 1].drawDamageOnBoard = true
                     boardGrid[bx + 1][by+1]:damageOnBoard("-5HP")
                     if boardGrid[bx + 1][by + 1].occupiedBy.baseHP <= 0 then

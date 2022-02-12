@@ -19,7 +19,7 @@ end
 
 
 
-function Graveyard:onEntry(selectedChar, ax, ay)
+function Graveyard:onEntry(sChar, ax, ay)
 
     
 
@@ -34,43 +34,35 @@ function Graveyard:onEntry(selectedChar, ax, ay)
             
             soundEngine:playSFX(ghostSound)
 
-            local rngX = randomFunction(nil, nil, "graveyard:onEntry")
-            local rngY = randomFunction(nil, nil, "graveyard:onEntry")
+            local ghostRunTable = {}
 
-            if rngX < 0.33 then rngX = 1
-            elseif rngX > 0.33 and rngX < 0.66 then rngX = 0
-            elseif rngX > 0.66 then
-                rngX = -1
-            end
-            
-            if rngY < 0.33 then rngY = 1
-            elseif rngY > 0.33 and rngY < 0.66 then 
-                if rngX == 0 then
-                    local xchance = randomFunction(nil, nil, "chance for x")
-                    if xchance < 0.5 then
-                        rngY = -1
-                    else
-                        rngY = 1
+            for x = -1, 1 do
+                for y = -1, 1 do
+                    if x ~= 0 or y ~= 0 then
+                        if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 and self.y + y <= 10 then
+
+                            local runAwayCell = boardGrid[self.x + x][self.y + y]
+                            if runAwayCell.isOccupied ~= true then
+
+                                table.insert(ghostRunTable, runAwayCell)
+
+                            end
+                        end
                     end
-                else
-                    rngY = 0
                 end
-            elseif rngY > 0.66 then
-                rngY = -1 
             end
 
-            print(rngX, rngY)
-            
-            if boardGrid[selectedChar.x + rngX][selectedChar.y + rngY].isOccupied then
-                selectedChar.stepPoints = selectedChar.stepPoints + 1
-                selectedChar:move(ax, ay, selectedChar.x, selectedChar.y)
-            else
-                selectedChar.stepPoints = selectedChar.stepPoints + 1
-                selectedChar:move(selectedChar.x + rngX, selectedChar.y + rngY, selectedChar.x, selectedChar.y)
-            end
-                
-            
+            local runAwayCellIndex = randomFunction(1, #ghostRunTable, "graveyard")
+            print(ghostRunTable[runAwayCellIndex].x, ghostRunTable[runAwayCellIndex].y)
 
+            table.insert(sequenceBufferTable, {
+                name = "graveyardentry",
+                duration = 1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    sChar.stepPoints = sChar.stepPoints + 1
+                    sChar:move(ghostRunTable[runAwayCellIndex].x, ghostRunTable[runAwayCellIndex].y, self.x, self.y)
+                end})
         end})
         
     
