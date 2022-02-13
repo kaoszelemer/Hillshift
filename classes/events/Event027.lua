@@ -6,7 +6,7 @@ function Event027:init()
         "BrokenFaceBoying",
         27,
         "... odaig kuszott ...",
-        "One of YOUR \nCharacter moves\nY+2 or Y-2",
+        "One of YOUR Character moves Y+2 or Y-2",
         1
     )
 end

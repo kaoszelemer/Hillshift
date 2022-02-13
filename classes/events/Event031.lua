@@ -6,7 +6,7 @@ function Event031:init()
         "Great Earthquake",
         31,
         "... we are in Japan ...",
-        "30 RND Cells are\nMount",
+        "30 RND Cells are Mount",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event048:init()
         "Chaotic Chaos",
         48,
         "... Kaosz Elemer is the greatest ...",
-        "RND Poison, \nRND Fire, \nRND Freeze",
+        "RND Poison, RND Fire, RND Freeze",
         1
     )
 end

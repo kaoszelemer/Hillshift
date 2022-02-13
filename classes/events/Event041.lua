@@ -6,7 +6,7 @@ function Event041:init()
         "Fortress",
         41,
         "... now we need a Team ...",
-        "ENEMY Characters \nTURN DF Modifier +3",
+        "ENEMY Characters TURN DF Modifier +3",
         1
     )
 end

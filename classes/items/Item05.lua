@@ -4,7 +4,7 @@ function Item05:init()
     love.graphics.newImage("graphics/item05image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Onyx Spear",
-    "don't you \nbreak it\n\n-1A +1DF",
+    "don't you break it\n-1A +1DF",
     1,
     0,
     1)

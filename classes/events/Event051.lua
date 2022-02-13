@@ -6,7 +6,7 @@ function Event051:init()
         "Swampity Swamp",
         51,
         "... ogres live here ...",
-        "All lakes are \nSwamps",
+        "All lakes are Swamps",
         1
     )
 end

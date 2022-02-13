@@ -6,7 +6,7 @@ function Event001:init()
         "Armageddon",
         1,
         "... burn, burn, burn ...",
-        "All cellls are on \nfire.",
+        "All cellls are on fire.",
         0
     )
 end
@@ -28,6 +28,8 @@ end
 end
 
 function Event001:eventFunction()
+
+
 
     for x = 1, 10 do
         for y = 1, 10 do

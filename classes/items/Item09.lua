@@ -4,7 +4,7 @@ function Item09:init()
     love.graphics.newImage("graphics/item10image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Oval Shield",
-    "Looks like\n something else\n\n+4DF",
+    "Looks like something else\n+4DF",
     1,
     0,
     1)

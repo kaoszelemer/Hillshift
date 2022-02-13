@@ -65,37 +65,7 @@ function Item:drawCurrentItem()
     
 end
 
-function Item:confirmItemPickup()
 
-    
-
-    for index, item in ipairs(itemTable) do
-        if item.enableDraw == true then
-            table.insert(sequenceBufferTable, {
-                name = "WaterHagSpell",
-                duration = 0.2,
-                sequenceTime = love.timer.getTime(),
-                action = function()
-                    item:itemFunction(self.itemOwnerCharacter, self.itemOwnerPlayer)
-                    item.enableDraw = false
-                end
-            })
-        end
-
-    end
-
-    self.drawItemOnScreen = false
-    self.enableDraw = false
-    self.itemPickUp = false
-
-   --[[  for i, currentItem in ipairs(itemTable) do
-        if currentItem == self then
-            table.remove(itemTable, i)
-        end
-    end
- ]]
-
-end
 
 function Item:enableDrawCurrentItemOnSideBar(character, player, item)
 
@@ -113,8 +83,9 @@ function Item:pickUpItem(character, player)
     self.currentItem = getRandomItemFromItemTable()
     self.itemOwnerCharacter = character
     self.itemOwnerPlayer = player
-    self.itemPickUp = true
-    self.drawItemOnScreen = true
+    banner(itemTable[self.currentItem].itemName, itemTable[self.currentItem].itemDesc, "", love.timer.getTime())
+    itemTable[self.currentItem]:itemFunction(self.itemOwnerCharacter, self.itemOwnerPlayer)
+    
  
 
 end

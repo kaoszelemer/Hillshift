@@ -6,7 +6,7 @@ function Event043:init()
         "Better Chance",
         43,
         "... do not open lootboxes ...",
-        "ENEMY Characters \nTDM: +1DF,\nYOUR Characters\n TAM: +2AT ",
+        "ENEMY Characters TDM: +1DF,\nYOUR Characters TAM: +2AT ",
         1
     )
 end

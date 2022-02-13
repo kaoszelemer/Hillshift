@@ -6,7 +6,7 @@ function Event005:init()
         "Desertification",
         5,
         "... sandwitch is the greatest joke...",
-        "RND Cells are \nDeserts",
+        "RND Cells are Deserts",
         0
     )
 end

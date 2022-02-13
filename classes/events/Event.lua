@@ -92,34 +92,45 @@ function Event:enableEvent()
 
     neid = self:getNextEventID()
 
-    enableEvent = true
+ 
     self.nextEventID = neid
+
+    for index, event in ipairs(eventTable) do
+        if index == self.nextEventID then
+            
+            event:eventFunction()
+            banner(event.name, event.text, event.flavorText, love.timer.getTime())
+        end
+    end
+
+    eventTurnCounter = 0
 
 end
 
-function Event:confirmEventWithClick()
+function Event:eventAndBanner(event)
     
 
-     
-        for index, event in ipairs(eventTable) do
-            if event.enableDraw == true then
+        
+        
+            
                 table.insert(sequenceBufferTable, {
-                    name = "event confirmed with click",
+                    name = "event function running",
                     duration = 0.3,
                     sequenceTime = love.timer.getTime(),
                     action = function()
                         event:eventFunction()
-                        event.enableDraw = false
+                        
                     end})
-            end
-        end
+
+                   
+         
+     
      
   
 
   
   
 
-  enableEvent = false
 
 
 
@@ -142,25 +153,7 @@ end
 function Event:drawCurrentEvent()
   
 
-    if enableEvent then
-        local eventX = (width / 4 + offsetX)
-        local eventY = (height / 4 + offsetY)
-        love.graphics.draw(eventBackgroundImage, eventX - 12, eventY - 32)
-       
-        for index, event in ipairs(eventTable) do
-          
-            if self.nextEventID == index then
-              
-                currentEvent = event
-                currentEvent.enableDraw = true
-                love.graphics.setColor(purpleColor)
-                currentEvent:drawEventStuff()
-                love.graphics.setColor(charColor)
-            end
-
-        end
-
-    end
+   
 
 
 end

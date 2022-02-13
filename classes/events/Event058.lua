@@ -6,7 +6,7 @@ function Event058:init()
         "Foresters Gather",
         58,
         "... and they are in trance ...",
-        "YOUR Characters Cells \nare Forests",
+        "YOUR Characters Cells are Forests",
         1
     )
 end

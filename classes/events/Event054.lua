@@ -6,7 +6,7 @@ function Event054:init()
         "Refrigerator",
         54,
         "... close the door please ...",
-        "YOUR Characters Cells \nare frozen",
+        "YOUR Characters Cells are frozen",
         1
     )
 end

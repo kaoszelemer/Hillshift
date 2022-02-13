@@ -10,6 +10,8 @@ isMusicOn = true
 isDebugDrawHoveredTiles = false
 isTileHelperOn = true
 
+enableBannerDraw = false
+
 
 --require
 
@@ -298,7 +300,7 @@ function endTurn()
     eventTurnCounter = eventTurnCounter + 1
     if turnCounter == maxTurns then 
         isSuddenDeath = true 
-        if turnCounter == maxTurns then isDrawEventForSuddenDeath = true end
+        if turnCounter == maxTurns then isSuddenDeath = true end
         --eventTurnCounter = -40
         --chestCounter = 30
     end
@@ -605,6 +607,15 @@ end
 
 function newTurn()
 
+    local text
+    
+    if activePlayer == playerOne then
+        text = "PLAYER ONE - IT'S YOUR TURN"
+    else
+        text = "PLAYER TWO - IT'S YOUR TURN"
+    end
+
+    banner("NEW TURN", text, "now it's your chance", love.timer.getTime())
 
     gameState:changeState(gameState.states.selectCharacter)
 
@@ -618,6 +629,12 @@ function newTurn()
         end
 
     
+        if turnCounter == 20 then
+            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime())
+        end
+    
+
+
 
     Cell:resetParticleDrawing()
 
@@ -665,10 +682,11 @@ local function selectStartingPlayer()
    if isGameServer then
     activePlayer = playerOne
     inactivePlayer = playerTwo
+ 
    elseif isGameClient then
     activePlayer = playerOne
     inactivePlayer = playerTwo
-
+  
    else
 
         startingDicePlayerOne = randomFunction(1,6, "selectStartingPlayer")
@@ -679,9 +697,11 @@ local function selectStartingPlayer()
         if rndPlayer == 1 then
             activePlayer = playerOne
             inactivePlayer = playerTwo
+            banner("FIRST TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
         else
             activePlayer = playerTwo
             inactivePlayer = playerOne
+            banner("FIRST TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
         end
     end
    
@@ -1007,12 +1027,7 @@ local function loadParticleSystems()
     
     
 
--- At start time:
--- ps:start()
--- ps:emit(54)
--- At draw time:
--- love.graphics.setBlendMode("alpha")
--- love.graphics.draw(ps, 0+0, 0+0)
+
 
 
 
@@ -1172,6 +1187,11 @@ local function initNetworking(arg)
                   action = function()
                    createBoardGrid()
                   end})    
+            print(activePlayer.name)
+            if activePlayer == playerOne then
+                banner("FIRST TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+            end
+            
         end)
 
     
@@ -1372,7 +1392,11 @@ local function initNetworking(arg)
               action = function()
                createBoardGrid()
               end})  
-                 
+            
+            if activePlayer == playerTwo then
+                banner("FIRST TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+            end
+
         end)
 
         -- Custom callback, called whenever you send the event from the server
@@ -1468,6 +1492,51 @@ local function initNetworking(arg)
 
 end
 
+function banner(name, text, flavor, bt)
+ 
+  
+    bannerTime = bt
+    bannerText = {name = name, text = text, flavor = flavor}
+
+
+    
+    bannerAnimation:gotoFrame(1)
+    bannerAnimation:resume()
+    enableBannerDraw = true  
+
+end
+
+function drawBanner()
+    local x = (boardGrid[2][5].x * tileW + offsetX)
+    local y = boardGrid[1][5].y * tileH + offsetY
+    if enableBannerDraw then
+
+        bannerAnimation:draw(bannerAnimationImage, x , y)
+
+        if love.timer.getTime() - bannerTime >= 0.7 then
+
+            local nameX = x + ((512 - font:getWidth(bannerText.name)) / 2) 
+            local nameY = y + tileH / 8
+            local textX = x + ((512 - pointFont:getWidth(bannerText.text)) / 2) 
+            local textY = y + tileH - tileH / 4
+            local flavX = x + ((512 - littleFont:getWidth(bannerText.flavor)) / 2)
+            local flavY = y + tileH + tileH / 4
+
+            love.graphics.setFont(font)
+            love.graphics.setColor(purpleColor)
+            love.graphics.print(bannerText.name, nameX, nameY)
+            love.graphics.setFont(pointFont)
+            love.graphics.print(bannerText.text, textX, textY)
+            love.graphics.setFont(littleFont)
+            love.graphics.print(bannerText.flavor, flavX, flavY)
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+        end
+
+    end
+
+end
+
 
 function love.load(arg)
        --board betoltese
@@ -1544,7 +1613,13 @@ function love.update(dt)
         end
     end
   
+    bannerAnimation:update(dt)
 
+    if enableBannerDraw and love.timer.getTime() - bannerTime >= 3 then
+    
+        enableBannerDraw = false
+     
+    end
 
     
 end
@@ -1622,28 +1697,7 @@ function love.draw()
         love.graphics.setColor(charColor)
 
     end
-
-    if isDrawEventForSuddenDeath then
-        local eventX = (width / 4 + offsetX)
-        local eventY = (height / 4 + offsetY)
-        love.graphics.draw(eventBackgroundImage, eventX, eventY)
-        love.graphics.setFont(statFont)
-        love.graphics.setColor(purpleColor)
-        love.graphics.print("SUDDEN DEATH mode is on.\n\nUnstoppable flames will spread\naround the board.\n\nBe QUICK or DIE!", eventX + tileW, eventY + tileH)
-        love.graphics.setFont(font)
-        love.graphics.setColor(charColor)
-    end
-
-    if isDrawEventForPrisonSpawn and turnCounter < 20 then
-        local eventX = (width / 4 + offsetX)
-        local eventY = (height / 4 + offsetY)
-        love.graphics.draw(eventBackgroundImage, eventX, eventY)
-        love.graphics.setFont(statFont)
-        love.graphics.setColor(purpleColor)
-        love.graphics.print("A PRISON has spawned!\n\nYour character not dead yet.\nYou can free him,\nby moving to the prison cell\n\nYou wont have a chance\nlike this again!", eventX + tileW, eventY + tileH)
-        love.graphics.setFont(font)
-        love.graphics.setColor(charColor)
-    end
+ 
 
 
    --Debug for networking
@@ -1776,7 +1830,7 @@ function love.mousereleased(x, y, button, istouch, presses)
             gameState:changeState(gameState.states.selectCharacter)
         end
 
-        if not enableEvent and not isDrawEventForPrisonSpawn and not isDrawEventForSuddenDeath then
+        if not enableBannerDraw then
             for _, currentChar in ipairs(activePlayer.characters) do
 
                 if currentChar.isHovered then 
@@ -1808,18 +1862,18 @@ function love.mousereleased(x, y, button, istouch, presses)
             if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
                 isEndTurnButtonClicked = false
 
-                if isGameServer and activePlayer == playerOne then
+                if isGameServer and activePlayer == playerOne and not enableBannerDraw then
                     server:sendToAll("serverendturn", "endturnclicked")
                     endTurn()
                     newTurn()
                 end
-                if isGameClient and activePlayer == playerTwo then
+                if isGameClient and activePlayer == playerTwo and not enableBannerDraw then
                     client:send("clientendturn", "endturnclicked")
                     endTurn()
                     newTurn()
                 end
 
-                if isGameClient ~= true and isGameServer ~= true then
+                if isGameClient ~= true and isGameServer ~= true and not enableBannerDraw then
                     endTurn()
                     newTurn()
                 end
@@ -1837,34 +1891,6 @@ function love.mousereleased(x, y, button, istouch, presses)
                     end
                 end
 
-        end
-
-        if enableEvent and
-            x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-            y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
-                isEndTurnButtonClicked = false
-                Event:confirmEventWithClick()
-                
-        end
-
-        if isDrawEventForSuddenDeath and
-        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
-            isDrawEventForSuddenDeath = false
-            
-        end
-
-        if isDrawEventForPrisonSpawn and
-        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
-            isDrawEventForPrisonSpawn = false
-            
-        end
-
-        if Item.drawItemOnScreen and
-                x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-                y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
-                Item:confirmItemPickup()
         end
 
         if isCancelButton then
@@ -1886,7 +1912,7 @@ end
 function love.mousepressed( x, y, button, istouch, presses )
 
     
-    if not enableEvent and not enableEndGame and not isDrawEventForPrisonSpawn and not isDrawEventForSuddenDeath and
+    if not enableEvent and not enableEndGame and not enableBannerDraw and
        
             (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
                 isEndTurnButtonClicked = true

@@ -4,7 +4,7 @@ function Item03:init()
     love.graphics.newImage("graphics/item03image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Assassin Dagger",
-    "shvshvshvs \n\n+2DF",
+    "shvshvshvs \n+2DF",
     2,
     0,
     1)

@@ -6,7 +6,7 @@ function Event044:init()
         "Friendly Wormholes",
         44,
         "... zip-zap 4x ...",
-        "YOUR Characters \nteleports to RND Cell",
+        "YOUR Characters teleports to RND Cell",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event066:init()
         "Enemy Peaseants Holiday",
         66,
         "... reapers digest ...",
-        "ENEMY Characters Cells \nare Fields",
+        "ENEMY Characters Cells are Fields",
         1
     )
 end

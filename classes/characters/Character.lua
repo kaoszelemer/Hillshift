@@ -316,6 +316,7 @@ function Character:drawAttackAnimation()
             end
 
             if self.drawAttackAnimBottom then
+                print("rajzolom az animaciot")
                 attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y * tileH + offsetY) + tileH)
                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
                 bloodParticleSystem:emit(2000)
@@ -817,13 +818,17 @@ function Character:kill()
         if isSuddenDeath ~= true then
             if #playerOne.characters < 4  and playerOne.prisonCount == 0 then
                 print("spawning prison for PLAYER ONE")
-                isDrawEventForPrisonSpawn = true
+                
+   
+                banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime())
+    
+
                 spawnPrison(playerOne)
             end
 
             if #playerTwo.characters < 4 and playerTwo.prisonCount == 0 then
                 print("spawning prison for PLAYER TWO")
-                isDrawEventForPrisonSpawn = true
+                banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime())
                 spawnPrison(playerTwo)
             end
 

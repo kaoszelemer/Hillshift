@@ -6,7 +6,7 @@ function Event003:init()
         "Blessing",
         3,
         "... Kifli blesses you...",
-        "ALL characters\n+1AT",
+        "ALL characters +1AT",
         1
     )
 end

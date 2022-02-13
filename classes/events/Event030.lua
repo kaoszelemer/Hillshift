@@ -6,7 +6,7 @@ function Event030:init()
         "Medium Earthquake",
         30,
         "... we are in Fiji ...",
-        "20 RND Cells are\nMount",
+        "20 RND Cells are Mount",
         1
     )
 end

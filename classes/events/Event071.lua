@@ -6,7 +6,7 @@ function Event071:init()
         "Energy Loss",
         71,
         "... Blue Cow breaks your wings ...",
-        "YOUR RND Char \n-1SP, -1AP",
+        "YOUR RND Char -1SP, -1AP",
         1
     )
 end

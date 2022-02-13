@@ -6,7 +6,7 @@ function Event063:init()
         "Enemy Pool Building",
         63,
         "... you'll need rubber boots ...",
-        "ENEMY Characters Cells \nare Lakes",
+        "ENEMY Characters Cells are Lakes",
         1
     )
 end

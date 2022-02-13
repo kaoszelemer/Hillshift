@@ -6,7 +6,7 @@ function Event028:init()
         "Arieling",
         28,
         "... your teammate got a proper ...",
-        "Enemy has 0 SP \nand 0 AP\nnext turn",
+        "Enemy has 0 SP and 0 AP next turn",
         1
     )
 end

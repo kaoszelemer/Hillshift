@@ -6,7 +6,7 @@ function Event052:init()
         "Glass Factory",
         52,
         "... i live here ...",
-        "RND Cells are\nGlass Mounts",
+        "RND Cells are Glass Mounts",
         1
     )
 end

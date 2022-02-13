@@ -6,7 +6,7 @@ function Event006:init()
         "Ice Age",
         6,
         "... brr, i'm freezing ...",
-        "RND Cell are Frozen,\nall fires are out",
+        "RND Cell are Frozen, all fires are out",
         0
     )
 end

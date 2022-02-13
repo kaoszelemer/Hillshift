@@ -4,7 +4,7 @@ function Item07:init()
     love.graphics.newImage("graphics/item07image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Dagger of Jesus",
-    "It embraces you\n\n+1A +10HP",
+    "It embraces you\n+1A +10HP",
     1,
     0,
     1)

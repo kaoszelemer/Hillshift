@@ -6,7 +6,7 @@ function Event002:init()
         "Divine Heal",
         2,
         "i love Ancsigorl",
-        "All characters\n+5HP",
+        "All characters +5HP",
         1
     )
 end

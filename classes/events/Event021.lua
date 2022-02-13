@@ -6,7 +6,7 @@ function Event021:init()
         "It's a kinda",
         21,
         "... magiiiiiiiic ...",
-        "A few Forests are\nMagic Forests",
+        "A few Forests are Magic Forests",
         1
     )
 end

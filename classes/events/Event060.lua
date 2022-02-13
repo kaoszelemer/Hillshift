@@ -6,7 +6,7 @@ function Event060:init()
         "Enemy Backfire",
         60,
         "... your hands! ...",
-        "ENEMY Character Cells \nare on Fire",
+        "ENEMY Character Cells are on Fire",
         1
     )
 end

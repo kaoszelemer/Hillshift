@@ -7,7 +7,7 @@ function Event024:init()
         "Nasty Wormhole",
         24,
         "... where you are? ...",
-        "enemy RND Char \nteleports to\nRND Cell",
+        "enemy RND Char teleports to RND Cell",
         1
     )
 end

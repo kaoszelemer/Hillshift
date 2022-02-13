@@ -6,7 +6,7 @@ function Event023:init()
         "Friendly Wormhole",
         23,
         "... where i am? ...",
-        "your RND char \nteleports to\nRND Cell",
+        "your RND char teleports to RND Cell",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event046:init()
         "The Burning",
         46,
         "... the smell of napalm ...",
-        "ALL forests are \nBurnt fields",
+        "ALL forests are Burnt fields",
         1
     )
 end

@@ -6,7 +6,7 @@ function Event070:init()
         "Energy Boost",
         70,
         "... Blue Cow gives you wings ...",
-        "YOUR RND Char \n+1SP, +1AP",
+        "YOUR RND Char +1SP, +1AP",
         1
     )
 end

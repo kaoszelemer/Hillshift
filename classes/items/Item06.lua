@@ -4,7 +4,7 @@ function Item06:init()
     love.graphics.newImage("graphics/item06image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Jade Broadsword",
-    "Sword of Logic\n\n+1A or +1DF",
+    "Sword of Logic\n+1A or +1DF",
     1,
     0,
     1)

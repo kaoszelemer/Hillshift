@@ -4,7 +4,7 @@ function Item02:init()
     love.graphics.newImage("graphics/item02image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Fiery Hauberk",
-    "It's too hot\nat summer\n\n+1DF -5HP",
+    "It's too ho at summer\n+1DF -5HP",
     0,
     1,
     1)

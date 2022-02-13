@@ -6,7 +6,7 @@ function Event059:init()
         "Peaseant Holiday",
         59,
         "... reap whats reapable ...",
-        "YOUR Characters Cells \nare Fields",
+        "YOUR Characters Cells are Fields",
         1
     )
 end

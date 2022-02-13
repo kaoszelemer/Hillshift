@@ -6,7 +6,7 @@ function Event022:init()
         "Start Over",
         22,
         "... tabula rasa ...",
-        "ALL characters go \nback to starting \nposition",
+        "ALL characters go back to starting position",
         1
     )
 end

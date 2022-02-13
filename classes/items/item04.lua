@@ -4,7 +4,7 @@ function Item04:init()
     love.graphics.newImage("graphics/item04image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Extatic Lance",
-    "Kill with it\n\n+3AT",
+    "Kill with it\n+3AT",
     3,
     0,
     1)

@@ -4,7 +4,7 @@ function Item01:init()
     love.graphics.newImage("graphics/item01image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Prolitemitus Sword",
-    "  Sword of \n\n Kaosz Elemer\n\n  +1A +1DF",
+    "  Sword of Kaosz Elemer \n+1A +1DF",
     1,
     0,
     1)

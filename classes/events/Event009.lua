@@ -6,7 +6,7 @@ function Event009:init()
         "Starvation",
         9,
         "... gimme a burger ...",
-        "ALL Characters - 1DF",
+        "ALL Characters -1DF",
         1
     )
 end

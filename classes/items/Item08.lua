@@ -4,7 +4,7 @@ function Item08:init()
     love.graphics.newImage("graphics/item08image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Knife Of Hell",
-    "My hand!!!\n\n+1AT -5HP",
+    "My hand!!!\n+1AT -5HP",
     1,
     0,
     1)

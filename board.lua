@@ -468,12 +468,11 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         end
 
 
-        if activePlayer == playerone then 
-            love.graphics.print(playerone.name, sideBarX + 32, 64)
-        end
+        
+        love.graphics.print(playerone.name, sideBarX + 32, 64)
+        
 
         if activePlayer == playerone then
-            love.graphics.print("                - IT'S YOUR TURN", sideBarX + 32, 64)
             love.graphics.setColor(charColor)
             love.graphics.print("PLAYER ONE'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, height - 60)
             if currentChar.stepPoints ~= 0 then love.graphics.print(currentChar.stepPoints.."SP", sideBarX + 48, sideBarY + 112) end
@@ -625,12 +624,10 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         end
 
 
-        if activePlayer == playertwo then 
-            love.graphics.print(playertwo.name, sideBarX + 32, 64)
-        end
+        love.graphics.print(playertwo.name, sideBarX + 32, 64)
+      
 
         if activePlayer == playertwo then
-            love.graphics.print("                - IT'S YOUR TURN", sideBarX + 32, 64)
             love.graphics.setColor(charColor)
             love.graphics.print("PLAYER TWO'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, height - 60)
             if currentChar.stepPoints ~= 0 then love.graphics.print(currentChar.stepPoints.."SP", sideBarX + 48, sideBarY + 112) end
@@ -860,7 +857,7 @@ function createBoardGrid()
             end
            
         end
-
+        
 
         table.insert(sequenceBufferTable, {
             name = "spawningachestforplayerOne",
@@ -887,7 +884,7 @@ function createBoardGrid()
 
         Cell:resetParticleDrawing()
 
-  
+    
    
 
 
@@ -962,6 +959,7 @@ local function drawEndTurnButton()
 end
 
 local function drawWarningForNextEvent()
+
     if eventTurnCounter >= nextTurnBeforeEvent - 2 then
 
         for i = 255, 0, -1 do
@@ -994,8 +992,8 @@ function enableDrawAttack(character, enemy)
             attackAnimation:gotoFrame(1)
             drawnAttackingCharacter = character
             drawnEnemyCharacter = enemy
-            drawAttackAnim = true
             enemy.attackTime = love.timer.getTime()
+            drawAttackAnim = true
             
            
             
@@ -1149,6 +1147,10 @@ end
 
 
 
+
+
+
+
 local function drawSpellAnimationsOnBoard()
     for _, currentChar in ipairs(activePlayer.characters) do
         currentChar:drawSpellAnimation()
@@ -1159,6 +1161,12 @@ end
 
 
 local function loadAnimations()
+
+    --banner
+    bannerAnimationImage = love.graphics.newImage('graphics/banneranim.png')
+    local g = anim8.newGrid(512, 128, bannerAnimationImage:getWidth(), bannerAnimationImage:getHeight())
+    bannerAnimation = anim8.newAnimation(g('1-8', 1), 0.1, 'pauseAtEnd')
+
 
     --Cell:entry
     ghostAnimationImage = love.graphics.newImage('graphics/ghostanim.png')
@@ -1417,11 +1425,12 @@ function board:update(dt)
     for _, currentChar in ipairs(inactivePlayer.characters) do
         currentChar:update(dt)
     end
+  
 
     fireBorderAnimation:update(dt)
     frozenBorderAnimation:update(dt)
     poisonBorderAnimation:update(dt)
-    
+   
   
 
     testBoardForOccupy(activePlayer, inactivePlayer)
@@ -1438,12 +1447,14 @@ function board:draw()
     drawTileHelper()
     drawChests()
 
-    if isGameServer and playerOne == activePlayer then
-        drawEndTurnButton()
-    elseif isGameClient and playerTwo == activePlayer then
-        drawEndTurnButton()
-    elseif isGameClient ~= true and isGameServer ~= true then
-        drawEndTurnButton()
+    if enableBannerDraw == false then
+        if isGameServer and playerOne == activePlayer then
+            drawEndTurnButton()
+        elseif isGameClient and playerTwo == activePlayer then
+            drawEndTurnButton()
+        elseif isGameClient ~= true and isGameServer ~= true then
+            drawEndTurnButton()
+        end
     end
 
     drawRectanglesIfHoveredOrOccupied()
@@ -1463,17 +1474,20 @@ function board:draw()
     
     drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
+    
+    Cell:drawDamageOnBoard()
+   
     Character:drawAttackAnimation()
-   
-   
     drawAttackOnBoard()
   
-    Cell:drawDamageOnBoard()
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
     Cell:drawGhostAnim()
     Cell:drawVolcanoAnim()
+
+    drawBanner()
+   
     
     
     

@@ -6,7 +6,7 @@ function Event053:init()
         "Backfire",
         53,
         "... my hands ...",
-        "YOUR Characters Cells \nare on Fire",
+        "YOUR Characters Cells are on Fire",
         1
     )
 end
