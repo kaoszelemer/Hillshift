@@ -10,7 +10,7 @@ function MagicForest:init(x, y)
         0,
         0,
      1000,
-    "Gives +1AP on entry. But hurry it's gone after 3 turns!",
+    "Gives +1AP on entry. But hurry it's gone after 3 turns!\nElves sing their magical songs.",
     "Magic Forest")
 end
 

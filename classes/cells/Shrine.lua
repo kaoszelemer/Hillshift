@@ -10,7 +10,7 @@ function Shrine:init(x, y)
         -2,
         0,
         1000,
-    "+5HP on entry, not much, but can save lives.",
+    "+5HP on entry, not much, but can save lives\nbeautiful singing voice emanates\nfrom there",
     "Shrine")
 end
 

@@ -10,7 +10,7 @@ function Mount:init(x, y)
         2,
         0,
         5,
-    "+2AT when you're on a mountain. Mountains can be destroyed sometimes\nand then they become Deserts.",
+    "+2AT when you're on a mountain.\nMountains can be destroyed sometimes\nand then they become Deserts.",
     "Mountain")
 end
 

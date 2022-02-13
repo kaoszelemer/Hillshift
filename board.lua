@@ -293,6 +293,29 @@ function drawTileHelper()
                     love.graphics.print(cell.infoText, tileW / 2 + tileW / 8, (4*150 + 60) + tileH / 2)
                     love.graphics.setColor(charColor)
                     love.graphics.setFont(statFont)
+
+                    if cell.isOnFire then
+                        love.graphics.setColor(purpleColor)
+                        love.graphics.setFont(littleFont)
+                        love.graphics.print("This "..cell.name.." is on fire!\n-5HP on entry, -10HP end turn", tileW / 2 + tileW / 8, (4*150 + 60) + tileH + tileH / 4)
+                        love.graphics.setColor(charColor)
+                        love.graphics.setFont(statFont)
+                    end
+                    if cell.isPoisoned then
+                        love.graphics.setColor(purpleColor)
+                        love.graphics.setFont(littleFont)
+                        love.graphics.print("This "..cell.name.." is poisoned!\n-3HP on entry, -6HP in 3 turn", tileW / 2 + tileW / 8, (4*150 + 60) + tileH+ tileH / 4)
+                        love.graphics.setColor(charColor)
+                        love.graphics.setFont(statFont)
+                    end
+                    if cell.isFrozen then
+                        love.graphics.setColor(purpleColor)
+                        love.graphics.setFont(littleFont)
+                        love.graphics.print("This "..cell.name.." is frozen!\n0 Step points if you start from there", tileW / 2 + tileW / 8, (4*150 + 60) + tileH+ tileH / 4)
+                        love.graphics.setColor(charColor)
+                        love.graphics.setFont(statFont)
+                    end
+
                    
                 end
             end

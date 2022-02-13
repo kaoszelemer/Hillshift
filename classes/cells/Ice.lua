@@ -10,7 +10,7 @@ function Ice:init(x, y)
         0,
         0,
      1000,
-    "You can skate on ice, infinite movement while on ice\nbut when you're done skating\nyour AP set to 0",
+    "Infinite skating while on ice\nbut when you're done\nyour AP set to 0",
     "Ice")
 end
 
