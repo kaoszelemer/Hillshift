@@ -1541,7 +1541,7 @@ end
 function love.load(arg)
        --board betoltese
     if isGameClient ~= true and isGameServer ~= true then
-         nextTurnBeforeEvent = 1--randomFunction(5, 9, "Love:load - next turn before event")
+         nextTurnBeforeEvent = randomFunction(5, 9, "Love:load - next turn before event")
     end
 
     initNetworking(arg)
