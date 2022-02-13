@@ -99,7 +99,7 @@ function Event:enableEvent()
         if index == self.nextEventID then
             
             event:eventFunction()
-            banner(event.name, event.text, event.flavorText, love.timer.getTime())
+            banner(event.name, event.text, event.flavorText, love.timer.getTime(), 5)
         end
     end
 
