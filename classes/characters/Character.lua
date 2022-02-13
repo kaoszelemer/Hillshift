@@ -820,7 +820,7 @@ function Character:kill()
                 print("spawning prison for PLAYER ONE")
                 
    
-                banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime(), 5)
+                banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime())
     
 
                 spawnPrison(playerOne)
@@ -828,7 +828,7 @@ function Character:kill()
 
             if #playerTwo.characters < 4 and playerTwo.prisonCount == 0 then
                 print("spawning prison for PLAYER TWO")
-                banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime(), 5)
+                banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime())
                 spawnPrison(playerTwo)
             end
 

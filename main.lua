@@ -65,7 +65,7 @@ gameState = StateMachine({
 
 sequenceBufferTable = {}
 
-prisons = {cell = {}, parentPlayer = {}}
+
 
 
 Cell = require('classes.cells.Cell')
@@ -615,7 +615,7 @@ function newTurn()
         text = "PLAYER TWO - IT'S YOUR TURN"
     end
 
-    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
+    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime())
 
     gameState:changeState(gameState.states.selectCharacter)
 
@@ -630,7 +630,7 @@ function newTurn()
 
     
         if turnCounter == 20 then
-            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), 5)
+            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime())
         end
     
 
@@ -652,14 +652,11 @@ function spawnPrison(player)
     if turnCounter < 20 then
         --print(playerOne.prisonCount, playerTwo.prisonCount)
         if player == playerTwo and playerTwo.prisonCount == 0 then
-            
             boardGrid[3][8] = Field(3, 8)
             boardGrid[3][8].isPrison = true
-            
             playerTwo.prisonCount = playerTwo.prisonCount + 1
         end
         if player == playerOne and playerOne.prisonCount == 0 then
-            
             boardGrid[8][3] = Field(8, 3)
             boardGrid[8][3].isPrison = true
             playerOne.prisonCount = playerOne.prisonCount + 1
@@ -700,11 +697,11 @@ local function selectStartingPlayer()
         if rndPlayer == 1 then
             activePlayer = playerOne
             inactivePlayer = playerTwo
-            banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 3)
+            banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
         else
             activePlayer = playerTwo
             inactivePlayer = playerOne
-            banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 3)
+            banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
         end
     end
    
@@ -1192,7 +1189,7 @@ local function initNetworking(arg)
                   end})    
             print(activePlayer.name)
             if activePlayer == playerOne then
-                banner("FIRST TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 3)
+                banner("FIRST TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
             end
             
         end)
@@ -1397,7 +1394,7 @@ local function initNetworking(arg)
               end})  
             
             if activePlayer == playerTwo then
-                banner("FIRST TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 3)
+                banner("FIRST TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
             end
 
         end)
@@ -1495,10 +1492,9 @@ local function initNetworking(arg)
 
 end
 
-function banner(name, text, flavor, bt, bd)
-    
-   
-    bannerDuration = bd
+function banner(name, text, flavor, bt)
+ 
+  
     bannerTime = bt
     bannerText = {name = name, text = text, flavor = flavor}
 
@@ -1517,7 +1513,7 @@ function drawBanner()
 
         bannerAnimation:draw(bannerAnimationImage, x , y)
 
-        if love.timer.getTime() - bannerTime >= bannerDuration then
+        if love.timer.getTime() - bannerTime >= 0.7 then
 
             local nameX = x + ((512 - font:getWidth(bannerText.name)) / 2) 
             local nameY = y + tileH / 8
@@ -1538,7 +1534,6 @@ function drawBanner()
         end
 
     end
-   
 
 end
 

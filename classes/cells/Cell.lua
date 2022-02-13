@@ -423,7 +423,7 @@ function Cell:onEntry(character)
     if self.isPrison then
          
 
-                       if character.parentPlayer == playerOne and self.x == 8 and self.y == 3 then
+                       if character.parentPlayer == playerOne then
 
                             table.insert(sequenceBufferTable, {
                                 name = "startingCellwasOccupiedSoMovingToanotherPosition",
@@ -451,7 +451,7 @@ function Cell:onEntry(character)
                 
                     
 
-                       if character.parentPlayer == playerTwo and self.x == 3 and self.y == 8 then
+                       if character.parentPlayer == playerTwo then
 
                         local currentChar = deadPool.playerTwo[1]
 
