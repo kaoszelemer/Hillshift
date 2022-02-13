@@ -615,7 +615,7 @@ function newTurn()
         text = "PLAYER TWO - IT'S YOUR TURN"
     end
 
-    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime())
+    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
 
     gameState:changeState(gameState.states.selectCharacter)
 
@@ -630,7 +630,7 @@ function newTurn()
 
     
         if turnCounter == 20 then
-            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime())
+            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), 5)
         end
     
 
@@ -697,11 +697,11 @@ local function selectStartingPlayer()
         if rndPlayer == 1 then
             activePlayer = playerOne
             inactivePlayer = playerTwo
-            banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+            banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
         else
             activePlayer = playerTwo
             inactivePlayer = playerOne
-            banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+            banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
         end
     end
    
@@ -1187,9 +1187,9 @@ local function initNetworking(arg)
                   action = function()
                    createBoardGrid()
                   end})    
-            print(activePlayer.name)
+            
             if activePlayer == playerOne then
-                banner("FIRST TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+                banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
             end
             
         end)
@@ -1394,7 +1394,7 @@ local function initNetworking(arg)
               end})  
             
             if activePlayer == playerTwo then
-                banner("FIRST TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+                banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
             end
 
         end)
@@ -1492,9 +1492,9 @@ local function initNetworking(arg)
 
 end
 
-function banner(name, text, flavor, bt)
- 
-  
+function banner(name, text, flavor, bt, bandur)
+    
+    bannerDuration = bandur
     bannerTime = bt
     bannerText = {name = name, text = text, flavor = flavor}
 
@@ -1541,7 +1541,7 @@ end
 function love.load(arg)
        --board betoltese
     if isGameClient ~= true and isGameServer ~= true then
-         nextTurnBeforeEvent = randomFunction(5, 9, "Love:load - next turn before event")
+         nextTurnBeforeEvent = 1--randomFunction(5, 9, "Love:load - next turn before event")
     end
 
     initNetworking(arg)
@@ -1615,7 +1615,7 @@ function love.update(dt)
   
     bannerAnimation:update(dt)
 
-    if enableBannerDraw and love.timer.getTime() - bannerTime >= 3 then
+    if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     
         enableBannerDraw = false
      

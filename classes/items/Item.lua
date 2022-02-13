@@ -83,7 +83,7 @@ function Item:pickUpItem(character, player)
     self.currentItem = getRandomItemFromItemTable()
     self.itemOwnerCharacter = character
     self.itemOwnerPlayer = player
-    banner(itemTable[self.currentItem].itemName, itemTable[self.currentItem].itemDesc, "", love.timer.getTime())
+    banner(itemTable[self.currentItem].itemName, itemTable[self.currentItem].itemDesc, "", love.timer.getTime(), 5)
     itemTable[self.currentItem]:itemFunction(self.itemOwnerCharacter, self.itemOwnerPlayer)
     
  

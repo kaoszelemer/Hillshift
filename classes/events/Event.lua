@@ -97,9 +97,21 @@ function Event:enableEvent()
 
     for index, event in ipairs(eventTable) do
         if index == self.nextEventID then
-            
-            event:eventFunction()
-            banner(event.name, event.text, event.flavorText, love.timer.getTime())
+            table.insert(sequenceBufferTable, {
+                name = "event function running",
+                duration = 3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    event:eventFunction()
+                end})
+
+                table.insert(sequenceBufferTable, {
+                    name = "event function running",
+                    duration = 0.3,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        banner(event.name, event.text, event.flavorText, love.timer.getTime(), 5)
+                end})
         end
     end
 
