@@ -630,7 +630,7 @@ function newTurn()
 
     
         if turnCounter == 20 then
-            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime())
+            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), true)
         end
     
 
@@ -1493,7 +1493,8 @@ local function initNetworking(arg)
 end
 
 function banner(name, text, flavor, bt)
- 
+    
+   
   
     bannerTime = bt
     bannerText = {name = name, text = text, flavor = flavor}
@@ -1534,6 +1535,7 @@ function drawBanner()
         end
 
     end
+   
 
 end
 
