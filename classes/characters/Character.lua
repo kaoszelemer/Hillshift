@@ -284,6 +284,7 @@ function Character:drawAttackAnimation()
     if drawAttackAnim then 
 
             if drawnAttackingCharacter.x == drawnEnemyCharacter.x and drawnAttackingCharacter.y + 1 == drawnEnemyCharacter.y  then
+        
                 self.drawAttackAnimBottom = true
             end
 
@@ -316,7 +317,6 @@ function Character:drawAttackAnimation()
             end
 
             if self.drawAttackAnimBottom then
-                print("rajzolom az animaciot")
                 attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y * tileH + offsetY) + tileH)
                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
                 bloodParticleSystem:emit(2000)
@@ -874,9 +874,9 @@ function Character:attack(enemy, nw)
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                 damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
                 
+                enableDrawAttack(self, enemy)
                 enemy:damage(enemy, damage)  
 
-                enableDrawAttack(self, enemy)
               
                 
               

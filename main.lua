@@ -615,7 +615,7 @@ function newTurn()
         text = "PLAYER TWO - IT'S YOUR TURN"
     end
 
-    banner("NEW TURN", text, "now it's your chance", love.timer.getTime())
+    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime())
 
     gameState:changeState(gameState.states.selectCharacter)
 
@@ -697,11 +697,11 @@ local function selectStartingPlayer()
         if rndPlayer == 1 then
             activePlayer = playerOne
             inactivePlayer = playerTwo
-            banner("FIRST TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+            banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
         else
             activePlayer = playerTwo
             inactivePlayer = playerOne
-            banner("FIRST TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
+            banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime())
         end
     end
    

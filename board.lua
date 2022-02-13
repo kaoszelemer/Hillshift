@@ -982,7 +982,11 @@ function drawEventOnBackground()
 end
 
 function enableDrawAttack(character, enemy)
+    animTimer = love.timer.getTime()
+    animStop = 0.8
 
+    timerStart = love.timer.getTime()
+    timerStop = 4
    
     table.insert(sequenceBufferTable, {
         name = "drawingAttackAnimation",
@@ -1025,11 +1029,7 @@ function enableDrawAttack(character, enemy)
 
    
 
-    animTimer = love.timer.getTime()
-    animStop = 0.8
-
-    timerStart = love.timer.getTime()
-    timerStop = 4
+    
    
 
     
@@ -1471,13 +1471,13 @@ function board:draw()
     Character:drawCancelButton()
     
     Character:drawValidIcons()
+    Character:drawAttackAnimation()
     
     drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
     
+    
     Cell:drawDamageOnBoard()
-   
-    Character:drawAttackAnimation()
     drawAttackOnBoard()
   
     Cell:drawLightningOnBoard()
