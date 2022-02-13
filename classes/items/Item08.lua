@@ -25,7 +25,7 @@ function Item08:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     character.baseAttack = character.baseAttack + 1
-    character:damage(currentChar, 5)
+    character:damage(character, 5)
 
 end
 
