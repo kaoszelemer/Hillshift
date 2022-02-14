@@ -322,7 +322,7 @@ function endTurn()
         local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
        
 
-        if rngv < debugVolcanoChance or 0.15 then
+        if rngv < (debugVolcanoChance or 0.15) then
             local vx = randomFunction(2, 9, "volcanoX")
             local vy = randomFunction(2, 9, "volcanoY")
             if boardGrid[vx][vy].isOccupied ~= true then
