@@ -219,6 +219,9 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                     
                     if not boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Lake) then
                         boardGrid[self.x + fx + tcx][self.y + fy + tcy].isOnFire = true
+                        if boardGrid[self.x + fx + tcx][self.y + fy + tcy].isOccupied then
+                            boardGrid[self.x + fx + tcx][self.y + fy + tcy].occupiedBy:damage(boardGrid[self.x + fx + tcx][self.y + fy + tcy].occupiedBy, 5)
+                        end
                         boardGrid[self.x + fx + tcx][self.y + fy + tcy].fireTurn = turnCounter
                     end
                 
@@ -230,7 +233,7 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Lake) then
                         table.insert(sequenceBufferTable, {
                             name = "CellsAreSteaming",
-                            duration = 0.01,
+                            duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + fx + tcx][self.y + fy + tcy].isSteaming = true
@@ -248,7 +251,7 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
                     if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Ice) then
                         table.insert(sequenceBufferTable, {
                             name = "CellsAreSteaming",
-                            duration = 0.01,
+                            duration = 0.1,
                             sequenceTime = love.timer.getTime(),
                             action = function()
                                 boardGrid[self.x + fx + tcx][self.y + fy + tcy].isSteaming = true
@@ -352,7 +355,7 @@ function AirElemental:spell(targetCell)
 
     local spreadX = 0
     local spreadY = 0
-    local chanceOfBurning = randomFunction(nil, nil, "airelemental: spell")
+   -- local chanceOfBurning = randomFunction(nil, nil, "airelemental: spell")
  
     if self.actionPoints ~= 0 then
 
@@ -368,7 +371,6 @@ function AirElemental:spell(targetCell)
                         if targetCell.y < self.y then  
                             
                             self:blowCharacter(targetCell, tcx, tcy)
-                            print(chanceOfBurning)
                             self:blowFire(targetCell, tcx, tcy, etc)
                             self:blowSand(targetCell, tcx, tcy)
                             self:clearPoison(targetCell, tcx, tcy)
