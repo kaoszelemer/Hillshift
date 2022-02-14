@@ -270,7 +270,7 @@ function randomFunction(a, b, infotext)
     
     local d = love.math.getRandomState()
     if activePlayer ~= nil then
-        print("[RNG]: by "..activePlayer.name.."] in "..infotext.. " \n[RNDSTATE]: "..d)
+        print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
     end
     return c
 end
