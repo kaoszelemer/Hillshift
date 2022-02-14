@@ -270,7 +270,7 @@ function randomFunction(a, b, infotext)
     
     local d = love.math.getRandomState()
     if activePlayer ~= nil then
-        print("** "..activePlayer.name.." has run a randomfunction. The result is: "..c..". The function where it was run is "..infotext.. ". The randomstate is: "..d)
+        print(["[RNG]: by "..activePlayer.name.."] in "..infotext.. " \n[RNDSTATE]: "..d)
     end
     return c
 end
