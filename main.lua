@@ -11,7 +11,7 @@ isDebugDrawHoveredTiles = false
 isTileHelperOn = true
 
 enableBannerDraw = false
---debugVolcanoChance = 0.99
+debugVolcanoChance = 0.99
 
 
 --require
@@ -389,10 +389,16 @@ function endTurn()
 
 
                 if boardGrid[x][y].volcanoCounter <= 0 then
-                    boardGrid[x][y].eruptionTimer = love.timer.getTime()
-                    boardGrid[x][y].isErupting = true
-                    Volcano:boom(x, y)
-                    boardGrid[x][y].isSmoking = false
+                    table.insert(sequenceBufferTable, {
+                        name = "ThunderShamanSpellUpAndDown",
+                        duration = 3,
+                        sequenceTime = love.timer.getTime(),
+                        action = function()
+                            boardGrid[x][y].eruptionTimer = love.timer.getTime()
+                            boardGrid[x][y].isErupting = true
+                            Volcano:boom(x, y)
+                            boardGrid[x][y].isSmoking = false
+                        end})
                 end
                 
 

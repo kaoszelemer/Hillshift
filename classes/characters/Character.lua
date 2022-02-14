@@ -720,9 +720,11 @@ end
 function Character:damage(char, dmg)
     table.insert(sequenceBufferTable, {
         name = "damaging character",
-        duration = 1,
+        duration = 0,
         sequenceTime = love.timer.getTime(),
         action = function()
+            
+            soundEngine:playSFX("playrandomsound")
             char.baseHP = char.baseHP - dmg
             boardGrid[char.x][char.y].drawDamageOnBoard = true
             boardGrid[char.x][char.y]:damageOnBoard("-"..dmg.."HP")
@@ -887,10 +889,10 @@ function Character:attack(enemy, nw)
                 enemy = nil
             end
 
-            local pp = "playrandomsound"
+           
 
             soundEngine:playSFX(knifeSound)
-            soundEngine:playSFX(pp)
+            
   
    
 
