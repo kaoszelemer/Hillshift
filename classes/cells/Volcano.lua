@@ -24,7 +24,7 @@ function Volcano:boom(bx, by)
 
             local d = 0.3
 
- 
+      
             
         soundEngine:playSFX(eruptionSound)
         boardGrid[bx][by].isErupting = true
@@ -57,7 +57,7 @@ function Volcano:boom(bx, by)
                                 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarunfreeze",
-                                        duration = 0.1,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             if targetCell.isFrozen then
@@ -67,7 +67,7 @@ function Volcano:boom(bx, by)
                                     
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarsteam",
-                                        duration = 0.1,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             if targetCell:instanceOf(Lake) then
@@ -77,7 +77,7 @@ function Volcano:boom(bx, by)
 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarlake2field",
-                                        duration = 0.3,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             if targetCell:instanceOf(Lake) then
@@ -90,7 +90,7 @@ function Volcano:boom(bx, by)
 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarburntfield",
-                                        duration = 0.3,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             if targetCell:instanceOf(Forest) then
@@ -101,7 +101,7 @@ function Volcano:boom(bx, by)
 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarglass",
-                                        duration = 0.3,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             if targetCell:instanceOf(Desert) then
@@ -112,7 +112,7 @@ function Volcano:boom(bx, by)
 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarice2lake",
-                                        duration = 0.3,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
 
@@ -124,7 +124,7 @@ function Volcano:boom(bx, by)
 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkardamage",
-                                        duration = 1,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             if targetCell.isOccupied then
@@ -135,7 +135,7 @@ function Volcano:boom(bx, by)
 
                                     table.insert(sequenceBufferTable, {
                                         name = "vulkarkiajszik",
-                                        duration = 1,
+                                        duration = 2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                            
@@ -144,23 +144,26 @@ function Volcano:boom(bx, by)
                                                 isVolcanoOnBoard = false
                                         end})
 
-                                    table.insert(sequenceBufferTable, {
-                                        name = "resetparticledraw",
-                                        duration = 0.1,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            Cell:resetParticleDrawing()
-                                        end})
+                                    
 
 
                             end})
 
                         
-                        
+                            
                     
                     end
                 end
             end
+
+            table.insert(sequenceBufferTable, {
+                name = "resetparticledraw",
+                duration = 0.1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                    Cell:resetParticleDrawing()
+                    gameState:changeState(gameState.states.selectCharacter)
+                end})
      
 end
 
