@@ -36,7 +36,7 @@ speechBubbleTextTable = require('speechbubbles')
 gameState = StateMachine({
     selectCharacter = {
         name = "selectCharacter",
-        transitions = {"selectCharacter", "selectCharacterAction"} 
+        transitions = {"selectCharacter", "selectCharacterAction", "waitingState"} 
     },
 
     selectCharacterAction = {
@@ -46,17 +46,22 @@ gameState = StateMachine({
 
     selectMoveTargetCell = {
         name =  "selectMoveTargetCell",
-        transitions = {"selectCharacter", "selectCharacterAction"}
+        transitions = {"selectCharacter", "selectCharacterAction", "waitingState"}
     },
 
     selectSpellTargetArea = {
         name = "selectSpellTargetArea", 
-        transitions = {"selectCharacter", "selectCharacterAction"}
+        transitions = {"selectCharacter", "selectCharacterAction", "waitingState"}
     },
 
     selectAttackTargetCharacter = {
         name = "selectAttackTargetCharacter",
-        transitions = {"selectCharacter", "selectCharacterAction"}
+        transitions = {"selectCharacter", "selectCharacterAction", "waitingState"}
+    },
+    
+    waitingState = {
+        name = "waitingState",
+        transitions = {"selectCharacter", "waitingState"}
     }
     },
     "selectCharacter"
@@ -604,7 +609,7 @@ function endTurn()
 
         if currentChar.baseHP <= 0 then currentChar:kill() end
 
-        gameState:changeState(gameState.states.selectCharacter)
+       -- gameState:changeState(gameState.states.selectCharacter)
 
     end
 
@@ -624,7 +629,7 @@ function newTurn()
 
     banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
 
-    gameState:changeState(gameState.states.selectCharacter)
+  --  gameState:changeState(gameState.states.selectCharacter)
 
         if not suddenDeath and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             
@@ -1506,7 +1511,7 @@ function banner(name, text, flavor, bt, bandur)
     bannerText = {name = name, text = text, flavor = flavor}
 
 
-    
+    gameState:changeState(gameState.states.waitingState)
     bannerAnimation:gotoFrame(1)
     bannerAnimation:resume()
     enableBannerDraw = true  
@@ -1625,7 +1630,7 @@ function love.update(dt)
     if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     
         enableBannerDraw = false
-     
+        gameState:changeState(gameState.states.selectCharacter)
     end
 
     
@@ -1830,63 +1835,63 @@ function love.mousereleased(x, y, button, istouch, presses)
     end
 
 
-    if not drawEndGame then
+    if not drawEndGame and gameState.state ~= gameState.states.waitingState then
      
 
         if button == 2 then
             gameState:changeState(gameState.states.selectCharacter)
         end
 
-        if not enableBannerDraw then
-            for _, currentChar in ipairs(activePlayer.characters) do
+       -- if not enableBannerDraw then
+                for _, currentChar in ipairs(activePlayer.characters) do
 
-                if currentChar.isHovered then 
-                    currentChar:click(x, y) 
-                end  
+                    if currentChar.isHovered then 
+                        currentChar:click(x, y) 
+                    end  
+                
+                end
+
+                for _, currentChar in ipairs(inactivePlayer.characters) do
+
+                    if currentChar.isHovered then 
+                        currentChar:click(x, y) 
+                    end  
+                
+                end
+
             
-            end
-
-            for _, currentChar in ipairs(inactivePlayer.characters) do
-
-                if currentChar.isHovered then 
-                    currentChar:click(x, y) 
-                end  
-            
-            end
-
-           
 
 
 
 
-            local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
-            local my = math.floor((mouseY / tileH) - offsetY / tileH)
+                local mx = math.floor((mouseX / tileW) - offsetX / tileW) 
+                local my = math.floor((mouseY / tileH) - offsetY / tileH)
 
-            if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
-                boardGrid[mx][my]:click()
-            end
-
-            if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
-                isEndTurnButtonClicked = false
-
-                if isGameServer and activePlayer == playerOne and not enableBannerDraw then
-                    server:sendToAll("serverendturn", "endturnclicked")
-                    endTurn()
-                    newTurn()
-                end
-                if isGameClient and activePlayer == playerTwo and not enableBannerDraw then
-                    client:send("clientendturn", "endturnclicked")
-                    endTurn()
-                    newTurn()
+                if (mx <= 10 and mx >= 1) and (my <= 10 and my >= 1) then
+                    boardGrid[mx][my]:click()
                 end
 
-                if isGameClient ~= true and isGameServer ~= true and not enableBannerDraw then
-                    endTurn()
-                    newTurn()
-                end
-            end
+                if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
+                    isEndTurnButtonClicked = false
 
-        end
+                    if isGameServer and activePlayer == playerOne and not enableBannerDraw then
+                        server:sendToAll("serverendturn", "endturnclicked")
+                        endTurn()
+                        newTurn()
+                    end
+                    if isGameClient and activePlayer == playerTwo and not enableBannerDraw then
+                        client:send("clientendturn", "endturnclicked")
+                        endTurn()
+                        newTurn()
+                    end
+
+                    if isGameClient ~= true and isGameServer ~= true and not enableBannerDraw then
+                        endTurn()
+                        newTurn()
+                    end
+                end
+
+        --end
 
         if isDrawInfoAboutCharacter and
              x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and

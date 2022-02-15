@@ -718,6 +718,9 @@ function Character:chooseActionMenu(mx, my)
 end
         
 function Character:damage(char, dmg)
+
+    
+
     table.insert(sequenceBufferTable, {
         name = "damaging character",
         duration = 1,
@@ -728,7 +731,7 @@ function Character:damage(char, dmg)
             char.baseHP = char.baseHP - dmg
             boardGrid[char.x][char.y].drawDamageOnBoard = true
             boardGrid[char.x][char.y]:damageOnBoard("-"..dmg.."HP")
-
+           
             if char.baseHP <= 0 then 
                 char:kill()
             end
