@@ -61,7 +61,7 @@ gameState = StateMachine({
     
     waitingState = {
         name = "waitingState",
-        transitions = {"selectCharacter", "waitingState"}
+        transitions = {"selectCharacter", "selectCharacterAction", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter", "waitingState"}
     }
     },
     "selectCharacter"
