@@ -25,6 +25,7 @@ ripple = require('lib.ripple')
 sock = require('lib.sock')
 bitser = require('lib.bitser')
 smallfolks = require('lib.smallfolks')
+lurker = require('lib.lurker')
 
 --own files
 
@@ -41,7 +42,7 @@ gameState = StateMachine({
 
     selectCharacterAction = {
         name = "selectCharacterAction",
-        transitions = {"selectCharacter", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter"}
+        transitions = {"selectCharacter", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter", "waitingState"}
     },
 
     selectMoveTargetCell = {
@@ -281,14 +282,17 @@ function randomFunction(a, b, infotext)
 end
 
 function sequenceProcessor()
-
+   
 
         for index, sequence in ipairs(sequenceBufferTable) do 
             if index == 1 then 
+                gameState:changeState(gameState.states.waitingState)
+
                 if love.timer.getTime() - sequence.sequenceTime >= sequence.duration then
                         print("[SEQUENCE]: "..sequence.name)
                         sequence.action()
                         table.remove(sequenceBufferTable, 1)  
+                        gameState:changeState(gameState.states.selectCharacter)
                 end
             end
                 
@@ -1096,6 +1100,50 @@ function drawInfoAboutCharacter(character)
 end
 
 
+function animate(anim, img, x, y, duration, rotation, flx)
+
+    gameState:changeState(gameState.states.waitingState)
+    anim:gotoFrame(1)
+    isAnimationPlaying = true
+    print("[ANIMATION PLAYING]")
+    animation = {}
+    animation.time = love.timer.getTime()
+    animation.anim = anim
+    animation.img = img
+    animation.x = x
+    animation.y = y
+    animation.duration = duration
+
+    if rotation == nil then
+       rotation = 0
+    end 
+
+    animation.rotation = rotation
+    animation.flux = flx
+
+
+    
+
+
+end    
+
+function drawAnimations()
+
+    if isAnimationPlaying then
+        
+   
+        if animation.flux == nil then
+            animation.flux = {x = animation.x, y = animation.y, nx = animation.x, ny = animation.y, ea = "expoout"}
+        end
+        
+        flux.to(animation.flux, animation.duration, {x = animation.flux.nx, y = animation.flux.ny}):ease(animation.flux.ea)
+        animation.anim:draw(animation.img, animation.flux.x, animation.flux.y, animation.rotation)
+        
+        
+    end
+
+end    
+
 local function quitGame()
     print("Quitting... Goodbye!")
     love.event.push("quit")
@@ -1633,6 +1681,12 @@ function love.update(dt)
         gameState:changeState(gameState.states.selectCharacter)
     end
 
+    if isAnimationPlaying and love.timer.getTime() - animation.time >= animation.duration then
+        isAnimationPlaying = false
+        gameState:changeState(gameState.states.selectCharacter)
+    end
+
+
     
 end
 
@@ -1660,7 +1714,7 @@ function love.draw()
     
 
     board:draw()
-
+    drawAnimations()
    
 
     soundEngine:draw()
@@ -1933,9 +1987,19 @@ function love.mousepressed( x, y, button, istouch, presses )
 end
 
 function love.keypressed(key)
+    if key == "l" then
+        lurker:scan()
+    end
+
+    
     if key == "escape" then
         love.event.push("quit") -- quit the game
     end
+
+    if key == "k" then
+        debug.debug()
+    end
+    
 end
 
 

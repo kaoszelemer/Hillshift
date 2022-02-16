@@ -14,12 +14,14 @@ function BurntField:init(x, y)
         "Burnt Field"    
     )
 
-    function BurntField:onEntry(char, ax, ay)
+     
 
+end
 
-        char:damage(char, 3)
+function BurntField:onEntry(char, ax, ay)
 
-    end
+    char:damage(char, 3)
+
 end
 
 
