@@ -771,7 +771,7 @@ function Character:move(cx, cy, oldx, oldy)
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
-                duration = 0.5,
+                duration = 1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
