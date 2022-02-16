@@ -311,7 +311,7 @@ function turnRemainingTime()
     
 
      
-    if love.timer.getTime() - turnTimer >= 45 and enableBannerDraw ~= true and turnTimer > 0 then
+    if love.timer.getTime() - turnTimer >= 90 and enableBannerDraw ~= true and turnTimer > 0 then
 
       
         if debugIsTurnTimer ~= false  then
@@ -1878,7 +1878,7 @@ function love.draw()
        
         love.graphics.setFont(clockFont)
         love.graphics.setColor(yellowColor)
-        love.graphics.print("Remaining time: "..45 + math.floor(turnTimer - love.timer.getTime()), width / 2 - tileW * 3.5, height - 76)
+        love.graphics.print("Remaining time: "..90 + math.floor(turnTimer - love.timer.getTime()), width / 2 - tileW * 3.5, height - 76)
         love.graphics.setFont(statFont)
         love.graphics.setColor(charColor)
 
@@ -1886,7 +1886,7 @@ function love.draw()
             isSecondsLeft = true
             love.graphics.setFont(clockFont)
             love.graphics.setColor({1, 0, 0, 255})
-            love.graphics.print("Remaining time: "..45 + math.floor(turnTimer - love.timer.getTime()), (width / 2 - tileW * 3.5)-2, height - 74)
+            love.graphics.print("Remaining time: "..80 + math.floor(turnTimer - love.timer.getTime()), (width / 2 - tileW * 3.5)-2, height - 74)
             love.graphics.setFont(statFont)
             love.graphics.setColor(charColor)
         end
