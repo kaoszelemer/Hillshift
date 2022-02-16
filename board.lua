@@ -497,10 +497,10 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         
 
         if activePlayer == playerone then
-            love.graphics.setColor(charColor)
-            love.graphics.print("PLAYER ONE'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, height - 60)
+            love.graphics.print("TURN: #" .. turnCounter, (width - width / 4), height - 60)
             if currentChar.stepPoints ~= 0 then love.graphics.print(currentChar.stepPoints.."SP", sideBarX + 48, sideBarY + 112) end
             if currentChar.actionPoints ~= 0 then love.graphics.print(currentChar.actionPoints.."AP", sideBarX + 88, sideBarY + 112) end
+            love.graphics.setFont(statFont)
         end
 
        
@@ -657,7 +657,7 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
         if activePlayer == playertwo then
             love.graphics.setColor(charColor)
-            love.graphics.print("PLAYER TWO'S TURN  -  TURN: #" .. turnCounter, (width / 2) - 100, height - 60)
+            love.graphics.print("TURN: #" .. turnCounter, (width - width / 4), height - 60)
             if currentChar.stepPoints ~= 0 then love.graphics.print(currentChar.stepPoints.."SP", sideBarX + 48, sideBarY + 112) end
             if currentChar.actionPoints ~= 0 then love.graphics.print(currentChar.actionPoints.."AP", sideBarX + 88, sideBarY + 112) end
         end

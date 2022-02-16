@@ -9,7 +9,7 @@ isGameFullScreen = false
 isMusicOn = true
 isDebugDrawHoveredTiles = true
 isTileHelperOn = true
-
+debugIsTurnTimer = true
 enableBannerDraw = false
 --debugVolcanoChance = 0.99
 
@@ -67,6 +67,8 @@ gameState = StateMachine({
     },
     "selectCharacter"
 )
+
+
 
 
 
@@ -224,6 +226,7 @@ lightningTimer = 0
 magicForestTimer = 0
 gameStartTimer = love.timer.getTime()
 bubbleTimer = 0
+turnTimer = 0
 
 --Colors
 charColor = {167 / 255, 147 / 255, 173 / 255, 255}
@@ -250,6 +253,7 @@ font = love.graphics.newFont("EquipmentPro.ttf",40)
 love.graphics.setFont(font)
 pointFont = love.graphics.newFont("EquipmentPro.ttf",24)
 littleFont = love.graphics.newFont("EquipmentPro.ttf",14)
+clockFont = love.graphics.newFont("EquipmentPro.ttf", 52)
 
 --kepek betoltese
 mouseArrow = love.graphics.newImage("/graphics/mousearrow.png")
@@ -303,9 +307,37 @@ function sequenceProcessor()
 
 end
 
+function turnRemainingTime()
+
+     
+    if love.timer.getTime() - turnTimer >= 40 and enableBannerDraw ~= true and turnTimer > 0 then
+
+      
+        if debugIsTurnTimer ~= false  then
+        print(clientIsConnected)
+           isTurnTimerDone = true
+
+        end
+      
+    end
+
+    if isTurnTimerDone then
+        isTurnTimerDone = false
+        endTurn()
+        newTurn()
+
+    end
+
+end
+
+
+
+
+
+
 function endTurn()
+    
     selectedChar = nil
- 
     soundEngine:playSFX(endTurnSound)
     isFirstTurn = false
     drawAttack = false
@@ -323,6 +355,10 @@ function endTurn()
     oldPlayer = activePlayer
     activePlayer = inactivePlayer
     inactivePlayer = oldPlayer
+
+  
+
+
     local burnCell
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
@@ -366,6 +402,12 @@ function endTurn()
 
     local magicForestChance = randomFunction(nil, nil, "magicforesttompitas")
     local forestCounter = 0
+    table.insert(sequenceBufferTable, {
+        name = "geognomeResetState",
+        duration = 3,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+
   
     for x = 1, 10 do
         for y = 1, 10 do
@@ -410,7 +452,10 @@ function endTurn()
                         action = function()
                             boardGrid[x][y].eruptionTimer = love.timer.getTime()
                             boardGrid[x][y].isErupting = true
+
                             gameState:changeState(gameState.states.waitingState)
+
+                            
                             Volcano:boom(x, y)
                             boardGrid[x][y].isSmoking = false
                         end})
@@ -515,118 +560,131 @@ function endTurn()
 
     end
    
-  
+    end})
         ----------- EZ TÖRTÉNIK AZ INAKTÍVPLAYERREL (MERT Ő VOLT A RÉGI JÁTÉKOS) ------------------
 
     for _, currentChar in ipairs(inactivePlayer.characters) do
-        currentChar.defenseCounter = 0
-        currentChar.stepPoints = 2
-        currentChar.actionPoints = 1
-        if currentChar.stepPointModify then 
-            currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
-            currentChar.stepPointModify = false
-        end
-        if currentChar.actionPointModify then 
-            currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
-            currentChar.actionPointModify = false
-        end
-       --[[  if currentChar.defenseState then
-            currentChar.defenseCounter = currentChar.defenseCounter + 1
-        end
-         ]]
-        local cell = boardGrid[currentChar.x][currentChar.y]
+        table.insert(sequenceBufferTable, {
+            name = "inaktiv demidzs",
+            duration = 3,
+            sequenceTime = love.timer.getTime(),
+            action = function()
 
-    
-        currentChar.turnDefenseModifier = 0
-        currentChar.turnAttackModifier = 0
-        
-      --[[   if currentChar.defenseState then
-            currentChar.turnDefenseModifier = 2
-        end
- ]]
-        if cell.isFrozen then
-            currentChar.stepPoints = 0
-            cell.drawDamageOnBoard = true
-            cell.drawDamageTime = love.timer.getTime()
-            cell:damageOnBoard("-2SP")
-        elseif cell.isOnFire then
-           
-            currentChar:damage(currentChar, 10)
+                currentChar.defenseCounter = 0
+                currentChar.stepPoints = 2
+                currentChar.actionPoints = 1
+                if currentChar.stepPointModify then 
+                    currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
+                    currentChar.stepPointModify = false
+                end
+                if currentChar.actionPointModify then 
+                    currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
+                    currentChar.actionPointModify = false
+                end
+            --[[  if currentChar.defenseState then
+                    currentChar.defenseCounter = currentChar.defenseCounter + 1
+                end
+                ]]
+                local cell = boardGrid[currentChar.x][currentChar.y]
+
             
+                currentChar.turnDefenseModifier = 0
+                currentChar.turnAttackModifier = 0
+                
+            --[[   if currentChar.defenseState then
+                    currentChar.turnDefenseModifier = 2
+                end
+        ]]
+                if cell.isFrozen then
+                    currentChar.stepPoints = 0
+                    cell.drawDamageOnBoard = true
+                    cell.drawDamageTime = love.timer.getTime()
+                    cell:damageOnBoard("-2SP")
+                elseif cell.isOnFire then
+                
+                    currentChar:damage(currentChar, 10)
+                    
 
-        elseif cell.isBurntField then
-           currentChar:damage(currentChar, 7)
+                elseif cell.isBurntField then
+                currentChar:damage(currentChar, 7)
 
-        elseif cell:instanceOf(Lake) then
-            currentChar.actionPoints = 0
-        end
+                elseif cell:instanceOf(Lake) then
+                    currentChar.actionPoints = 0
+                end
 
 
-        if currentChar.isPoisoned then
+                if currentChar.isPoisoned then
 
-            local pd = 2
-            
-            if turnCounter - currentChar.poisoningTurn == 3 then
-                currentChar.isPoisoned = false
-             
-            end
-            if turnCounter - currentChar.poisoningTurn == 1 then
-                currentChar:damage(currentChar, 2)
-            end
-            if turnCounter - currentChar.poisoningTurn == 2 then
-                currentChar:damage(currentChar, 1)
-            end
-        end   
+                    local pd = 2
+                    
+                    if turnCounter - currentChar.poisoningTurn == 3 then
+                        currentChar.isPoisoned = false
+                    
+                    end
+                    if turnCounter - currentChar.poisoningTurn == 1 then
+                        currentChar:damage(currentChar, 2)
+                    end
+                    if turnCounter - currentChar.poisoningTurn == 2 then
+                        currentChar:damage(currentChar, 1)
+                    end
+                end   
 
-        if currentChar.baseHP <= 0 then currentChar:kill() end
+                if currentChar.baseHP <= 0 then currentChar:kill() end
+            end})
       
     end
 
 
             ----------- EZ TÖRTÉNIK AZ AKTÍVPLAYERREL MERT Ő AZ ÚJ JÁTÉKOS ------------------
+            table.insert(sequenceBufferTable, {
+                name = "aktiv demid",
+                duration = 2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+    
+
+                    for _, currentChar in ipairs(activePlayer.characters) do
+                    
+                        if currentChar.stepPointModify then 
+                            currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
+                            currentChar.stepPointModify = false
+                        end
+                        if currentChar.actionPointModify then 
+                            currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
+                            currentChar.actionPointModify = false
+                        end
+                        local cell = boardGrid[currentChar.x][currentChar.y]
+
+                        if currentChar.isPoisoned then
+                            if turnCounter - currentChar.poisoningTurn == 3 then
+                                currentChar.isPoisoned = false
+                            end
+                            if turnCounter - currentChar.poisoningTurn == 1 then
+                                currentChar:damage(currentChar, 2)
+                            end
+                            if turnCounter - currentChar.poisoningTurn == 2 then
+                                currentChar:damage(currentChar, 1)
+                            
+                            end
+                        end           
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do
-     
-        if currentChar.stepPointModify then 
-            currentChar.stepPoints = currentChar.stepPoints + currentChar.stepPointModifier 
-            currentChar.stepPointModify = false
-        end
-        if currentChar.actionPointModify then 
-            currentChar.actionPoints = currentChar.actionPoints + currentChar.actionPointModifier 
-            currentChar.actionPointModify = false
-        end
-        local cell = boardGrid[currentChar.x][currentChar.y]
+                        if cell.isFrozen then
+                            currentChar.stepPoints = 0
+                        elseif cell.isOnFire then
+                            currentChar:damage(currentChar, 10)
+                        elseif cell.isBurntField then
+                            currentChar:damage(currentChar, 7)
+                        elseif cell:instanceOf(Lake) then
+                            currentChar.actionPoints = 0
+                        end
 
-        if currentChar.isPoisoned then
-            if turnCounter - currentChar.poisoningTurn == 3 then
-                currentChar.isPoisoned = false
-            end
-            if turnCounter - currentChar.poisoningTurn == 1 then
-                currentChar:damage(currentChar, 2)
-            end
-            if turnCounter - currentChar.poisoningTurn == 2 then
-                currentChar:damage(currentChar, 1)
-               
-            end
-        end           
+                        if currentChar.baseHP <= 0 then currentChar:kill() end
 
+                    -- gameState:changeState(gameState.states.selectCharacter)
 
-        if cell.isFrozen then
-            currentChar.stepPoints = 0
-        elseif cell.isOnFire then
-            currentChar:damage(currentChar, 10)
-        elseif cell.isBurntField then
-            currentChar:damage(currentChar, 7)
-        elseif cell:instanceOf(Lake) then
-            currentChar.actionPoints = 0
-        end
-
-        if currentChar.baseHP <= 0 then currentChar:kill() end
-
-       -- gameState:changeState(gameState.states.selectCharacter)
-
-    end
+                    end
+                end})
 
     print("RND STATE IN ENDTURN: "..love.math.getRandomState())
 
@@ -641,7 +699,7 @@ function newTurn()
     else
         text = "PLAYER TWO - IT'S YOUR TURN"
     end
-
+   
     banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
 
 
@@ -664,6 +722,7 @@ function newTurn()
                 duration = 3,
                 sequenceTime = love.timer.getTime(),
                 action = function()
+                   
                      banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), 3)
                 end})
         end
@@ -734,10 +793,13 @@ local function selectStartingPlayer()
             activePlayer = playerOne
             inactivePlayer = playerTwo
             banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
+           
+          
         else
             activePlayer = playerTwo
             inactivePlayer = playerOne
             banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
+          
         end
     end
    
@@ -1206,6 +1268,7 @@ local function initNetworking(arg)
 
             client:send("hello", msg)
             clientIsConnected = true
+            turnTimer = 0
         end)
 
         server:on("connect", function(data, client)
@@ -1268,6 +1331,8 @@ local function initNetworking(arg)
             
             if activePlayer == playerOne then
                 banner("0. TURN", "PLAYER ONE - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
+            else
+                banner("0. TURN", "PLAYER TWO - ENEMY'S TURN", "rest now, you have some time", love.timer.getTime(), 7)
             end
             
         end)
@@ -1408,7 +1473,9 @@ local function initNetworking(arg)
      
       
         client:on("connect", function(data)
+           
             print("Client connected to the server.")
+            turnTimer = love.timer.getTime()
         end)
         
         -- Called when the client disconnects from the server
@@ -1475,6 +1542,9 @@ local function initNetworking(arg)
             
             if activePlayer == playerTwo then
                 banner("0. TURN", "PLAYER TWO - IT'S YOUR TURN", "the first team to shape the world", love.timer.getTime(), 7)
+            end
+            if activePlayer == playerOne then
+                banner("0. TURN", "PLAYER ONE - ENEMY'S TURN", "rest now, you have some time", love.timer.getTime(), 7)
             end
 
         end)
@@ -1573,12 +1643,25 @@ local function initNetworking(arg)
 
 end
 
+local function setWaitingStateForInactivePlayer()
+
+        if isGameClient and activePlayer == playerOne and gameState.state ~= gameState.states.waitingState then
+            gameState:changeState(gameState.states.waitingState)
+        elseif isGameServer and activePlayer == playerTwo and gameState.state ~= gameState.states.waitingState then
+            gameState:changeState(gameState.states.waitingState)
+        elseif isGameServer ~= true and isGameClient ~= true then
+            return
+        end
+
+end
+
 function banner(name, text, flavor, bt, bandur)
     
     bannerDuration = bandur
     bannerTime = bt
     bannerText = {name = name, text = text, flavor = flavor}
-
+   
+  
 
     gameState:changeState(gameState.states.waitingState)
     bannerAnimation:gotoFrame(1)
@@ -1670,12 +1753,14 @@ function love.update(dt)
 
 
     mouseX, mouseY = love.mouse.getPosition()
- 
+    
     board:update(dt)
     soundEngine:update(dt)
     Character:update(dt)
+    setWaitingStateForInactivePlayer()
     sequenceProcessor()
     enableEndGame()
+    turnRemainingTime()
   
 
     if isGameServer then server:update() end
@@ -1699,6 +1784,7 @@ function love.update(dt)
     if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     
         enableBannerDraw = false
+        turnTimer = love.timer.getTime()
         gameState:changeState(gameState.states.selectCharacter)
     end
 
@@ -1784,7 +1870,23 @@ function love.draw()
         love.graphics.setColor(charColor)
 
     end
- 
+
+    if enableBannerDraw ~= true  and turnTimer > 0 then
+       
+        love.graphics.setFont(clockFont)
+        love.graphics.setColor(yellowColor)
+        love.graphics.print("Remaining time: "..40 + math.floor(turnTimer - love.timer.getTime()), width / 2 - tileW * 3.5, height - 76)
+        love.graphics.setFont(statFont)
+        love.graphics.setColor(charColor)
+
+        if 40 + math.floor(turnTimer - love.timer.getTime()) < 10 then
+            love.graphics.setFont(clockFont)
+            love.graphics.setColor({1, 0, 0, 255})
+            love.graphics.print("Remaining time: "..40 + math.floor(turnTimer - love.timer.getTime()), (width / 2 - tileW * 3.5)-1, height - 75)
+            love.graphics.setFont(statFont)
+            love.graphics.setColor(charColor)
+        end
+    end
 
 
    --Debug for networking

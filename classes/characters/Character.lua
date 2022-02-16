@@ -820,10 +820,14 @@ function Character:kill()
             boardGrid[self.x][self.y].isOccupied = false
             table.insert(deadPool.playerOne, currentChar)
             table.remove(self.parentPlayer.characters, index)
+        elseif self == currentChar and self.parentPlayer == playerOne then
+            table.remove(self.parentPlayer.characters, index)
         end   
         if self == currentChar and self.parentPlayer == playerTwo and #deadPool.playerTwo <= 1 then
             boardGrid[self.x][self.y].isOccupied = false
             table.insert(deadPool.playerTwo, currentChar)
+            table.remove(self.parentPlayer.characters, index)
+        elseif self == currentChar and self.parentPlayer == playerTwo then
             table.remove(self.parentPlayer.characters, index)
         end   
 

@@ -111,6 +111,7 @@ function Event:enableEvent()
                     sequenceTime = love.timer.getTime(),
                     action = function()
                         banner(event.name, event.text, event.flavorText, love.timer.getTime(), 5)
+                       
                 end})
         end
     end

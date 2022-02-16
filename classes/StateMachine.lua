@@ -6,14 +6,21 @@ function StateMachine:init(states, startingState)
 end
 
 function StateMachine:changeState(targetState)
-
+    
     local validTransitionFound = false
 
     for index, stateName in ipairs(self.state.transitions) do
 
         if stateName == targetState.name then        
             self.state = self.states[targetState.name]
+          --  if self.state.name ~= self.states.waitingState.name then
             print("[STATE]: "..self.state.name)
+          --  end
+            --if self.state.name == self.states.waitingState.name then
+
+
+            --end
+               
             return
         end
 
