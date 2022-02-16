@@ -137,6 +137,9 @@ function soundEngine:load()
     local criticalHit = love.audio.newSource("/sounds/criticalHit.mp3", "static")
     criticalHitSound = ripple.newSound(criticalHit, {volume = 0.75, loop = false})
 
+    local lastSeconds = love.audio.newSource("/sounds/lastSeconds.mp3", "static")
+    lastSecondsSound = ripple.newSound(lastSeconds, {volume = 0.75, loop = false})
+
 
 
     

@@ -308,13 +308,14 @@ function sequenceProcessor()
 end
 
 function turnRemainingTime()
+    
 
      
-    if love.timer.getTime() - turnTimer >= 40 and enableBannerDraw ~= true and turnTimer > 0 then
+    if love.timer.getTime() - turnTimer >= 45 and enableBannerDraw ~= true and turnTimer > 0 then
 
       
         if debugIsTurnTimer ~= false  then
-        print(clientIsConnected)
+       
            isTurnTimerDone = true
 
         end
@@ -1793,6 +1794,8 @@ function love.update(dt)
         gameState:changeState(gameState.states.selectCharacter)
     end
 
+  
+
 
     
 end
@@ -1875,17 +1878,19 @@ function love.draw()
        
         love.graphics.setFont(clockFont)
         love.graphics.setColor(yellowColor)
-        love.graphics.print("Remaining time: "..40 + math.floor(turnTimer - love.timer.getTime()), width / 2 - tileW * 3.5, height - 76)
+        love.graphics.print("Remaining time: "..45 + math.floor(turnTimer - love.timer.getTime()), width / 2 - tileW * 3.5, height - 76)
         love.graphics.setFont(statFont)
         love.graphics.setColor(charColor)
 
         if 40 + math.floor(turnTimer - love.timer.getTime()) < 10 then
+            isSecondsLeft = true
             love.graphics.setFont(clockFont)
             love.graphics.setColor({1, 0, 0, 255})
-            love.graphics.print("Remaining time: "..40 + math.floor(turnTimer - love.timer.getTime()), (width / 2 - tileW * 3.5)-1, height - 75)
+            love.graphics.print("Remaining time: "..45 + math.floor(turnTimer - love.timer.getTime()), (width / 2 - tileW * 3.5)-2, height - 74)
             love.graphics.setFont(statFont)
             love.graphics.setColor(charColor)
         end
+      
     end
 
 
