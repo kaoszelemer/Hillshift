@@ -30,7 +30,7 @@ function soundEngine:playSFX(sound)
 
     if sound == "playrandomsound" then
 
-        local rnd = randomFunction(1,10,"soundengine playsfx")
+        local rnd = randomForCosmetics:random(1,10,"soundengine playsfx")
     
         if rnd == 1 then
             uhhSounds.uh:play()

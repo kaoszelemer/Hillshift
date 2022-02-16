@@ -724,6 +724,7 @@ end
 function Character:damage(char, dmg)
 
     gameState:changeState(gameState.states.waitingState)
+    
     table.insert(sequenceBufferTable, {
         name = "damaging character",
         duration = 1,
