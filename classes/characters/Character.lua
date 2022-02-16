@@ -610,12 +610,14 @@ function Character:click(mX, mY)
     if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameServer and activePlayer == playerOne then
             selectedChar = self
+           
             selectedChar.isActionMenuDrawn = true
             gameState:changeState(gameState.states.selectCharacterAction)
            return
     elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameClient and activePlayer == playerTwo then
             selectedChar = self
+          
             selectedChar.isActionMenuDrawn = true
             gameState:changeState(gameState.states.selectCharacterAction)
             return
@@ -623,6 +625,7 @@ function Character:click(mX, mY)
     elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameClient ~= true and isGameServer ~= true then
             selectedChar = self
+            
             selectedChar.isActionMenuDrawn = true
             gameState:changeState(gameState.states.selectCharacterAction)
             return
@@ -654,9 +657,10 @@ function Character:click(mX, mY)
  
   
 
-    if gameState.state == gameState.states.selectCharacterAction and (selectedChar.stepPoints ~= 0 or selectedChar.actionPoints ~= 0) then
-        selectedChar:chooseActionMenu(mX, mY)
-        return
+    if gameState.state == gameState.states.selectCharacterAction and (selectedChar.stepPoints ~= 0 or selectedChar.actionPoints ~= 0) and selectedChar.parentPlayer == self.parentPlayer then
+       
+            selectedChar:chooseActionMenu(mX, mY)
+            return
     end
 
 end
@@ -767,6 +771,8 @@ function Character:move(cx, cy, oldx, oldy)
             
             soundEngine:playSFX(stepSound)
 
+            local char = {}
+
         
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
             table.insert(sequenceBufferTable, {
@@ -784,7 +790,9 @@ function Character:move(cx, cy, oldx, oldy)
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
-                    gameState:changeState(gameState.states.selectCharacterAction)
+                    
+                        gameState:changeState(gameState.states.selectCharacter)
+                   
                 end})
                 
                     self.stepPoints = self.stepPoints - 1
@@ -908,7 +916,8 @@ function Character:attack(enemy, nw)
                 duration = 1.4,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    gameState:changeState(gameState.states.selectCharacterAction)
+                    selectedChar = self
+                    gameState:changeState(gameState.states.selectCharacter)
                 end
 
            

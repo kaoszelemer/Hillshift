@@ -453,7 +453,11 @@ function AirElemental:spell(targetCell)
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                gameState:changeState(gameState.states.selectCharacterAction)
+                selectedChar = self
+                    gameState:changeState(gameState.states.selectCharacter)
+               
+          
+
         
             end})
         

@@ -16,6 +16,7 @@ end
 
 
 function Ice:onEntry(selectedChar)
+   
     table.insert(sequenceBufferTable, {
         name = "iceSlide",
         duration = 0.2,
@@ -26,7 +27,7 @@ function Ice:onEntry(selectedChar)
         end
     })
 
-    selectedChar.stepPoints = 0
+    --selectedChar.stepPoints = 0
     
 
 

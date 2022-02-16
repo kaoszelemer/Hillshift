@@ -297,7 +297,9 @@ function IceWizard:spell(targetCell)
             
             self.drawSpellBR = false
             self.drawSpellBL = false
-            gameState:changeState(gameState.states.selectCharacterAction)
+            selectedChar = self
+    gameState:changeState(gameState.states.selectCharacter)
+    
             Cell:resetParticleDrawing()
         end
     })

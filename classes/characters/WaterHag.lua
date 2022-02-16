@@ -139,7 +139,9 @@ function WaterHag:spell(targetCell)
             self.drawSpellLeft = false
             self.drawSpellRight = false
             Cell:resetParticleDrawing()
-            gameState:changeState(gameState.states.selectCharacterAction)
+            selectedChar = self
+            gameState:changeState(gameState.states.selectCharacter)
+         
         
         end
     })

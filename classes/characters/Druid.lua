@@ -240,8 +240,10 @@ function Druid:spell(targetCell)
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                gameState:changeState(gameState.states.selectCharacterAction)
-                Cell:resetParticleDrawing()
+                selectedChar = self
+          gameState:changeState(gameState.states.selectCharacter)
+            
+                            Cell:resetParticleDrawing()
         
             end})
 

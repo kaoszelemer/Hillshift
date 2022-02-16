@@ -256,8 +256,10 @@ function Alchemist:spell(targetCell, direction)
                 duration = 2,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-    
-                    gameState:changeState(gameState.states.selectCharacterAction)
+                        selectedChar = self
+                                
+                        gameState:changeState(gameState.states.selectCharacter)
+               
             
                 end})
 

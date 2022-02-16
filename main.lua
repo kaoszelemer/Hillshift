@@ -11,7 +11,7 @@ isDebugDrawHoveredTiles = true
 isTileHelperOn = true
 
 enableBannerDraw = false
-debugVolcanoChance = 0.99
+--debugVolcanoChance = 0.99
 
 
 --require
@@ -644,6 +644,8 @@ function newTurn()
 
     banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
 
+
+
   --  gameState:changeState(gameState.states.selectCharacter)
 
         if not suddenDeath and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
@@ -715,6 +717,7 @@ local function selectStartingPlayer()
    if isGameServer then
     activePlayer = playerOne
     inactivePlayer = playerTwo
+    
  
    elseif isGameClient then
     activePlayer = playerOne
@@ -1366,7 +1369,7 @@ local function initNetworking(arg)
                     
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
-                            print("[CLIENT]: "..attackerChar.name.." attacking "..enemyChar)
+                            print("[CLIENT]: "..attackerChar.name.." attacking "..enemyChar.name)
                             attackerChar:attack(enemyChar, true)
                                                
                         end
