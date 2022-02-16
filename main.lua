@@ -205,6 +205,8 @@ require ('board')
 
 
 
+
+
 --valtozok
 --altalanos valtozok
 width = 1280
@@ -1710,7 +1712,7 @@ function love.load(arg)
     end
 
     initNetworking(arg)
-
+    randomForCosmetics = love.math.newRandomGenerator()
     if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
     else love.window.setMode(width,height)
     end       
