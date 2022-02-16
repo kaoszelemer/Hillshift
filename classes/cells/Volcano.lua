@@ -133,17 +133,17 @@ function Volcano:boom(bx, by)
                                             end
                                         end})
 
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarkiajszik",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                           
-                                                boardGrid[bx][by] = Mount(bx, by)
-                                                boardGrid[bx][by].isInstanced = true
-                                                isVolcanoOnBoard = false
-                                        end})
-
+                                        table.insert(sequenceBufferTable, {
+                                            name = "vulkarkiajszik",
+                                            duration = 1,
+                                            sequenceTime = love.timer.getTime(),
+                                            action = function()
+                                               
+                                                    boardGrid[bx][by] = Mount(bx, by)
+                                                    boardGrid[bx][by].isInstanced = true
+                                                    isVolcanoOnBoard = false
+                                                    gameState:changeState(gameState.states.selectCharacter)
+                                            end})
                                     
 
 
@@ -156,14 +156,8 @@ function Volcano:boom(bx, by)
                 end
             end
 
-            table.insert(sequenceBufferTable, {
-                name = "resetparticledraw",
-                duration = 0.1,
-                sequenceTime = love.timer.getTime(),
-                action = function()
-                    Cell:resetParticleDrawing()
-                    gameState:changeState(gameState.states.selectCharacter)
-                end})
+         
+         
      
 end
 

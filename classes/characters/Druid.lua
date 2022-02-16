@@ -57,7 +57,9 @@ local Druid = Character:extend("Druid")
     end
  
 
-    function Druid:spell(targetCell)
+function Druid:spell(targetCell)
+
+        gameState:changeState(gameState.states.waitingState)
                
         if self.actionPoints ~= 0 then
         
@@ -227,15 +229,23 @@ local Druid = Character:extend("Druid")
     
             
             end
-            gameState:changeState(gameState.states.selectCharacter)
             soundEngine:playSFX(forestSound)
-            Cell:resetParticleDrawing()
+           
         end
     end
 
-   
+        table.insert(sequenceBufferTable, {
+            name = "AirElementalResetState",
+            duration = 2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                gameState:changeState(gameState.states.selectCharacterAction)
+                Cell:resetParticleDrawing()
+        
+            end})
 
    
-    end
+end
     
 return Druid

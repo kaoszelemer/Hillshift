@@ -48,7 +48,8 @@ function SandWitch:drawSpellAnimation()
 end
 
 
-    function SandWitch:spell(targetCell)
+function SandWitch:spell(targetCell)
+    gameState:changeState(gameState.states.waitingState)
        
         if self.actionPoints ~= 0 then
         
@@ -126,7 +127,7 @@ end
                             else
                                 boardGrid[self.x][self.y + 1] = Desert(self.x, self.y + 1)
                                 boardGrid[self.x][self.y + 1].isInstanced = true
-                                print(self.x, self.y, boardGrid[self.x][self.y + 1].isOccupied)
+                             
                                   
                                     for index, currentChar in ipairs (activePlayer.characters) do
                                         if currentChar.x == self.x and currentChar.y == self.y + 1 then
@@ -143,23 +144,25 @@ end
                 end
                 
 
-            gameState:changeState(gameState.states.selectCharacter)
-            print("RND STATE AFTER SPELL Switch: "..love.math.getRandomState())
+            
+        
         end
     end
     table.insert(sequenceBufferTable, {
         name = "resetSpellDrawing",
-        duration = 1,
+        duration = 2,
         sequenceTime = love.timer.getTime(),
         action = function()
 
             self.drawSpellLeft = false
             self.drawSpellRight = false
             Cell:resetParticleDrawing()
-            soundEngine:playSFX(desertSound)
+            gameState:changeState(gameState.states.selectCharacterAction)
+        
         end
     })
-
+    
+    soundEngine:playSFX(desertSound)
 
   
 

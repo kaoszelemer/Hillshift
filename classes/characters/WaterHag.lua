@@ -16,6 +16,8 @@ end
 
 function WaterHag:drawSpellAnimation()
 
+   
+
     local duration = 0.5
 
 
@@ -31,6 +33,8 @@ end
 
 
 function WaterHag:spell(targetCell)
+
+    gameState:changeState(gameState.states.waitingState)
   
     if self.actionPoints ~= 0 then
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
@@ -125,10 +129,23 @@ function WaterHag:spell(targetCell)
             end
         
     end
+
+    table.insert(sequenceBufferTable, {
+        name = "resetSpellDrawing",
+        duration = 1,
+        sequenceTime = love.timer.getTime(),
+        action = function()
+
+            self.drawSpellLeft = false
+            self.drawSpellRight = false
+            Cell:resetParticleDrawing()
+            gameState:changeState(gameState.states.selectCharacterAction)
+        
+        end
+    })
     soundEngine:playSFX(waterSound)
-    gameState:changeState(gameState.states.selectCharacter)
-    print("RND STATE AFTER SPELL Whag: "..love.math.getRandomState())
-    Cell:resetParticleDrawing()
+   
+ 
 
 
 end

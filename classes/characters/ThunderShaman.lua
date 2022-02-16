@@ -15,6 +15,8 @@ function ThunderShaman:update(dt)
 end
 
 function ThunderShaman:spell(targetCell)
+
+    gameState:changeState(gameState.states.waitingState)
  
 
         if self.actionPoints ~= 0 then
@@ -127,13 +129,25 @@ function ThunderShaman:spell(targetCell)
        
 
         
-            gameState:changeState(gameState.states.selectCharacter)
-            print("RND STATE AFTER SPELL Tundersemen: "..love.math.getRandomState())
+          
+          
         end
 
         Cell:resetParticleDrawing()
      
-      
+        table.insert(sequenceBufferTable, {
+            name = "resetSpellDrawing",
+            duration = 2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+    
+                self.drawSpellLeft = false
+                self.drawSpellRight = false
+                Cell:resetParticleDrawing()
+                gameState:changeState(gameState.states.selectCharacterAction)
+            
+            end
+        })
 
 
 

@@ -121,7 +121,7 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
                    
 
                     selectedChar:move(selectedChar.x + ox, selectedChar.y + oy, selectedChar.x, selectedChar.y)
-                gameState:changeState(gameState.states.selectCharacter)
+              
 
             end
     end
@@ -273,6 +273,7 @@ function Cell:drawDamageOnBoard()
                     love.graphics.setColor(charColor)
                 else
                     boardGrid[x][y].drawDamageOnBoard = false
+                    gameState:changeState(gameState.states.selectCharacter)
 
                 end
                 
@@ -363,7 +364,7 @@ function Cell:click()
                 
                 end
 
-            print("Cell:click - spell serverside")
+         
             server:sendToAll("server_characterspell", ssend)
         end
 
@@ -373,7 +374,7 @@ function Cell:click()
                 clsend[1] = self.x
                 clsend[2] = self.y
                 clsend[3] = selectedChar.id
-                print("cell:click - spell client side")
+             
 
                 if selectedChar.id == 2 then
 

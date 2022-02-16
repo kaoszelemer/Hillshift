@@ -40,64 +40,7 @@ end
 
 
 function GeoGnome:spell(targetCell)
-
-
-  --[[   if self.actionPoints ~= 0 then
-            if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) 
-            or (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1))
-            or (targetCell.y == self.y and targetCell.x == self.x) then 
-        
-                
-
-                self.tcx = targetCell.x
-                self.tcy = targetCell.y
-
-                if self.tcx < self.x and self.tcy == self.y then self.drawParticlesLeft = true end
-                if self.tcx > self.x and self.tcy == self.y then self.drawParticlesRight = true end
-                if self.tcx == self.x and self.tcy < self.y then self.drawParticlesTop = true end
-                if self.tcx == self.x and self.tcy > self.y then self.drawParticlesBottom = true end
-               
-
-
-                self.drawSpellAnim = true
-                self.spellTime = love.timer.getTime()
-
-                self.actionPoints = self.actionPoints - 1
-                soundEngine:playSFX(mountSound)
-                table.insert(sequenceBufferTable, {
-                    name = "GeoGnomeSpell",
-                    duration = 0.2,
-                    sequenceTime = love.timer.getTime(),
-                    action = function()
-                        
-                        boardGrid[targetCell.x][targetCell.y] = Mount(targetCell.x, targetCell.y)
-                        boardGrid[targetCell.x][targetCell.y].isInstanced = true
-                       
-                    end
-                   
-                })
-                    gameState:changeState(gameState.states.selectCharacter)
-                    print("RND STATE AFTER SPELL Gmon: "..love.math.getRandomState())
-
-            end
-        
-    end
-    table.insert(sequenceBufferTable, {
-            name = "resetParticleDrawing",
-            duration = 0.1,
-            sequenceTime = love.timer.getTime(),
-            action = function()
-
-                self.drawParticlesLeft = false
-                self.drawParticlesRight = false
-                self.drawParticlesTop = false
-                self.drawParticlesBottom = false
-
-                boardGrid[targetCell.x][targetCell.y]:resetParticleDrawing()
-
-            end
-        }) ]]
-
+        gameState:changeState(gameState.states.waitingState)
 
         if self.actionPoints ~= 0 then
             self.actionPoints = self.actionPoints - 1
@@ -119,16 +62,6 @@ function GeoGnome:spell(targetCell)
                                     boardGrid[self.x + x][self.y + y].isInstanced = true
                                 end})
                             
-                            table.insert(sequenceBufferTable, {
-                                name = "resetParticleDrawing",
-                                duration = 0.3,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                        
-                                    boardGrid[self.x + x][self.y + y]:resetParticleDrawing()
-                    
-                                end})
-
                             if boardGrid[self.x + x][self.y + y].isOccupied then
                                 boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 1)
                             end
@@ -141,7 +74,17 @@ function GeoGnome:spell(targetCell)
 
 
         end
-       
+        table.insert(sequenceBufferTable, {
+            name = "geognomeResetState",
+            duration = 2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                gameState:changeState(gameState.states.selectCharacterAction)
+                Cell:resetParticleDrawing()
+             
+        
+            end})
 
 
 end

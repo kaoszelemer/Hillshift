@@ -108,7 +108,7 @@ local IceWizard = Character:extend("IceWizard")
     end
 
 function IceWizard:spell(targetCell)
-    
+    gameState:changeState(gameState.states.waitingState)
     if self.actionPoints ~= 0 then
     if      (targetCell.x == self.x and targetCell.y == self.y - 1) or (targetCell.x == self.x - 1 and targetCell.y == self.y - 1) or (targetCell.x == self.x + 1 and targetCell.y == self.y - 1) then
         self.actionPoints = self.actionPoints - 1
@@ -278,14 +278,14 @@ function IceWizard:spell(targetCell)
             })
         end
        
-        gameState:changeState(gameState.states.selectCharacter)
-        print("RND STATE AFTER SPELL IW: "..love.math.getRandomState())
+        
+     
         end
     end
 
     table.insert(sequenceBufferTable, {
         name = "resetSpellDrawing",
-        duration = 1,
+        duration = 2,
         sequenceTime = love.timer.getTime(),
         action = function()
 
@@ -297,13 +297,13 @@ function IceWizard:spell(targetCell)
             
             self.drawSpellBR = false
             self.drawSpellBL = false
-           
+            gameState:changeState(gameState.states.selectCharacterAction)
+            Cell:resetParticleDrawing()
         end
     })
-    Cell:resetParticleDrawing()
+    
     soundEngine:playSFX(iceSound)
-
-
+ 
 
 end
 

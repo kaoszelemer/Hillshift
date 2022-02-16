@@ -31,7 +31,7 @@ function soundEngine:playSFX(sound)
     if sound == "playrandomsound" then
 
         local rnd = randomFunction(1,10,"soundengine playsfx")
-        print(rnd)
+    
         if rnd == 1 then
             uhhSounds.uh:play()
         elseif rnd == 2 then
@@ -133,6 +133,9 @@ function soundEngine:load()
     
     local event = love.audio.newSource("/sounds/event.mp3", "static")
     eventSound = ripple.newSound(event, {volume = 0.75, loop = false})
+
+    local criticalHit = love.audio.newSource("/sounds/criticalHit.mp3", "static")
+    criticalHitSound = ripple.newSound(criticalHit, {volume = 0.75, loop = false})
 
 
 

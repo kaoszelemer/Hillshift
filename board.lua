@@ -367,10 +367,6 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         for _, row in ipairs(boardGrid) do
             for _, cell in ipairs(row) do
 
-                if cell.isHovered then
-                   -- print('hovered')
-                end
-
                 if cell.isOccupied and cell.occupiedBy == currentChar then
 
 
@@ -491,8 +487,13 @@ local function drawStatsOnSideBarPlayerOne(playerone)
         end
 
 
+        if activePlayer == playerone and isGameServer then
+            love.graphics.print(playerone.name.." IT'S YOUR TURN!!!", sideBarX + 32, 64)
+        elseif isGameServer ~= true and isGameClient ~= true and activePlayer == playerone then
+            love.graphics.print(playerone.name.." IT'S YOUR TURN!!!", sideBarX + 32, 64)
+        end
+
         
-        love.graphics.print(playerone.name, sideBarX + 32, 64)
         
 
         if activePlayer == playerone then
@@ -647,7 +648,11 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
         end
 
 
-        love.graphics.print(playertwo.name, sideBarX + 32, 64)
+        if activePlayer == playertwo and isGameClient then
+            love.graphics.print(playertwo.name.." IT'S YOUR TURN!!!", sideBarX + 32, 64)
+        elseif isGameServer ~= true and isGameClient ~= true and activePlayer == playertwo then
+            love.graphics.print(playertwo.name.." IT'S YOUR TURN!!!", sideBarX + 32, 64)
+        end
       
 
         if activePlayer == playertwo then
@@ -666,22 +671,6 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
     end
  
     love.graphics.setFont(font)
-end
-
-local function drawDebugInfo()
-
-
-   -- love.graphics.print("x: " ..  currentChar.x .. "y: " ..  currentChar.y, 200, 90 + i * 100)
-
-              --  if      currentChar.isSelected then love.graphics.print("Selected", 200, 70 + i * 100)
-              --  elseif  currentChar.isHovered then love.graphics.print("Hovered", 200, 70 + i * 100)
-              --  end
-               --[[  if  currentChar.isInAttackState then love.graphics.print("ATTACK MODE", (width / 2) - 200, 10)
-                elseif  currentChar.isInStepState then love.graphics.print("STEP MODE", (width / 2) - 200, 10)
-                elseif  currentChar.isInSpellState then love.graphics.print("SPELL MODE", (width / 2) - 200, 10)
-                elseif  currentChar.isInDefenseState then love.graphics.print("DEFENSE MODE", (width / 2) - 200, 10)   
-                end ]]
-
 end
 
 function drawPossibleDamageOnEnemyCharacter()
@@ -915,30 +904,40 @@ end
 
 local function drawRectanglesIfHoveredOrOccupied()
       
-  -- kirajzolom a táblát
+ 
   for i=1, #boardGrid do
     for j=1, #boardGrid[i] do
         local currentCell = boardGrid[i][j] 
         local currentTileX = (currentCell.x) * tileW
         local currentTileY = (currentCell.y) * tileH
 
-        if isDebugDrawHoveredTiles then
-            if boardGrid[i][j].isHovered == true then
-            love.graphics.setLineWidth(8)
-            love.graphics.setColor(hoverColor)
-            love.graphics.rectangle("line", currentTileX + offsetX , currentTileY + offsetY, tileW, tileH)
-            love.graphics.setColor(charColor)
-            love.graphics.setLineWidth(1)
-            end
-        end
+     
         
-        if boardGrid[i][j].isOccupied == true and boardGrid[i][j].occupiedBy and boardGrid[i][j].occupiedBy.parentPlayer == activePlayer then
+        if boardGrid[i][j].isOccupied == true and boardGrid[i][j].occupiedBy and boardGrid[i][j].occupiedBy.parentPlayer == activePlayer and activePlayer == playerOne then
             love.graphics.setLineWidth(3)
-            love.graphics.setColor(charColor)
-            love.graphics.rectangle("line", currentTileX + offsetX, currentTileY + offsetY, tileW, tileH)
+            love.graphics.setColor(playerOneColor)
+            love.graphics.rectangle("line", (currentTileX + offsetX) + 3, (currentTileY + offsetY) + 3, tileW - 6, tileH - 6)
             love.graphics.setColor(charColor)
             love.graphics.setLineWidth(1)
         end
+
+        if boardGrid[i][j].isOccupied == true and boardGrid[i][j].occupiedBy and boardGrid[i][j].occupiedBy.parentPlayer == activePlayer and activePlayer == playerTwo then
+            love.graphics.setLineWidth(3)
+            love.graphics.setColor(playerTwoColor)
+            love.graphics.rectangle("line", (currentTileX + offsetX) + 3, (currentTileY + offsetY) + 3, tileW - 6, tileH - 6)
+            love.graphics.setColor(charColor)
+            love.graphics.setLineWidth(1)
+        end
+
+        
+        if boardGrid[i][j].isOccupied == true and selectedChar == boardGrid[i][j].occupiedBy and boardGrid[i][j]:instanceOf(Volcano) ~= true then
+            love.graphics.setLineWidth(3)
+            love.graphics.setColor(selectedCharacterColor)
+            love.graphics.rectangle("line", (currentTileX + offsetX) + 3, (currentTileY + offsetY) + 3, tileW - 6, tileH - 6)
+            love.graphics.setColor(charColor)
+            love.graphics.setLineWidth(1)
+        end
+     
        
         end
     end
@@ -1278,16 +1277,10 @@ end
 
 
 function newGame()
-  --[[   local ho = {"host"}
-    local cl = {"client"} ]]
+
     print("newGame")
     
-  --[[   if isNewGame then
-        if isGameClient then
-            initNetworking(cl)
-        elseif isGameServer then
-            initNetworking(ho)
-        end ]]
+
     drawEndGame = false
     isSuddenDeath = false
 
@@ -1300,7 +1293,6 @@ function newGame()
     print("initing player decks")
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
-    print(playerOne)
   
     print("loading character animations")
     loadCharacterAnim()

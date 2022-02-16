@@ -241,16 +241,25 @@ end
 
 
 function Alchemist:spell(targetCell, direction)
-        
-    
+
+        gameState:changeState(gameState.states.waitingState)
+
         if self.actionPoints ~= 0 then
                 self:poisonBoardGrid(targetCell, direction)
                 self.actionPoints = self.actionPoints - 1
-                gameState:changeState(gameState.states.selectCharacter)
+             
                 soundEngine:playSFX(poisonSound)
         end
 
-
+        table.insert(sequenceBufferTable, {
+                name = "AlchemistResetState",
+                duration = 2,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+    
+                    gameState:changeState(gameState.states.selectCharacterAction)
+            
+                end})
 
 
 end

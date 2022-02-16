@@ -7,11 +7,11 @@
 
 isGameFullScreen = false
 isMusicOn = true
-isDebugDrawHoveredTiles = false
+isDebugDrawHoveredTiles = true
 isTileHelperOn = true
 
 enableBannerDraw = false
---debugVolcanoChance = 0.99
+debugVolcanoChance = 0.99
 
 
 --require
@@ -235,6 +235,9 @@ blackColor = {0, 0, 0, 255}
 darkgreenColor = {0, 64 / 255, 21 / 255, 255}
 purpleColor = {87 / 255, 0, 87 / 255, 255}
 yellowColor = {1,1,0, 255}
+selectedCharacterColor = {1, 111 / 255, 0, 255}
+playerOneColor = {214 / 255, 0, 104 / 255, 255}
+playerTwoColor = {115 / 255, 241 / 255, 1, 255}
 ---
 charH = 32
 charW = 32
@@ -286,13 +289,13 @@ function sequenceProcessor()
 
         for index, sequence in ipairs(sequenceBufferTable) do 
             if index == 1 then 
-                gameState:changeState(gameState.states.waitingState)
+               -- gameState:changeState(gameState.states.waitingState)
 
                 if love.timer.getTime() - sequence.sequenceTime >= sequence.duration then
                         print("[SEQUENCE]: "..sequence.name)
                         sequence.action()
                         table.remove(sequenceBufferTable, 1)  
-                        gameState:changeState(gameState.states.selectCharacter)
+                      --  gameState:changeState(gameState.states.selectCharacter)
                 end
             end
                 
@@ -301,6 +304,8 @@ function sequenceProcessor()
 end
 
 function endTurn()
+    selectedChar = nil
+ 
     soundEngine:playSFX(endTurnSound)
     isFirstTurn = false
     drawAttack = false
@@ -405,6 +410,7 @@ function endTurn()
                         action = function()
                             boardGrid[x][y].eruptionTimer = love.timer.getTime()
                             boardGrid[x][y].isErupting = true
+                            gameState:changeState(gameState.states.waitingState)
                             Volcano:boom(x, y)
                             boardGrid[x][y].isSmoking = false
                         end})
@@ -419,12 +425,17 @@ function endTurn()
                         eventTurnCounter = -40
                         for v = 1, 10 do  
                             if turnCounter == maxTurns - 1 + v then
+                                table.insert(sequenceBufferTable, {
+                                    name = "DruidSpellTopCell",
+                                    duration = 1,
+                                    sequenceTime = love.timer.getTime(),
+                                    action = function()
                             
-                            
-                                boardGrid[v][y].isOnFire = true 
-                                boardGrid[x][v].isOnFire = true
-                                boardGrid[11-v][y].isOnFire = true
-                                boardGrid[x][11-v].isOnFire = true
+                                        boardGrid[v][y].isOnFire = true 
+                                        boardGrid[x][v].isOnFire = true
+                                        boardGrid[11-v][y].isOnFire = true
+                                        boardGrid[x][11-v].isOnFire = true
+                                    end})
                                 
                             end
                         end
@@ -646,7 +657,13 @@ function newTurn()
 
     
         if turnCounter == 20 then
-            banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), 5)
+            table.insert(sequenceBufferTable, {
+                name = "DruidSpellTopCell",
+                duration = 3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                     banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), 3)
+                end})
         end
     
 
@@ -666,7 +683,7 @@ end
 
 function spawnPrison(player)
     if turnCounter < 20 then
-        --print(playerOne.prisonCount, playerTwo.prisonCount)
+       
         if player == playerTwo and playerTwo.prisonCount == 0 then
             boardGrid[3][8] = Field(3, 8)
             boardGrid[3][8].isPrison = true
@@ -759,8 +776,7 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
                     pointerOnRightSide = false
                     pointerOnTopSide = false
                     pointerOnBottomSide = false
-            --      print(currentChar.x, mX, currentChar.y, mY)
-                --  print('pointerOnLeftSide')
+        
                 end
                 if currentChar.y < mY and currentChar.x == mX then
                     pointerOnTopSide = false
@@ -774,7 +790,6 @@ local function testMouseForValidSpellDrawing(rMx, rMy)
                     pointerOnBottomSide = false
                     pointerOnLeftSide = false
                     pointerOnRightSide = false
-                --  print('pointerOnTopSide')
                 end 
 
             --4 irányba pl. alkimista
@@ -1288,14 +1303,14 @@ local function initNetworking(arg)
 
         server:on("clientcharacterpositionchanging", function(cp)
 
-            print("SERVER:ON client character positions changing")
+          
 
           
 
                 for _, currentChar in ipairs(activePlayer.characters) do
 
                     if cp[1] == currentChar.id then
-                        print("poschangin char"..currentChar.name, currentChar.parentPlayer.name)
+                        print("[CLIENT]: "..currentChar.name.." is moving to "..cp[2]..","..cp[3] )
                         currentChar:move(cp[2], cp[3], cp[4], cp[5])
                     end
                 end
@@ -1306,6 +1321,7 @@ local function initNetworking(arg)
         server:on("clientendturn", function(cet)
         
             if cet == "endturnclicked" then
+                print("[CLIENT]: Ending turn" )
                 endTurn()
                 newTurn()
 
@@ -1321,14 +1337,15 @@ local function initNetworking(arg)
             local id = bs[3]
             local dir = bs[4]
 
-            print("client doing spell on x: "..x.." y: "..y)
+         
 
             if activePlayer == playerTwo then
                 for _, currentChar in ipairs(activePlayer.characters) do
                     if id == currentChar.id and id == 2 then
                         currentChar:spell(boardGrid[x][y], dir)
-                    
+                        print("[CLIENT]: "..currentChar.name.." doing spell")
                     elseif id == currentChar.id then
+                        print("[CLIENT]: "..currentChar.name.." doing spell")
                         currentChar:spell(boardGrid[x][y])
                     end
                 end
@@ -1349,7 +1366,7 @@ local function initNetworking(arg)
                     
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
-                            
+                            print("[CLIENT]: "..attackerChar.name.." attacking "..enemyChar)
                             attackerChar:attack(enemyChar, true)
                                                
                         end
@@ -1473,6 +1490,7 @@ local function initNetworking(arg)
 
         client:on("serverendturn", function(ebc)                    
             if ebc == "endturnclicked" then
+                print("[SERVER]: Ending Turn")
                 endTurn()
                 newTurn()
             end
@@ -1481,14 +1499,14 @@ local function initNetworking(arg)
     
         client:on("servercharacterpositionchanging", function(cp)
 
-            print("CLIENT:ON server character positions changing")
+       
 
             
                 for _, currentChar in ipairs(activePlayer.characters) do
 
                
                     if cp[1] == currentChar.id then
-                        print("client poschangin char: "..currentChar.name)
+                        print("[SERVER]: moving"..currentChar.name.." to "..cp[2]..", "..cp[3])
                         currentChar:move(cp[2], cp[3], cp[4], cp[5])
                     end
                 end
@@ -1504,20 +1522,21 @@ local function initNetworking(arg)
             local id = bs[3]
             local dir = bs[4]
         
-            print("server doing spell on x: "..x.." y: "..y)
+           
 
             if activePlayer == playerOne then
                 for _, currentChar in ipairs(activePlayer.characters) do
                     if id == currentChar.id and id == 2 then
                         currentChar:spell(boardGrid[x][y], dir)
-                    
+                        print("[SERVER]: doing spell with "..currentChar.name)
                     elseif id == currentChar.id then
+                        print("[SERVER]: doing spell with "..currentChar.name)
                         currentChar:spell(boardGrid[x][y])
                     end
                 end
             end
 
-            print("CH: SPELL spellsentnw - clientside", spellSentNw)
+            
 
         
         end)
@@ -1533,9 +1552,8 @@ local function initNetworking(arg)
                     
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
-                           -- print(attackerChar.name, enemyChar.name)
                             attackerChar:attack(enemyChar, true)
-                                               
+                            print("[SERVER]: "..attackerChar.name.." attacking "..enemyChar.name)      
                         end
                     end
                 end
@@ -1959,7 +1977,7 @@ function love.mousereleased(x, y, button, istouch, presses)
 
         end
 
-        if isCancelButton then
+        if isCancelButton and selectedChar then
             local sx = selectedChar.x * tileW + offsetX
             local sy = selectedChar.y * tileW + offsetY
         

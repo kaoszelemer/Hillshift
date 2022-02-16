@@ -353,6 +353,8 @@ end
 
 function AirElemental:spell(targetCell)
 
+    gameState:changeState(gameState.states.waitingState)
+
     local spreadX = 0
     local spreadY = 0
    -- local chanceOfBurning = randomFunction(nil, nil, "airelemental: spell")
@@ -443,8 +445,18 @@ function AirElemental:spell(targetCell)
         
         
         self.actionPoints = self.actionPoints - 1
-        gameState:changeState(gameState.states.selectCharacter)
         soundEngine:playSFX(airBlowSound)
+
+        table.insert(sequenceBufferTable, {
+            name = "AirElementalResetState",
+            duration = 2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                gameState:changeState(gameState.states.selectCharacterAction)
+        
+            end})
+        
     end
 
   

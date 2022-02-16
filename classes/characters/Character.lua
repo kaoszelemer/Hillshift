@@ -612,7 +612,7 @@ function Character:click(mX, mY)
             selectedChar = self
             selectedChar.isActionMenuDrawn = true
             gameState:changeState(gameState.states.selectCharacterAction)
-            return
+           return
     elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameClient and activePlayer == playerTwo then
             selectedChar = self
@@ -719,8 +719,7 @@ end
         
 function Character:damage(char, dmg)
 
-    
-
+    gameState:changeState(gameState.states.waitingState)
     table.insert(sequenceBufferTable, {
         name = "damaging character",
         duration = 1,
@@ -728,6 +727,11 @@ function Character:damage(char, dmg)
         action = function()
             
             soundEngine:playSFX("playrandomsound")
+
+            if dmg > 15 then
+                soundEngine:playSFX(criticalHitSound)
+            end
+
             char.baseHP = char.baseHP - dmg
             boardGrid[char.x][char.y].drawDamageOnBoard = true
             boardGrid[char.x][char.y]:damageOnBoard("-"..dmg.."HP")
@@ -743,7 +747,7 @@ end
 
 function Character:move(cx, cy, oldx, oldy)
     
-
+    gameState:changeState(gameState.states.waitingState)
 
     if self.stepPoints ~= 0 then
         
@@ -767,7 +771,7 @@ function Character:move(cx, cy, oldx, oldy)
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
-                duration = 0.4,
+                duration = 0.5,
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
@@ -780,9 +784,9 @@ function Character:move(cx, cy, oldx, oldy)
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
-
+                    gameState:changeState(gameState.states.selectCharacterAction)
                 end})
-
+                
                     self.stepPoints = self.stepPoints - 1
                     
                
@@ -860,7 +864,7 @@ function Character:attack(enemy, nw)
         sequenceTime = love.timer.getTime(),
         action = function()
             if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
-                
+                gameState:changeState(gameState.states.waitingState)
                 
     
                 local dr = getDiceRoll()
@@ -904,7 +908,7 @@ function Character:attack(enemy, nw)
                 duration = 1.4,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    gameState:changeState(gameState.states.selectCharacter)
+                    gameState:changeState(gameState.states.selectCharacterAction)
                 end
 
            
