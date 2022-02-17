@@ -66,9 +66,9 @@ function Character:update(dt)
                 currentChar.currentSpeech = text
                 currentChar.isSpeaking = true
                 currentChar.lastSpeakTime = love.timer.getTime()
-                print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
+             --   print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = randomForCosmetics:random(0,120) + randomForCosmetics:random(0, 21) + love.timer.getTime()
+            currentChar.nextSpeakTime = randomForCosmetics:random(0,150) + love.timer.getTime()
                         
         end
     end
@@ -79,9 +79,9 @@ function Character:update(dt)
                 currentChar.currentSpeech = text
                 currentChar.isSpeaking = true
                 currentChar.lastSpeakTime = love.timer.getTime()
-                print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
+           --     print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = randomForCosmetics:random(0,120) + randomForCosmetics:random(0, 17) + love.timer.getTime()
+            currentChar.nextSpeakTime = randomForCosmetics:random(0,150) + love.timer.getTime()
         end
     end
 
@@ -187,7 +187,7 @@ function Character:drawSpeechBubbles()
                                         
                         love.graphics.setFont(littleFont)
 
-                        love.graphics.rectangle("fill", (currentChar.x * tileW + (tileW / 4) - tileW / 8) + offsetX, (currentChar.y * tileH) + offsetY, textWidth + 5 , 17)
+                        love.graphics.rectangle("fill", (currentChar.x * tileW + (tileW / 4) - tileW / 8 + 5) + offsetX, (currentChar.y * tileH) + offsetY, textWidth + 5 , 17)
                         love.graphics.setColor(selectedColor)
                         love.graphics.print(currentChar.currentSpeech, (currentChar.x * tileW + (tileW / 4)) + offsetX, (currentChar.y * tileH) + offsetY)
                         love.graphics.setFont(statFont)
