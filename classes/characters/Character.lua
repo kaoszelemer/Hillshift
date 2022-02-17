@@ -179,7 +179,7 @@ function Character:drawSpeechBubbles()
    
                 for index, currentChar in ipairs(activePlayer.characters) do
                                              
-                    if currentChar.isSpeaking then 
+                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction then 
 
                         currentChar.speakTimer = love.timer.getTime()    
                         local duration = 4
@@ -204,7 +204,7 @@ function Character:drawSpeechBubbles()
 
                 for index, currentChar in ipairs(inactivePlayer.characters) do
                                              
-                    if currentChar.isSpeaking then 
+                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction  then 
 
                         currentChar.speakTimer = love.timer.getTime()    
                         local duration = 4
@@ -734,6 +734,7 @@ function Character:damage(char, dmg)
         action = function()
             
             soundEngine:playSFX("playrandomsound")
+            screenShake(0.2, 0.1)
 
             if dmg > 15 then
                 soundEngine:playSFX(criticalHitSound)
@@ -914,7 +915,7 @@ function Character:attack(enemy, nw)
            
 
             soundEngine:playSFX(knifeSound)
-            
+           
   
    
 

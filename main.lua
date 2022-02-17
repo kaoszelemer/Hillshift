@@ -1805,8 +1805,8 @@ end
 function love.draw()
     if isScreenShake then
         if shakeTime < shakeDuration then
-            local dx = randomFunction(-shakeMagnitude, shakeMagnitude, "screenShake")
-            local dy = randomFunction(-shakeMagnitude, shakeMagnitude, "screenShake")
+            local dx = randomForCosmetics:random(-shakeMagnitude, shakeMagnitude)
+            local dy = randomForCosmetics:random(-shakeMagnitude, shakeMagnitude)
             love.graphics.translate(dx, dy)
         end
     end
@@ -2118,6 +2118,7 @@ end
 
 function love.keypressed(key)
     if key == "l" then
+        print(scannign)
         lurker:scan()
     end
 
