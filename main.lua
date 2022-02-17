@@ -313,7 +313,7 @@ function turnRemainingTime()
     
 
      
-    if love.timer.getTime() - turnTimer >= 60 and enableBannerDraw ~= true and turnTimer > 0 then
+    if love.timer.getTime() - turnTimer >= 60 and turnTimer > 0 then
 
       
         if debugIsTurnTimer ~= false  then
@@ -685,7 +685,7 @@ function endTurn()
                         if currentChar.baseHP <= 0 then currentChar:kill() end
 
                     -- gameState:changeState(gameState.states.selectCharacter)
-
+                   
                     end
                 end})
 
@@ -734,7 +734,7 @@ function newTurn()
 
 
     Cell:resetParticleDrawing()
-
+    turnTimer = love.timer.getTime()
 end
 
 function screenShake(duration, magnitude)
@@ -1665,7 +1665,7 @@ function banner(name, text, flavor, bt, bandur)
     bannerText = {name = name, text = text, flavor = flavor}
    
   
-
+    turnTimer = turnTimer + bannerDuration
     gameState:changeState(gameState.states.waitingState)
     bannerAnimation:gotoFrame(1)
     bannerAnimation:resume()
@@ -1720,7 +1720,7 @@ function love.load(arg)
     loadParticleSystems()
 
     board:load()
-
+    turnTimer = love.timer.getTime()
     if isGameClient ~= true and isGameServer ~= true then
         loadCharacterAnim()
     end
@@ -1787,7 +1787,7 @@ function love.update(dt)
     if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     
         enableBannerDraw = false
-        turnTimer = love.timer.getTime()
+       
         gameState:changeState(gameState.states.selectCharacter)
     end
 
@@ -1797,7 +1797,7 @@ function love.update(dt)
     end
 
   
-
+    
 
     
 end
