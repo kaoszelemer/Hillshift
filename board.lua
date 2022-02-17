@@ -1287,7 +1287,6 @@ function newGame()
     playerOne.prisonCount = 0
     playerTwo.prisonCount = 0
     chestCounter = 0
-    turnCounter = 0
     eventTurnCounter = 0
     nextTurnBeforeEvent = randomFunction(5, 9, "newGame - next turn before event")
     print("initing player decks")

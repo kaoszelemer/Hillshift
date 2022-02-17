@@ -1271,7 +1271,7 @@ local function initNetworking(arg)
 
             client:send("hello", msg)
             clientIsConnected = true
-            turnTimer = 0
+            turnTimer = love.timer.getTime()
         end)
 
         server:on("connect", function(data, client)
