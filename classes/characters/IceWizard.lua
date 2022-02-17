@@ -128,12 +128,15 @@ function IceWizard:spell(targetCell)
                 sequenceTime = love.timer.getTime(),
                 action = function()
           
-                    boardGrid[self.x][self.y - 1].isFrozen = true
+                    if boardGrid[self.x][self.y - 1].isFrozen ~= true then
+                        boardGrid[self.x][self.y - 1].freezeTurn = turnCounter
+                        
+                        boardGrid[self.x][self.y - 1].isFrozen = true
+                    end
                     if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then 
                         boardGrid[self.x][self.y - 1] = Ice(self.x, self.y - 1) 
                         boardGrid[self.x][self.y - 1].isInstanced = true
                     end
-                    boardGrid[self.x][self.y - 1].freezeTurn = turnCounter
                     if boardGrid[self.x][self.y - 1].isOnFire then boardGrid[self.x][self.y - 1].isOnFire = false end
                 end
             })
@@ -154,13 +157,18 @@ function IceWizard:spell(targetCell)
                 duration = 0.2,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    boardGrid[self.x - 1][self.y - 1].isFrozen = true
+
+                    if boardGrid[self.x - 1][self.y - 1].isFrozen ~= true then
+                        boardGrid[self.x - 1][self.y - 1].isFrozen = true
+                        boardGrid[self.x - 1][self.y - 1].freezeTurn = turnCounter
+                    end
+
+
                     if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then 
                         
                         boardGrid[self.x - 1][self.y - 1] = Ice(self.x - 1, self.y - 1) 
                         boardGrid[self.x - 1][self.y - 1].isInstanced = true
                     end
-                    boardGrid[self.x - 1][self.y - 1].freezeTurn = turnCounter
                     if boardGrid[self.x - 1][self.y - 1].isOnFire then boardGrid[self.x - 1][self.y - 1].isOnFire = false end 
                 end
             })
@@ -182,13 +190,16 @@ function IceWizard:spell(targetCell)
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
+                    if boardGrid[self.x + 1][self.y - 1].isFrozen ~= true then
                         boardGrid[self.x + 1][self.y - 1].isFrozen = true
+                        boardGrid[self.x + 1][self.y - 1].freezeTurn = turnCounter
+                    end
+
                     if  boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
                              boardGrid[self.x + 1][self.y - 1] = Ice(self.x + 1, self.y - 1) 
                              boardGrid[self.x + 1][self.y - 1].isInstanced = true
                     
                     end  
-                        boardGrid[self.x + 1][self.y - 1].freezeTurn = turnCounter
                     if  boardGrid[self.x + 1][self.y - 1].isOnFire then boardGrid[self.x + 1][self.y - 1].isOnFire = false end
                 end
             })
@@ -217,12 +228,16 @@ function IceWizard:spell(targetCell)
                 duration = 0.1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    boardGrid[self.x][self.y + 1].isFrozen = true
+                    if boardGrid[self.x][self.y - 1].isFrozen ~= true then
+
+                        boardGrid[self.x][self.y + 1].isFrozen = true
+                        boardGrid[self.x][self.y + 1].freezeTurn = turnCounter
+                    end
+                    
                     if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then
-                         boardGrid[self.x][self.y + 1] = Ice(self.x, self.y + 1)
-                         boardGrid[self.x][self.y + 1].isInstanced = true
-                        end
-                    boardGrid[self.x][self.y + 1].freezeTurn = turnCounter
+                        boardGrid[self.x][self.y + 1] = Ice(self.x, self.y + 1)
+                        boardGrid[self.x][self.y + 1].isInstanced = true
+                    end
                     if boardGrid[self.x][self.y + 1].isOnFire then boardGrid[self.x][self.y + 1].isOnFire = false end
                 end
             })
@@ -242,12 +257,15 @@ function IceWizard:spell(targetCell)
                 duration = 0.2,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    boardGrid[self.x - 1][self.y + 1].isFrozen = true
+                    if boardGrid[self.x - 1][self.y + 1].isFrozen ~= true then
+
+                        boardGrid[self.x - 1][self.y + 1].freezeTurn = turnCounter
+                        boardGrid[self.x - 1][self.y + 1].isFrozen = true
+                    end
                     if boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
                          boardGrid[self.x - 1][self.y + 1] = Ice(self.x - 1, self.y + 1) 
                          boardGrid[self.x - 1][self.y + 1].isInstanced = true
                         end
-                    boardGrid[self.x - 1][self.y + 1].freezeTurn = turnCounter
                     if boardGrid[self.x - 1][self.y + 1].isOnFire then boardGrid[self.x - 1][self.y + 1].isOnFire = false end 
                 end
             })
@@ -267,12 +285,14 @@ function IceWizard:spell(targetCell)
                 duration = 0.3,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    boardGrid[self.x + 1][self.y + 1].isFrozen = true
+                    if boardGrid[self.x + 1][self.y + 1].isFrozen ~= true then
+                         boardGrid[self.x + 1][self.y + 1].isFrozen = true
+                         boardGrid[self.x + 1][self.y + 1].freezeTurn = turnCounter
+                    end
                     if  boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then
                          boardGrid[self.x + 1][self.y + 1] = Ice(self.x + 1, self.y + 1)
                          boardGrid[self.x + 1][self.y + 1].isInstanced = true
                     end  
-                    boardGrid[self.x + 1][self.y + 1].freezeTurn = turnCounter
                     if  boardGrid[self.x + 1][self.y + 1].isOnFire then boardGrid[self.x + 1][self.y + 1].isOnFire = false end
                 end
             })

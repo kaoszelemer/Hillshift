@@ -421,7 +421,7 @@ function endTurn()
             
             if boardGrid[x][y]:instanceOf(Forest) then
                 forestCounter = forestCounter + 1
-                if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter < 1 then
+                if forestCounter >= 30 and magicForestChance < 0.33 and magicForestCounter < 1 then
                     local mfX = randomFunction(3, 8, "magicforestx")
                     local mfY = randomFunction(3, 8, "magicforesty")
                     boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
@@ -609,7 +609,7 @@ function endTurn()
                     
 
                 elseif cell.isBurntField then
-                currentChar:damage(currentChar, 7)
+                    currentChar:damage(currentChar, 7)
 
                 elseif cell:instanceOf(Lake) then
                     currentChar.actionPoints = 0
