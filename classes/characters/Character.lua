@@ -59,7 +59,7 @@ function Character:update(dt)
     -- SPEECH BUBLES
 
 
---[[     for _, currentChar in ipairs(activePlayer.characters) do   
+    for _, currentChar in ipairs(activePlayer.characters) do   
         if currentChar.nextSpeakTime == nil or currentChar.nextSpeakTime < love.timer.getTime() then
             if currentChar.nextSpeakTime ~= nil then
                 local text = getTextForSpeech()
@@ -68,7 +68,8 @@ function Character:update(dt)
                 currentChar.lastSpeakTime = love.timer.getTime()
                 print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = randomFunction(60,120,"characterupdate - next speak time") + love.timer.getTime()             
+            currentChar.nextSpeakTime = randomForCosmetics:random(0,120) + randomForCosmetics:random(0, 21) + love.timer.getTime()
+                        
         end
     end
     for _, currentChar in ipairs(inactivePlayer.characters) do 
@@ -80,9 +81,9 @@ function Character:update(dt)
                 currentChar.lastSpeakTime = love.timer.getTime()
                 print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = randomFunction(60,240,"characterupadte - next speak time") + love.timer.getTime()     
+            currentChar.nextSpeakTime = randomForCosmetics:random(0,120) + randomForCosmetics:random(0, 17) + love.timer.getTime()
         end
-    end ]]
+    end
 
 
     -- ANIMATION UPDATES
@@ -186,11 +187,12 @@ function Character:drawSpeechBubbles()
                                         
                         love.graphics.setFont(littleFont)
 
-                        love.graphics.rectangle("fill", (currentChar.x * tileW + (tileW / 4) - tileW / 8) + offsetX, (currentChar.y * tileH) + offsetY, textWidth * 1.2 , 17)
+                        love.graphics.rectangle("fill", (currentChar.x * tileW + (tileW / 4) - tileW / 8) + offsetX, (currentChar.y * tileH) + offsetY, textWidth + 5 , 17)
                         love.graphics.setColor(selectedColor)
                         love.graphics.print(currentChar.currentSpeech, (currentChar.x * tileW + (tileW / 4)) + offsetX, (currentChar.y * tileH) + offsetY)
                         love.graphics.setFont(statFont)
                         love.graphics.setColor(charColor)
+                --        print(love.timer.getTime() - currentChar.lastSpeakTime, duration)
 
                         if love.timer.getTime() - currentChar.lastSpeakTime > duration then
                             currentChar.isSpeaking = false
@@ -724,7 +726,7 @@ end
 function Character:damage(char, dmg)
 
     gameState:changeState(gameState.states.waitingState)
-    
+
     table.insert(sequenceBufferTable, {
         name = "damaging character",
         duration = 1,

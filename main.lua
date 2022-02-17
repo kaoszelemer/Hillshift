@@ -951,7 +951,7 @@ end
 
 function getTextForSpeech()
 
-    textNumber = randomFunction(1, #speechBubbleTextTable, "getTextForSpeech")
+    textNumber = randomForCosmetics:random(1, #speechBubbleTextTable)
     local tfs = speechBubbleTextTable[textNumber]
     return tfs
 
@@ -1712,7 +1712,7 @@ function love.load(arg)
     end
 
     initNetworking(arg)
-    randomForCosmetics = love.math.newRandomGenerator()
+    randomForCosmetics = love.math.newRandomGenerator(love.timer.getTime())
     if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
     else love.window.setMode(width,height)
     end       
