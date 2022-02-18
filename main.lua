@@ -11,7 +11,7 @@ isDebugDrawHoveredTiles = true
 isTileHelperOn = true
 debugIsTurnTimer = true
 enableBannerDraw = false
-debugVolcanoChance = 0.77
+--debugVolcanoChance = 0.77
 
 
 --require
