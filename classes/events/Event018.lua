@@ -37,58 +37,10 @@ function Event018:eventFunction()
     
                     local rndCellX = randomFunction(1, 10, "event18")
                     local rndCellY = randomFunction(1, 10, "event18")
-                    if not boardGrid[rndCellX][rndCellY].isOnFire then boardGrid[rndCellX][rndCellY].isOnFire = true end
+                    if not boardGrid[rndCellX][rndCellY].isOnFire then Burn:apply(rndCellX, rndCellY) end
 
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
-                            table.insert(sequenceBufferTable, {
-                                name = "CellsareSteaming",
-                                duration = 0.2,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[rndCellX][rndCellY].isSteaming = true
-                                end
-                            }) 
-                            table.insert(sequenceBufferTable, {
-                                name = "CellsareFields",
-                                duration = 0.5,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) 
-                                end
-                            }) 
-                        end
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then 
-                            table.insert(sequenceBufferTable, {
-                                name = "CellsareSteaming",
-                                duration = 0.2,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[rndCellX][rndCellY].isSteaming = true
-                                end
-                            }) 
-                            table.insert(sequenceBufferTable, {
-                                name = "CellsareLakes",
-                                duration = 0.5,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY) 
-                                end
-                            }) 
-                        end
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
-                            boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY)
-                            boardGrid[rndCellX][rndCellY].isBurntField = true
-                            boardGrid[rndCellX][rndCellY].isOnFire = false
-                            boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
-                        end
-                        if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
-                            boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY) 
-                            boardGrid[rndCellX][rndCellY].isInstanced = true
-                        end
-            
-                        boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
-                end
-            })
+                        
+                end})
         end
 
         Cell:resetParticleDrawing()

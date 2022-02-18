@@ -54,7 +54,7 @@ function Event027:eventFunction()
     else
 
         for i, currentChar in ipairs(activePlayer.characters) do
-
+            local randomChar = randomFunction(1,#inactivePlayer.characters, "event27")
             if i == randomChar then
                
                 if currentChar.y - 2 > 0 and not boardGrid[currentChar.x][currentChar.y - 2].isOccupied  then 

@@ -66,6 +66,9 @@ end
 
 function FireMage:spell(targetCell)
 
+
+    
+
     gameState:changeState(gameState.states.waitingState)
 
 
@@ -93,92 +96,8 @@ function FireMage:spell(targetCell)
                     sequenceTime = love.timer.getTime(),
                     action = function()
 
-                        
-                        boardGrid[self.x - 1][self.y - 1].isOnFire = true
-
-                        if boardGrid[self.x - 1][self.y - 1].isOccupied then
-                            boardGrid[self.x - 1][self.y - 1].occupiedBy:damage(boardGrid[self.x - 1][self.y - 1].occupiedBy, 5)
-                        end
-
-                        boardGrid[self.x - 1][self.y - 1].fireTurn = turnCounter
-
-                        if boardGrid[self.x - 1][self.y - 1]:instanceOf(Lake) then
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "TopLeftCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y - 1].isSteaming = true
-                                    
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "TopLeftCellisField",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y - 1] = Field(self.x - 1, self.y - 1)
-                                end
-                            })
-                            boardGrid[self.x - 1][self.y - 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x - 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y - 1].isFrozen then
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "TopLeftCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y - 1].isSteaming = true
-                                    
-                                end
-                            }) 
-                            table.insert(sequenceBufferTable, {
-                                name = "TopLeftCellisLake",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
-                                end
-                            })
-
-                            boardGrid[self.x - 1][self.y - 1].isFrozen = false
-                        end
-
-                        if boardGrid[self.x - 1][self.y - 1]:instanceOf(Ice) then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                            name = "TopLeftCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y - 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "TopLeftCellisLake",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y - 1] = Lake(self.x - 1, self.y - 1)
-                                end
-                            })
-                            boardGrid[self.x - 1][self.y - 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x - 1][self.y - 1]:instanceOf(Desert) then 
-                            boardGrid[self.x - 1][self.y - 1] = GlassMount(self.x - 1, self.y - 1)
-                            boardGrid[self.x - 1][self.y - 1].isInstanced = true
-                            boardGrid[self.x - 1][self.y - 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x - 1][self.y - 1].isFrozen then 
-                            boardGrid[self.x - 1][self.y - 1].isFrozen = false
-                            boardGrid[self.x - 1][self.y - 1].isOnFire = false 
-                        end 
+                        Burn:apply(self.x - 1, self.y - 1)
+             
                         self.drawSpellTL = false
                     end
                 })
@@ -202,92 +121,10 @@ function FireMage:spell(targetCell)
                     sequenceTime = love.timer.getTime(),
                     action = function()
 
-                        boardGrid[self.x + 1][self.y - 1].isOnFire = true
-
-                        if  boardGrid[self.x + 1][self.y - 1].isOccupied then
-                            boardGrid[self.x + 1][self.y - 1].occupiedBy:damage(boardGrid[self.x + 1][self.y - 1].occupiedBy, 5)
-                        end
-
-                        boardGrid[self.x + 1][self.y - 1].fireTurn = turnCounter
-
-                        if boardGrid[self.x + 1][self.y - 1]:instanceOf(Lake) then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "TopRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y - 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "TopRightCellisField",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y - 1] = Field(self.x + 1, self.y - 1)
-                                end
-                            })
-                            boardGrid[self.x + 1][self.y - 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y - 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y - 1].isFrozen then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "TopRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y - 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "TopRightCellisLake",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
-                                end
-                            })
-                            boardGrid[self.x + 1][self.y - 1].isFrozen = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y - 1]:instanceOf(Ice) then
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "TopRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y - 1].isSteaming = true
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "TopRightCellisLake",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y - 1] = Lake(self.x + 1, self.y - 1)
-                                end
-                            })
-                            boardGrid[self.x + 1][self.y - 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y - 1]:instanceOf(Desert) then 
-                            boardGrid[self.x + 1][self.y - 1] = GlassMount(self.x + 1, self.y - 1)
-                            boardGrid[self.x + 1][self.y - 1].isInstanced = true
-                            boardGrid[self.x + 1][self.y - 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y - 1].isFrozen then 
-                            boardGrid[self.x + 1][self.y - 1].isFrozen = false 
-                            boardGrid[self.x + 1][self.y - 1].isOnFire = false 
-                        end
+                        Burn:apply(self.x + 1, self.y - 1)
                         self.drawSpellTR = false
-                    end
-                })
+                       
+                    end})
 
             end
             
@@ -314,90 +151,7 @@ function FireMage:spell(targetCell)
                     sequenceTime = love.timer.getTime(),
                     action = function()
 
-                        boardGrid[self.x - 1][self.y + 1].isOnFire = true
-                        if boardGrid[self.x - 1][self.y + 1].isOccupied then
-                            boardGrid[self.x - 1][self.y + 1].occupiedBy:damage(boardGrid[self.x - 1][self.y + 1].occupiedBy, 5)
-                        end
-                        boardGrid[self.x - 1][self.y + 1].fireTurn = turnCounter
-                        
-                    
-                        if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Lake) then
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomLeftisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y + 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomLeftlisLake",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y + 1] = Field(self.x - 1, self.y + 1)
-                                end
-                            })
-                            boardGrid[self.x - 1][self.y + 1].isOnFire = false
-                        end
-
-                        if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x - 1][self.y + 1].isFrozen then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomLeftisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y + 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomLeftisLake",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
-                                end
-                            })
-                            boardGrid[self.x - 1][self.y + 1].isFrozen = false
-                        end
-
-
-                        if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Ice) then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomLeftisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y + 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomLeftisLake",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x - 1][self.y + 1] = Lake(self.x - 1, self.y + 1)
-                                end
-                            })
-                            boardGrid[self.x - 1][self.y + 1].isOnFire = false
-                        end
-
-                        if  boardGrid[self.x - 1][self.y + 1]:instanceOf(Desert) then 
-                            boardGrid[self.x - 1][self.y + 1] = GlassMount(self.x - 1, self.y + 1)
-                            boardGrid[self.x - 1][self.y + 1].isInstanced = true
-                            boardGrid[self.x - 1][self.y + 1].isOnFire = false
-                        end
-
-                        if  boardGrid[self.x - 1][self.y + 1].isFrozen then
-                            boardGrid[self.x - 1][self.y + 1].isFrozen = false 
-                            boardGrid[self.x - 1][self.y + 1].isOnFire = false 
-                        end 
+                        Burn:apply(self.x - 1, self.y + 1)
                         self.drawSpellBL = false
                     end
                 })
@@ -421,95 +175,7 @@ function FireMage:spell(targetCell)
                     duration = 0.4,
                     sequenceTime = love.timer.getTime(),
                     action = function()
-                        boardGrid[self.x + 1][self.y + 1].isOnFire = true
-
-                        if boardGrid[self.x + 1][self.y + 1].isOccupied then
-                            boardGrid[self.x + 1][self.y + 1].occupiedBy:damage(boardGrid[self.x + 1][self.y + 1].occupiedBy, 5)
-                        end
-                        
-                        boardGrid[self.x + 1][self.y + 1].fireTurn = turnCounter
-
-                        
-                        if boardGrid[self.x + 1][self.y + 1]:instanceOf(Lake) then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                
-                                name = "BottomRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y + 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomRightCellisLake",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y + 1] = Field(self.x + 1, self.y + 1)
-                                end
-                            })
-                            boardGrid[self.x + 1][self.y + 1].isOnFire = false
-                        end
-                        
-                        if boardGrid[self.x + 1][self.y + 1]:instanceOf(Field) and boardGrid[self.x + 1][self.y + 1].isFrozen then
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-                                
-                                name = "BottomRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y + 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomRightCellisLake",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
-                                end
-                            })
-                            boardGrid[self.x + 1][self.y + 1].isFrozen = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y + 1]:instanceOf(Ice) then 
-                            soundEngine:playSFX(steamSound)
-                            table.insert(sequenceBufferTable, {
-
-                                name = "BottomRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y + 1].isSteaming = true
-                                
-                                end
-                            })
-                            table.insert(sequenceBufferTable, {
-                                name = "BottomRightCellisSteaming",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-                                    boardGrid[self.x + 1][self.y + 1] = Lake(self.x + 1, self.y + 1)
-                                    soundEngine:playSFX(steamSound)
-                                end
-                            })
-                            boardGrid[self.x + 1][self.y + 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y + 1]:instanceOf(Desert) then 
-                            boardGrid[self.x + 1][self.y + 1] = GlassMount(self.x + 1, self.y + 1)
-                            boardGrid[self.x + 1][self.y + 1].isInstanced = true
-                            boardGrid[self.x + 1][self.y + 1].isOnFire = false
-                        end
-
-                        if boardGrid[self.x + 1][self.y + 1].isFrozen then 
-                            boardGrid[self.x + 1][self.y + 1].isFrozen = false 
-                            boardGrid[self.x + 1][self.y + 1].isOnFire = false 
-                        end
+                        Burn:apply(self.x + 1, self.y + 1)
                         self.drawSpellBR = false
                     end
                 })

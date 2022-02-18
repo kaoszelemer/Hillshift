@@ -86,30 +86,17 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
 
-                                                if self.x - 1 > 0 and self.y - 1 > 0 then
-                                                        if boardGrid[self.x - 1][self.y - 1].isPoisoned ~= true then
-                                                                boardGrid[self.x - 1][self.y - 1].isPoisoned = true 
-                                                                boardGrid[self.x - 1][self.y - 1].poisoningTurn = turnCounter
+
+                                                for x = 1, 2 do
+                                                        if  self.x - x > 0 and self.y - x > 0  then
+                                                                Poison:apply(self.x - x, self.y - x)
                                                         end
                                                 end
 
                                         end
                                 })
 
-                                table.insert(sequenceBufferTable, {
-                                        name = "AlchimistPoisonTopLeftCellTwo",
-                                        duration = 0.4,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                                if self.x - 2 > 0 and self.y - 2 > 0 then
-                                                        if boardGrid[self.x - 2][self.y - 2].isPoisoned ~= true then
-                                                                boardGrid[self.x - 2][self.y - 2].isPoisoned = true
-                                                                boardGrid[self.x - 2][self.y - 2].poisoningTurn = turnCounter
-                                                        end
-                                                end
-                                        end
-                                })
-
+                       
                      
 
                         elseif pointerOnTopRightSide  or direction == "tr" then
@@ -120,29 +107,19 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                         duration = 0.2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
-                                                if self.x + 1 <= 10 and self.y - 1 > 0 then 
-                                                        if boardGrid[self.x + 1][self.y - 1].isPoisoned ~= true then
-                                                        boardGrid[self.x + 1][self.y - 1].isPoisoned = true
-                                                        boardGrid[self.x + 1][self.y - 1].poisoningTurn = turnCounter
+
+                                                for x = 1, 2 do
+                                                        if  self.y - x > 0 and self.x + x <= 10  then
+                                                                Poison:apply(self.x + x, self.y - x)
                                                         end
                                                 end
+
+                                             
 
                                         end
                                 })
 
-                                table.insert(sequenceBufferTable, {
-                                        name = "AlchimistPoisonTopRightCellTwo",
-                                        duration = 0.4,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                                if self.x + 2 <= 10 and self.y - 2 > 0 then 
-                                                        if boardGrid[self.x + 2][self.y - 2].isPoisoned ~= true then
-                                                        boardGrid[self.x + 2][self.y - 2].isPoisoned = true
-                                                        boardGrid[self.x + 2][self.y - 2].poisoningTurn = turnCounter 
-                                                        end
-                                                end
-                                        end
-                                })
+
                         elseif pointerOnBottomLeftSide  or direction == "bl" then
                                 self.drawSpellBL = true
                                 self.spellTime = love.timer.getTime()
@@ -151,29 +128,16 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                         duration = 0.2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
-                                                if self.x - 1 > 0 and self.y + 1 <= 10 then 
-                                                        if boardGrid[self.x - 1][self.y + 1].isPoisoned ~= true then
-                                                        boardGrid[self.x - 1][self.y + 1].isPoisoned = true 
-                                                        boardGrid[self.x - 1][self.y + 1].poisoningTurn = turnCounter
+                                                for x = 1, 2 do
+                                                        if  self.x - x > 0 and self.y + x <= 10  then
+                                                                Poison:apply(self.x - x, self.y + x)
                                                         end
                                                 end
+                                                
                                         end
                                 })
 
-                                table.insert(sequenceBufferTable, {
-                                        name = "AlchimistPoisonBottomLeftCellTwo",
-                                        duration = 0.4,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                                if self.x - 2 > 0 and self.y + 2 <= 10 then 
-                                                        if boardGrid[self.x - 2][self.y + 2].isPoisoned ~= true then
-                                                        boardGrid[self.x - 2][self.y + 2].isPoisoned = true 
-                                                        boardGrid[self.x - 2][self.y + 2].poisoningTurn = turnCounter
-                                                        end
-                                                end
-                                        end
-                                })
-
+ 
                         elseif pointerOnBottomRightSide  or direction == "br" then
                                 self.drawSpellBR = true
                                 self.spellTime = love.timer.getTime()
@@ -182,50 +146,19 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                         duration = 0.2,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
-                                                if self.x + 1 <= 10 and self.y + 1 <= 10 then 
-                                                        if boardGrid[self.x + 1][self.y + 1].isPoisoned ~= true then
-                                                        boardGrid[self.x + 1][self.y + 1].isPoisoned = true
-                                                        boardGrid[self.x + 1][self.y + 1].poisoningTurn = turnCounter 
+                                                for x = 1, 2 do
+                                                        if  self.x + x <= 10 and self.y + x <= 10  then
+                                                                Poison:apply(self.x + x, self.y + x)
                                                         end
                                                 end
+                                            
                                         end
                                 })
 
-                                table.insert(sequenceBufferTable, {
-                                        name = "AlchimistPoisonBottomRightCellTwo",
-                                        duration = 0.4,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()     
-                                                if self.x + 2 <= 10 and self.y + 2 <= 10 then 
-                                                        if boardGrid[self.x + 2][self.y + 2].isPoisoned ~= true then
-                                                        boardGrid[self.x + 2][self.y + 2].isPoisoned = true 
-                                                        boardGrid[self.x + 2][self.y + 2].poisoningTurn = turnCounter
-                                                        end
-                                                 
-                                                end
-                                        end
-                                })
+                  
                         end
              
-                        table.insert(sequenceBufferTable, {
-                                name = "poisoningCharacters",
-                                duration = 0.1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
-
-                                        for x = 1, 10 do
-                                                for y = 1, 10 do
-
-                                                        if boardGrid[x][y].isPoisoned and boardGrid[x][y].occupiedBy ~= nil and boardGrid[x][y].occupiedBy.isPoisoned ~= true then
-                                                                boardGrid[x][y].occupiedBy.isPoisoned = true
-                                                                boardGrid[x][y].occupiedBy.poisoningTurn = turnCounter
-                                                                boardGrid[x][y].occupiedBy:damage(boardGrid[x][y].occupiedBy, 3)
-
-                                                        end
-                                                end
-                                        end
-                                end})
-                                                
+                        
 
 
 

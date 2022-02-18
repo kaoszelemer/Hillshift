@@ -11,7 +11,7 @@ isDebugDrawHoveredTiles = true
 isTileHelperOn = true
 debugIsTurnTimer = true
 enableBannerDraw = false
---debugVolcanoChance = 0.99
+debugVolcanoChance = 0.99
 
 
 --require
@@ -91,6 +91,11 @@ Ice = require('classes.cells.Ice')
 Graveyard = require('classes.cells.Graveyard')
 Volcano = require('classes.cells.Volcano')
 Shrine = require('classes.cells.Shrine')
+
+Effector = require('classes.effectors.Effector')
+Burn = require('classes.effectors.Burn')
+Freeze = require('classes.effectors.Freeze')
+Poison = require('classes.effectors.Poison')
 
 
 Character = require('classes.characters.Character')
@@ -313,7 +318,7 @@ function turnRemainingTime()
     
 
      
-    if love.timer.getTime() - turnTimer >= 60 and turnTimer > 0 then
+    if love.timer.getTime() - turnTimer >= 60 and enableBannerDraw ~= true and turnTimer > 0 and turnCounter > 0 then
 
       
         if debugIsTurnTimer ~= false  then
@@ -421,7 +426,7 @@ function endTurn()
             
             if boardGrid[x][y]:instanceOf(Forest) then
                 forestCounter = forestCounter + 1
-                if forestCounter >= 30 and magicForestChance < 0.33 and magicForestCounter < 1 then
+                if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter < 1 then
                     local mfX = randomFunction(3, 8, "magicforestx")
                     local mfY = randomFunction(3, 8, "magicforesty")
                     boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
@@ -478,11 +483,13 @@ function endTurn()
                                     duration = 1,
                                     sequenceTime = love.timer.getTime(),
                                     action = function()
-                            
-                                        boardGrid[v][y].isOnFire = true 
-                                        boardGrid[x][v].isOnFire = true
-                                        boardGrid[11-v][y].isOnFire = true
-                                        boardGrid[x][11-v].isOnFire = true
+                                        
+                                        Burn:apply(v, y)
+                                        Burn:apply(x, v)
+                                        Burn:apply(11 - v, y)
+                                        Burn:apply(x, 11 - v)
+
+
                                     end})
                                 
                             end
@@ -609,7 +616,7 @@ function endTurn()
                     
 
                 elseif cell.isBurntField then
-                    currentChar:damage(currentChar, 7)
+                currentChar:damage(currentChar, 7)
 
                 elseif cell:instanceOf(Lake) then
                     currentChar.actionPoints = 0
@@ -685,7 +692,7 @@ function endTurn()
                         if currentChar.baseHP <= 0 then currentChar:kill() end
 
                     -- gameState:changeState(gameState.states.selectCharacter)
-                   
+
                     end
                 end})
 
@@ -734,7 +741,7 @@ function newTurn()
 
 
     Cell:resetParticleDrawing()
-    turnTimer = love.timer.getTime()
+
 end
 
 function screenShake(duration, magnitude)
@@ -1271,7 +1278,7 @@ local function initNetworking(arg)
 
             client:send("hello", msg)
             clientIsConnected = true
-            turnTimer = love.timer.getTime()
+            turnTimer = 0
         end)
 
         server:on("connect", function(data, client)
@@ -1665,7 +1672,7 @@ function banner(name, text, flavor, bt, bandur)
     bannerText = {name = name, text = text, flavor = flavor}
    
   
-    turnTimer = turnTimer + bannerDuration
+
     gameState:changeState(gameState.states.waitingState)
     bannerAnimation:gotoFrame(1)
     bannerAnimation:resume()
@@ -1720,7 +1727,7 @@ function love.load(arg)
     loadParticleSystems()
 
     board:load()
-    turnTimer = love.timer.getTime()
+
     if isGameClient ~= true and isGameServer ~= true then
         loadCharacterAnim()
     end
@@ -1787,7 +1794,7 @@ function love.update(dt)
     if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     
         enableBannerDraw = false
-       
+        turnTimer = love.timer.getTime()
         gameState:changeState(gameState.states.selectCharacter)
     end
 
@@ -1797,7 +1804,7 @@ function love.update(dt)
     end
 
   
-    
+
 
     
 end
@@ -1805,8 +1812,8 @@ end
 function love.draw()
     if isScreenShake then
         if shakeTime < shakeDuration then
-            local dx = randomForCosmetics:random(-shakeMagnitude, shakeMagnitude)
-            local dy = randomForCosmetics:random(-shakeMagnitude, shakeMagnitude)
+            local dx = randomFunction(-shakeMagnitude, shakeMagnitude, "screenShake")
+            local dy = randomFunction(-shakeMagnitude, shakeMagnitude, "screenShake")
             love.graphics.translate(dx, dy)
         end
     end
@@ -1826,7 +1833,7 @@ function love.draw()
     
 
     board:draw()
-    drawAnimations()
+    
    
 
     soundEngine:draw()
@@ -1915,7 +1922,7 @@ function love.draw()
     if isGameServer then love.graphics.print("SERVER", width - 150, 10) end
     if isGameClient then love.graphics.print("CLIENT", width - 150, 10) end
 
-
+    drawAnimations()
     love.graphics.draw(mouseArrow, mouseX, mouseY)
 
   
@@ -2118,7 +2125,6 @@ end
 
 function love.keypressed(key)
     if key == "l" then
-        print(scannign)
         lurker:scan()
     end
 

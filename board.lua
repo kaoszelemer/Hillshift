@@ -840,7 +840,7 @@ function createBoardGrid()
                     duration = 0.01,
                     sequenceTime = love.timer.getTime(),
                     action = function()
-                     screenShake(0.3, 1)
+                      --  screenShake(0.1, 1)
                         --start mezők beállítása  
                         if      x == 5 and y == 2 or x == 5 and y == 3 or
                                 x == 6 and y == 2 or x == 6 and y == 3 or
@@ -1257,9 +1257,9 @@ local function loadAnimations()
    local g = anim8.newGrid(32, 32, druidSpellAnimationImage:getWidth(), druidSpellAnimationImage:getHeight())
    druidSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
 
-   iceWizardSpellAnimationImage = love.graphics.newImage('graphics/icewizardspellanim.png')
-   local g = anim8.newGrid(32, 32, iceWizardSpellAnimationImage:getWidth(), iceWizardSpellAnimationImage:getHeight())
-   iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+   iceWizardSpellAnimationImage = love.graphics.newImage('graphics/icewizardspellanim2.png')
+   local g = anim8.newGrid(192, 128, iceWizardSpellAnimationImage:getWidth(), iceWizardSpellAnimationImage:getHeight())
+   iceWizardSpellAnimation = anim8.newAnimation(g('1-4',1), 0.1)
 
    sandWitchSpellAnimationImage = love.graphics.newImage('graphics/sandwitchspellanim.png')
    local g = anim8.newGrid(32, 32, sandWitchSpellAnimationImage:getWidth(), sandWitchSpellAnimationImage:getHeight())
@@ -1287,6 +1287,7 @@ function newGame()
     playerOne.prisonCount = 0
     playerTwo.prisonCount = 0
     chestCounter = 0
+    turnCounter = 0
     eventTurnCounter = 0
     nextTurnBeforeEvent = randomFunction(5, 9, "newGame - next turn before event")
     print("initing player decks")

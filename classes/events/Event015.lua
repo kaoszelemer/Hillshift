@@ -36,10 +36,9 @@ function Event015:eventFunction()
 
                 rndCellX = randomFunction(1, 10, "event15")
                 rndCellY = randomFunction(1, 10, "event15")
-                if not boardGrid[rndCellX][rndCellY].isPoisoned then 
-                    boardGrid[rndCellX][rndCellY].isPoisoned = true
-                    boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
-                end
+             
+                    Poison:apply(rndCellX, rndCellY)
+            
             end
         })
     end

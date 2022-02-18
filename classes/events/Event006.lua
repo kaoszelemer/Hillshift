@@ -33,19 +33,7 @@ function Event006:eventFunction()
             rndCellX = randomFunction(1, 10, "event6")
             rndCellY = randomFunction(1, 10, "event6")
             
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
-                boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 
-                boardGrid[rndCellX][rndCellY].isInstanced = true
-            end
-
-            if not boardGrid[rndCellX][rndCellY].isFrozen then 
-                boardGrid[rndCellX][rndCellY].isFrozen = true
-                boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
-            end
-
-            if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then
-                boardGrid[rndCellX][rndCellY].isFrozen = false
-            end
+            Freeze:apply(rndCellX, rndCellY)
     end
 
 

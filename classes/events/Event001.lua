@@ -39,63 +39,7 @@ function Event001:eventFunction()
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
-                    if not boardGrid[x][y]:instanceOf(BurntField) then
-                        boardGrid[x][y].isOnFire = true
-                    end
-
-                    if boardGrid[x][y]:instanceOf(Lake) then 
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsareSteaming",
-                            duration = 0.1,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[x][y].isSteaming = true
-                            end
-                        }) 
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsAreFields",
-                            duration = 1.5,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[x][y] = Field(x, y)
-                                boardGrid[x][y].isInstanced = true
-                            end
-                        }) 
-                    end
-
-                    if boardGrid[x][y]:instanceOf(Ice) then
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsareSteaming",
-                            duration = 0.1,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[x][y].isSteaming = true
-                            end
-                        }) 
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsareSteaming",
-                            duration = 1.5,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[x][y] = Lake(x, y) 
-                                boardGrid[x][y].isInstanced = true
-                            end
-                        }) 
-                    end
-                    
-                    if boardGrid[x][y]:instanceOf(Forest) then 
-                        boardGrid[x][y] = BurntField(x, y)
-                        boardGrid[x][y].isInstanced = true
-                        boardGrid[x][y].isBurntField = true
-                        boardGrid[x][y].burntFieldTimer = turnCounter
-                    end
-
-                    if boardGrid[x][y]:instanceOf(Desert) then 
-                        boardGrid[x][y] = GlassMount(x, y)
-                        boardGrid[x][y].isInstanced = true
-                    end
-
-                    boardGrid[x][y].fireTurn = turnCounter
+                  Burn:apply(x, y)
                   
                 end
             })

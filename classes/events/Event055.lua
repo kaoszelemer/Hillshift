@@ -35,8 +35,8 @@ function Event055:eventFunction()
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
-                boardGrid[currentChar.x][currentChar.y].isPoisoned = true
-                boardGrid[currentChar.x][currentChar.y].poisoningTurn = turnCounter
+                Poison:apply(currentChar.x, currentChar.y)
+               
             end
         })
     end

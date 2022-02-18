@@ -217,61 +217,12 @@ function AirElemental:blowFire(targetCell, tcx, tcy)
 
                 if boardGrid[self.x + tcx][self.y + tcy].isOnFire then 
                     
-                    if not boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Lake) then
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy].isOnFire = true
-                        if boardGrid[self.x + fx + tcx][self.y + fy + tcy].isOccupied then
-                            boardGrid[self.x + fx + tcx][self.y + fy + tcy].occupiedBy:damage(boardGrid[self.x + fx + tcx][self.y + fy + tcy].occupiedBy, 5)
-                        end
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy].fireTurn = turnCounter
-                    end
-                
-                    if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Desert) then
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy] = GlassMount(self.x + fx + tcx, self.y + fy + tcy) 
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy].isInstanced = true
-                    end
-
-                    if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Lake) then
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsAreSteaming",
-                            duration = 0.1,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[self.x + fx + tcx][self.y + fy + tcy].isSteaming = true
-                            end
-                        }) 
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsAreLakes",
-                            duration = 0.6,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Field(self.x + fx + tcx, self.y + fy + tcy) 
-                            end
-                        }) 
-                    end
-                    if boardGrid[self.x + fx + tcx][self.y + fy + tcy]:instanceOf(Ice) then
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsAreSteaming",
-                            duration = 0.1,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[self.x + fx + tcx][self.y + fy + tcy].isSteaming = true
-                            end
-                        }) 
-                        table.insert(sequenceBufferTable, {
-                            name = "CellsAreSteaming",
-                            duration = 0.6,
-                            sequenceTime = love.timer.getTime(),
-                            action = function()
-                                boardGrid[self.x + fx + tcx][self.y + fy + tcy] = Lake(self.x + fx + tcx, self.y + fy + tcy) 
-                            end
-                        }) 
-                        boardGrid[self.x + fx + tcx][self.y + fy + tcy].isInstanced = true
+                    Burn:apply(self.x + tcx + fx, self.y + tcy + fy)
                     end
                 end
 
-            end
-        end
-    })
+            
+        end})
 
 end
 

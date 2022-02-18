@@ -61,16 +61,9 @@ function WaterHag:spell(targetCell)
                         elseif boardGrid[targetCell.x][targetCell.y]:instanceOf(Desert) then
                             boardGrid[targetCell.x][targetCell.y] = Swamp(targetCell.x, targetCell.y)
                         end
-
-                        if   boardGrid[targetCell.x][targetCell.y].isOccupied then
-                            boardGrid[targetCell.x][targetCell.y].occupiedBy.stepPoints = 0
-                            boardGrid[targetCell.x][targetCell.y].occupiedBy.actionPoints = 0
-                            boardGrid[targetCell.x][targetCell.y].drawDamageOnBoard = true
-                            boardGrid[targetCell.x][targetCell.y]:damageOnBoard("-1AP, -2SP")
-                        end
                         
                         
-                      -- if boardGrid[targetCell.x][targetCell.y]:instanceOf(Lake) then
+                       if boardGrid[targetCell.x][targetCell.y]:instanceOf(Lake) then
 
                             --random spread
 
@@ -86,23 +79,22 @@ function WaterHag:spell(targetCell)
                                     targetCell.y + randomWaterSpreadY <= 10 and targetCell.y - randomWaterSpreadY > 0 then                 
 
                           
-                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
+                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                     
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
-                                       
                                     end
-                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
+                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                     
                                         boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                     end
-                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
+                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                     
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y - randomWaterSpreadY) 
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                     end
-                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
+                                    if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                     
                                         boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y - randomWaterSpreadY) 
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
@@ -127,15 +119,9 @@ function WaterHag:spell(targetCell)
                                         boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y) 
                                         boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                     end
-                                    if   boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isOccupied then
-                                        boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].occupiedBy.stepPoints = 0
-                                        boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].occupiedBy.actionPoints = 0
-                                        boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].drawDamageOnBoard = true
-                                        boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY]:damageOnBoard("-1AP, -2SP")
-                                    end
                                 end
                             end
-                       --end
+                        end
                     end
                 })
                 

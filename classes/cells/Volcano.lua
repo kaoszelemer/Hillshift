@@ -39,112 +39,10 @@ function Volcano:boom(bx, by)
                             sequenceTime = love.timer.getTime(),
                             action = function()
 
-                               
-                                
-                               
+        
 
-                                local targetCell = boardGrid[bx + x][by + y]
-
-                            
-
+                                       Burn:apply(bx + x, by + y)
                                        
-
-                                        if not targetCell:instanceOf(BurntField) or targetCell.isFrozen ~= true then
-                                            boardGrid[bx + x][by + y].isOnFire = true
-                                            boardGrid[bx + x][by + y].fireTurn = turnCounter
-                                        end
-                                
-                                
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarunfreeze",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            if targetCell.isFrozen then
-                                                boardGrid[bx + x][by + y].isFrozen = false
-                                            end
-                                    end})
-                                    
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarsteam",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            if targetCell:instanceOf(Lake) then
-                                                boardGrid[bx + x][by + y].isSteaming = true
-                                            end
-                                        end})
-
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarlake2field",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            if targetCell:instanceOf(Lake) then
-                                                boardGrid[bx + x][by + y] = Field(bx + x, by + y)
-                                                boardGrid[bx + x][by + y].isInstanced = true
-                                            end
-                                        end})
-                                        
-                                        
-
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarburntfield",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            if targetCell:instanceOf(Forest) then
-                                                boardGrid[bx + x][by + y] = BurntField(bx + x, by + y)
-                                                boardGrid[bx + x][by + y].isInstanced = true
-                                            end
-                                        end})
-
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarglass",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            if targetCell:instanceOf(Desert) then
-                                                boardGrid[bx + x][by + y] = GlassMount(bx + x, by + y)
-                                                boardGrid[bx + x][by + y].isInstanced = true
-                                            end
-                                        end})
-
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkarice2lake",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-
-                                            if targetCell:instanceOf(Ice) then
-                                                boardGrid[bx + x][by + y] = Lake(bx + x, by + y)
-                                                boardGrid[bx + x][by + y].isInstanced = true
-                                            end
-                                        end})
-
-                                    table.insert(sequenceBufferTable, {
-                                        name = "vulkardamage",
-                                        duration = 2,
-                                        sequenceTime = love.timer.getTime(),
-                                        action = function()
-                                            if targetCell.isOccupied then
-                                                targetCell.occupiedBy:damage(targetCell.occupiedBy, 5)
-                                                boardGrid[bx + x][by + y].isInstanced = true
-                                            end
-                                        end})
-
-                                        table.insert(sequenceBufferTable, {
-                                            name = "vulkarkiajszik",
-                                            duration = 1,
-                                            sequenceTime = love.timer.getTime(),
-                                            action = function()
-                                               
-                                                    boardGrid[bx][by] = Mount(bx, by)
-                                                    boardGrid[bx][by].isInstanced = true
-                                                    isVolcanoOnBoard = false
-                                                    gameState:changeState(gameState.states.selectCharacter)
-                                            end})
-                                    
 
 
                             end})
@@ -155,6 +53,8 @@ function Volcano:boom(bx, by)
                     end
                 end
             end
+
+            gameState:changeState(gameState.states.selectCharacter)
 
          
          

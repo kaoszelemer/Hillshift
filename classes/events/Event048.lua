@@ -37,8 +37,7 @@ function Event048:eventFunction()
                 rndCellX = randomFunction(1, 10, "event48")
                 rndCellY = randomFunction(1, 10, "event48")
                 if not boardGrid[rndCellX][rndCellY].isPoisoned then
-                    boardGrid[rndCellX][rndCellY].isPoisoned = true
-                    boardGrid[rndCellX][rndCellY].poisoningTurn = turnCounter
+                    Poison:apply(rndCellX, rndCellY)
                 end
             end
         })
@@ -51,13 +50,9 @@ function Event048:eventFunction()
             action = function()
                     rndCellX = randomFunction(1, 10, "event48")
                     rndCellY = randomFunction(1, 10, "event48")
-                    if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then
-                         boardGrid[rndCellX][rndCellY] = Ice(rndCellX, rndCellY) 
-                         boardGrid[rndCellX][rndCellY].isInstanced = true
-                        end
                     if not boardGrid[rndCellX][rndCellY].isFrozen then
-                        boardGrid[rndCellX][rndCellY].isFrozen = true
-                        boardGrid[rndCellX][rndCellY].freezeTurn = turnCounter
+                        
+                        Freeze:apply(rndCellX, rndCellY)
                     end
             end
         })
@@ -70,57 +65,9 @@ function Event048:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = randomFunction(1, 10, "event48")
-                rndCellY = randomFunction(1, 10, "event48")
-                if boardGrid[rndCellX][rndCellY].isFrozen then boardGrid[rndCellX][rndCellY].isFrozen = false end  
-                if boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
-                    table.insert(sequenceBufferTable, {
-                        name = "CellsareSteaming",
-                        duration = 0.1,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            boardGrid[rndCellX][rndCellY].isSteaming = true
-                        end
-                    }) 
-                    table.insert(sequenceBufferTable, {
-                        name = "CellsareFields",
-                        duration = 0.1,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY) 
-                        end
-                    }) 
-                end
-                if boardGrid[rndCellX][rndCellY]:instanceOf(Ice) then
-                    table.insert(sequenceBufferTable, {
-                        name = "CellsareSteaming",
-                        duration = 0.1,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            boardGrid[rndCellX][rndCellY].isSteaming = true
-                        end
-                    }) 
-                    table.insert(sequenceBufferTable, {
-                        name = "CellsareLakes",
-                        duration = 0.1,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)                            
-                        end
-                    }) 
-                end
-                if boardGrid[rndCellX][rndCellY]:instanceOf(Forest) then 
-                    boardGrid[rndCellX][rndCellY] = BurntField(rndCellX, rndCellY) 
-                    boardGrid[rndCellX][rndCellY].burntFieldTimer = turnCounter
-                    boardGrid[rndCellX][rndCellY].isBurntField = true
-                end
-                if boardGrid[rndCellX][rndCellY]:instanceOf(Desert) then 
-                    boardGrid[rndCellX][rndCellY] = GlassMount(rndCellX, rndCellY)
-                    boardGrid[rndCellX][rndCellY].isInstanced = true
-                end
-                if not boardGrid[rndCellX][rndCellY].isOnFire and not boardGrid[rndCellX][rndCellY]:instanceOf(BurntField) and not boardGrid[rndCellX][rndCellY]:instanceOf(GlassMount) and not boardGrid[rndCellX][rndCellY]:instanceOf(Lake) then 
-                    boardGrid[rndCellX][rndCellY].isOnFire = true 
-                    boardGrid[rndCellX][rndCellY].fireTurn = turnCounter
+                
+                if not boardGrid[rndCellX][rndCellY].isOnFire then
+                    Burn:apply(rndCellX, rndCellY)
                 end
             end
         })
