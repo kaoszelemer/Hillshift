@@ -16,12 +16,13 @@ function Burn:apply(x, y)
     
     if boardGrid[x][y]:instanceOf(Lake) ~= true and boardGrid[x][y]:instanceOf(Volcano) ~= true then
         boardGrid[x][y].isOnFire = true
+        boardGrid[x][y].fireTurn = turnCounter
     end
 
     if boardGrid[x][y].isOccupied then
         
         boardGrid[x][y].occupiedBy:damage(boardGrid[x][y].occupiedBy, 5)
-        boardGrid[x][y].fireTurn = turnCounter
+        
         
     end
 
