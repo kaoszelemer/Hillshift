@@ -317,8 +317,8 @@ end
 function turnRemainingTime()
     
 
-     
-    if love.timer.getTime() - turnTimer >= 60 and enableBannerDraw ~= true and turnTimer > 0 and turnCounter > 0 then
+    
+    if love.timer.getTime() - turnTimer >= 60 and turnTimer > 0 and turnCounter > 1 then
 
       
         if debugIsTurnTimer ~= false  then
@@ -739,6 +739,8 @@ function newTurn()
                      banner("SUDDEN DEATH", "UNSTOPPABLE FIRE", "battle royale mode on", love.timer.getTime(), 3)
                 end})
         end
+
+        turnTimer = love.timer.getTime() + bannerDuration
     
 
 
@@ -1281,7 +1283,7 @@ local function initNetworking(arg)
 
             client:send("hello", msg)
             clientIsConnected = true
-            turnTimer = 0
+            turnTimer = love.timer.getTime()
         end)
 
         server:on("connect", function(data, client)
@@ -1677,6 +1679,7 @@ function banner(name, text, flavor, bt, bandur)
   
 
     gameState:changeState(gameState.states.waitingState)
+    turnTimer = turnTimer + bannerDuration
     bannerAnimation:gotoFrame(1)
     bannerAnimation:resume()
     enableBannerDraw = true  
@@ -1730,6 +1733,7 @@ function love.load(arg)
     loadParticleSystems()
 
     board:load()
+    turnTimer = love.timer.getTime()
 
     if isGameClient ~= true and isGameServer ~= true then
         loadCharacterAnim()
@@ -1797,7 +1801,7 @@ function love.update(dt)
     if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     
         enableBannerDraw = false
-        turnTimer = love.timer.getTime()
+    --    turnTimer = love.timer.getTime()
         gameState:changeState(gameState.states.selectCharacter)
     end
 
@@ -1886,7 +1890,7 @@ function love.draw()
 
     end
 
-    if enableBannerDraw ~= true  and turnTimer > 0 then
+    if enableBannerDraw ~= true  and turnTimer > 0 and turnCounter > 1 then
        
         love.graphics.setFont(clockFont)
         love.graphics.setColor(yellowColor)
@@ -1894,7 +1898,7 @@ function love.draw()
         love.graphics.setFont(statFont)
         love.graphics.setColor(charColor)
 
-        if 40 + math.floor(turnTimer - love.timer.getTime()) < 10 then
+        if 60 + math.floor(turnTimer - love.timer.getTime()) < 10 and turnCounter > 1 then
             isSecondsLeft = true
             love.graphics.setFont(clockFont)
             love.graphics.setColor({1, 0, 0, 255})
