@@ -66,9 +66,9 @@ function Character:update(dt)
                 currentChar.currentSpeech = text
                 currentChar.isSpeaking = true
                 currentChar.lastSpeakTime = love.timer.getTime()
-                print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
+              --  print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = randomForCosmetics:random(0,120) + randomForCosmetics:random(0, 21) + love.timer.getTime()
+            currentChar.nextSpeakTime = randomForCosmetics:random(30,240)  + love.timer.getTime()
                         
         end
     end
@@ -79,9 +79,9 @@ function Character:update(dt)
                 currentChar.currentSpeech = text
                 currentChar.isSpeaking = true
                 currentChar.lastSpeakTime = love.timer.getTime()
-                print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
+             --   print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
-            currentChar.nextSpeakTime = randomForCosmetics:random(0,120) + randomForCosmetics:random(0, 17) + love.timer.getTime()
+            currentChar.nextSpeakTime = randomForCosmetics:random(30,240)  + love.timer.getTime()
         end
     end
 
@@ -179,7 +179,7 @@ function Character:drawSpeechBubbles()
    
                 for index, currentChar in ipairs(activePlayer.characters) do
                                              
-                    if currentChar.isSpeaking then 
+                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction then 
 
                         currentChar.speakTimer = love.timer.getTime()    
                         local duration = 4
@@ -204,7 +204,7 @@ function Character:drawSpeechBubbles()
 
                 for index, currentChar in ipairs(inactivePlayer.characters) do
                                              
-                    if currentChar.isSpeaking then 
+                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction  then 
 
                         currentChar.speakTimer = love.timer.getTime()    
                         local duration = 4
@@ -734,7 +734,7 @@ function Character:damage(char, dmg)
         action = function()
             
             soundEngine:playSFX("playrandomsound")
-
+            screenShake(0.2, 1)
             if dmg > 15 then
                 soundEngine:playSFX(criticalHitSound)
             end

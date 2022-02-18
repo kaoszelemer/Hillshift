@@ -840,7 +840,7 @@ function createBoardGrid()
                     duration = 0.01,
                     sequenceTime = love.timer.getTime(),
                     action = function()
-                      --  screenShake(0.1, 1)
+                        screenShake(0.1, 3)
                         --start mezők beállítása  
                         if      x == 5 and y == 2 or x == 5 and y == 3 or
                                 x == 6 and y == 2 or x == 6 and y == 3 or
