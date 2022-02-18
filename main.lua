@@ -11,7 +11,7 @@ isDebugDrawHoveredTiles = true
 isTileHelperOn = true
 debugIsTurnTimer = true
 enableBannerDraw = false
-debugVolcanoChance = 0.99
+--debugVolcanoChance = 0.99
 
 
 --require
@@ -484,11 +484,14 @@ function endTurn()
                                     sequenceTime = love.timer.getTime(),
                                     action = function()
                                         
-                                        Burn:apply(v, y)
-                                        Burn:apply(x, v)
-                                        Burn:apply(11 - v, y)
-                                        Burn:apply(x, 11 - v)
-
+                                        boardGrid[v][y].isOnFire = true
+                                        boardGrid[x][v].isOnFire = true
+                                        boardGrid[11 - v][y].isOnFire = true
+                                        boardGrid[x][11- v].isOnFire = true
+                                        if (10 + v) - v <= 10 then
+                                        boardGrid[(10 +v) - v][y].isOnFire = true
+                                        boardGrid[x][(10+v) - v].isOnFire = true
+                                        end
 
                                     end})
                                 
