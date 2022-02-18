@@ -11,7 +11,7 @@ isDebugDrawHoveredTiles = true
 isTileHelperOn = true
 debugIsTurnTimer = true
 enableBannerDraw = false
---debugVolcanoChance = 0.99
+debugVolcanoChance = 0.77
 
 
 --require
@@ -452,7 +452,7 @@ function endTurn()
                 end
 
 
-                if boardGrid[x][y].volcanoCounter <= 0 then
+                if boardGrid[x][y].volcanoCounter == 0 then
                     table.insert(sequenceBufferTable, {
                         name = "ThunderShamanSpellUpAndDown",
                         duration = 3,

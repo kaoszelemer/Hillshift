@@ -27,17 +27,17 @@ function Volcano:boom(bx, by)
       
             
         soundEngine:playSFX(eruptionSound)
-        boardGrid[bx][by].isErupting = true
+     --  boardGrid[bx][by].isErupting = true
         boardGrid[bx][by].eruptionTimer = love.timer.getTime()
 
             for x = -1, 1 do
                 for y = -1, 1 do
                     if x ~= 0 or y ~= 0 then
-                        table.insert(sequenceBufferTable, {
+              --[[           table.insert(sequenceBufferTable, {
                             name = "vulkar_boomstart",
                             duration = 0,
                             sequenceTime = love.timer.getTime(),
-                            action = function()
+                            action = function() ]]
 
         
 
@@ -45,7 +45,7 @@ function Volcano:boom(bx, by)
                                        
 
 
-                            end})
+                       --[[      end}) ]]
 
                         
                             
@@ -54,7 +54,28 @@ function Volcano:boom(bx, by)
                 end
             end
 
-            gameState:changeState(gameState.states.selectCharacter)
+
+            table.insert(sequenceBufferTable, {
+                name = "vulkarkiajszik",
+                duration = 3,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+                   
+                        boardGrid[bx][by] = Mount(bx, by)
+                        boardGrid[bx][by].isInstanced = true
+                        isVolcanoOnBoard = false
+                end})
+
+                table.insert(sequenceBufferTable, {
+                    name = "resetparticledraw",
+                    duration = 0.1,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        Cell:resetParticleDrawing()
+                        gameState:changeState(gameState.states.selectCharacter)
+                    end})
+
+            
 
          
          
