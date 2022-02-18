@@ -35,7 +35,8 @@ function IceWizard:spell(targetCell)
                 end
             
                     
-                    if self.x - 1 > 0 and self.x + 1 <= 10 and self.y + y > 0 and self.y + y <= 10 then
+                for x = -1, 1 do
+                    if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 and self.y + y <= 10 then
                         
                   
                                
@@ -51,11 +52,10 @@ function IceWizard:spell(targetCell)
                                     
 
 
-                                    for x = -1, 1 do
                                         Freeze:apply(self.x + x, self.y + y)
-                                    end
-
+                                        
                     end
+                end
         
     end
     table.insert(sequenceBufferTable, {
