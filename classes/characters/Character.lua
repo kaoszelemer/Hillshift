@@ -884,6 +884,12 @@ function Character:attack(enemy, nw)
     
                 local dr = getDiceRoll()
                 self.diceRoll = dr
+                if dr == 6 then
+                    soundEngine:playSFX(niceRollSound)
+                elseif dr == 1 then
+                    soundEngine:playSFX(hahaSound)
+
+                end
                
                 if boardGrid[self.x][self.y].isPoisoned then
                     self.turnAttackModifier = self.turnAttackModifier - 3
