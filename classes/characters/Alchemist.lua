@@ -78,6 +78,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
 
            
                         if pointerOnTopLeftSide or direction == "tl" then 
+                                
+                        self.actionPoints = self.actionPoints - 1
+                        soundEngine:playSFX(poisonSound)
                                 self.drawSpellTL = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -100,6 +103,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                      
 
                         elseif pointerOnTopRightSide  or direction == "tr" then
+                                
+                        self.actionPoints = self.actionPoints - 1
+                        soundEngine:playSFX(poisonSound)
                                 self.drawSpellTR = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -121,6 +127,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
 
 
                         elseif pointerOnBottomLeftSide  or direction == "bl" then
+                                
+                        self.actionPoints = self.actionPoints - 1
+                        soundEngine:playSFX(poisonSound)
                                 self.drawSpellBL = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -139,6 +148,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
 
  
                         elseif pointerOnBottomRightSide  or direction == "br" then
+                                
+                        self.actionPoints = self.actionPoints - 1
+                        soundEngine:playSFX(poisonSound)
                                 self.drawSpellBR = true
                                 self.spellTime = love.timer.getTime()
                                 table.insert(sequenceBufferTable, {
@@ -159,8 +171,6 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                         end
              
                         
-
-
 
 
 
@@ -193,9 +203,9 @@ function Alchemist:spell(targetCell, direction)
 
         if self.actionPoints ~= 0 then
                 self:poisonBoardGrid(targetCell, direction)
-                self.actionPoints = self.actionPoints - 1
+                
              
-                soundEngine:playSFX(poisonSound)
+              
         end
 
         table.insert(sequenceBufferTable, {
