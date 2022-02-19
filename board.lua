@@ -56,6 +56,7 @@ eventBackgroundImage = love.graphics.newImage("/graphics/eventbackground.png")
 eventWarningImage = love.graphics.newImage("/graphics/eventbanner.png")
 sideBarBackGround = love.graphics.newImage("/graphics/sidebarbackground.png")
 sideBarBackGroundWithZeroActionPointsImage = love.graphics.newImage("/graphics/sidebarbackgroundwithzeroactionpoints.png")
+sideBarBackGroundWithPoison = love.graphics.newImage("/graphics/sidebarbackgroundwithpoison.png")
 tileHelpBackGround = love.graphics.newImage("/graphics/tilehelpbackground.png")
 
 --Cell drawables
@@ -367,6 +368,17 @@ local function drawStatsOnSideBarPlayerOne(playerone)
 
         if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
             love.graphics.draw(sideBarBackGroundWithZeroActionPointsImage, sideBarX, sideBarY)
+        elseif currentChar.isPoisoned and currentChar.poisoningTurn > 0 then
+            love.graphics.draw(sideBarBackGroundWithPoison, sideBarX, sideBarY)
+          
+            love.graphics.setFont(pointFont)
+            love.graphics.setColor(yellowColor)
+            love.graphics.print(3 + currentChar.poisoningTurn - turnCounter, sideBarX + 269, sideBarY + 21)
+            
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+
+        
         else
             love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
         end
@@ -530,6 +542,18 @@ local function drawStatsOnSideBarPlayerTwo(playertwo)
 
         if currentChar.actionPoints == 0 and currentChar.stepPoints == 0 then
             love.graphics.draw(sideBarBackGroundWithZeroActionPointsImage, sideBarX, sideBarY)
+        elseif currentChar.isPoisoned and currentChar.poisoningTurn > 0 then
+
+            love.graphics.draw(sideBarBackGroundWithPoison, sideBarX, sideBarY)
+
+            love.graphics.setFont(pointFont)
+            love.graphics.setColor(yellowColor)
+            love.graphics.print(3 + currentChar.poisoningTurn - turnCounter, sideBarX + 269, sideBarY + 21)
+            
+            love.graphics.setColor(charColor)
+            love.graphics.setFont(statFont)
+
+        
         else
             love.graphics.draw(sideBarBackGround, sideBarX, sideBarY)
         end
