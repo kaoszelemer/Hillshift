@@ -15,7 +15,7 @@ function Effector:drawEffector()
                 local i = x * tileW + offsetX
                 local j = y * tileH + offsetY
 
-                if cell.isOnFire then 
+                if cell.isOnFire and 3 + cell.fireTurn - turnCounter > 0 then 
                     --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
                     fireBorderAnimation:draw(fireBorderAnimationImage, i, j)
                     love.graphics.draw(fireRemTurnIcon, i, j)
@@ -28,7 +28,7 @@ function Effector:drawEffector()
 
                 end
                 
-                if cell.isPoisoned then
+                if cell.isPoisoned and 2 + cell.poisoningTurn - turnCounter > 0 then
                     poisonBorderAnimation:draw(poisonBorderAnimationImage, i, j) 
                     love.graphics.draw(poisonRemTurnIcon, i, j)
 
@@ -39,7 +39,7 @@ function Effector:drawEffector()
                     love.graphics.setFont(statFont)
                 end
 
-                if cell.isFrozen then 
+                if cell.isFrozen and 2 + cell.freezeTurn - turnCounter > 0 then 
                     frozenBorderAnimation:draw(frozenBorderAnimationImage, i, j)
                     love.graphics.draw(freezeRemTurnIcon, i, j)
 
