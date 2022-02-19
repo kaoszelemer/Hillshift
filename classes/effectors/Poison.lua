@@ -23,8 +23,7 @@ function Poison:apply(x, y)
         if boardGrid[x][y].isOccupied and boardGrid[x][y].occupiedBy.isPoisoned ~= true then
             boardGrid[x][y].occupiedBy.isPoisoned = true
             boardGrid[x][y].occupiedBy.poisoningTurn = turnCounter
-            boardGrid[x][y].occupiedBy:damage(boardGrid[x][y].occupiedBy, 3)
-            
+            boardGrid[x][y].occupiedBy:damage(boardGrid[x][y].occupiedBy, 3)   
         end
 
         if boardGrid[x][y].isOccupied and boardGrid[x][y].occupiedBy.isPoisoned  then

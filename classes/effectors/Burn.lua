@@ -14,7 +14,7 @@ function Burn:apply(x, y)
 
     Effector:apply(x, y)
     
-    if boardGrid[x][y]:instanceOf(Lake) ~= true and boardGrid[x][y]:instanceOf(Volcano) ~= true then
+    if boardGrid[x][y]:instanceOf(Lake) ~= true and boardGrid[x][y]:instanceOf(Volcano) ~= true and boardGrid[x][y].isOnFire ~= true then
         boardGrid[x][y].isOnFire = true
         boardGrid[x][y].fireTurn = turnCounter
     end

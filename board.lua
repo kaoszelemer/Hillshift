@@ -34,6 +34,14 @@ frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
 poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
 fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
 
+frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
+poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
+fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
+
+freezeRemTurnIcon = love.graphics.newImage("graphics/iceremaining.png")
+fireRemTurnIcon = love.graphics.newImage("graphics/fireremaining.png")
+poisonRemTurnIcon = love.graphics.newImage("graphics/poisonremaining.png")
+
 
 --validMove images
 validAttackImage = love.graphics.newImage("graphics/validattack.png")
@@ -951,18 +959,7 @@ local function drawBoardGrid()
                     local x = cell.x * tileW + offsetX
                     local y = cell.y * tileH  + offsetY
                     love.graphics.draw(boardPicture, cell.quad, x, y)
-                    if cell.isOnFire then 
-                        --love.graphics.draw(fireGridBorder, cell.x * tileW + offsetX, cell.y * tileH + offsetY) end
-                        fireBorderAnimation:draw(fireBorderAnimationImage, x, y)
-                    end
-                    
-                    if cell.isPoisoned then
-                        poisonBorderAnimation:draw(poisonBorderAnimationImage, x, y) 
-                    end
-
-                    if cell.isFrozen then 
-                        frozenBorderAnimation:draw(frozenBorderAnimationImage, x, y)
-                    end
+                   
 
                 end
             end
@@ -1473,6 +1470,7 @@ function board:draw()
     end
 
     drawRectanglesIfHoveredOrOccupied()
+    Effector:drawEffector()
     Cell:drawFireParticles()
     Character:drawHealthBar()
   
@@ -1491,10 +1489,9 @@ function board:draw()
     drawSpellAnimationsOnBoard()
     drawPossibleDamageOnEnemyCharacter()
     
-    
     Cell:drawDamageOnBoard()
     drawAttackOnBoard()
-  
+    
     Cell:drawLightningOnBoard()
     
     Cell:spawnParticlesWhenInstanced()
