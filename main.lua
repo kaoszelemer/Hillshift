@@ -719,7 +719,7 @@ function newTurn()
 
   --  gameState:changeState(gameState.states.selectCharacter)
 
-        if not suddenDeath and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
+        if turnCounter < 20 and eventTurnCounter == nextTurnBeforeEvent + nextTurnBeforeEventModifier then
             
                 soundEngine:playSFX(eventSound)
                 Event:enableEvent()
@@ -1465,6 +1465,18 @@ local function initNetworking(arg)
 
         end)
 
+
+        server:on("clientrandomcheck", function(rs)
+
+            if love.math.getRandomState() == rs then
+                return
+            else
+                error("randomstate dont match on client"..rs.."  and server "..love.math.getRandomState())
+            end
+
+
+        end)
+
     
 
     end
@@ -1653,6 +1665,17 @@ local function initNetworking(arg)
           
 
         end)
+
+        client:on("serverrandomcheck", function(rs)
+
+            if love.math.getRandomState() == rs then
+                return
+            else
+                error("randomstate dont match on server"..rs.."  and client "..love.math.getRandomState())
+            end
+
+
+        end)
          
         client:connect()
 
@@ -1782,7 +1805,15 @@ function love.update(dt)
     turnRemainingTime()
   
 
-    if isGameServer then server:update() end
+    if isGameServer then 
+        
+        server:update() 
+    
+      
+        
+    
+    
+    end
     
     if isGameClient then 
         
@@ -1979,6 +2010,29 @@ end
 function love.mousereleased(x, y, button, istouch, presses) 
     
     local instance = clickSound:play()
+
+    if isGameServer then 
+        
+        if clientIsConnected and turnCounter > 0 then
+            
+            local t = love.math.getRandomState()
+            
+            server:sendToAll("serverrandomcheck", t)
+        end
+ 
+    end
+
+    if isGameClient then
+        local t = love.math.getRandomState()
+        client:send("clientrandomcheck", t)
+    end
+
+
+
+
+
+
+
 
     if x > width / 16 and x < (width / 16) + tileW and y > 0 and y < tileH then
 

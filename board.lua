@@ -789,9 +789,9 @@ function spawnChestPlayerOne()
     local rndCellY = randomFunction(3, 4, "spawnChestPlayerOne") --2 4
 
 
-        if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
-        and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+        if not boardGrid[rndCellX][rndCellY].isChest and not boardGrid[rndCellX][rndCellY].isOccupied  then 
 
+            boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY)
 
             boardGrid[rndCellX][rndCellY].isChest = true
             chestCounter = chestCounter + 1
@@ -803,8 +803,10 @@ function spawnChestPlayerTwo()
     local rndCellX = randomFunction(9, 10, "spawnChestPlayerTwo") --7 9
     local rndCellY = randomFunction(7, 8, "spawnChestPlayerTwo") --6 9
 
-    if not boardGrid[rndCellX][rndCellY].isChest and boardGrid[rndCellX][rndCellY]:instanceOf(Lake) == false 
-        and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+    if not boardGrid[rndCellX][rndCellY].isChest and not boardGrid[rndCellX][rndCellY].isOccupied  then 
+
+            boardGrid[rndCellX][rndCellY] = Field(rndCellX, rndCellY)
+
             boardGrid[rndCellX][rndCellY].isChest = true
             chestCounter = chestCounter + 1
         

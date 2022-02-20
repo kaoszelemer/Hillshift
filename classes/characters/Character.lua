@@ -609,6 +609,9 @@ end
 
 function Character:click(mX, mY)
 
+    
+
+
     if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameServer and activePlayer == playerOne then
             selectedChar = self
@@ -616,6 +619,8 @@ function Character:click(mX, mY)
             selectedChar.isActionMenuDrawn = true
             gameState:changeState(gameState.states.selectCharacterAction)
            return
+        
+    
     elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameClient and activePlayer == playerTwo then
             selectedChar = self
