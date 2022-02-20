@@ -926,7 +926,7 @@ function Character:attack(enemy, nw)
 
             table.insert(sequenceBufferTable, {
                 name = "resetingAttackState",
-                duration = 1.4,
+                duration = 3,
                 sequenceTime = love.timer.getTime(),
                 action = function()
                     selectedChar = self
