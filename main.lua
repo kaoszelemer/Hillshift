@@ -1196,25 +1196,27 @@ end
 
 
 function animate(anim, img, x, y, duration, rotation, flx)
+   
 
-    gameState:changeState(gameState.states.waitingState)
-    anim:gotoFrame(1)
-    isAnimationPlaying = true
-    print("[ANIMATION PLAYING]")
-    animation = {}
-    animation.time = love.timer.getTime()
-    animation.anim = anim
-    animation.img = img
-    animation.x = x
-    animation.y = y
-    animation.duration = duration
+            gameState:changeState(gameState.states.waitingState)
+            anim:gotoFrame(1)
+            isAnimationPlaying = true
+            print("[ANIMATION PLAYING]")
+            animation = {}
+            animation.time = love.timer.getTime()
+            animation.anim = anim
+            animation.img = img
+            animation.x = x
+            animation.y = y
+            animation.duration = duration
 
-    if rotation == nil then
-       rotation = 0
-    end 
+            if rotation == nil then
+            rotation = 0
+            end 
 
-    animation.rotation = rotation
-    animation.flux = flx
+            animation.rotation = rotation
+            animation.flux = flx
+     
 
 
     

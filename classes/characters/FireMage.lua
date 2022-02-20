@@ -35,42 +35,76 @@ function FireMage:spell(targetCell)
 
                     self.topSpell = true
                     y = 1
+                      
+
+                         
+                                table.insert(sequenceBufferTable, {
+                                    name = "fireballanim2",
+                                    duration = 0.5,
+                                    sequenceTime = love.timer.getTime(),
+                                    action = function()
+            
+                                        local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
+                                        soundEngine:playSFX(fireBallSound)
+                                    
+                                        animate(fireSpellAnimation, fireSpellAnimationImage, flx.x + tileW / 2, flx.y + tileH / 2, 0.3, math.rad(315), flx )
+                                    end})
+
+                         
+
                     
-                    local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
-                    soundEngine:playSFX(fireBallSound)
-                    animate(fireSpellAnimation, fireSpellAnimationImage, flx.x + tileW / 2, flx.y + tileH / 2, 0.5, math.rad(315), flx )
+                   
 
-                    table.insert(sequenceBufferTable, {
-                        name = "fireballanim2",
-                        duration = 0.3,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
+                   
+                            table.insert(sequenceBufferTable, {
+                                name = "fireballanim2",
+                                duration = 0.5,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
+                                    local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
+                                   -- soundEngine:playSFX(fireBallSound)
+                                    animate(fireSpellAnimation, fireSpellAnimationImage, flx.x, flx.y, 0.3, math.rad(45), flx )
+                                end})
 
-                            local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
-                            soundEngine:playSFX(fireBallSound)
-                            animate(fireSpellAnimation, fireSpellAnimationImage, flx.x, flx.y, 0.5, math.rad(45), flx )
+                   
 
-                        end})
+                end
 
-                elseif self.y > targetCell.y then
+
+                if self.y > targetCell.y then
 
                     y = -1
                     self.bottomSpell = true
 
                     local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
-                    soundEngine:playSFX(fireBallSound)
-                    animate(fireSpellAnimation, fireSpellAnimationImage, flx.x + tileW / 2, flx.y + tileH / 2, 0.5, math.rad(225), flx )
+                    
 
-                    table.insert(sequenceBufferTable, {
-                        name = "fireballanim2",
-                        duration = 0.3,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            soundEngine:playSFX(fireBallSound)
-                            local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
-                            animate(fireSpellAnimation, fireSpellAnimationImage, flx.x, flx.y, 0.5, math.rad(135), flx )
+                
+                        table.insert(sequenceBufferTable, {
+                            name = "fireballanim2",
+                            duration = 0.5,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                           --     soundEngine:playSFX(fireBallSound)
+                                animate(fireSpellAnimation, fireSpellAnimationImage, flx.x + tileW / 2, flx.y + tileH / 2, 0.5, math.rad(225), flx )
 
-                        end})
+                            end})
+                
+
+            
+
+                        table.insert(sequenceBufferTable, {
+                            name = "fireballanim2-botttom",
+                            duration = 0.3,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                soundEngine:playSFX(fireBallSound)
+                                local flx = {x = (self.x * tileW + offsetX), y = (self.y * tileH + offsetY), nx = ((self.x + x) * tileW + offsetX) + tileW / 2, ny = ((self.y + y) * tileH + offsetY) + tileH / 2, ea = "expoout"}
+                                animate(fireSpellAnimation, fireSpellAnimationImage, flx.x, flx.y, 0.5, math.rad(135), flx )
+
+                            end})
+
+                
 
                 end
 
