@@ -1477,6 +1477,14 @@ local function initNetworking(arg)
 
         end)
 
+        server:on("clientmousepos", function(cm)
+
+            clientMouseX = cm.x
+            clientMouseY = cm.y
+
+
+        end)
+
     
 
     end
@@ -1675,6 +1683,13 @@ local function initNetworking(arg)
             end
 
 
+        end)
+
+        client:on("servermousepos", function(sm)
+        
+            serverMouseX = sm.x
+            serverMouseY = sm.y
+            
         end)
          
         client:connect()
@@ -1963,7 +1978,22 @@ function love.draw()
     if isGameClient then love.graphics.print("CLIENT", width - 150, 10) end
 
     drawAnimations()
-    love.graphics.draw(mouseArrow, mouseX, mouseY)
+
+
+    if isGameServer then
+        love.graphics.draw(mouseArrow, mouseX, mouseY)
+        love.graphics.draw(mouseArrowP2, clientMouseX, clientMouseY)
+    end
+
+    if isGameClient then
+        love.graphics.draw(mouseArrow, mouseX, mouseY)
+        love.graphics.draw(mouseArrowP2, serverMouseX, serverMouseY)
+    end
+
+    if isGameClient ~= true and isGameServer ~= true then
+
+        love.graphics.draw(mouseArrow, mouseX, mouseY)
+    end
 
   
  
@@ -1971,6 +2001,19 @@ end
 
 function love.mousemoved( x, y, dx, dy, istouch )
 
+
+    if isGameServer then
+        local sm = {x = x, y = y}
+       
+
+        server:sendToAll("servermousepos", sm)
+    end
+
+    if isGameClient then
+        local cm = {x = x, y = y}
+
+        client:send("clientmousepos", cm)
+    end
 
     testMouseForValidSpellDrawing(x, y)
 
