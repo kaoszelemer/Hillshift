@@ -42,7 +42,7 @@ gameState = StateMachine({
 
     selectCharacterAction = {
         name = "selectCharacterAction",
-        transitions = {"selectCharacter", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter", "waitingState"}
+        transitions = {"selectCharacter", "selectCharacterAction", "selectMoveTargetCell", "selectSpellTargetArea", "selectAttackTargetCharacter", "waitingState"}
     },
 
     selectMoveTargetCell = {

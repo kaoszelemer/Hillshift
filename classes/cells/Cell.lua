@@ -321,6 +321,17 @@ end
 
 function Cell:click()
 
+    if gameState.state == gameState.states.selectCharacterAction then
+        
+        if self.isOccupied ~= true then
+            
+            selectedChar = nil
+            gameState:changeState(gameState.states.selectCharacter)
+
+        end
+
+    end
+
 
     if gameState.state == gameState.states.selectMoveTargetCell and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
 
@@ -329,7 +340,7 @@ function Cell:click()
         for x = -1, 1 do
             for y = -1, 1 do
                if x ~= 0 or y ~= 0 then 
-                
+                   
                     self:moveSelectedCharIfValidOffset(x, y)
                 end
             end

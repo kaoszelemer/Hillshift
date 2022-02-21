@@ -610,18 +610,28 @@ end
 function Character:click(mX, mY)
 
     
+    if gameState.state ~= gameState.states.selectMoveTargetCell and gameState.state ~= gameState.states.selectAttackTargetCharacter and gameState.state ~= gameState.states.selectSpellTargetArea then
 
 
-    if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
-        isGameServer and activePlayer == playerOne then
-            selectedChar = self
-           
-            selectedChar.isActionMenuDrawn = true
-            gameState:changeState(gameState.states.selectCharacterAction)
-           return
-        
-    
-    elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
+        if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) then
+                selectedChar = self
+            
+                selectedChar.isActionMenuDrawn = true
+                gameState:changeState(gameState.states.selectCharacterAction)
+            return
+        end
+
+        if gameState.state == gameState.states.selectCharacterAction and self.parentPlayer == activePlayer and self ~= selectedChar then
+                selectedChar = self
+                
+                selectedChar.isActionMenuDrawn = true
+                gameState:changeState(gameState.states.selectCharacterAction)
+                return
+        end
+    end
+
+
+   --[[  elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
         isGameClient and activePlayer == playerTwo then
             selectedChar = self
           
@@ -636,7 +646,7 @@ function Character:click(mX, mY)
             selectedChar.isActionMenuDrawn = true
             gameState:changeState(gameState.states.selectCharacterAction)
             return
-    end
+    end ]]
 
     if selectedChar and selectedChar.parentPlayer ~= self.parentPlayer and gameState.state == gameState.states.selectAttackTargetCharacter then
         if  (self.x + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
@@ -676,55 +686,58 @@ function Character:chooseActionMenu(mx, my)
     local cx = self.x * tileW + offsetX
     local cy = self.y * tileH + offsetY
 
-    
+   
 
-    if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 and self.stepPoints == 0 then
-        gameState:changeState(gameState.states.selectCharacter)
-    return
-        
-    elseif gameState.state == gameState.states.selectCharacterAction then
-        -- BAl FELSO NEGYED - ATTACK STATE
-        if  mx > cx and mx < cx + tileW / 2 and  my > cy and my < cy + tileH / 2 and self.actionPoints ~= 0 then
-                gameState:changeState(gameState.states.selectAttackTargetCharacter)
+        if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 and self.stepPoints == 0 then
+            gameState:changeState(gameState.states.selectCharacter)
+            return
+            
+        elseif gameState.state == gameState.states.selectCharacterAction then
 
-                    if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
-                        gameState:changeState(gameState.states.selectCharacter)
-                        return
-                    end
-            return   
-        end
-        -- JOBB FELSÖ NEGYED - STEP STATE                       
-        if  mx > cx + tileW / 2 and mx < cx + tileW and my > cy and my < cy + tileH / 2 and self.stepPoints ~= 0 then
 
-               
-                gameState:changeState(gameState.states.selectMoveTargetCell)
-                return
-               
-        end
-        -- BAL ALSO NEGYED - SPELL STATE
-        if   mx > cx and mx < cx + tileW / 2 and my > cy + (tileH / 2) and my < cy + tileH and self.actionPoints ~= 0 then
-                gameState:changeState(gameState.states.selectSpellTargetArea)
-             
+            -- BAl FELSO NEGYED - ATTACK STATE
+            if  mx > cx and mx < cx + tileW / 2 and  my > cy and my < cy + tileH / 2 and self.actionPoints ~= 0 then
+                    gameState:changeState(gameState.states.selectAttackTargetCharacter)
 
-                    if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
-                    gameState:changeState(gameState.states.selectCharacter)
-                    end
+                        --[[ if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
+                            gameState:changeState(gameState.states.selectCharacter)
+                            return
+                        end ]]
+                return   
+            end
+            -- JOBB FELSÖ NEGYED - STEP STATE                       
+            if  mx > cx + tileW / 2 and mx < cx + tileW and my > cy and my < cy + tileH / 2 and self.stepPoints ~= 0 then
+
+                
+                    gameState:changeState(gameState.states.selectMoveTargetCell)
                     return
-        end
+                
+            end
+            -- BAL ALSO NEGYED - SPELL STATE
+            if   mx > cx and mx < cx + tileW / 2 and my > cy + (tileH / 2) and my < cy + tileH and self.actionPoints ~= 0 then
+                    gameState:changeState(gameState.states.selectSpellTargetArea)
+                
 
-        -- JOBB ALSÓ NEGYED - INFO
+                        --[[ if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
+                        gameState:changeState(gameState.states.selectCharacter)
+                        end ]]
+                        return
+            end
 
-        if mx > cx + tileW / 2 and mx < cx + tileW and my < cy + tileH and my > cy + tileH / 2 then
+            -- JOBB ALSÓ NEGYED - INFO
 
-            drawInfoAboutCharacter(self)
+            if mx > cx + tileW / 2 and mx < cx + tileW and my < cy + tileH and my > cy + tileH / 2 then
 
-        end
+                drawInfoAboutCharacter(self)
+
+            end
+   
   
     end
-    if mx ~= cx and my ~= cy then
+    --[[ if mx ~= cx and my ~= cy then
         gameState:changeState(gameState.states.selectCharacter)
     end
-    
+     ]]
     self.drawBattle = false
 end
         
@@ -785,7 +798,7 @@ function Character:move(cx, cy, oldx, oldy)
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
-                duration = 1,
+                duration = 0.5,
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
@@ -798,10 +811,19 @@ function Character:move(cx, cy, oldx, oldy)
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
-                    
+                    if self.actionPoints > 0  or self.stepPoints > 0 then
+                        selectedChar = self
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    else
+                 
+                        selectedChar = nil
                         gameState:changeState(gameState.states.selectCharacter)
+                    end
+                 
                    
                 end})
+
+             
                 
                     self.stepPoints = self.stepPoints - 1
                     
