@@ -231,11 +231,11 @@ function Character:drawSpeechBubbles()
 end
 
 function Character:drawCancelButton()
-            
+            --[[ 
             if gameState.state == gameState.states.selectMoveTargetCell or gameState.state == gameState.states.selectAttackTargetCharacter or gameState.state == gameState.states.selectSpellTargetArea then
-                isCancelButton = true
+               -- isCancelButton = true
                 love.graphics.draw(cancelButtonImage, (selectedChar.x * tileW + offsetX) + tileW / 6, (selectedChar.y * tileH + offsetY) + tileH / 6)
-            end
+            end ]]
 
 end
 
@@ -482,7 +482,9 @@ function Character:drawValidIcons()
                         and boardGrid[(self.x + ox)][self.y + oy].isOccupied and boardGrid[(self.x + ox)][self.y + oy].occupiedBy and boardGrid[(self.x + ox)][self.y + oy].occupiedBy.parentPlayer ~= self.parentPlayer  then 
                             
                             love.graphics.draw(validAttackImage, (self.x + ox) * tileW + offsetX, (self.y + oy)  * tileH + offsetY) 
-  
+                            boardGrid[(self.x + ox)][self.y + oy].isAttackable = true
+                        else
+                            boardGrid[(self.x + ox)][self.y + oy].isAttackable = false
                     end
                 end
             end
@@ -621,6 +623,12 @@ function Character:click(mX, mY)
             return
         end
 
+
+
+
+
+
+
         if gameState.state == gameState.states.selectCharacterAction and self.parentPlayer == activePlayer and self ~= selectedChar then
                 selectedChar = self
                 
@@ -648,7 +656,11 @@ function Character:click(mX, mY)
             return
     end ]]
 
+    
+  
     if selectedChar and selectedChar.parentPlayer ~= self.parentPlayer and gameState.state == gameState.states.selectAttackTargetCharacter then
+
+    
         if  (self.x + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
             (self.x - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )   or
             (self.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x][self.y + 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )   or
@@ -657,6 +669,9 @@ function Character:click(mX, mY)
             (self.x - 1 > 0 and self.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y + 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
             (self.x + 1 <= 10 and self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false ) or
             (self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false ) then
+
+          
+
                 if isGameServer then
                     local cp = {self.id, selectedChar.id}
                     server:sendToAll("server_attack", cp)
@@ -669,9 +684,27 @@ function Character:click(mX, mY)
 
                 
                     selectedChar:attack(self)
+
+                  --[[   for x = -1, 1 do
+                        for y = -1, 1 do
+                            if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 and self.y + y <=10 then ]]
+              --[[               end
+                        end
+                    end
+                 ]]
+
         end
     end
- 
+        
+  
+
+           
+
+
+            
+        
+  
+    
   
 
     if gameState.state == gameState.states.selectCharacterAction and (selectedChar.stepPoints ~= 0 or selectedChar.actionPoints ~= 0) and selectedChar.parentPlayer == self.parentPlayer then
@@ -796,6 +829,7 @@ function Character:move(cx, cy, oldx, oldy)
 
         
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
+
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
                 duration = 0.5,
@@ -957,7 +991,14 @@ function Character:attack(enemy, nw)
                 sequenceTime = love.timer.getTime(),
                 action = function()
                     selectedChar = self
-                    gameState:changeState(gameState.states.selectCharacter)
+                    if self.actionPoints > 0  or self.stepPoints > 0 then
+                        selectedChar = self
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    else
+                 
+                        selectedChar = nil
+                        gameState:changeState(gameState.states.selectCharacter)
+                    end
                 end
 
            

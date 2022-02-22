@@ -122,6 +122,9 @@ function Cell:moveSelectedCharIfValidOffset(ox, oy)
 
                     selectedChar:move(selectedChar.x + ox, selectedChar.y + oy, selectedChar.x, selectedChar.y)
               
+            else
+
+                gameState:changeState(gameState.states.selectCharacter)
 
             end
     end
@@ -332,6 +335,29 @@ function Cell:click()
 
     end
 
+    if gameState.state == gameState.states.selectAttackTargetCharacter then
+    
+
+    
+    end
+
+
+    if gameState.state == gameState.states.selectAttackTargetCharacter then
+
+        local x = math.floor((mouseX / tileW) - offsetX / tileW)
+        local y = math.floor((mouseY / tileH) - offsetY / tileH)
+        
+        print(boardGrid[x][y].isAttackable)
+       
+        if boardGrid[x][y].isAttackable ~= true then
+                           
+            gameState:changeState(gameState.states.selectCharacterAction)
+        
+        end
+     
+
+    end
+
 
     if gameState.state == gameState.states.selectMoveTargetCell and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
 
@@ -374,9 +400,37 @@ function Cell:click()
                     ssend[4] = direction
                 
                 end
+                if selectedChar.id ~= 2 and selectedChar.id ~= 7 then
 
+                    for x = -1, 1 do
+                        for y = -1,1 do
+                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                                server:sendToAll("server_characterspell", ssend)
+                                
+                            else
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            
+                            end
+                            
+                        end
+                    end
+                else
+        
+                    for x = -2, 2 do
+                        for y = -2, 2 do
+                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                                server:sendToAll("server_characterspell", ssend)
+                            else
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            
+                            end
+                        end
+                    end
+                
+        
+                end
          
-            server:sendToAll("server_characterspell", ssend)
+            
         end
 
         
@@ -405,13 +459,70 @@ function Cell:click()
                 
                 end
 
+                if selectedChar.id ~= 2 and selectedChar.id ~= 7 then
 
+                    for x = -1, 1 do
+                        for y = -1,1 do
+                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                                client:send("client_characterspell", clsend)
+                                
+                            else
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            
+                            end
+                            
+                        end
+                    end
+                else
+        
+                    for x = -2, 2 do
+                        for y = -2, 2 do
+                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                                client:send("client_characterspell", clsend)
+                            else
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            
+                            end
+                        end
+                    end
+                
+        
+                end
 
-                client:send("client_characterspell", clsend)
+               
         end
 
 
-            selectedChar:spell(self)
+        if selectedChar.id ~= 2 and selectedChar.id ~= 7 then
+
+            for x = -1, 1 do
+                for y = -1,1 do
+                    if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                        selectedChar:spell(self)
+                        print(selectedChar.x + x)
+                    else
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    
+                    end
+                    
+                end
+            end
+        else
+
+            for x = -2, 2 do
+                for y = -2, 2 do
+                    if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                        selectedChar:spell(self)
+                        print(selectedChar.x + x)
+                    else
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    
+                    end
+                end
+            end
+        
+
+        end
 
            
 

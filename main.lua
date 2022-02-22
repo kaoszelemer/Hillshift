@@ -2093,7 +2093,7 @@ function love.mousereleased(x, y, button, istouch, presses)
 
         else isMusicOff = true
         end
-     
+     return
     end
 
     if x > width / 16 + tileW and x < width / 16 + (tileW * 2) and y > 0 and y < tileH then
@@ -2110,7 +2110,7 @@ function love.mousereleased(x, y, button, istouch, presses)
             isTileHelperOff = true
         end
                 
-
+        return
 
     end
 
@@ -2121,6 +2121,7 @@ function love.mousereleased(x, y, button, istouch, presses)
     x > (boardGrid[1][1].x * tileW + offsetX) + 106 and x < (boardGrid[1][1].x * tileW + offsetX) + 223 and
     y > (boardGrid[1][1].y * tileH + offsetY) + 450 and y < (boardGrid[1][1].y * tileH + offsetY) + 492 then
         quitGame()
+        return
     end
 
     if drawEndGame and
@@ -2129,21 +2130,46 @@ function love.mousereleased(x, y, button, istouch, presses)
     y > (boardGrid[1][1].y * tileH + offsetY) + 450 and y < (boardGrid[1][1].y * tileH + offsetY) + 492 then
         isNewGame = true
         newGame()
+        return
     end
 
 
     if not drawEndGame and gameState.state ~= gameState.states.waitingState then
      
+        if isDrawInfoAboutCharacter and
+        x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
+        y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
 
-        if button == 2 then
-            gameState:changeState(gameState.states.selectCharacter)
+           for _, currentChar in ipairs(activePlayer.characters) do
+               if currentChar.isDrawInfo then
+                   currentChar.isDrawInfo = false
+               end
+           end
+           
+           return
         end
+      
+     --[[    if isCancelButton and selectedChar then
+            local sx = selectedChar.x * tileW + offsetX
+            local sy = selectedChar.y * tileW + offsetY
+          
+            if x > sx  and x < (sx + tileW) - tileW / 6 and
+                y > sy and y < (sy + tileW) - tileW /6 then
+                
+                    gameState:changeState(gameState.states.selectCharacter)
+                    isCancelButton = false
+                    return
+            end
+        end ]]
+
+      
 
        -- if not enableBannerDraw then
                 for _, currentChar in ipairs(activePlayer.characters) do
 
                     if currentChar.isHovered then 
                         currentChar:click(x, y) 
+                        
                     end  
                 
                 end
@@ -2152,11 +2178,12 @@ function love.mousereleased(x, y, button, istouch, presses)
 
                     if currentChar.isHovered then 
                         currentChar:click(x, y) 
+                        
                     end  
                 
                 end
 
-            
+                
 
 
 
@@ -2190,30 +2217,9 @@ function love.mousereleased(x, y, button, istouch, presses)
 
         --end
 
-        if isDrawInfoAboutCharacter and
-             x > (width / 4 + offsetX) + 200 and x < (width / 4 + offsetX) + 352 and
-             y > (height / 4 + offsetY) + 230 and y < ((height / 4 + offsetY) + 310) then
+     
 
-                for _, currentChar in ipairs(activePlayer.characters) do
-                    if currentChar.isDrawInfo then
-                        currentChar.isDrawInfo = false
-                    end
-                end
-
-        end
-
-        if isCancelButton and selectedChar then
-            local sx = selectedChar.x * tileW + offsetX
-            local sy = selectedChar.y * tileW + offsetY
-        
-            if x > sx  and x < (sx + tileW) - tileW / 6 and
-                y > sy and y < (sy + tileW) - tileW /6 then
-                    gameState:changeState(gameState.states.selectCharacter)
-                    isCancelButton = false
-            end
-
-        end
-
+       
      
      
 end
