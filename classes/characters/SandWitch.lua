@@ -153,7 +153,7 @@ function SandWitch:spell(targetCell)
         end
         table.insert(sequenceBufferTable, {
             name = "resetSpellDrawing",
-            duration = 2,
+            duration = 2.5,
             sequenceTime = love.timer.getTime(),
             action = function()
 

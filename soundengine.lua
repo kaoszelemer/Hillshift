@@ -138,7 +138,7 @@ function soundEngine:load()
     criticalHitSound = ripple.newSound(criticalHit, {volume = 0.75, loop = false})
 
     local lastSeconds = love.audio.newSource("/sounds/lastSeconds.mp3", "static")
-    lastSecondsSound = ripple.newSound(lastSeconds, {volume = 0.75, loop = false})
+    lastSecondsSound = ripple.newSound(lastSeconds, {volume = 0.5, loop = false})
 
     local niceRoll = love.audio.newSource("/sounds/niceRoll.mp3", "static")
     niceRollSound = ripple.newSound(niceRoll, {volume = 0.75, loop = false})

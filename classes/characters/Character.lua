@@ -486,7 +486,7 @@ function Character:drawValidIcons()
                             
                             love.graphics.draw(validAttackImage, (self.x + ox) * tileW + offsetX, (self.y + oy)  * tileH + offsetY) 
                             boardGrid[(self.x + ox)][self.y + oy].isAttackable = true
-                        else
+                        elseif self.x + ox <= 10 and self.x + ox > 0 and self.y + oy <= 10 and self.y + oy > 0  then
                             boardGrid[(self.x + ox)][self.y + oy].isAttackable = false
                     end
                 end
@@ -820,6 +820,8 @@ function Character:move(cx, cy, oldx, oldy)
             
             local arriveX = self.x
             local arriveY = self.y
+              
+            
             
             self.x = oldx
             self.y = oldy
@@ -827,15 +829,44 @@ function Character:move(cx, cy, oldx, oldy)
             --networking
             
             soundEngine:playSFX(stepSound)
+            
+            
+            if boardGrid[arriveX][arriveY]:instanceOf(Ice) then
 
-            local char = {}
+                flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
+
+
+                table.insert(sequenceBufferTable, {
+                    name = "occupyingCell",
+                    duration = 0.6,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+    
+                
+                        if self.x >= 10 then self.x = 10 end
+                        if self.x <= 0 then self.x = 1 end
+                        if self.y >= 10 then self.y = 10 end
+                        if self.y <= 0 then self.y = 1 end
+                        boardGrid[cx][cy].isOccupied = true
+                        boardGrid[cx][cy].occupiedBy = self
+                        boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
+
+                        if boardGrid[cx][cy]:instanceOf(Ice) ~= true then
+                            self.stepPoints = 0
+                            gameState:changeState(gameState.states.selectCharacter)
+                        end
+                        
+                    end})
+               return
+            end
+       
 
         
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
 
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
-                duration = 0.5,
+                duration = 0.6,
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
@@ -844,7 +875,8 @@ function Character:move(cx, cy, oldx, oldy)
                     if self.x <= 0 then self.x = 1 end
                     if self.y >= 10 then self.y = 10 end
                     if self.y <= 0 then self.y = 1 end
-                
+              
+
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
@@ -860,7 +892,7 @@ function Character:move(cx, cy, oldx, oldy)
                    
                 end})
 
-             
+              
                 
                     self.stepPoints = self.stepPoints - 1
                     
@@ -876,7 +908,7 @@ function Character:move(cx, cy, oldx, oldy)
 end
 
 function Character:freeMove(cx, cy, oldx, oldy)
-    gameState:changeState(gameState.states.waitingState)
+ --   gameState:changeState(gameState.states.waitingState)
 
          
         if self.x ~= nil and self.y ~= nil then
@@ -899,7 +931,7 @@ function Character:freeMove(cx, cy, oldx, oldy)
                     
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
-                duration = 0.5,
+                duration = 0.6,
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
@@ -912,6 +944,14 @@ function Character:freeMove(cx, cy, oldx, oldy)
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
+                    if self.actionPoints > 0  or self.stepPoints > 0 then
+                      
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    else
+                 
+                        selectedChar = self
+                        gameState:changeState(gameState.states.selectCharacter)
+                    end
                                
                 end})
  

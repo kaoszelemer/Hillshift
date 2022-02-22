@@ -16,22 +16,28 @@ end
 
 
 function Ice:onEntry(selectedChar)
-   
+ 
     table.insert(sequenceBufferTable, {
         name = "iceSlide",
-        duration = 0.2,
+        duration = 0.5,
         sequenceTime = love.timer.getTime(),
         action = function()
-            if selectedChar.stepPoints < 1 then
-                selectedChar.stepPoints = selectedChar.stepPoints + 1
-            end
+
             selectedChar.actionPoints = 0
-        end
-    })
 
-    --selectedChar.stepPoints = 0
+            if selectedChar.stepPoints == 2 then
+                selectedChar.stepPoints = 2
+            elseif selectedChar.stepPoints <= 1 then
+                selectedChar.stepPoints = 1
+            end
+
+            gameState:changeState(gameState.states.selectCharacterAction)
+        
+        end})
+
+ 
     
-
+  
 
 end
 

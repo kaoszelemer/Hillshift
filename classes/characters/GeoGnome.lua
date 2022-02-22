@@ -63,7 +63,7 @@ function GeoGnome:spell(targetCell)
                                 end})
                             
                             if boardGrid[self.x + x][self.y + y].isOccupied then
-                                boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 1)
+                                boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
                             end
         
                         end

@@ -316,8 +316,8 @@ end
 
 function turnRemainingTime()
     
-
-    
+ 
+     
     if love.timer.getTime() - turnTimer >= 60 and turnTimer > 0 and turnCounter > 1 then
 
       
@@ -345,6 +345,8 @@ end
 
 function endTurn()
     
+    
+    gameState:changeState(gameState.states.waitingState)
     selectedChar = nil
     soundEngine:playSFX(endTurnSound)
     isFirstTurn = false
@@ -368,6 +370,8 @@ function endTurn()
 
 
     local burnCell
+
+    
 
         ----------- EZ TÖRTÉNIK A BOARDDAL ------------------
 
@@ -698,6 +702,18 @@ function endTurn()
 
                     end
                 end})
+
+                table.insert(sequenceBufferTable, {
+                    name = "resetstate",
+                    duration = 3,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+
+                        gameState:changeState(gameState.states.selectCharacter)
+                      
+                    end})
+                        
+
 
     print("RND STATE IN ENDTURN: "..love.math.getRandomState())
 
@@ -1720,6 +1736,7 @@ function banner(name, text, flavor, bt, bandur)
 
     gameState:changeState(gameState.states.waitingState)
     turnTimer = turnTimer + bannerDuration
+    
     bannerAnimation:gotoFrame(1)
     bannerAnimation:resume()
     enableBannerDraw = true  

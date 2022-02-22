@@ -451,12 +451,8 @@ function Cell:click()
                 clsend[1] = self.x
                 clsend[2] = self.y
                 clsend[3] = selectedChar.id
-             
-
                 if selectedChar.id == 2 then
-
                     local direction
-
                     if pointerOnTopLeftSide then 
                         direction = "tl"
                     elseif pointerOnTopRightSide then
@@ -470,6 +466,7 @@ function Cell:click()
                     clsend[4] = direction
                 
                 end
+
 
                 if selectedChar.id == 7 then
 

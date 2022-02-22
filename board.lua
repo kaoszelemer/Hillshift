@@ -819,7 +819,8 @@ local function drawChests()
     for x = 1, 10 do
         for y = 1, 10 do
             if boardGrid[x][y].isChest == true then
-                love.graphics.draw(chestImage, x * tileW + offsetX, y * tileH + offsetY)
+                chestAnimation:draw(chestAnimationImage, x * tileW + offsetX, y * tileH + offsetY)
+                
             end
         end
     end
@@ -1225,6 +1226,13 @@ local function loadAnimations()
     local g = anim8.newGrid(192, 192, eruptionAnimationImage:getWidth(), eruptionAnimationImage:getHeight())
     eruptionAnimation = anim8.newAnimation(g('1-4', 1), 0.1)
 
+    chestAnimationImage = love.graphics.newImage('graphics/chestanim.png')
+    local g = anim8.newGrid(64, 64, chestAnimationImage:getWidth(), chestAnimationImage:getHeight())
+    chestAnimation = anim8.newAnimation(g('1-8', 1), 0.1)
+
+
+
+
     ---Icons
     local iconAnimSpeed = 0.05
 
@@ -1470,7 +1478,7 @@ function board:update(dt)
         currentChar:update(dt)
     end
   
-
+    chestAnimation:update(dt)
     fireBorderAnimation:update(dt)
     frozenBorderAnimation:update(dt)
     poisonBorderAnimation:update(dt)
