@@ -316,6 +316,29 @@ end
 
 function turnRemainingTime()
     
+
+    isSecondsLeft = false
+    if love.timer.getTime() - turnTimer >= 50 and turnTimer > 0 and turnCounter > 1 then
+
+      
+        if debugIsTurnTimer ~= false  then
+       
+           isSecondsLeft = true
+
+        end
+      
+    end
+
+    if isSecondsLeft then
+
+        isSecondsLeft = false
+        
+    
+        
+
+    end
+
+
  
      
     if love.timer.getTime() - turnTimer >= 60 and turnTimer > 0 and turnCounter > 1 then
