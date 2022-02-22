@@ -60,8 +60,8 @@ function Graveyard:onEntry(sChar, ax, ay)
                 duration = 1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                    sChar.stepPoints = sChar.stepPoints + 1
-                    sChar:move(ghostRunTable[runAwayCellIndex].x, ghostRunTable[runAwayCellIndex].y, self.x, self.y)
+                  
+                    sChar:freeMove(ghostRunTable[runAwayCellIndex].x, ghostRunTable[runAwayCellIndex].y, self.x, self.y)
                 end})
         end})
         

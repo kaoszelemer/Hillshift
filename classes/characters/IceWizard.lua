@@ -20,7 +20,7 @@ function IceWizard:spell(targetCell)
     gameState:changeState(gameState.states.waitingState)
     if self.actionPoints ~= 0 then
   
-        self.actionPoints = self.actionPoints - 1
+       
     
         local y
 
@@ -31,14 +31,19 @@ function IceWizard:spell(targetCell)
                 elseif targetCell.y < self.y then
                   
                     y = -1
+                else y = 0
                   
                 end
+
+                
             
                     
                 for x = -1, 1 do
                     if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 and self.y + y <= 10 then
                         
-                  
+                        if targetCell.y == self.y then
+                            return
+                        end
                                
                                     if y == 1 then
                                    
@@ -56,6 +61,8 @@ function IceWizard:spell(targetCell)
                                         
                     end
                 end
+
+                self.actionPoints = self.actionPoints - 1
         
     end
     table.insert(sequenceBufferTable, {
@@ -67,8 +74,14 @@ function IceWizard:spell(targetCell)
             self.drawSpellTop = false
             self.drawSpellBottom = false
         
-            selectedChar = self
-            gameState:changeState(gameState.states.selectCharacter)
+            if self.actionPoints > 0  or self.stepPoints > 0 then
+                selectedChar = self
+                gameState:changeState(gameState.states.selectCharacterAction)
+            else
+         
+                selectedChar = nil
+                gameState:changeState(gameState.states.selectCharacter)
+            end
     
             Cell:resetParticleDrawing()
         end

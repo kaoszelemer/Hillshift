@@ -2114,6 +2114,10 @@ function love.mousereleased(x, y, button, istouch, presses)
 
     end
 
+    if button == 2 then
+        gameState:changeState(gameState.states.selectCharacter)
+    end
+
 
 
     if drawEndGame and

@@ -336,21 +336,15 @@ function Cell:click()
     end
 
     if gameState.state == gameState.states.selectAttackTargetCharacter then
-    
-
-    
-    end
-
-
-    if gameState.state == gameState.states.selectAttackTargetCharacter then
 
         local x = math.floor((mouseX / tileW) - offsetX / tileW)
         local y = math.floor((mouseY / tileH) - offsetY / tileH)
         
-        print(boardGrid[x][y].isAttackable)
+        print(boardGrid[x][y].isAttackable, selectedChar.x, x, selectedChar.y, y)
        
-        if boardGrid[x][y].isAttackable ~= true then
-                           
+        if boardGrid[x][y].isAttackable ~= true and (selectedChar.x ~= x or selectedChar.y ~= y) then
+            print(boardGrid[x][y].isAttackable) 
+            
             gameState:changeState(gameState.states.selectCharacterAction)
         
         end
@@ -400,35 +394,53 @@ function Cell:click()
                     ssend[4] = direction
                 
                 end
-                if selectedChar.id ~= 2 and selectedChar.id ~= 7 then
 
-                    for x = -1, 1 do
-                        for y = -1,1 do
-                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+
+                if selectedChar.id == 7 then
+
+                    if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or  (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2) and (self.y == selectedChar.y)) or
+                        ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or  (self.y == selectedChar.y + 2 or self.y == selectedChar.x - 2) and (self.x == selectedChar.x)) then
+                            
+                            server:sendToAll("server_characterspell", ssend)
+                    
+                    else
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    
+                    
+                    end
+    
+            
+    
+                elseif selectedChar.id ~= 2 then
+    
+              
+                            if (self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) then
                                 server:sendToAll("server_characterspell", ssend)
-                                
+                            
                             else
-                                gameState:changeState(gameState.states.selectCharacterAction)
+                               
+                           
+                            
                             
                             end
-                            
-                        end
-                    end
-                else
-        
-                    for x = -2, 2 do
-                        for y = -2, 2 do
-                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
-                                server:sendToAll("server_characterspell", ssend)
-                            else
-                                gameState:changeState(gameState.states.selectCharacterAction)
-                            
-                            end
-                        end
-                    end
                 
-        
-                end
+    
+                   
+                else
+    
+              
+                            if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2)) and
+                               ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or (self.y == selectedChar.y + 2 or self.y == selectedChar.y - 2)) then
+                                selectedChar:spell(self)
+                                server:sendToAll("server_characterspell", ssend)
+                            else
+                               
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            
+                            end
+                      
+                 end
+           
          
             
         end
@@ -459,76 +471,111 @@ function Cell:click()
                 
                 end
 
-                if selectedChar.id ~= 2 and selectedChar.id ~= 7 then
+                if selectedChar.id == 7 then
 
-                    for x = -1, 1 do
-                        for y = -1,1 do
-                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+                    if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or  (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2) and (self.y == selectedChar.y)) or
+                        ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or  (self.y == selectedChar.y + 2 or self.y == selectedChar.x - 2) and (self.x == selectedChar.x)) then
+                            
+                            client:send("client_characterspell", clsend)
+                    
+                    else
+                        gameState:changeState(gameState.states.selectCharacterAction)
+                    
+                    
+                    end
+    
+            
+    
+                elseif selectedChar.id ~= 2 then
+    
+              
+                            if (self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) then
                                 client:send("client_characterspell", clsend)
-                                
+                            
                             else
-                                gameState:changeState(gameState.states.selectCharacterAction)
+                               
+                           
+                            
                             
                             end
-                            
-                        end
-                    end
-                else
-        
-                    for x = -2, 2 do
-                        for y = -2, 2 do
-                            if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
-                                client:send("client_characterspell", clsend)
-                            else
-                                gameState:changeState(gameState.states.selectCharacterAction)
-                            
-                            end
-                        end
-                    end
                 
-        
-                end
-
+    
+                   
+                else
+    
+              
+                            if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2)) and
+                               ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or (self.y == selectedChar.y + 2 or self.y == selectedChar.y - 2)) then
+                                selectedChar:spell(self)
+                                client:send("client_characterspell", clsend)
+                            else
+                               
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            
+                            end
+                    
+                 end
+                
                
         end
 
+      
 
-        if selectedChar.id ~= 2 and selectedChar.id ~= 7 then
 
-            for x = -1, 1 do
-                for y = -1,1 do
-                    if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
+            if selectedChar.id == 7 then
+
+                if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or  (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2) and (self.y == selectedChar.y)) or
+                    ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or  (self.y == selectedChar.y + 2 or self.y == selectedChar.x - 2) and (self.x == selectedChar.x)) then
+                        
                         selectedChar:spell(self)
-                        print(selectedChar.x + x)
-                    else
-                        gameState:changeState(gameState.states.selectCharacterAction)
-                    
-                    end
-                    
+                
+                else
+                    gameState:changeState(gameState.states.selectCharacterAction)
+                
+                
                 end
-            end
-        else
 
-            for x = -2, 2 do
-                for y = -2, 2 do
-                    if self.x == selectedChar.x + x and self.y == selectedChar.y + y then
-                        selectedChar:spell(self)
-                        print(selectedChar.x + x)
-                    else
-                        gameState:changeState(gameState.states.selectCharacterAction)
-                    
-                    end
-                end
-            end
         
 
-        end
+            elseif selectedChar.id ~= 2 then
 
+          
+                        if (self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) then
+                            selectedChar:spell(self)
+                        
+                        else
+                            gameState:changeState(gameState.states.selectCharacterAction)
+                        
+                        
+                        end
+            
+
+               
+            else
+
+          
+                        if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2)) and
+                           ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or (self.y == selectedChar.y + 2 or self.y == selectedChar.y - 2)) then
+                            selectedChar:spell(self)
+                            
+                        else
+                            gameState:changeState(gameState.states.selectCharacterAction)
+                           
+                        
+                        end
+                    
+             end
+
+            end
+            
+
+    
            
 
-    end
 
 end
+
+        
 
 function Cell:onEntry(character)
 

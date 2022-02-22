@@ -137,15 +137,21 @@ function ThunderShaman:spell(targetCell)
      
         table.insert(sequenceBufferTable, {
             name = "resetSpellDrawing",
-            duration = 2,
+            duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
     
                 self.drawSpellLeft = false
                 self.drawSpellRight = false
                 Cell:resetParticleDrawing()
-                selectedChar = self
-         gameState:changeState(gameState.states.selectCharacter)
+                if self.actionPoints > 0  or self.stepPoints > 0 then
+                    selectedChar = self
+                    gameState:changeState(gameState.states.selectCharacterAction)
+                else
+             
+                    selectedChar = nil
+                    gameState:changeState(gameState.states.selectCharacter)
+                end
        
             
             end

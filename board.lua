@@ -1244,6 +1244,12 @@ local function loadAnimations()
     local g = anim8.newGrid(64, 64, moveIconAnimationImage:getWidth(), moveIconAnimationImage:getHeight())
     moveIconAnimation = anim8.newAnimation(g('1-8', 1), iconAnimSpeed, 'pauseAtEnd')   
     
+    cancelButtonAnimationImage = love.graphics.newImage('graphics/cancelbuttonanimation.png')
+    local g = anim8.newGrid(64, 64, cancelButtonAnimationImage:getWidth(), cancelButtonAnimationImage:getHeight())
+    cancelButtonAnimation = anim8.newAnimation(g('1-8', 1), 0.3)   
+
+
+
 
 
     ---Borders
@@ -1469,6 +1475,7 @@ function board:update(dt)
     frozenBorderAnimation:update(dt)
     poisonBorderAnimation:update(dt)
    
+    cancelButtonAnimation:update(dt)
   
 
     testBoardForOccupy(activePlayer, inactivePlayer)

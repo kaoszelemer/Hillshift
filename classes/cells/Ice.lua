@@ -22,7 +22,9 @@ function Ice:onEntry(selectedChar)
         duration = 0.2,
         sequenceTime = love.timer.getTime(),
         action = function()
-            selectedChar.stepPoints = selectedChar.stepPoints + 1
+            if selectedChar.stepPoints < 1 then
+                selectedChar.stepPoints = selectedChar.stepPoints + 1
+            end
             selectedChar.actionPoints = 0
         end
     })

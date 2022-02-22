@@ -157,19 +157,21 @@ function Character:draw()
         end
         
         
-        if selectedChar.actionPoints ~= 0 and isAttackIconAnimationPlaying ~= true then 
-            love.graphics.draw(attackIcon, x, y) 
-        end
-        
-             
-        if selectedChar.stepPoints ~= 0 and isMoveIconAnimationPlaying ~= true then 
-            love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) 
-        end
+        if gameState.state == gameState.states.selectCharacterAction then
 
-        if selectedChar.actionPoints ~= 0 and isSpellIconAnimationPlaying ~= true then 
-            love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) 
+            if selectedChar.actionPoints ~= 0 and isAttackIconAnimationPlaying ~= true then 
+                love.graphics.draw(attackIcon, x, y) 
+            end
+            
+                
+            if selectedChar.stepPoints ~= 0 and isMoveIconAnimationPlaying ~= true then 
+                love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) 
+            end
+
+            if selectedChar.actionPoints ~= 0 and isSpellIconAnimationPlaying ~= true then 
+                love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) 
+            end
         end
-    
     
     end
 
@@ -231,11 +233,12 @@ function Character:drawSpeechBubbles()
 end
 
 function Character:drawCancelButton()
-            --[[ 
+            
             if gameState.state == gameState.states.selectMoveTargetCell or gameState.state == gameState.states.selectAttackTargetCharacter or gameState.state == gameState.states.selectSpellTargetArea then
                -- isCancelButton = true
-                love.graphics.draw(cancelButtonImage, (selectedChar.x * tileW + offsetX) + tileW / 6, (selectedChar.y * tileH + offsetY) + tileH / 6)
-            end ]]
+               cancelButtonAnimation:draw(cancelButtonAnimationImage, (selectedChar.x * tileW + offsetX) , (selectedChar.y * tileH + offsetY))
+                
+            end
 
 end
 
@@ -867,8 +870,54 @@ function Character:move(cx, cy, oldx, oldy)
     print("RND STATE IN MOVE: "..love.math.getRandomState())
 
    
+
+
+
 end
 
+function Character:freeMove(cx, cy, oldx, oldy)
+    gameState:changeState(gameState.states.waitingState)
+
+         
+        if self.x ~= nil and self.y ~= nil then
+            boardGrid[self.x][self.y].isOccupied = false
+            boardGrid[self.x][self.y].occupiedBy = nil
+        end
+     
+            
+            local arriveX = self.x
+            local arriveY = self.y
+            
+            self.x = oldx
+            self.y = oldy
+            
+            
+            soundEngine:playSFX(stepSound)
+        
+            flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
+
+                    
+            table.insert(sequenceBufferTable, {
+                name = "occupyingCell",
+                duration = 0.5,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+
+            
+                    if self.x >= 10 then self.x = 10 end
+                    if self.x <= 0 then self.x = 1 end
+                    if self.y >= 10 then self.y = 10 end
+                    if self.y <= 0 then self.y = 1 end
+                
+                    boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
+                    boardGrid[cx][cy].isOccupied = true
+                    boardGrid[cx][cy].occupiedBy = self
+                               
+                end})
+ 
+
+    print("RND STATE IN MOVE: "..love.math.getRandomState())
+end
 
 
 function Character:kill()
@@ -987,7 +1036,7 @@ function Character:attack(enemy, nw)
 
             table.insert(sequenceBufferTable, {
                 name = "resetingAttackState",
-                duration = 3,
+                duration = 3.2,
                 sequenceTime = love.timer.getTime(),
                 action = function()
                     selectedChar = self

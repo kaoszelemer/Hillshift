@@ -213,10 +213,14 @@ function Alchemist:spell(targetCell, direction)
                 duration = 2,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                        selectedChar = self
-                                
-                        gameState:changeState(gameState.states.selectCharacter)
-               
+                        if self.actionPoints > 0  or self.stepPoints > 0 then
+                                selectedChar = self
+                                gameState:changeState(gameState.states.selectCharacterAction)
+                            else
+                         
+                                selectedChar = nil
+                                gameState:changeState(gameState.states.selectCharacter)
+                            end
             
                 end})
 

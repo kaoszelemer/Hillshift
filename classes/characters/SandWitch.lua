@@ -49,125 +49,134 @@ end
 
 
 function SandWitch:spell(targetCell)
-    gameState:changeState(gameState.states.waitingState)
-       
-        if self.actionPoints ~= 0 then
+
+    if (targetCell.y == self.y + 1 or targetCell.y == self.y - 1) and targetCell.x == self.x then
+
+        gameState:changeState(gameState.states.waitingState)
         
-            if targetCell.y == self.y + 1 or targetCell.y == self.y - 1 then
-                self.actionPoints = self.actionPoints - 1
-                
-
-                if self.y - 1 > 0 then
-                    self.drawSpellLeft = true
-                    self.aSL = {x = self.x, y = self.y, nx = (self.x), ny = (self.y - 1)}
-                    local nx = self.aSL.nx
-                    local ny = self.aSL.ny
-                    self.spellTime = love.timer.getTime()
-                    flux.to(self.aSL, 0.5, {x = nx, y = ny}):ease("expoout")
-                    table.insert(sequenceBufferTable, {
-                        name = "SandWitchLeftCell",
-                        duration = 0.2,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then
-                                boardGrid[self.x][self.y - 1] = Swamp(self.x, self.y - 1)
-                                    for index, currentChar in ipairs (activePlayer.characters) do
-                                        if currentChar.x == self.x and currentChar.y == self.y + 1 then
-                                            if currentChar.stepPoints == 1 then
-                                                currentChar.stepPoints = currentChar.stepPoints - 1
-                                            elseif currentChar.stepPoints == 2 then
-                                                currentChar.stepPoints = currentChar.stepPoints - 2
-                                            end
-                                        end
-                                    end
-                                
-                                
-                            else
-                                boardGrid[self.x][self.y - 1] = Desert(self.x, self.y - 1)
-                                boardGrid[self.x][self.y - 1].isInstanced = true
-                                
-                                    for index, currentChar in ipairs (activePlayer.characters) do
-                                        if currentChar.x == self.x and currentChar.y == self.y - 1 then
-                                            if currentChar.stepPoints ~= 0 then
-                                                currentChar.stepPoints = currentChar.stepPoints - 1
-                                            end
-                                        end
-                                    end
-                                
-                            end
-                        end
-                    })
-        
-                end
-                
-                if self.y + 1 <= 10 then
-                    self.drawSpellRight = true
-                    self.aSR = {x = self.x, y = self.y, nx = (self.x), ny = (self.y + 1)}
-                    local nx = self.aSR.nx
-                    local ny = self.aSR.ny
-                    self.spellTime = love.timer.getTime()
-                    flux.to(self.aSR, 0.5, {x = nx, y = ny}):ease("expoout")
-                    table.insert(sequenceBufferTable, {
-                        name = "SandWitchRightCell",
-                        duration = 0.4,
-                        sequenceTime = love.timer.getTime(),
-                        action = function()
-                            if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then
-                                boardGrid[self.x][self.y + 1] = Swamp(self.x, self.y + 1)
-                                    for index, currentChar in ipairs (activePlayer.characters) do
-                                        if currentChar.x == self.x and currentChar.y == self.y + 1 then
-                                            if currentChar.stepPoints == 1 then
-                                                currentChar.stepPoints = currentChar.stepPoints - 1
-                                            elseif currentChar.stepPoints == 2 then
-                                                currentChar.stepPoints = currentChar.stepPoints - 2
-                                            end
-                                        end
-                                    end
-                                
-                            else
-                                boardGrid[self.x][self.y + 1] = Desert(self.x, self.y + 1)
-                                boardGrid[self.x][self.y + 1].isInstanced = true
-                             
-                                  
-                                    for index, currentChar in ipairs (activePlayer.characters) do
-                                        if currentChar.x == self.x and currentChar.y == self.y + 1 then
-                                            if currentChar.stepPoints ~= 0 then
-                                                currentChar.stepPoints = currentChar.stepPoints - 1
-                                            end
-                                        end
-                                    end
-                            
-                            end
-                        end
-                    })
-
-                end
-                
-
+            if self.actionPoints ~= 0 then
             
-        
-        end
-    end
-    table.insert(sequenceBufferTable, {
-        name = "resetSpellDrawing",
-        duration = 2,
-        sequenceTime = love.timer.getTime(),
-        action = function()
+                if targetCell.y == self.y + 1 or targetCell.y == self.y - 1 then
+                    self.actionPoints = self.actionPoints - 1
+                    
 
-            self.drawSpellLeft = false
-            self.drawSpellRight = false
-            Cell:resetParticleDrawing()
-            selectedChar = self
-       gameState:changeState(gameState.states.selectCharacter)
-      
-        
+                    if self.y - 1 > 0 then
+                        self.drawSpellLeft = true
+                        self.aSL = {x = self.x, y = self.y, nx = (self.x), ny = (self.y - 1)}
+                        local nx = self.aSL.nx
+                        local ny = self.aSL.ny
+                        self.spellTime = love.timer.getTime()
+                        flux.to(self.aSL, 0.5, {x = nx, y = ny}):ease("expoout")
+                        table.insert(sequenceBufferTable, {
+                            name = "SandWitchLeftCell",
+                            duration = 0.2,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                if boardGrid[self.x][self.y - 1]:instanceOf(Lake) then
+                                    boardGrid[self.x][self.y - 1] = Swamp(self.x, self.y - 1)
+                                        for index, currentChar in ipairs (activePlayer.characters) do
+                                            if currentChar.x == self.x and currentChar.y == self.y + 1 then
+                                                if currentChar.stepPoints == 1 then
+                                                    currentChar.stepPoints = currentChar.stepPoints - 1
+                                                elseif currentChar.stepPoints == 2 then
+                                                    currentChar.stepPoints = currentChar.stepPoints - 2
+                                                end
+                                            end
+                                        end
+                                    
+                                    
+                                else
+                                    boardGrid[self.x][self.y - 1] = Desert(self.x, self.y - 1)
+                                    boardGrid[self.x][self.y - 1].isInstanced = true
+                                    
+                                        for index, currentChar in ipairs (activePlayer.characters) do
+                                            if currentChar.x == self.x and currentChar.y == self.y - 1 then
+                                                if currentChar.stepPoints ~= 0 then
+                                                    currentChar.stepPoints = currentChar.stepPoints - 1
+                                                end
+                                            end
+                                        end
+                                    
+                                end
+                            end
+                        })
+            
+                    end
+                    
+                    if self.y + 1 <= 10 then
+                        self.drawSpellRight = true
+                        self.aSR = {x = self.x, y = self.y, nx = (self.x), ny = (self.y + 1)}
+                        local nx = self.aSR.nx
+                        local ny = self.aSR.ny
+                        self.spellTime = love.timer.getTime()
+                        flux.to(self.aSR, 0.5, {x = nx, y = ny}):ease("expoout")
+                        table.insert(sequenceBufferTable, {
+                            name = "SandWitchRightCell",
+                            duration = 0.4,
+                            sequenceTime = love.timer.getTime(),
+                            action = function()
+                                if boardGrid[self.x][self.y + 1]:instanceOf(Lake) then
+                                    boardGrid[self.x][self.y + 1] = Swamp(self.x, self.y + 1)
+                                        for index, currentChar in ipairs (activePlayer.characters) do
+                                            if currentChar.x == self.x and currentChar.y == self.y + 1 then
+                                                if currentChar.stepPoints == 1 then
+                                                    currentChar.stepPoints = currentChar.stepPoints - 1
+                                                elseif currentChar.stepPoints == 2 then
+                                                    currentChar.stepPoints = currentChar.stepPoints - 2
+                                                end
+                                            end
+                                        end
+                                    
+                                else
+                                    boardGrid[self.x][self.y + 1] = Desert(self.x, self.y + 1)
+                                    boardGrid[self.x][self.y + 1].isInstanced = true
+                                
+                                    
+                                        for index, currentChar in ipairs (activePlayer.characters) do
+                                            if currentChar.x == self.x and currentChar.y == self.y + 1 then
+                                                if currentChar.stepPoints ~= 0 then
+                                                    currentChar.stepPoints = currentChar.stepPoints - 1
+                                                end
+                                            end
+                                        end
+                                
+                                end
+                            end
+                        })
+
+                    end
+                    
+
+                
+            
+            end
         end
-    })
+        table.insert(sequenceBufferTable, {
+            name = "resetSpellDrawing",
+            duration = 2,
+            sequenceTime = love.timer.getTime(),
+            action = function()
+
+                self.drawSpellLeft = false
+                self.drawSpellRight = false
+                Cell:resetParticleDrawing()
+                if self.actionPoints > 0  or self.stepPoints > 0 then
+                    selectedChar = self
+                    gameState:changeState(gameState.states.selectCharacterAction)
+                else
+            
+                    selectedChar = nil
+                    gameState:changeState(gameState.states.selectCharacter)
+                end
+            
+            end
+        })
+        
+        soundEngine:playSFX(desertSound)
+
     
-    soundEngine:playSFX(desertSound)
 
-  
-
+        end
     end
     
 return SandWitch
