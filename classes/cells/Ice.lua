@@ -17,6 +17,7 @@ end
 
 function Ice:onEntry(selectedChar)
  
+    
     table.insert(sequenceBufferTable, {
         name = "iceSlide",
         duration = 0.5,

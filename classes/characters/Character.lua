@@ -17,7 +17,7 @@ function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleA
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
     self.infoText = infoText
-   
+
     self.isWalkable = {
         Forest = true,
         Mount = true,
@@ -32,13 +32,13 @@ function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleA
         Shrine = true,
     }
 
-   
+
 
 end
 
 function Character:load()
 
-   
+
 
 end
 
@@ -52,14 +52,14 @@ function Character:update(dt)
         drawAttackAnim = false
     end
 
-  
+
 
 
 
     -- SPEECH BUBLES
 
 
-    for _, currentChar in ipairs(activePlayer.characters) do   
+    for _, currentChar in ipairs(activePlayer.characters) do
         if currentChar.nextSpeakTime == nil or currentChar.nextSpeakTime < love.timer.getTime() then
             if currentChar.nextSpeakTime ~= nil then
                 local text = getTextForSpeech()
@@ -69,10 +69,10 @@ function Character:update(dt)
               --  print("[SEQUENCE]: "..currentChar.name.." says ".."'"..text.."'")
             end
             currentChar.nextSpeakTime = randomForCosmetics:random(30,240)  + love.timer.getTime()
-                        
+
         end
     end
-    for _, currentChar in ipairs(inactivePlayer.characters) do 
+    for _, currentChar in ipairs(inactivePlayer.characters) do
         if currentChar.nextSpeakTime == nil or currentChar.nextSpeakTime < love.timer.getTime() then
             if currentChar.nextSpeakTime ~= nil then
                 local text = getTextForSpeech()
@@ -93,13 +93,13 @@ function Character:update(dt)
     attackIconAnimation:update(dt)
     infoIconAnimation:update(dt)
     moveIconAnimation:update(dt)
-    
+
 end
 
 function Character:draw()
     local x = self.x * tileW + offsetX
     local y = self.y * tileH + offsetY
-    
+
    --[[  if     boardGrid[self.x][self.y]:instanceOf(Lake) then love.graphics.draw(self.sinkImage, x, y)
     elseif boardGrid[self.x][self.y]:instanceOf(Lake) and self.isHovered then love.graphics.draw(self.sinkImageHover, x, y)
     elseif self.isHovered == true then love.graphics.draw(self.imageHover, x, y)
@@ -108,17 +108,17 @@ function Character:draw()
     local mx, my = mouseX, mouseY
 
     self.animation:draw(self.idleAnimImage, x,y)
-    
+
 
     if gameState.state == gameState.states.selectCharacterAction then
         local x = selectedChar.x * tileW + offsetX
         local y = selectedChar.y * tileH + offsetY
-        
+
 
         if mx > x and my > y and mx < x + (tileW - tileW / 2) and my > y + (tileH - tileH / 2) and selectedChar.actionPoints ~= 0 then
             isSpellIconAnimationPlaying = true
             spellIconAnimation:draw(spellIconAnimationImage, x - 16, y + (tileH - tileH / 2) - 16)
-          
+
         else isSpellIconAnimationPlaying = false
              spellIconAnimation:gotoFrame(1)
              spellIconAnimation:resume()
@@ -127,7 +127,7 @@ function Character:draw()
         if mx > x and mx < x + tileW / 2 and  my > y and my < y + tileH / 2 and selectedChar.actionPoints ~= 0 then
             isAttackIconAnimationPlaying = true
             attackIconAnimation:draw(attackIconAnimationImage, x - 16, y + (tileH - tileH / 2) - 48)
-           
+
         else isAttackIconAnimationPlaying = false
              attackIconAnimation:gotoFrame(1)
              attackIconAnimation:resume()
@@ -136,7 +136,7 @@ function Character:draw()
         if mx > x + tileW / 2 and mx < x + tileW and my > y and my < y + tileH / 2 and selectedChar.stepPoints ~= 0 then
             isMoveIconAnimationPlaying = true
             moveIconAnimation:draw(moveIconAnimationImage, x + 16, y + (tileH - tileH / 2) - 48)
-       
+
         else isMoveIconAnimationPlaying = false
              moveIconAnimation:gotoFrame(1)
              moveIconAnimation:resume()
@@ -145,48 +145,48 @@ function Character:draw()
         if mx > x + tileW / 2 and mx < x + tileW and my < y + tileH and my > y + tileH / 2 then
             isInfoIconAnimationPlaying = true
             infoIconAnimation:draw(infoIconAnimationImage, x + 16, y + (tileH - tileH / 2) - 16)
-         
+
         else isInfoIconAnimationPlaying = false
              infoIconAnimation:gotoFrame(1)
              infoIconAnimation:resume()
         end
-        
+
         if isInfoIconAnimationPlaying ~= true then
             love.graphics.draw(infoIcon, x + (tileW - tileW / 2), y + (tileH - tileH / 2))
-         
+
         end
-        
-        
+
+
         if gameState.state == gameState.states.selectCharacterAction then
 
-            if selectedChar.actionPoints ~= 0 and isAttackIconAnimationPlaying ~= true then 
-                love.graphics.draw(attackIcon, x, y) 
-            end
-            
-                
-            if selectedChar.stepPoints ~= 0 and isMoveIconAnimationPlaying ~= true then 
-                love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y) 
+            if selectedChar.actionPoints ~= 0 and isAttackIconAnimationPlaying ~= true then
+                love.graphics.draw(attackIcon, x, y)
             end
 
-            if selectedChar.actionPoints ~= 0 and isSpellIconAnimationPlaying ~= true then 
-                love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2)) 
+
+            if selectedChar.stepPoints ~= 0 and isMoveIconAnimationPlaying ~= true then
+                love.graphics.draw(moveIcon, x + (tileW - tileW / 2), y)
+            end
+
+            if selectedChar.actionPoints ~= 0 and isSpellIconAnimationPlaying ~= true then
+                love.graphics.draw(spellIcon, x, y + (tileH - tileH / 2))
             end
         end
-    
+
     end
 
 end
 
 function Character:drawSpeechBubbles()
-   
-                for index, currentChar in ipairs(activePlayer.characters) do
-                                             
-                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction then 
 
-                        currentChar.speakTimer = love.timer.getTime()    
+                for index, currentChar in ipairs(activePlayer.characters) do
+
+                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction then
+
+                        currentChar.speakTimer = love.timer.getTime()
                         local duration = 4
                         local textWidth = littleFont:getWidth(currentChar.currentSpeech)
-                                        
+
                         love.graphics.setFont(littleFont)
 
                         love.graphics.rectangle("fill", (currentChar.x * tileW + (tileW / 4) - tileW / 8) + offsetX, (currentChar.y * tileH) + offsetY, textWidth + 5 , 17)
@@ -201,17 +201,17 @@ function Character:drawSpeechBubbles()
                         end
 
                     end
-                    
+
                 end
 
                 for index, currentChar in ipairs(inactivePlayer.characters) do
-                                             
-                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction  then 
 
-                        currentChar.speakTimer = love.timer.getTime()    
+                    if currentChar.isSpeaking and gameState.state ~= gameState.states.selectCharacterAction  then
+
+                        currentChar.speakTimer = love.timer.getTime()
                         local duration = 4
                         local textWidth = littleFont:getWidth(currentChar.currentSpeech)
-                                        
+
                         love.graphics.setFont(littleFont)
 
                         love.graphics.rectangle("fill", (currentChar.x * tileW + (tileW / 4) - tileW / 8) + offsetX, (currentChar.y * tileH) + offsetY, textWidth * 1.2 , 17)
@@ -225,29 +225,29 @@ function Character:drawSpeechBubbles()
                         end
 
                     end
-                       
 
-                 
+
+
                 end
-          
+
 end
 
 function Character:drawCancelButton()
-            
+
             if gameState.state == gameState.states.selectMoveTargetCell or gameState.state == gameState.states.selectAttackTargetCharacter or gameState.state == gameState.states.selectSpellTargetArea then
                -- isCancelButton = true
                cancelButtonAnimation:draw(cancelButtonAnimationImage, (selectedChar.x * tileW + offsetX) , (selectedChar.y * tileH + offsetY))
-                
+
             end
 
 end
 
 function Character:drawHealthBar()
 
-    
+
 
     for _, currentChar in ipairs(activePlayer.characters) do
-            
+
             local healthBarMaxWidth = 0.75
             local healthBarWidth = healthBarMaxWidth * currentChar.baseHP
             love.graphics.setColor(charColor)
@@ -257,10 +257,10 @@ function Character:drawHealthBar()
                 love.graphics.setColor(selectedColor)
                 love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
                 love.graphics.setColor(charColor)
-            else 
+            else
                 love.graphics.setColor(greenColor)
                 love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
-                love.graphics.setColor(charColor) 
+                love.graphics.setColor(charColor)
             end
     end
 
@@ -276,20 +276,20 @@ function Character:drawHealthBar()
             else
                 love.graphics.setColor(greenColor)
                 love.graphics.rectangle("fill", 6 + currentChar.x * tileW + offsetX, currentChar.y * tileH + offsetY, healthBarWidth, 7)
-                love.graphics.setColor(charColor) 
+                love.graphics.setColor(charColor)
             end
     end
 
-    
+
 
 
 end
 
 function Character:drawAttackAnimation()
-    if drawAttackAnim then 
+    if drawAttackAnim then
 
             if drawnAttackingCharacter.x == drawnEnemyCharacter.x and drawnAttackingCharacter.y + 1 == drawnEnemyCharacter.y  then
-        
+
                 self.drawAttackAnimBottom = true
             end
 
@@ -323,56 +323,56 @@ function Character:drawAttackAnimation()
 
             if self.drawAttackAnimBottom then
                 attackAnimation:draw(attackAnimationImage, drawnAttackingCharacter.x * tileW + offsetX, (drawnAttackingCharacter.y * tileH + offsetY) + tileH)
-                love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimBottom = false
             end
 
             if self.drawAttackAnimTop then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY), math.pi, 1, 1, tileW / 2, tileH / 2)
-                love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimTop = false
             end
 
             if self.drawAttackAnimLeft then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY) + (tileH / 2), math.pi / 2, 1, 1, tileW / 2, tileH / 2)
-                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimLeft = false
             end
 
             if self.drawAttackAnimRight then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y * tileH + offsetY) + (tileH / 2), math.pi * 1.5, 1, 1, tileW / 2, tileH / 2)
-                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimRight = false
             end
 
             if self.drawAttackAnimTopRight then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW + tileW / 2), (drawnAttackingCharacter.y * tileH + offsetY), math.pi * 1.25, 1, 1, tileW / 2, tileH / 2)
-                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimTopRight = false
             end
 
             if self.drawAttackAnimTopLeft then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX), (drawnAttackingCharacter.y * tileH + offsetY), math.pi * 0.75, 1, 1, tileW / 2, tileH / 2)
-                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimTopLeft = false
             end
 
             if self.drawAttackAnimBottomLeft then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) - tileW / 2, (drawnAttackingCharacter.y * tileH + offsetY) + (tileH), math.pi * 0.25, 1, 1, tileW / 2, tileH / 2)
-                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimBottomLeft = false
             end
 
             if self.drawAttackAnimBottomRight then
                 attackAnimation:draw(attackAnimationImage, (drawnAttackingCharacter.x * tileW + offsetX) + (tileW), (drawnAttackingCharacter.y * tileH + offsetY) + (tileH), math.pi * 1.75, 1, 1, tileW / 2, tileH / 2)
-                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2) 
+                 love.graphics.draw(bloodParticleSystem, (drawnEnemyCharacter.x * tileW + offsetX) + tileW / 2, (drawnEnemyCharacter.y * tileH + offsetY) + tileH / 2)
                 bloodParticleSystem:emit(2000)
                 self.drawAttackAnimBottomRight = false
             end
@@ -383,22 +383,22 @@ function Character:drawAttackAnimation()
 end
 
 function Character:drawParticles()
- 
+
         if selectedChar and selectedChar.drawParticlesLeft then
             local x = ((selectedChar.x - 1) * tileW + offsetX) + tileW / 2
             local y = (selectedChar.y * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
-   
+
 
         if selectedChar and selectedChar.drawParticlesRight then
             local x = ((selectedChar.x + 1) * tileW + offsetX) + tileW / 2
             local y = (selectedChar.y * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -406,8 +406,8 @@ function Character:drawParticles()
         if selectedChar and selectedChar.drawParticlesTop then
             local x = ((selectedChar.x) * tileW + offsetX) + tileW / 2
             local y = ((selectedChar.y - 1) * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -415,8 +415,8 @@ function Character:drawParticles()
         if selectedChar and selectedChar.drawParticlesBottom then
             local x = ((selectedChar.x) * tileW + offsetX) + tileW / 2
             local y = ((selectedChar.y + 1) * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -424,8 +424,8 @@ function Character:drawParticles()
         if selectedChar and selectedChar.drawParticlesTL then
             local x = ((selectedChar.x - 1) * tileW + offsetX) + tileW / 2
             local y = ((selectedChar.y - 1) * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -433,8 +433,8 @@ function Character:drawParticles()
         if selectedChar and selectedChar.drawParticlesTR then
             local x = ((selectedChar.x + 1) * tileW + offsetX) + tileW / 2
             local y = ((selectedChar.y - 1) * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -442,8 +442,8 @@ function Character:drawParticles()
         if selectedChar and selectedChar.drawParticlesBL then
             local x = ((selectedChar.x - 1) * tileW + offsetX) + tileW / 2
             local y = ((selectedChar.y + 1) * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -451,8 +451,8 @@ function Character:drawParticles()
         if selectedChar and selectedChar.drawParticlesBR then
             local x = ((selectedChar.x + 1) * tileW + offsetX) + tileW / 2
             local y = ((selectedChar.y + 1) * tileH + offsetY) + tileH / 2
-            if selectedChar:instanceOf(GeoGnome) then 
-                love.graphics.draw(rockParticleSystem, x, y) 
+            if selectedChar:instanceOf(GeoGnome) then
+                love.graphics.draw(rockParticleSystem, x, y)
                 rockParticleSystem:emit(2000)
             end
         end
@@ -465,8 +465,8 @@ function Character:drawValidIcons()
         local self = currentChar
         if selectedChar and selectedChar == currentChar and gameState.state == gameState.states.selectMoveTargetCell and self.stepPoints ~= 0 then
             for ox = -1, 1 do
-                for oy = -1, 1 do 
-                    if self.x + ox <= 10 and self.x + ox > 0 and self.y + oy <=10 and self.y + oy > 0 
+                for oy = -1, 1 do
+                    if self.x + ox <= 10 and self.x + ox > 0 and self.y + oy <=10 and self.y + oy > 0
                     and self.isWalkable[boardGrid[(self.x + ox)][self.y + oy].class.name] and not boardGrid[(self.x + ox)][self.y + oy].isOccupied then
 
                         love.graphics.draw(validStepImage, (self.x + ox) * tileW + offsetX, (self.y + oy) * tileH + offsetY)
@@ -474,17 +474,17 @@ function Character:drawValidIcons()
                     end
                 end
             end
-      
+
         end
 
-    
+
         if selectedChar and selectedChar == currentChar and gameState.state == gameState.states.selectAttackTargetCharacter and self.actionPoints ~= 0 then
             for ox = -1, 1 do
                 for oy = -1, 1 do
-                    if self.x + ox <= 10 and self.x + ox > 0 and self.y + oy <= 10 and self.y + oy > 0 and boardGrid[(self.x + ox)][self.y + oy]:instanceOf(Lake) == false 
-                        and boardGrid[(self.x + ox)][self.y + oy].isOccupied and boardGrid[(self.x + ox)][self.y + oy].occupiedBy and boardGrid[(self.x + ox)][self.y + oy].occupiedBy.parentPlayer ~= self.parentPlayer  then 
-                            
-                            love.graphics.draw(validAttackImage, (self.x + ox) * tileW + offsetX, (self.y + oy)  * tileH + offsetY) 
+                    if self.x + ox <= 10 and self.x + ox > 0 and self.y + oy <= 10 and self.y + oy > 0 and boardGrid[(self.x + ox)][self.y + oy]:instanceOf(Lake) == false
+                        and boardGrid[(self.x + ox)][self.y + oy].isOccupied and boardGrid[(self.x + ox)][self.y + oy].occupiedBy and boardGrid[(self.x + ox)][self.y + oy].occupiedBy.parentPlayer ~= self.parentPlayer  then
+
+                            love.graphics.draw(validAttackImage, (self.x + ox) * tileW + offsetX, (self.y + oy)  * tileH + offsetY)
                             boardGrid[(self.x + ox)][self.y + oy].isAttackable = true
                         elseif self.x + ox <= 10 and self.x + ox > 0 and self.y + oy <= 10 and self.y + oy > 0  then
                             boardGrid[(self.x + ox)][self.y + oy].isAttackable = false
@@ -492,10 +492,10 @@ function Character:drawValidIcons()
                 end
             end
         end
-    
-      
+
+
         if selectedChar and selectedChar == currentChar and gameState.state == gameState.states.selectSpellTargetArea and self.actionPoints ~= 0 then
-            
+
             if self.id == 9 then --GEOGNOME, WATERHAG
                 if self.y + 1 < 11 and pointerOnBottomSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
                 if self.y - 1 > 0 and pointerOnTopSide then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
@@ -522,7 +522,7 @@ function Character:drawValidIcons()
                 if self.x + 1 < 11 then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
                 if self.x - 1 > 0 then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y) * tileH + offsetY) end
             end
-    
+
         if self.id == 3 or self.id == 4 then --AIRELEMENTAL, ICEWIZARD
             if self.x - 1 > 0 and self.y - 1 > 0  and (pointerOnTopSide or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and (pointerOnBottomSide or pointerOnBottomRightSide or pointerOnBottomLeftSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
@@ -531,7 +531,7 @@ function Character:drawValidIcons()
             if self.y - 1 > 0 and (pointerOnTopSide or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.y + 1 < 11 and (pointerOnBottomSide or pointerOnBottomRightSide or pointerOnBottomLeftSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
         end
-    
+
         if self.id == 2 then -- ALCHEMIST
             if self.x - 1 > 0 and self.y - 1 > 0 and pointerOnTopLeftSide then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and pointerOnBottomLeftSide then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
@@ -542,14 +542,14 @@ function Character:drawValidIcons()
             if self.x + 2 < 11 and self.y - 2 > 0 and pointerOnTopRightSide then love.graphics.draw(validSpellImage, (self.x + 2) * tileW + offsetX, (self.y - 2) * tileH + offsetY) end
             if self.x + 2 < 11 and self.y + 2 < 11 and pointerOnBottomRightSide then love.graphics.draw(validSpellImage, (self.x + 2) * tileW + offsetX, (self.y + 2) * tileH + offsetY) end
         end
-    
+
         if self.id == 6 then -- FIREMAGE
             if self.x - 1 > 0 and self.y - 1 > 0 and (pointerOnTopSide or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x - 1 > 0 and self.y + 1 < 11 and (pointerOnBottomSide or pointerOnBottomLeftSide or pointerOnBottomRightSide) then love.graphics.draw(validSpellImage, (self.x - 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y - 1 > 0 and (pointerOnTopSide  or pointerOnTopLeftSide or pointerOnTopRightSide) then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
             if self.x + 1 < 11 and self.y + 1 < 11 and (pointerOnBottomSide  or pointerOnBottomLeftSide or pointerOnBottomRightSide) then love.graphics.draw(validSpellImage, (self.x + 1) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
         end
-    
+
         if self.id == 7 then -- THUNDERSHAMAN
             if self.y + 1 < 11 and (pointerOnBottomSide or pointerOnTopSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.y - 1 > 0 and (pointerOnBottomSide or pointerOnTopSide) then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
@@ -578,7 +578,7 @@ end
 
 
 function Character:updateHover(mX, mY)
-    local  mouseCellCoordinateX = math.floor((mX / tileW) - offsetX / tileW) 
+    local  mouseCellCoordinateX = math.floor((mX / tileW) - offsetX / tileW)
     local  mouseCellCoordinateY = math.floor((mY / tileH) - offsetY / tileH)
     if  mouseCellCoordinateX == self.x and mouseCellCoordinateY == self.y then
         self.isHovered = true
@@ -591,10 +591,10 @@ function Character:enablePossibleDamageDraw()
 
     local attacker
     local enemy
-  
-        
+
+
         attacker = selectedChar
-        
+
 
 
         for _, currentChar in ipairs(inactivePlayer.characters) do
@@ -614,107 +614,7 @@ end
 
 function Character:click(mX, mY)
 
-    
-    if gameState.state ~= gameState.states.selectMoveTargetCell and gameState.state ~= gameState.states.selectAttackTargetCharacter and gameState.state ~= gameState.states.selectSpellTargetArea then
 
-
-        if gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) then
-                selectedChar = self
-            
-                selectedChar.isActionMenuDrawn = true
-                gameState:changeState(gameState.states.selectCharacterAction)
-            return
-        end
-
-
-
-
-
-
-
-        if gameState.state == gameState.states.selectCharacterAction and self.parentPlayer == activePlayer and self ~= selectedChar then
-                selectedChar = self
-                
-                selectedChar.isActionMenuDrawn = true
-                gameState:changeState(gameState.states.selectCharacterAction)
-                return
-        end
-    end
-
-
-   --[[  elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
-        isGameClient and activePlayer == playerTwo then
-            selectedChar = self
-          
-            selectedChar.isActionMenuDrawn = true
-            gameState:changeState(gameState.states.selectCharacterAction)
-            return
-    
-    elseif gameState.state == gameState.states.selectCharacter and self.parentPlayer == activePlayer and (self.stepPoints ~= 0 or self.actionPoints ~= 0) and
-        isGameClient ~= true and isGameServer ~= true then
-            selectedChar = self
-            
-            selectedChar.isActionMenuDrawn = true
-            gameState:changeState(gameState.states.selectCharacterAction)
-            return
-    end ]]
-
-    
-  
-    if selectedChar and selectedChar.parentPlayer ~= self.parentPlayer and gameState.state == gameState.states.selectAttackTargetCharacter then
-
-    
-        if  (self.x + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
-            (self.x - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )   or
-            (self.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x][self.y + 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )   or
-            (self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )    or
-            (self.x + 1 <= 10 and self.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y + 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
-            (self.x - 1 > 0 and self.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y + 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false )  or
-            (self.x + 1 <= 10 and self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x + 1][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false ) or
-            (self.x - 1 > 0 and self.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.x - 1][self.y - 1] and boardGrid[self.x][self.y]:instanceOf(Lake) == false ) then
-
-          
-
-                if isGameServer then
-                    local cp = {self.id, selectedChar.id}
-                    server:sendToAll("server_attack", cp)
-                 end
-    
-                 if isGameClient then
-                    local cp = {self.id, selectedChar.id}
-                    client:send("client_attack", cp)
-                 end
-
-                
-                    selectedChar:attack(self)
-
-                  --[[   for x = -1, 1 do
-                        for y = -1, 1 do
-                            if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 and self.y + y <=10 then ]]
-              --[[               end
-                        end
-                    end
-                 ]]
-
-        end
-    end
-        
-  
-
-           
-
-
-            
-        
-  
-    
-  
-
-    if gameState.state == gameState.states.selectCharacterAction and (selectedChar.stepPoints ~= 0 or selectedChar.actionPoints ~= 0) and selectedChar.parentPlayer == self.parentPlayer then
-       
-            selectedChar:chooseActionMenu(mX, mY)
-            return
-    end
 
 end
 
@@ -722,12 +622,12 @@ function Character:chooseActionMenu(mx, my)
     local cx = self.x * tileW + offsetX
     local cy = self.y * tileH + offsetY
 
-   
+
 
         if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 and self.stepPoints == 0 then
             gameState:changeState(gameState.states.selectCharacter)
             return
-            
+
         elseif gameState.state == gameState.states.selectCharacterAction then
 
 
@@ -739,20 +639,20 @@ function Character:chooseActionMenu(mx, my)
                             gameState:changeState(gameState.states.selectCharacter)
                             return
                         end ]]
-                return   
+                return
             end
-            -- JOBB FELSÖ NEGYED - STEP STATE                       
+            -- JOBB FELSÖ NEGYED - STEP STATE
             if  mx > cx + tileW / 2 and mx < cx + tileW and my > cy and my < cy + tileH / 2 and self.stepPoints ~= 0 then
 
-                
+
                     gameState:changeState(gameState.states.selectMoveTargetCell)
                     return
-                
+
             end
             -- BAL ALSO NEGYED - SPELL STATE
             if   mx > cx and mx < cx + tileW / 2 and my > cy + (tileH / 2) and my < cy + tileH and self.actionPoints ~= 0 then
                     gameState:changeState(gameState.states.selectSpellTargetArea)
-                
+
 
                         --[[ if gameState.state == gameState.states.selectCharacterAction and self.actionPoints == 0 then
                         gameState:changeState(gameState.states.selectCharacter)
@@ -767,8 +667,8 @@ function Character:chooseActionMenu(mx, my)
                 drawInfoAboutCharacter(self)
 
             end
-   
-  
+
+
     end
     --[[ if mx ~= cx and my ~= cy then
         gameState:changeState(gameState.states.selectCharacter)
@@ -776,7 +676,7 @@ function Character:chooseActionMenu(mx, my)
      ]]
     self.drawBattle = false
 end
-        
+
 function Character:damage(char, dmg)
 
     gameState:changeState(gameState.states.waitingState)
@@ -786,7 +686,7 @@ function Character:damage(char, dmg)
         duration = 1,
         sequenceTime = love.timer.getTime(),
         action = function()
-            
+
             soundEngine:playSFX("playrandomsound")
             screenShake(0.2, 1)
             if dmg > 15 then
@@ -796,8 +696,8 @@ function Character:damage(char, dmg)
             char.baseHP = char.baseHP - dmg
             boardGrid[char.x][char.y].drawDamageOnBoard = true
             boardGrid[char.x][char.y]:damageOnBoard("-"..dmg.."HP")
-           
-            if char.baseHP <= 0 then 
+
+            if char.baseHP <= 0 then
                 char:kill()
             end
         end})
@@ -807,30 +707,30 @@ function Character:damage(char, dmg)
 end
 
 function Character:move(cx, cy, oldx, oldy)
-    
+
     gameState:changeState(gameState.states.waitingState)
 
     if self.stepPoints ~= 0 then
-        
+
         if self.x ~= nil and self.y ~= nil then
             boardGrid[self.x][self.y].isOccupied = false
             boardGrid[self.x][self.y].occupiedBy = nil
         end
-     
-            
+
+
             local arriveX = self.x
             local arriveY = self.y
-              
-            
-            
+
+
+
             self.x = oldx
             self.y = oldy
-            
+
             --networking
-            
+
             soundEngine:playSFX(stepSound)
-            
-            
+
+
             if boardGrid[arriveX][arriveY]:instanceOf(Ice) then
 
                 flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
@@ -841,8 +741,8 @@ function Character:move(cx, cy, oldx, oldy)
                     duration = 0.6,
                     sequenceTime = love.timer.getTime(),
                     action = function()
-    
-                
+
+
                         if self.x >= 10 then self.x = 10 end
                         if self.x <= 0 then self.x = 1 end
                         if self.y >= 10 then self.y = 10 end
@@ -855,13 +755,13 @@ function Character:move(cx, cy, oldx, oldy)
                             self.stepPoints = 0
                             gameState:changeState(gameState.states.selectCharacter)
                         end
-                        
+
                     end})
                return
             end
-       
 
-        
+
+
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
 
             table.insert(sequenceBufferTable, {
@@ -870,12 +770,12 @@ function Character:move(cx, cy, oldx, oldy)
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
-            
+
                     if self.x >= 10 then self.x = 10 end
                     if self.x <= 0 then self.x = 1 end
                     if self.y >= 10 then self.y = 10 end
                     if self.y <= 0 then self.y = 1 end
-              
+
 
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
@@ -884,24 +784,24 @@ function Character:move(cx, cy, oldx, oldy)
                         selectedChar = self
                         gameState:changeState(gameState.states.selectCharacterAction)
                     else
-                 
-                        selectedChar = nil
+
+                        selectedChar = self
                         gameState:changeState(gameState.states.selectCharacter)
                     end
-                 
-                   
+
+
                 end})
 
-              
-                
+
+
                     self.stepPoints = self.stepPoints - 1
-                    
-               
+
+
     end
 
     print("RND STATE IN MOVE: "..love.math.getRandomState())
 
-   
+
 
 
 
@@ -910,51 +810,51 @@ end
 function Character:freeMove(cx, cy, oldx, oldy)
  --   gameState:changeState(gameState.states.waitingState)
 
-         
+
         if self.x ~= nil and self.y ~= nil then
             boardGrid[self.x][self.y].isOccupied = false
             boardGrid[self.x][self.y].occupiedBy = nil
         end
-     
-            
+
+
             local arriveX = self.x
             local arriveY = self.y
-            
+
             self.x = oldx
             self.y = oldy
-            
-            
+
+
             soundEngine:playSFX(stepSound)
-        
+
             flux.to(self, 0.5, { x = cx, y = cy}):ease("quadin")
 
-                    
+
             table.insert(sequenceBufferTable, {
                 name = "occupyingCell",
                 duration = 0.6,
                 sequenceTime = love.timer.getTime(),
                 action = function()
 
-            
+
                     if self.x >= 10 then self.x = 10 end
                     if self.x <= 0 then self.x = 1 end
                     if self.y >= 10 then self.y = 10 end
                     if self.y <= 0 then self.y = 1 end
-                
+
                     boardGrid[cx][cy]:onEntry(self, arriveX, arriveY)
                     boardGrid[cx][cy].isOccupied = true
                     boardGrid[cx][cy].occupiedBy = self
                     if self.actionPoints > 0  or self.stepPoints > 0 then
-                      
+
                         gameState:changeState(gameState.states.selectCharacterAction)
                     else
-                 
+
                         selectedChar = self
                         gameState:changeState(gameState.states.selectCharacter)
                     end
-                               
+
                 end})
- 
+
 
     print("RND STATE IN MOVE: "..love.math.getRandomState())
 end
@@ -966,8 +866,8 @@ function Character:kill()
     soundEngine:playSFX(deathSound)
 
     boardGrid[self.x][self.y] = Graveyard(self.x, self.y)
-    
- 
+
+
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar and self.parentPlayer == playerOne and #deadPool.playerOne <= 1 then
             boardGrid[self.x][self.y].isOccupied = false
@@ -975,14 +875,14 @@ function Character:kill()
             table.remove(self.parentPlayer.characters, index)
         elseif self == currentChar and self.parentPlayer == playerOne then
             table.remove(self.parentPlayer.characters, index)
-        end   
+        end
         if self == currentChar and self.parentPlayer == playerTwo and #deadPool.playerTwo <= 1 then
             boardGrid[self.x][self.y].isOccupied = false
             table.insert(deadPool.playerTwo, currentChar)
             table.remove(self.parentPlayer.characters, index)
         elseif self == currentChar and self.parentPlayer == playerTwo then
             table.remove(self.parentPlayer.characters, index)
-        end   
+        end
 
 
     end
@@ -992,10 +892,10 @@ function Character:kill()
         if isSuddenDeath ~= true then
             if #playerOne.characters < 4  and playerOne.prisonCount == 0 then
                 print("spawning prison for PLAYER ONE")
-                
-   
+
+
                 banner("PRISON", "A PRISON HAS SPAWNED", "you can free your first dead character", love.timer.getTime(), 5)
-    
+
 
                 spawnPrison(playerOne)
             end
@@ -1006,7 +906,7 @@ function Character:kill()
                 spawnPrison(playerTwo)
             end
 
-            if #playerOne.characters == 2 and #playerTwo.characters == 4 then  
+            if #playerOne.characters == 2 and #playerTwo.characters == 4 then
                 print("spawning chest for activeplayer")
                 spawnChestPlayerOne()
             end
@@ -1030,8 +930,8 @@ function Character:attack(enemy, nw)
         action = function()
             if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
                 gameState:changeState(gameState.states.waitingState)
-                
-    
+
+
                 local dr = getDiceRoll()
                 self.diceRoll = dr
                 if dr == 6 then
@@ -1040,7 +940,7 @@ function Character:attack(enemy, nw)
                     soundEngine:playSFX(hahaSound)
 
                 end
-               
+
                 if boardGrid[self.x][self.y].isPoisoned then
                     self.turnAttackModifier = self.turnAttackModifier - 3
                     self.turnDefenseModifier = self.turnDefenseModifier - 1
@@ -1053,26 +953,26 @@ function Character:attack(enemy, nw)
 
                 self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                 damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
-                
+
                 enableDrawAttack(self, enemy)
-                enemy:damage(enemy, damage)  
+                enemy:damage(enemy, damage)
 
-              
-                
-              
 
-               
-                
+
+
+
+
+
                 self.actionPoints = self.actionPoints - 1
                 enemy = nil
             end
 
-           
+
 
             soundEngine:playSFX(knifeSound)
-            
-  
-   
+
+
+
 
             table.insert(sequenceBufferTable, {
                 name = "resetingAttackState",
@@ -1084,18 +984,18 @@ function Character:attack(enemy, nw)
                         selectedChar = self
                         gameState:changeState(gameState.states.selectCharacterAction)
                     else
-                 
-                        selectedChar = nil
+
+                        selectedChar = self
                         gameState:changeState(gameState.states.selectCharacter)
                     end
                 end
 
-           
+
             })
             print("RND STATE IN ATTACK: "..love.math.getRandomState())
         end
     })
-   
+
 end
 
 

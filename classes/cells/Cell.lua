@@ -324,6 +324,58 @@ end
 
 function Cell:click()
 
+    if self.isOccupied then
+
+        if gameState.state ~= gameState.states.selectMoveTargetCell and gameState.state ~= gameState.states.selectAttackTargetCharacter and gameState.state ~= gameState.states.selectSpellTargetArea then
+
+            if gameState.state == gameState.states.selectCharacter and self.occupiedBy.parentPlayer == activePlayer and (self.occupiedBy.stepPoints ~= 0 or self.occupiedBy.actionPoints ~= 0) then
+                    selectedChar = self.occupiedBy
+                    selectedChar.isActionMenuDrawn = true
+                    gameState:changeState(gameState.states.selectCharacterAction)
+                return
+            end
+            if gameState.state == gameState.states.selectCharacterAction and self.occupiedBy.parentPlayer == activePlayer and self.occupiedBy ~= selectedChar then
+                    selectedChar = self.occupiedBy
+
+                    selectedChar.isActionMenuDrawn = true
+                    gameState:changeState(gameState.states.selectCharacterAction)
+                    return
+            end
+
+        end
+        
+        if selectedChar and selectedChar.parentPlayer ~= self.occupiedBy.parentPlayer and gameState.state == gameState.states.selectAttackTargetCharacter then
+            if  (self.occupiedBy.x + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x + 1][self.occupiedBy.y] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )  or
+                (self.occupiedBy.x - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x - 1][self.occupiedBy.y] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )   or
+                (self.occupiedBy.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x][self.occupiedBy.y + 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )   or
+                (self.occupiedBy.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x][self.occupiedBy.y - 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )    or
+                (self.occupiedBy.x + 1 <= 10 and self.occupiedBy.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x + 1][self.occupiedBy.y + 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )  or
+                (self.occupiedBy.x - 1 > 0 and self.occupiedBy.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x - 1][self.occupiedBy.y + 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )  or
+                (self.occupiedBy.x + 1 <= 10 and self.occupiedBy.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x + 1][self.occupiedBy.y - 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false ) or
+                (self.occupiedBy.x - 1 > 0 and self.occupiedBy.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x - 1][self.occupiedBy.y - 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false ) then
+                    if isGameServer then
+                        local cp = {self.occupiedBy.id, selectedChar.id}
+                        server:sendToAll("server_attack", cp)
+                    end
+                    if isGameClient then
+                        local cp = {self.occupiedBy.id, selectedChar.id}
+                        client:send("client_attack", cp)
+                    end
+                        selectedChar:attack(self.occupiedBy)
+
+            end
+        end
+
+        if gameState.state == gameState.states.selectCharacterAction and (selectedChar.stepPoints ~= 0 or selectedChar.actionPoints ~= 0) and selectedChar.parentPlayer == self.occupiedBy.parentPlayer then
+                selectedChar:chooseActionMenu(mouseX, mouseY)
+                return
+        end
+
+    end
+
+
+    
+
     if gameState.state == gameState.states.selectCharacterAction then
         
         if self.isOccupied ~= true then
@@ -355,7 +407,6 @@ function Cell:click()
 
     if gameState.state == gameState.states.selectMoveTargetCell and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
 
- 
 
         for x = -1, 1 do
             for y = -1, 1 do
@@ -395,7 +446,6 @@ function Cell:click()
                 
                 end
 
-
                 if selectedChar.id == 7 then
 
                     if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or  (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2) and (self.y == selectedChar.y)) or
@@ -408,8 +458,6 @@ function Cell:click()
                     
                     
                     end
-    
-            
     
                 elseif selectedChar.id ~= 2 then
     
@@ -444,7 +492,6 @@ function Cell:click()
          
             
         end
-
         
         if isGameClient then
                 local clsend = {}

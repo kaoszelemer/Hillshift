@@ -165,7 +165,7 @@ function SandWitch:spell(targetCell)
                     gameState:changeState(gameState.states.selectCharacterAction)
                 else
             
-                    selectedChar = nil
+                    selectedChar = self
                     gameState:changeState(gameState.states.selectCharacter)
                 end
             
