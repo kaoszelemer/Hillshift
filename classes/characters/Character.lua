@@ -988,13 +988,33 @@ function Character:attack(enemy, nw)
                         selectedChar = self
                         gameState:changeState(gameState.states.selectCharacter)
                     end
+
+
+                    if isGameServer then 
+                
+                        if clientIsConnected and turnCounter > 0 then
+                            
+                            local t = love.math.getRandomState()
+                            
+                            server:sendToAll("serverrandomcheck", t)
+                        end
+                
+                    end
+        
+                    if isGameClient then
+                        local t = love.math.getRandomState()
+                        client:send("clientrandomcheck", t)
+                    end
+
+
                 end
 
 
             })
-            print("RND STATE IN ATTACK: "..love.math.getRandomState())
-        end
-    })
+            
+          
+                end
+            })
 
 end
 

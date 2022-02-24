@@ -1751,6 +1751,10 @@ end
 
 function banner(name, text, flavor, bt, bandur)
     
+
+
+
+
     bannerDuration = bandur
     bannerTime = bt
     bannerText = {name = name, text = text, flavor = flavor}
@@ -2094,21 +2098,6 @@ function love.mousereleased(x, y, button, istouch, presses)
     
     local instance = clickSound:play()
 
-    if isGameServer then 
-        
-        if clientIsConnected and turnCounter > 0 then
-            
-            local t = love.math.getRandomState()
-            
-            server:sendToAll("serverrandomcheck", t)
-        end
- 
-    end
-
-    if isGameClient then
-        local t = love.math.getRandomState()
-        client:send("clientrandomcheck", t)
-    end
 
 
 
