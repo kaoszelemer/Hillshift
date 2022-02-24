@@ -612,11 +612,7 @@ function Character:enablePossibleDamageDraw()
 
 end
 
-function Character:click(mX, mY)
 
-
-
-end
 
 function Character:chooseActionMenu(mx, my)
     local cx = self.x * tileW + offsetX
@@ -990,21 +986,6 @@ function Character:attack(enemy, nw)
                     end
 
 
-                    if isGameServer then 
-                
-                        if clientIsConnected and turnCounter > 0 then
-                            
-                            local t = love.math.getRandomState()
-                            
-                            server:sendToAll("serverrandomcheck", t)
-                        end
-                
-                    end
-        
-                    if isGameClient then
-                        local t = love.math.getRandomState()
-                        client:send("clientrandomcheck", t)
-                    end
 
 
                 end

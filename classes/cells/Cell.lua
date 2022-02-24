@@ -366,7 +366,7 @@ function Cell:click()
                         client:send("client_attack", cp)
                     end
                         selectedChar:attack(self.occupiedBy)
-
+            return
             end
         end
 
@@ -388,6 +388,7 @@ function Cell:click()
             gameState:changeState(gameState.states.selectCharacter)
 
         end
+    return
 
     end
 
@@ -396,15 +397,15 @@ function Cell:click()
         local x = math.floor((mouseX / tileW) - offsetX / tileW)
         local y = math.floor((mouseY / tileH) - offsetY / tileH)
         
-        print(boardGrid[x][y].isAttackable, selectedChar.x, x, selectedChar.y, y)
+      
        
         if boardGrid[x][y].isAttackable ~= true and (selectedChar.x ~= x or selectedChar.y ~= y) then
-            print(boardGrid[x][y].isAttackable) 
+          
             
             gameState:changeState(gameState.states.selectCharacterAction)
         
         end
-     
+     return 
 
     end
 
@@ -421,7 +422,7 @@ function Cell:click()
             end
         end   
 
-    
+    return
     end
 
     if selectedChar and self.occupiedBy ~= selectedChar and gameState.state == gameState.states.selectSpellTargetArea then
@@ -456,11 +457,7 @@ function Cell:click()
                         ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or  (self.y == selectedChar.y + 2 or self.y == selectedChar.x - 2) and (self.x == selectedChar.x)) then
                             
                             server:sendToAll("server_characterspell", ssend)
-                    
-                    else
-                        gameState:changeState(gameState.states.selectCharacterAction)
-                    
-                    
+       
                     end
     
                 elseif selectedChar.id ~= 2 then
@@ -469,32 +466,19 @@ function Cell:click()
                             if (self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) then
                                 server:sendToAll("server_characterspell", ssend)
                             
-                            else
-                               
-                           
-                            
-                            
                             end
-                
-    
-                   
+
                 else
-    
               
                             if ((self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.x == selectedChar.x + 2 or self.x == selectedChar.x - 2)) and
                                ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or (self.y == selectedChar.y + 2 or self.y == selectedChar.y - 2)) then
                                 selectedChar:spell(self)
                                 server:sendToAll("server_characterspell", ssend)
-                            else
-                               
-                                gameState:changeState(gameState.states.selectCharacterAction)
-                            
+                     
                             end
                       
                  end
-           
-         
-            
+       
         end
         
         if isGameClient then
@@ -525,11 +509,7 @@ function Cell:click()
                         ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or  (self.y == selectedChar.y + 2 or self.y == selectedChar.x - 2) and (self.x == selectedChar.x)) then
                             
                             client:send("client_characterspell", clsend)
-                    
-                    else
-                        gameState:changeState(gameState.states.selectCharacterAction)
-                    
-                    
+
                     end
     
             
@@ -539,11 +519,7 @@ function Cell:click()
               
                             if (self.x == selectedChar.x + 1 or self.x == selectedChar.x - 1) or (self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) then
                                 client:send("client_characterspell", clsend)
-                            
-                            else
-                               
-                           
-                            
+       
                             
                             end
                 
@@ -556,9 +532,6 @@ function Cell:click()
                                ((self.y == selectedChar.y + 1 or self.y == selectedChar.y - 1) or (self.y == selectedChar.y + 2 or self.y == selectedChar.y - 2)) then
                                 selectedChar:spell(self)
                                 client:send("client_characterspell", clsend)
-                            else
-                               
-                                gameState:changeState(gameState.states.selectCharacterAction)
                             
                             end
                     

@@ -370,6 +370,29 @@ function endTurn()
     
     
     gameState:changeState(gameState.states.waitingState)
+
+    
+    if isGameServer then 
+                
+      print("[SYSTEM]: Random State Checking")
+            
+            local t = love.math.getRandomState()
+            
+            server:sendToAll("serverrandomcheck", t)
+ 
+
+    end
+
+    if isGameClient then
+
+        print("[SYSTEM]: Random State Checking")
+
+        local t = love.math.getRandomState()
+        client:send("clientrandomcheck", t)
+    end
+
+
+
     selectedChar = nil
     soundEngine:playSFX(endTurnSound)
     isFirstTurn = false
@@ -2148,6 +2171,8 @@ function love.mousereleased(x, y, button, istouch, presses)
     end
 
 
+    ------
+
 
     if drawEndGame and
        
@@ -2198,7 +2223,7 @@ function love.mousereleased(x, y, button, istouch, presses)
       
 
        -- if not enableBannerDraw then
-                for _, currentChar in ipairs(activePlayer.characters) do
+           --[[      for _, currentChar in ipairs(activePlayer.characters) do
 
                     if currentChar.isHovered then 
                         currentChar:click(x, y) 
@@ -2215,7 +2240,7 @@ function love.mousereleased(x, y, button, istouch, presses)
                     end  
                 
                 end
-
+ ]]
                 
 
 
