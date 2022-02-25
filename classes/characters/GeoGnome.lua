@@ -43,40 +43,55 @@ function GeoGnome:spell(targetCell)
         gameState:changeState(gameState.states.waitingState)
 
         if self.actionPoints ~= 0 then
+            table.insert(sequenceBufferTable, {
+                name = "GeoGnomeSpel damage",
+                duration = 1,
+                sequenceTime = love.timer.getTime(),
+                action = function()
+
             self.actionPoints = self.actionPoints - 1
             soundEngine:playSFX(mountSound)
 
             self.drawSpellAnim = true
             self.spellTime = love.timer.getTime()
 
-            for x = -1, 1 do
-                for y = -1, 1 do
-                    if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
-                        if x ~= 0 or y ~= 0 then
-                            table.insert(sequenceBufferTable, {
-                                name = "GeoGnomeSpell",
-                                duration = 0.4,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
+                    for x = -1, 1 do
+                        for y = -1, 1 do
+                            
+                            if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
+                                if x ~= 0 or y ~= 0 then
+                                    
+                                    
                                     boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
                                     boardGrid[self.x + x][self.y + y].isInstanced = true
-                                end})
-                            
-                            if boardGrid[self.x + x][self.y + y].isOccupied then
-                                boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
+                                   
+                                    print(boardGrid[self.x + x][self.y + y].isOccupied)
+                                    if boardGrid[self.x + x][self.y + y].isOccupied then
+                                        print(boardGrid[5][9].isOccupied)
+                                        table.insert(sequenceBufferTable, {
+                                            name = "GeoGnomeSpel damage",
+                                            duration = 1,
+                                            sequenceTime = love.timer.getTime(),
+                                            action = function()
+                                                boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
+                                            end})
+                                    end
+                                            
+                                           
+                                            
+                                end  
                             end
-        
+                
                         end
                     end
-                end
-            end
+                end})
 
 
 
         end
         table.insert(sequenceBufferTable, {
             name = "geognomeResetState",
-            duration = 3.7,
+            duration = 3,
             sequenceTime = love.timer.getTime(),
             action = function()
 

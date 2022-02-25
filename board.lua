@@ -261,6 +261,7 @@ local function testBoardForOccupy(activeplayer, inactiveplayer)
                 if boardGrid[x][y].x == currentChar.x and boardGrid[x][y].y == currentChar.y then
                         boardGrid[x][y].isOccupied = true
                         boardGrid[x][y].occupiedBy = currentChar
+                   
                 end
             end
 

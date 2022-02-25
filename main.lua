@@ -1869,7 +1869,7 @@ function love.load(arg)
 end
 
 function love.update(dt)
-  
+    require("lovebird").update()
   
 
     updateParticleSystems(dt)

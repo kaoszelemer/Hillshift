@@ -675,30 +675,25 @@ end
 
 function Character:damage(char, dmg)
 
-    gameState:changeState(gameState.states.waitingState)
 
-    table.insert(sequenceBufferTable, {
-        name = "damaging character",
-        duration = 1,
-        sequenceTime = love.timer.getTime(),
-        action = function()
+    
+    soundEngine:playSFX("playrandomsound")
+    screenShake(0.2, 1)
+    if dmg > 15 then
+        soundEngine:playSFX(criticalHitSound)
+    end
+    
+    char.baseHP = char.baseHP - dmg
 
-            soundEngine:playSFX("playrandomsound")
-            screenShake(0.2, 1)
-            if dmg > 15 then
-                soundEngine:playSFX(criticalHitSound)
-            end
-
-            char.baseHP = char.baseHP - dmg
             boardGrid[char.x][char.y].drawDamageOnBoard = true
             boardGrid[char.x][char.y]:damageOnBoard("-"..dmg.."HP")
+    
 
             if char.baseHP <= 0 then
                 char:kill()
             end
-        end})
 
-
+    
 
 end
 

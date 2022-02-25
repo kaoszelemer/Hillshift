@@ -40,7 +40,7 @@ function Cell:update(dt)
     for x = 1, 10 do
         for y = 1, 10 do
             if boardGrid[x][y].drawDamageOnBoard == true then
-                dmgTween:update(dt)
+             dmgTween:update(dt)
               
             end
         end
@@ -246,8 +246,10 @@ function Cell:damageOnBoard(dmg)
             if boardGrid[x][y].drawDamageOnBoard == true then
 
                 dmgToDraw = { x=(x * tileW + offsetX), y = y * tileH + offsetY, text = dmg }
-                dmgTween = tween.new(1, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
+                dmgTween = tween.new(10, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
                 boardGrid[x][y].drawDamageTime = love.timer.getTime()
+
+
                 
               
             end
@@ -264,9 +266,10 @@ function Cell:drawDamageOnBoard()
                
                 local duration = 2
                 if love.timer.getTime() - boardGrid[x][y].drawDamageTime <= duration then
-        
+                    print(love.timer.getTime() - boardGrid[x][y].drawDamageTime)
                     love.graphics.setColor(yellowColor)
                     love.graphics.setFont(font)
+                    love.graphics.print("KOLBASZ", 1, 1)
                     love.graphics.print(dmgToDraw.text, dmgToDraw.x + 1, dmgToDraw.y - 1)
                     love.graphics.setColor(charColor)
                 
