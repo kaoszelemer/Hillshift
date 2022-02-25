@@ -790,7 +790,7 @@ function newTurn()
         turnTimer = love.timer.getTime() + bannerDuration
     
 
-        if isGameServer then 
+--[[         if isGameServer then 
                 
             print("[SYSTEM]: Random State Checking")
                   
@@ -807,7 +807,7 @@ function newTurn()
       
               local t = love.math.getRandomState()
               client:send("clientrandomcheck", t)
-          end
+          end ]]
       
 
     Cell:resetParticleDrawing()
