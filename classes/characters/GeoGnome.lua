@@ -43,11 +43,11 @@ function GeoGnome:spell(targetCell)
         gameState:changeState(gameState.states.waitingState)
 
         if self.actionPoints ~= 0 then
-            table.insert(sequenceBufferTable, {
+       --[[      table.insert(sequenceBufferTable, {
                 name = "GeoGnomeSpel damage",
                 duration = 1,
                 sequenceTime = love.timer.getTime(),
-                action = function()
+                action = function() ]]
 
             self.actionPoints = self.actionPoints - 1
             soundEngine:playSFX(mountSound)
@@ -61,11 +61,6 @@ function GeoGnome:spell(targetCell)
                             if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
                                 if x ~= 0 or y ~= 0 then
                                     
-                                    
-                                    boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
-                                    boardGrid[self.x + x][self.y + y].isInstanced = true
-                                   
-                                    print(boardGrid[self.x + x][self.y + y].isOccupied)
                                     if boardGrid[self.x + x][self.y + y].isOccupied then
                                         print(boardGrid[5][9].isOccupied)
                                         table.insert(sequenceBufferTable, {
@@ -76,6 +71,11 @@ function GeoGnome:spell(targetCell)
                                                 boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
                                             end})
                                     end
+                                    
+                                    boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
+                                    boardGrid[self.x + x][self.y + y].isInstanced = true
+                                   
+                                    print(boardGrid[self.x + x][self.y + y].isOccupied)
                                             
                                            
                                             
@@ -84,7 +84,7 @@ function GeoGnome:spell(targetCell)
                 
                         end
                     end
-                end})
+                
 
 
 
