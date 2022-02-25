@@ -13,6 +13,8 @@ debugIsTurnTimer = true
 enableBannerDraw = false
 --debugVolcanoChance = 0.77
 
+timerActive = true
+
 
 --require
 
@@ -234,6 +236,7 @@ magicForestTimer = 0
 gameStartTimer = love.timer.getTime()
 bubbleTimer = 0
 turnTimer = 0
+timeWaited = 0
 
 --Colors
 charColor = {167 / 255, 147 / 255, 173 / 255, 255}
@@ -372,25 +375,7 @@ function endTurn()
     gameState:changeState(gameState.states.waitingState)
 
     
-    if isGameServer then 
-                
-      print("[SYSTEM]: Random State Checking")
-            
-            local t = love.math.getRandomState()
-            
-            server:sendToAll("serverrandomcheck", t)
- 
-
-    end
-
-    if isGameClient then
-
-        print("[SYSTEM]: Random State Checking")
-
-        local t = love.math.getRandomState()
-        client:send("clientrandomcheck", t)
-    end
-
+   
 
 
     selectedChar = nil
@@ -776,7 +761,7 @@ function newTurn()
     end
    
     banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
-
+    timeWaited = 0
 
 
   --  gameState:changeState(gameState.states.selectCharacter)
@@ -805,7 +790,25 @@ function newTurn()
         turnTimer = love.timer.getTime() + bannerDuration
     
 
-
+        if isGameServer then 
+                
+            print("[SYSTEM]: Random State Checking")
+                  
+                  local t = love.math.getRandomState()
+                  
+                  server:sendToAll("serverrandomcheck", t)
+       
+      
+          end
+      
+          if isGameClient then
+      
+              print("[SYSTEM]: Random State Checking")
+      
+              local t = love.math.getRandomState()
+              client:send("clientrandomcheck", t)
+          end
+      
 
     Cell:resetParticleDrawing()
 
@@ -1912,6 +1915,18 @@ function love.update(dt)
     end
   
     bannerAnimation:update(dt)
+
+    if love.timer.getTime() - turnTimer >= 0 and turnCounter > 1 then
+        timeWaited = timeWaited + dt
+        
+        if timerActive and timeWaited >= 50 then
+       
+            timerActive = false
+            soundEngine:playSFX(lastSecondsSound)
+
+        end
+    end
+
 
     if enableBannerDraw and love.timer.getTime() - bannerTime >= bannerDuration then
     

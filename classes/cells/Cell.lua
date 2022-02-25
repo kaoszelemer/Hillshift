@@ -245,9 +245,11 @@ function Cell:damageOnBoard(dmg)
         for y = 1, 10 do
             if boardGrid[x][y].drawDamageOnBoard == true then
 
-                dmgToDraw = { x=(x * tileW + offsetX), y = y * tileH + offsetY, text = dmg }
-                dmgTween = tween.new(10, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
-                boardGrid[x][y].drawDamageTime = love.timer.getTime()
+                dmgToDraw = { x= (boardGrid[x][y].occupiedBy.x) * tileW + offsetX, y = (boardGrid[x][y].occupiedBy.y) * tileH + offsetY, text = dmg }
+                dmgTween = tween.new(1, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
+                if boardGrid[x][y].isOccupied then
+                    boardGrid[x][y].occupiedBy.drawDamageTime = love.timer.getTime()
+                end
 
 
                 
@@ -265,23 +267,23 @@ function Cell:drawDamageOnBoard()
             if boardGrid[x][y].drawDamageOnBoard == true then
                
                 local duration = 2
-                if love.timer.getTime() - boardGrid[x][y].drawDamageTime <= duration then
-                    print(love.timer.getTime() - boardGrid[x][y].drawDamageTime)
+               if boardGrid[x][y].isOccupied and love.timer.getTime() - boardGrid[x][y].occupiedBy.drawDamageTime <= duration then
+                 
                     love.graphics.setColor(yellowColor)
                     love.graphics.setFont(font)
-                    love.graphics.print("KOLBASZ", 1, 1)
-                    love.graphics.print(dmgToDraw.text, dmgToDraw.x + 1, dmgToDraw.y - 1)
+               
+                    love.graphics.print(dmgToDraw.text, ((boardGrid[x][y].occupiedBy.x) * tileW + offsetX) - 1, ((boardGrid[x][y].occupiedBy.y) * tileH + offsetY) - 1)
                     love.graphics.setColor(charColor)
                 
                     love.graphics.setColor(selectedColor)
                     love.graphics.setFont(font)
-                    love.graphics.print(dmgToDraw.text, dmgToDraw.x, dmgToDraw.y)
+                    love.graphics.print(dmgToDraw.text, (boardGrid[x][y].occupiedBy.x) * tileW + offsetX, (boardGrid[x][y].occupiedBy.y) * tileH + offsetY)
                     love.graphics.setColor(charColor)
                 else
                     boardGrid[x][y].drawDamageOnBoard = false
                     gameState:changeState(gameState.states.selectCharacter)
 
-                end
+              end
                 
             end
                         

@@ -57,30 +57,35 @@ function GeoGnome:spell(targetCell)
 
                     for x = -1, 1 do
                         for y = -1, 1 do
-                            
+                            table.insert(sequenceBufferTable, {
+                                name = "GeoGnomeSpel",
+                                duration = 2,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
                             if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
                                 if x ~= 0 or y ~= 0 then
                                     
                                     if boardGrid[self.x + x][self.y + y].isOccupied then
-                                        print(boardGrid[5][9].isOccupied)
-                                        table.insert(sequenceBufferTable, {
-                                            name = "GeoGnomeSpel damage",
-                                            duration = 1,
-                                            sequenceTime = love.timer.getTime(),
-                                            action = function()
-                                                boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
-                                            end})
+                                        boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
+                                        print(boardGrid[self.x + x][self.y + y].isOccupied)
                                     end
                                     
-                                    boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
-                                    boardGrid[self.x + x][self.y + y].isInstanced = true
+                                    table.insert(sequenceBufferTable, {
+                                        name = "GeoGnomeSpel damage",
+                                        duration = 2,
+                                        sequenceTime = love.timer.getTime(),
+                                        action = function()
+                                            boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
+                                            boardGrid[self.x + x][self.y + y].isInstanced = true
+                                        end})
                                    
-                                    print(boardGrid[self.x + x][self.y + y].isOccupied)
-                                            
+                                   
+                          
                                            
                                             
                                 end  
                             end
+                        end})
                 
                         end
                     end
