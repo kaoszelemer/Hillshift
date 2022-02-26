@@ -19,6 +19,10 @@ function Cell:init(x, y, isWalkable, quad, attackModifier, defenseModifier, HP, 
     self.drawLightning = 0
     self.turnAttackModifier = 0
     self.turnDefenseModifier = 0
+
+
+    
+
     
 end
 
@@ -37,14 +41,14 @@ function Cell:update(dt)
 
     --tween
 
-    for x = 1, 10 do
+    --[[ for x = 1, 10 do
         for y = 1, 10 do
             if boardGrid[x][y].drawDamageOnBoard == true then
              dmgTween:update(dt)
               
             end
         end
-    end
+    end ]]
 
     --animations
 
@@ -245,11 +249,11 @@ function Cell:damageOnBoard(dmg)
         for y = 1, 10 do
             if boardGrid[x][y].drawDamageOnBoard == true then
 
-                dmgToDraw = { x= (boardGrid[x][y].occupiedBy.x) * tileW + offsetX, y = (boardGrid[x][y].occupiedBy.y) * tileH + offsetY, text = dmg }
-                dmgTween = tween.new(1, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
-                if boardGrid[x][y].isOccupied then
+                   dmgToDraw = { text = dmg }
+            --       dmgTween = tween.new(1, dmgToDraw, {y= dmgToDraw.y - tileH / 2}, 'outSine')
+           --     if boardGrid[x][y].isOccupied then
                     boardGrid[x][y].occupiedBy.drawDamageTime = love.timer.getTime()
-                end
+            --    end
 
 
                 

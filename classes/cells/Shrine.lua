@@ -20,6 +20,7 @@ function Shrine:onEntry(selectedChar, ax, ay)
 
     selectedChar.baseHP = selectedChar.baseHP + 5
     boardGrid[self.x][self.y] = Field(self.x, self.y)
+    boardGrid[self.x][self.y].occupiedBy = selectedChar
     boardGrid[self.x][self.y].drawDamageOnBoard = true
     boardGrid[self.x][self.y]:damageOnBoard("+5HP")
 

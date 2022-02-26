@@ -19,6 +19,7 @@ function MagicForest:onEntry(selectedChar, ax, ay)
 
     selectedChar.actionPoints = selectedChar.actionPoints + 1
     boardGrid[self.x][self.y] = Field(self.x, self.y)
+    boardGrid[self.x][self.y].occupiedBy = selectedChar
     boardGrid[self.x][self.y].drawDamageOnBoard = true
     boardGrid[self.x][self.y]:damageOnBoard("+1AP")
 

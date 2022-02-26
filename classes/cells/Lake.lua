@@ -13,7 +13,20 @@ function Lake:init(x, y)
     "You cant attack someone in a lake\nand you only can move to land\nIt takes away your SP and AP on entry.",
     "Lake"
 
+    
 )
+ 
+    for _, char in ipairs(activePlayer.characters) do
+        if char.x == self.x and char.y == self.y then
+            char.stepPoints = 0
+            char.actionPoints = 0
+            boardGrid[self.x][self.y].occupiedBy = char
+        
+        end
+    end
+
+
+    
 end
 
 function Lake:onEntry(char, ax, ay)

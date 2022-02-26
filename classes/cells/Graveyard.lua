@@ -21,11 +21,11 @@ end
 
 function Graveyard:onEntry(sChar, ax, ay)
 
-    
+   gameState:changeState(gameState.states.waitingState)
 
     table.insert(sequenceBufferTable, {
         name = "graveyardentry",
-        duration = 1,
+        duration = 0.3,
         sequenceTime = love.timer.getTime(),
         action = function()
 
@@ -57,11 +57,13 @@ function Graveyard:onEntry(sChar, ax, ay)
 
             table.insert(sequenceBufferTable, {
                 name = "graveyardentry",
-                duration = 1,
+                duration = 0.1,
                 sequenceTime = love.timer.getTime(),
                 action = function()
-                  
+                    
+                
                     sChar:freeMove(ghostRunTable[runAwayCellIndex].x, ghostRunTable[runAwayCellIndex].y, self.x, self.y)
+
                 end})
         end})
         
