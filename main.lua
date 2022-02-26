@@ -93,6 +93,7 @@ Ice = require('classes.cells.Ice')
 Graveyard = require('classes.cells.Graveyard')
 Volcano = require('classes.cells.Volcano')
 Shrine = require('classes.cells.Shrine')
+Prison = require('classes.cells.Prison')
 
 Effector = require('classes.effectors.Effector')
 Burn = require('classes.effectors.Burn')
@@ -823,19 +824,58 @@ end
 
 
 function spawnPrison(player)
+
+    local prisonSpawnPosP1 = {}
+    local prisonSpawnPosP2 = {}
+
     if turnCounter < 20 then
        
         if player == playerTwo and playerTwo.prisonCount == 0 then
-            boardGrid[3][8] = Field(3, 8)
-            boardGrid[3][8].isPrison = true
+
+
+        
+            for x = 1, 10 do
+                                    
+                    local prc = boardGrid[x][8]
+        
+                    if prc.isOccupied ~= true then
+        
+                        table.insert(prisonSpawnPosP2, prc)
+        
+                    end
+                
+        
+            end
+
+            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP2, "prison spawn cell index")
+            boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8] = Prison(prisonSpawnPosP2[prisonSpawnCellIndex].x, 8)
+           -- boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8].isPrison = true
             playerTwo.prisonCount = playerTwo.prisonCount + 1
         end
+
+
         if player == playerOne and playerOne.prisonCount == 0 then
-            boardGrid[8][3] = Field(8, 3)
-            boardGrid[8][3].isPrison = true
+
+            for x = 1, 10 do
+                                    
+                local prc = boardGrid[x][3]
+    
+                if prc.isOccupied ~= true then
+    
+                    table.insert(prisonSpawnPosP1, prc)
+    
+                end
+            end
+    
+            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP1, "prison spawn cell index")
+            boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3] = Prison(prisonSpawnPosP1[prisonSpawnCellIndex].x, 3)
+           -- boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3].isPrison = true   
             playerOne.prisonCount = playerOne.prisonCount + 1
         end
+
+        
     end
+    
 end
 
 function enableEndGame()
