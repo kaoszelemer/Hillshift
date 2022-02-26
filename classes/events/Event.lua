@@ -158,7 +158,7 @@ end
 
 function Event:getNextEventID()
 
-    local nextEventID = randomFunction(1, #eventTable, "getnexteventid")
+    local nextEventID = randomFunction(1, #eventTable, "getnexteventid", turnCounter, playerOne.characters[1].baseHP, playerOne.characters[2].stepPoints + 1, playerTwo.characters[1].baseHP)
     return nextEventID
 
 end
