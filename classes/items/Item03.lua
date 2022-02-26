@@ -4,7 +4,7 @@ function Item03:init()
     love.graphics.newImage("graphics/item03image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Assassin Dagger",
-    "shvshvshvs \n+2DF",
+    "shvshvshvs \n+3DF",
     2,
     0,
     1)
@@ -24,7 +24,7 @@ end
 function Item03:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseDefense = character.baseDefense + 2
+    character.baseDefense = character.baseDefense + 3
 
 end
 

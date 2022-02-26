@@ -25,7 +25,7 @@ function Item07:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     character.baseAttack = character.baseAttack + 1
-    character.baseHP = character.baseHP + 5
+    character.baseHP = character.baseHP + 10
 
 end
 

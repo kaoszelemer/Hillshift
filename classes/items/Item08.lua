@@ -4,7 +4,7 @@ function Item08:init()
     love.graphics.newImage("graphics/item08image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Knife Of Hell",
-    "My hand!!!\n+1AT -5HP",
+    "My hand!!!\n+3AT -8HP",
     1,
     0,
     1)
@@ -24,8 +24,8 @@ end
 function Item08:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseAttack = character.baseAttack + 1
-    character:damage(character, 5)
+    character.baseAttack = character.baseAttack + 3
+    character:damage(character, 8)
 
 end
 

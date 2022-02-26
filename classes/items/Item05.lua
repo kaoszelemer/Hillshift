@@ -4,7 +4,7 @@ function Item05:init()
     love.graphics.newImage("graphics/item05image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Onyx Spear",
-    "don't you break it\n-1A +1DF",
+    "don't you break it\n-1A +4DF",
     1,
     0,
     1)
@@ -25,7 +25,7 @@ function Item05:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
     if character.baseAttack ~= 0 then character.baseAttack = character.baseAttack - 1 end
-    character.baseDefense = character.baseDefense + 1
+    character.baseDefense = character.baseDefense + 4
 
 
 end

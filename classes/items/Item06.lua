@@ -4,7 +4,7 @@ function Item06:init()
     love.graphics.newImage("graphics/item06image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Jade Broadsword",
-    "Sword of Logic\n+1A or +1DF",
+    "Sword of Logic\n+3A or +3DF",
     1,
     0,
     1)
@@ -28,9 +28,9 @@ function Item06:itemFunction(character, player)
     local chance = randomFunction(nil, nil, "item6")
 
     if chance > 0.5 then
-    character.baseAttack = character.baseAttack + 1
+    character.baseAttack = character.baseAttack + 3
     else
-    character.baseDefense = character.baseDefense + 1
+    character.baseDefense = character.baseDefense + 3
     end
 
 end

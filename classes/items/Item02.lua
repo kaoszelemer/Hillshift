@@ -4,7 +4,7 @@ function Item02:init()
     love.graphics.newImage("graphics/item02image.png"),
     love.graphics.newImage("graphics/shieldicon.png"),
     "Fiery Hauberk",
-    "It's too ho at summer\n+1DF -5HP",
+    "It's too ho at summer\n+4DF -10HP",
     0,
     1,
     1)
@@ -24,8 +24,8 @@ end
 function Item02:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseDefense = character.baseDefense + 1
-    character:damage(character, 5)
+    character.baseDefense = character.baseDefense + 4
+    character:damage(character, 10)
 
 end
 

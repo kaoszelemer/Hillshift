@@ -4,7 +4,7 @@ function Item01:init()
     love.graphics.newImage("graphics/item01image.png"),
     love.graphics.newImage("graphics/weaponicon.png"),
     "Prolitemitus Sword",
-    "  Sword of Kaosz Elemer \n+1A +1DF",
+    "  Sword of Kaosz Elemer \n+3A +2DF",
     1,
     0,
     1)
@@ -24,8 +24,8 @@ end
 function Item01:itemFunction(character, player)
     character.ownedItem = self
     Item:enableDrawCurrentItemOnSideBar(character, player, self)
-    character.baseAttack = character.baseAttack + 1
-    character.baseDefense = character.baseDefense + 1
+    character.baseAttack = character.baseAttack + 3
+    character.baseDefense = character.baseDefense + 2
 
 end
 
