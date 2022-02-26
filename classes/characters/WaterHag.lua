@@ -87,37 +87,37 @@ function WaterHag:spell(targetCell)
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, targetCell.x, eventTurnCounter) < 0.25 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                         
                                             boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y + randomWaterSpreadY) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, targetCell.y, eventTurnCounter) < 0.25 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                         
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y - randomWaterSpreadY) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, turnCounter, eventTurnCounter) < 0.25 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.25 then 
                                         
                                             boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y - randomWaterSpreadY) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, turnCounter, targetCell.x + targetCell.y) < 0.33 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
                                         
                                             boardGrid[targetCell.x][targetCell.y - randomWaterSpreadY] = Lake(targetCell.x, targetCell.y - randomWaterSpreadY) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, turnCounter, eventTurnCounter + randomWaterSpreadX) < 0.33 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
                                         
                                             boardGrid[targetCell.x][targetCell.y + randomWaterSpreadY] = Lake(targetCell.x, targetCell.y + randomWaterSpreadY) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, turnCounter + eventTurnCounter + randomWaterSpreadY, eventTurnCounter) < 0.33 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
                                         
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y] = Lake(targetCell.x + randomWaterSpreadX, targetCell.y) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
                                         end
-                                        if randomFunction(nil, nil, "waterhag spell into lake",  self.x, self.y, targetCell.x + targetCell.y, targetCell.x - targetCell.y) < 0.33 then 
+                                        if randomFunction(nil, nil, "waterhag spell into lake") < 0.33 then 
                                         
                                             boardGrid[targetCell.x - randomWaterSpreadX][targetCell.y] = Lake(targetCell.x - randomWaterSpreadX, targetCell.y) 
                                             boardGrid[targetCell.x + randomWaterSpreadX][targetCell.y + randomWaterSpreadY].isInstanced = true
