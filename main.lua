@@ -293,7 +293,7 @@ function randomFunction(...)
 
     if args[4] ~= nil then
         
-        local seed = ((args[4] / args[5]) * (args[6] / args[7])) + rndSeedPlus
+        local seed = math.floor(((args[4] * args[5]) * (args[6] * args[7])) + rndSeedPlus)
     
         love.math.setRandomSeed(seed)
     end
