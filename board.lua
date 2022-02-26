@@ -986,7 +986,9 @@ local function drawBoardGrid()
                     local cell = boardGrid[x][y]
                     local x = cell.x * tileW + offsetX
                     local y = cell.y * tileH  + offsetY
-                    love.graphics.draw(boardPicture, cell.quad, x, y)
+                
+                        love.graphics.draw(boardPicture, cell.quad, x, y)
+                
                    
 
                 end
@@ -1222,6 +1224,12 @@ local function loadAnimations()
 
 
     --cell etc
+    forestCellAnimationImage = love.graphics.newImage('graphics/forestanim.png')
+    local g = anim8.newGrid(64, 64, forestCellAnimationImage:getWidth(), forestCellAnimationImage:getHeight())
+    forestCellAnimation = anim8.newAnimation(g('1-8', 1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 10, ['9-14']=0.1})
+
+
+
 
     eruptionAnimationImage = love.graphics.newImage('graphics/eruption.png')
     local g = anim8.newGrid(192, 192, eruptionAnimationImage:getWidth(), eruptionAnimationImage:getHeight())
@@ -1397,9 +1405,9 @@ function board:load()
 
         boardGrid = {} 
         print('initing grid')
+        loadAnimations() 
         initBoardgrid()
         print('loading animations')
-        loadAnimations() 
     -- loadSounds()
     -- musicPlayer()
 
@@ -1485,6 +1493,8 @@ function board:update(dt)
     poisonBorderAnimation:update(dt)
    
     cancelButtonAnimation:update(dt)
+
+  --  forestCellAnimation:update(dt)
   
 
     testBoardForOccupy(activePlayer, inactivePlayer)
