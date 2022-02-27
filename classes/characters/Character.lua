@@ -863,6 +863,7 @@ function Character:kill()
     for index, currentChar in ipairs(self.parentPlayer.characters) do
         if self == currentChar and self.parentPlayer == playerOne and #deadPool.playerOne <= 1 then
             boardGrid[self.x][self.y].isOccupied = false
+            currentChar.isPoisoned = false
             table.insert(deadPool.playerOne, currentChar)
             table.remove(self.parentPlayer.characters, index)
         elseif self == currentChar and self.parentPlayer == playerOne then
@@ -870,6 +871,7 @@ function Character:kill()
         end
         if self == currentChar and self.parentPlayer == playerTwo and #deadPool.playerTwo <= 1 then
             boardGrid[self.x][self.y].isOccupied = false
+            currentChar.isPoisoned = false
             table.insert(deadPool.playerTwo, currentChar)
             table.remove(self.parentPlayer.characters, index)
         elseif self == currentChar and self.parentPlayer == playerTwo then
