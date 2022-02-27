@@ -52,7 +52,7 @@ function Graveyard:onEntry(sChar, ax, ay)
                 end
             end
 
-            local runAwayCellIndex = randomFunction(1, #ghostRunTable, "graveyard", "boardGrid")
+            local runAwayCellIndex = randomFunction(1, #ghostRunTable, "graveyard", "boardgrid")
         
 
             table.insert(sequenceBufferTable, {
@@ -61,7 +61,7 @@ function Graveyard:onEntry(sChar, ax, ay)
                 sequenceTime = love.timer.getTime(),
                 action = function()
                     
-                
+                    print(runAwayCellIndex)
                     sChar:freeMove(ghostRunTable[runAwayCellIndex].x, ghostRunTable[runAwayCellIndex].y, self.x, self.y)
 
                 end})
