@@ -392,7 +392,7 @@ function Cell:click()
     if gameState.state == gameState.states.selectCharacterAction then
         
         if self.isOccupied ~= true then
-            
+  
             selectedChar = nil
             gameState:changeState(gameState.states.selectCharacter)
 

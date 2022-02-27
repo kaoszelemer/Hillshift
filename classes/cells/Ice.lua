@@ -15,7 +15,7 @@ function Ice:init(x, y)
 end
 
 
-function Ice:onEntry(selectedChar)
+function Ice:onEntry(sChar)
  
     
     table.insert(sequenceBufferTable, {
@@ -23,15 +23,18 @@ function Ice:onEntry(selectedChar)
         duration = 0.5,
         sequenceTime = love.timer.getTime(),
         action = function()
-            if selectedChar then
-                selectedChar.actionPoints = 0
 
-                if selectedChar.stepPoints == 2 then
-                    selectedChar.stepPoints = 2
-                elseif selectedChar.stepPoints <= 1 then
-                    selectedChar.stepPoints = 1
+            if sChar then
+                
+                sChar.actionPoints = 0
+
+                if sChar.stepPoints == 2 then
+                    sChar.stepPoints = 2
+                elseif sChar.stepPoints <= 1 then
+                    sChar.stepPoints = 1
                 end
 
+                selectedChar = sChar
                 gameState:changeState(gameState.states.selectCharacterAction)
             end
         end})
