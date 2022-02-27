@@ -116,6 +116,7 @@ function Event:enableEvent()
         end
     end
 
+    nextTurnBeforeEvent = randomFunction(5, 8, "next turn before event", "events")
     eventTurnCounter = 0
 
 end

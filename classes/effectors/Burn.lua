@@ -20,7 +20,7 @@ function Burn:apply(x, y)
                 boardGrid[x][y].fireTurn = turnCounter
             end
             
-            if boardGrid[x][y].isOccupied then
+            if boardGrid[x][y].isOccupied and boardGrid[x][y]:instanceOf(Volcano) ~= true then
                 
                 boardGrid[x][y].occupiedBy:damage(boardGrid[x][y].occupiedBy, 5)
                 
