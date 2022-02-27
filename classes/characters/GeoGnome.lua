@@ -59,7 +59,7 @@ function GeoGnome:spell(targetCell)
                         for y = -1, 1 do
                             table.insert(sequenceBufferTable, {
                                 name = "GeoGnomeSpel",
-                                duration = 2,
+                                duration = 0.2,
                                 sequenceTime = love.timer.getTime(),
                                 action = function()
                             if self.x + x <= 10 and self.x + x > 0 and self.y + y <= 10 and self.y + y > 0 then
@@ -67,18 +67,18 @@ function GeoGnome:spell(targetCell)
                                     
                                     if boardGrid[self.x + x][self.y + y].isOccupied then
                                         boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
-                                        print(boardGrid[self.x + x][self.y + y].isOccupied)
+                                     --   print(boardGrid[self.x + x][self.y + y].isOccupied)
                                     end
                                     
                                     table.insert(sequenceBufferTable, {
                                         name = "GeoGnomeSpel damage",
-                                        duration = 2,
+                                        duration = 1,
                                         sequenceTime = love.timer.getTime(),
                                         action = function()
                                             boardGrid[self.x + x][self.y + y] = Mount(self.x + x, self.y + y)
                                             boardGrid[self.x + x][self.y + y].isInstanced = true
                                         end})
-                                   
+                                        
                                    
                           
                                            
@@ -96,7 +96,7 @@ function GeoGnome:spell(targetCell)
         end
         table.insert(sequenceBufferTable, {
             name = "geognomeResetState",
-            duration = 3,
+            duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
