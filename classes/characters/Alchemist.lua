@@ -74,8 +74,7 @@ end
 
 function Alchemist:poisonBoardGrid(targetCell, direction)
 
-      
-
+      self.timesHit = 0
            
                         if pointerOnTopLeftSide or direction == "tl" then 
                                 
@@ -93,6 +92,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                                 for x = 1, 2 do
                                                         if  self.x - x > 0 and self.y - x > 0  then
                                                                 Poison:apply(self.x - x, self.y - x)
+                                                                if boardGrid[self.x - x][self.y - x].isOccupied then
+                                                                        self.timesHit = self.timesHit + 1
+                                                                end
                                                         end
                                                 end
 
@@ -118,6 +120,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                                         if  self.y - x > 0 and self.x + x <= 10  then
                                                                 Poison:apply(self.x + x, self.y - x)
                                                         end
+                                                        if boardGrid[self.x + x][self.y - x].isOccupied then
+                                                                self.timesHit = self.timesHit + 1
+                                                        end
                                                 end
 
                                              
@@ -140,6 +145,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                                 for x = 1, 2 do
                                                         if  self.x - x > 0 and self.y + x <= 10  then
                                                                 Poison:apply(self.x - x, self.y + x)
+                                                                if boardGrid[self.x - x][self.y + x].isOccupied then
+                                                                        self.timesHit = self.timesHit + 1
+                                                                end
                                                         end
                                                 end
                                                 
@@ -161,6 +169,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                                 for x = 1, 2 do
                                                         if  self.x + x <= 10 and self.y + x <= 10  then
                                                                 Poison:apply(self.x + x, self.y + x)
+                                                        end
+                                                        if boardGrid[self.x + x][self.y + x].isOccupied then
+                                                                self.timesHit = self.timesHit + 1
                                                         end
                                                 end
                                             
@@ -184,7 +195,9 @@ function Alchemist:poisonBoardGrid(targetCell, direction)
                                 duration = 1,
                                 sequenceTime = love.timer.getTime(),
                                 action = function()
-                
+                                        if self.timesHit == 2 then
+                                                soundEngine:playSFX(doubledamageSound)
+                                        end
                                     self.drawSpellTL = false
                                     self.drawSpellTR = false
                                     
@@ -221,6 +234,7 @@ function Alchemist:spell(targetCell, direction)
                                 selectedChar = self
                                 gameState:changeState(gameState.states.selectCharacter)
                             end
+                        self.timesHit = 0
             
                 end})
 

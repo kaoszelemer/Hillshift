@@ -21,6 +21,7 @@ end
 function FireMage:spell(targetCell)
 
     if targetCell.y ~= self.y and (targetCell.x ~= self.x - 1 or targetCell.x ~= self.x + 1) then
+        self.timesHit = 0
 
             gameState:changeState(gameState.states.waitingState)
 
@@ -117,6 +118,9 @@ function FireMage:spell(targetCell)
                             if self.x + x > 0 and self.x + x <= 10 and self.y + y <= 10 then
                             
                                 Burn:apply(self.x + x, self.y + y)
+                                if boardGrid[self.x + x][self.y + x].isOccupied then
+                                    self.timesHit = self.timesHit + 2
+                                end
                                     
                             end
 
@@ -127,6 +131,9 @@ function FireMage:spell(targetCell)
                             if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 then
 
                                 Burn:apply(self.x + x, self.y + y)
+                                if boardGrid[self.x + x][self.y + x].isOccupied then
+                                    self.timesHit = self.timesHit + 2
+                                end
                                 
                             end
 
@@ -138,7 +145,10 @@ function FireMage:spell(targetCell)
                             duration = 1.7,
                             sequenceTime = love.timer.getTime(),
                             action = function()
-            
+                               
+                                if self.timesHit == 2 then
+                                    soundEngine:playSFX(doubledamageSound)
+                                end
                                 self.topSpell = false
                                 self.bottomSpell = false
                                 if self.actionPoints > 0  or self.stepPoints > 0 then

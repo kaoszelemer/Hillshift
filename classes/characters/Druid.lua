@@ -12,61 +12,76 @@ local Druid = Character:extend("Druid")
         self.animation:update(dt)
         druidSpellAnimation:update(dt)
     end
- 
-    function Druid:drawSpellAnimation()
 
-    
-        for x = -1, 1 do
-            for y = -1, 1 do
-                if (x == 0 and y ~=0) or (x ~= 0 and y == 0) then
-
-                    if self.drawSpell then
-                        
-                            if self.y + y > 0 and self.y + y <= 10 and self.x + x > 0 and self.y + y <= 10 then
-                                animate(druidSpellAnimation, druidSpellAnimationImage, ((self.x + x) * tileW + offsetX) + tileW / 4, ((self.y + y) * tileH + offsetY) + tileH / 4, 1)
-                            end
-                       
-                    end
-
-
-                end
-            end
-        end
-    
-    
-    end
- 
 
 function Druid:spell(targetCell)
 
         gameState:changeState(gameState.states.waitingState)
                
         if self.actionPoints ~= 0 then
+
+            
+
             if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) or
             (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1)) or
             (targetCell.y == self.y and targetCell.x == self.x) then
-
+                soundEngine:playSFX(forestSound)
                 self.actionPoints = self.actionPoints - 1
-                self.drawSpell = true
+              --  self.drawSpell = true
                 self.timesHit = 0
+
+                table.insert(sequenceBufferTable, {
+                    name = "druid spellhit",
+                    duration = 0.1,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        animate(druidSpellAnimation, druidSpellAnimationImage, ((self.x) * tileW + offsetX) + tileW / 4, ((self.y + 1) * tileH + offsetY) + tileH / 4, 0.2)
+                    end})
+                table.insert(sequenceBufferTable, {
+                    name = "druid spellhit",
+                    duration = 0.8,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        animate(druidSpellAnimation, druidSpellAnimationImage, ((self.x) * tileW + offsetX) + tileW / 4, ((self.y - 1) * tileH + offsetY) + tileH / 4, 1)
+                    end})
+                table.insert(sequenceBufferTable, {
+                    name = "druid spellhit",
+                    duration = 1.5,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        animate(druidSpellAnimation, druidSpellAnimationImage, ((self.x + 1) * tileW + offsetX) + tileW / 4, ((self.y) * tileH + offsetY) + tileH / 4, 1)
+                    end})
+                table.insert(sequenceBufferTable, {
+                    name = "druid spellhit",
+                    duration = 2.1,
+                    sequenceTime = love.timer.getTime(),
+                    action = function()
+                        animate(druidSpellAnimation, druidSpellAnimationImage, ((self.x - 1) * tileW + offsetX) + tileW / 4, ((self.y) * tileH + offsetY) + tileH / 4, 1)
+                    end})
+
 
                 for x = -1, 1 do
                     for y = -1, 1 do
                         if (x == 0 and y ~=0) or (x ~= 0 and y == 0) then
-                            table.insert(sequenceBufferTable, {
-                                name = "druid spellhit",
-                                duration = 1,
-                                sequenceTime = love.timer.getTime(),
-                                action = function()
+                            if self.x + x > 0 and self.x + x <= 10 and self.y + y > 0 and self.y + y <= 10 then
+
+                                    table.insert(sequenceBufferTable, {
+                                        name = "druid spellhit",
+                                        duration = 1,
+                                        sequenceTime = love.timer.getTime(),
+                                        action = function()
 
 
-                                    if boardGrid[self.x + x][self.y + y].isOccupied and boardGrid[self.x + x][self.y + y].occupiedBy.parentPlayer ~= self.parentPlayer and boardGrid[self.x + x][self.y + y]:instanceOf(Volcano) ~= true then
-                                        boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 6)
-                                        self.timesHit = self.timesHit + 1
+                                            if boardGrid[self.x + x][self.y + y].isOccupied and boardGrid[self.x + x][self.y + y].occupiedBy.parentPlayer ~= self.parentPlayer and boardGrid[self.x + x][self.y + y]:instanceOf(Volcano) ~= true then
+
+                                                boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 6)
+                                                self.timesHit = self.timesHit + 1
+                                            end
+                                        end})
+                                    boardGrid[self.x + x][self.y + y] = Forest(self.x + x, self.y + y)
+                                    boardGrid[self.x + x][self.y + y].isInstanced = true
+
                                     end
-                                end})
-                            boardGrid[self.x + x][self.y + y] = Forest(self.x + x, self.y + y)
-                            boardGrid[self.x + x][self.y + y].isInstanced = true
                             
                         end
                     end
@@ -78,7 +93,7 @@ function Druid:spell(targetCell)
 
                 table.insert(sequenceBufferTable, {
                     name = "druidResetState",
-                    duration = 2,
+                    duration = 3.5,
                     sequenceTime = love.timer.getTime(),
                     action = function()
 
