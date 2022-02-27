@@ -2002,7 +2002,7 @@ function love.load(arg)
         randomForCosmetics = love.math.newRandomGenerator(love.timer.getTime())
         initNetworking(arg)
        
-        if isGameServer then
+        if isGameServer or (isGameClient ~= true and isGameServer ~= true) then
         randomForDiceRoll = love.math.newRandomGenerator(love.timer.getTime() / 2)
         randomForBoardGrid = love.math.newRandomGenerator(love.timer.getTime()  * 2)
         randomForSpells = love.math.newRandomGenerator(love.timer.getTime() * 3)
