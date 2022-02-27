@@ -472,7 +472,7 @@ end
 
 function endTurn()
     
-    
+    soundEngine:stopSFX(lastSecondsSound)    
     gameState:changeState(gameState.states.waitingState)
 
     
@@ -2457,7 +2457,7 @@ function love.mousereleased(x, y, button, istouch, presses)
 
                 if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
                     isEndTurnButtonClicked = false
-                    soundEngine:stopSFX(lastSecondsSound)
+                   
                     if isGameServer and activePlayer == playerOne and not enableBannerDraw then
                         server:sendToAll("serverendturn", "endturnclicked")
                         endTurn()
