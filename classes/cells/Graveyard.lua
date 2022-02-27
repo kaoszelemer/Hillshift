@@ -52,7 +52,7 @@ function Graveyard:onEntry(sChar, ax, ay)
                 end
             end
 
-            local runAwayCellIndex = randomFunction(1, #ghostRunTable, "graveyard")
+            local runAwayCellIndex = randomFunction(1, #ghostRunTable, "graveyard", "boardGrid")
         
 
             table.insert(sequenceBufferTable, {

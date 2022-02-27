@@ -242,7 +242,7 @@ function initPlayerDeck(player)
             table.insert(player.characters, IceWizard(player)) ]]
         
             while #player.characters ~= 4 do     
-                local cardNumber = randomFunction(1, #player.characters, "initPlayerDeck")
+                local cardNumber = randomFunction(1, #player.characters, "initPlayerDeck", "boardgrid")
                 table.remove(player.characters, cardNumber)
             end
        
@@ -282,7 +282,7 @@ local function testBoardForOccupy(activeplayer, inactiveplayer)
 end
 
 function getDiceRoll()
-   local diceRoll = randomFunction(1, 6, "getDiceRoll")
+   local diceRoll = randomFunction(1, 6, "getDiceRoll", "diceroll")
    return diceRoll
 end
 
@@ -786,8 +786,8 @@ end
 
 function spawnChestPlayerOne()
     
-    local rndCellX = randomFunction(1, 2, "spawnChestPlayerOne") --1 3
-    local rndCellY = randomFunction(3, 4, "spawnChestPlayerOne") --2 4
+    local rndCellX = randomFunction(1, 2, "spawnChestPlayerOne", "events") --1 3
+    local rndCellY = randomFunction(3, 4, "spawnChestPlayerOne", "events") --2 4
 
 
         if not boardGrid[rndCellX][rndCellY].isChest and not boardGrid[rndCellX][rndCellY].isOccupied  then 
@@ -801,8 +801,8 @@ function spawnChestPlayerOne()
 end
 
 function spawnChestPlayerTwo()
-    local rndCellX = randomFunction(9, 10, "spawnChestPlayerTwo") --7 9
-    local rndCellY = randomFunction(7, 8, "spawnChestPlayerTwo") --6 9
+    local rndCellX = randomFunction(9, 10, "spawnChestPlayerTwo", "events") --7 9
+    local rndCellY = randomFunction(7, 8, "spawnChestPlayerTwo", "events") --6 9
 
     if not boardGrid[rndCellX][rndCellY].isChest and not boardGrid[rndCellX][rndCellY].isOccupied  then 
 
@@ -885,7 +885,7 @@ function createBoardGrid()
                                 
                                 selectedType = 4
                         -- egyébként legyen random
-                        else    selectedType = randomFunction(1, #cellType, "createBoardGrid")           
+                        else    selectedType = randomFunction(1, #cellType, "createBoardGrid", "boardgrid")           
                         end
                         -- a mezők adatai itt kerülnek be a táblázatba
                     
@@ -1335,7 +1335,7 @@ function newGame()
     chestCounter = 0
     turnCounter = 0
     eventTurnCounter = 0
-    nextTurnBeforeEvent = randomFunction(5, 9, "newGame - next turn before event")
+    nextTurnBeforeEvent = randomFunction(5, 9, "newGame - next turn before event", "events")
     print("initing player decks")
     initPlayerDeck(playerOne)
     initPlayerDeck(playerTwo)
@@ -1350,8 +1350,8 @@ function newGame()
     print("moving characters to starting position")
     moveCharactersToStartingPosition()
 
-    startingDicePlayerOne = randomFunction(1, 6, "newGame - starting dice player one")
-    startingDicePlayerTwo = randomFunction(1, 6, "newGame - starting dice player two")
+    startingDicePlayerOne = randomFunction(1, 6, "newGame - starting dice player one", "diceroll")
+    startingDicePlayerTwo = randomFunction(1, 6, "newGame - starting dice player two", "diceroll")
 
     if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 

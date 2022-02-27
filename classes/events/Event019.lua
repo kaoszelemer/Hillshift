@@ -29,15 +29,15 @@ function Event019:eventFunction()
 
 
  
-    for x = 1, (randomFunction(1, 100, "event19")) do
+    for x = 1, (randomFunction(1, 100, "event19", "events")) do
         table.insert(sequenceBufferTable, {
             name = "MountaneeringEvent",
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = randomFunction(1, 10, "event19")
-                rndCellY = randomFunction(1, 10, "event19")
+                rndCellX = randomFunction(1, 10, "event19", "boardgrid")
+                rndCellY = randomFunction(1, 10, "event19", "boardgrid")
                 boardGrid[rndCellX][rndCellY] = Mount(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true
             end

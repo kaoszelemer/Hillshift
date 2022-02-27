@@ -27,15 +27,15 @@ end
 
 function Event015:eventFunction()
 
-    for x = 1, (randomFunction(1, 100, "event15")) do
+    for x = 1, (randomFunction(1, 100, "event15", "events")) do
         table.insert(sequenceBufferTable, {
             name = "AlchemistryEvent",
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = randomFunction(1, 10, "event15")
-                rndCellY = randomFunction(1, 10, "event15")
+                rndCellX = randomFunction(1, 10, "event15", "boardgrid")
+                rndCellY = randomFunction(1, 10, "event15", "boardgrid")
              
                     Poison:apply(rndCellX, rndCellY)
             

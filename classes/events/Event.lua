@@ -158,7 +158,7 @@ end
 
 function Event:getNextEventID()
 
-    local nextEventID = randomFunction(1, #eventTable, "getnexteventid")
+    local nextEventID = randomFunction(1, #eventTable, "getnexteventid", "events")
     return nextEventID
 
 end

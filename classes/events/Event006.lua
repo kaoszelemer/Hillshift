@@ -30,8 +30,8 @@ function Event006:eventFunction()
    
 
     for x = 1, 40 do
-            rndCellX = randomFunction(1, 10, "event6")
-            rndCellY = randomFunction(1, 10, "event6")
+            rndCellX = randomFunction(1, 10, "event6", "boardgrid")
+            rndCellY = randomFunction(1, 10, "event6", "boardgrid")
             
             Freeze:apply(rndCellX, rndCellY)
     end

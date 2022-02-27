@@ -28,8 +28,8 @@ function Prison:onEntry(character, ax, ay)
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
-                deadPool.playerOne[1].x = randomFunction(1, 10, "cell:onentry prison")
-                deadPool.playerOne[1].y = randomFunction(1, 10, "cell:onentry prison")
+                deadPool.playerOne[1].x = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
+                deadPool.playerOne[1].y = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
                 if boardGrid[deadPool.playerOne[1].x][deadPool.playerOne[1].y].isOccupied then
                     deadPool.playerOne[1].x = 1
                     deadPool.playerOne[1].y = 1
@@ -59,8 +59,8 @@ function Prison:onEntry(character, ax, ay)
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
-                currentChar.x = randomFunction(1, 10, "cell:onentry prison")
-                currentChar.y = randomFunction(1, 10, "cell:onentry prison")
+                currentChar.x = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
+                currentChar.y = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
                 if boardGrid[currentChar.x][currentChar.y].isOccupied then
                     currentChar.x = 1
                     currentChar.y = 1

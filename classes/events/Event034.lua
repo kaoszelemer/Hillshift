@@ -35,8 +35,8 @@ function Event034:eventFunction()
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
-                rndCellX = randomFunction(1, 10, "event34")
-                rndCellY = randomFunction(1, 10, "event34")
+                rndCellX = randomFunction(1, 10, "event34", "boardgrid")
+                rndCellY = randomFunction(1, 10, "event34", "boardgrid")
 
                 boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true

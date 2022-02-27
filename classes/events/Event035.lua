@@ -36,8 +36,8 @@ function Event035:eventFunction()
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = randomFunction(1, 10, "event35")
-                rndCellY = randomFunction(1, 10, "event35")
+                rndCellX = randomFunction(1, 10, "event35", "boardgrid")
+                rndCellY = randomFunction(1, 10, "event35", "boardgrid")
 
                 boardGrid[rndCellX][rndCellY] = Forest(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true

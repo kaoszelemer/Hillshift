@@ -28,15 +28,15 @@ end
 function Event016:eventFunction()
 
 
-    for x = 1, (randomFunction(1, 100, "event16")) do
+    for x = 1, (randomFunction(1, 100, "event16", "events")) do
         table.insert(sequenceBufferTable, {
             name = "floodingEvent",
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
 
-                rndCellX = randomFunction(1, 10, "event16")
-                rndCellY = randomFunction(1, 10, "event16")
+                rndCellX = randomFunction(1, 10, "event16", "boardgrid")
+                rndCellY = randomFunction(1, 10, "event16", "boardgrid")
                 boardGrid[rndCellX][rndCellY] = Lake(rndCellX, rndCellY)
                 boardGrid[rndCellX][rndCellY].isInstanced = true
             end

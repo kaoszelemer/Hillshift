@@ -227,7 +227,7 @@ offsetY = math.floor(height / 2 - (tileH * numberOfTiles / 2) - tileH)
 -- counters
 turnCounter = 0
 magicForestCounter = 0
-
+nextTurnBeforeEvent = 5
 nextTurnBeforeEventModifier = 0
 eventTurnCounter = 0
 
@@ -282,21 +282,121 @@ selectedChar = nil
 --event tábla
 eventTable = {}
 
-function randomFunction(a, b, infotext)
+function randomFunction(a, b, infotext, wf)
 
     local c
 
-    if a == nil and b == nil then
-        c = love.math.random()
-    else        
-        c = love.math.random(a, b)
+    if wf == "boardgrid" then
+
+        if a == nil and b == nil then
+            c = randomForBoardGrid:random()
+        else        
+            c = randomForBoardGrid:random(a, b)
+        end
+
+        local d = randomForBoardGrid:getState()
+
+        if activePlayer ~= nil then
+            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+        end
+        return c
+    end
+
+    if wf == "chances" then
+        
+        if a == nil and b == nil then
+            c = randomForChances:random()
+        else        
+            c = randomForChances:random(a, b)
+        end
+
+        local d = randomForChances:getState()
+
+        if activePlayer ~= nil then
+            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+        end
+        return c
+
+
     end
     
-    local d = love.math.getRandomState()
-    if activePlayer ~= nil then
-        print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+    if wf == "diceroll" then
+        
+        if a == nil and b == nil then
+            c = randomForDiceRoll:random()
+        else        
+            c = randomForDiceRoll:random(a, b)
+        end
+
+        local d = randomForDiceRoll:getState()
+
+        if activePlayer ~= nil then
+            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+        end
+        return c
+
+
     end
-    return c
+
+    if wf == "events" then
+        
+        if a == nil and b == nil then
+            c = randomForEvents:random()
+        else        
+            c = randomForEvents:random(a, b)
+        end
+
+        local d = randomForEvents:getState()
+
+        if activePlayer ~= nil then
+            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+        end
+        return c
+
+
+    end
+
+    if wf == "items" then
+        
+        if a == nil and b == nil then
+            c = randomForItems:random()
+        else        
+            c = randomForItems:random(a, b)
+        end
+
+        local d = randomForItems:getState()
+
+        if activePlayer ~= nil then
+            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+        end
+        return c
+
+
+    end
+
+    if wf == "spells" then
+        
+        if a == nil and b == nil then
+            c = randomForSpells:random()
+        else        
+            c = randomForSpells:random(a, b)
+        end
+
+        local d = randomForSpells:getState()
+
+        if activePlayer ~= nil then
+            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
+        end
+        return c
+
+
+    end
+ 
+
+
+
+
+    
 end
 
 function sequenceProcessor()
@@ -413,12 +513,12 @@ function endTurn()
 
 
     if turnCounter > 1 and isVolcanoOnBoard ~= true then
-        local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
+        local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance", "chances")
        
 
         if rngv < (debugVolcanoChance or 0.15) then
-            local vx = randomFunction(2, 9, "volcanoX")
-            local vy = randomFunction(2, 9, "volcanoY")
+            local vx = randomFunction(2, 9, "volcanoX", "boardgrid")
+            local vy = randomFunction(2, 9, "volcanoY", "boardgrid")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Volcano(vx, vy)
                 boardGrid[vx][vy].isOccupied = true
@@ -430,12 +530,12 @@ function endTurn()
     end
 
     if turnCounter > 8 and isShrineOnBoard ~= true then
-        local rngs = randomFunction(nil, nil, "endTurnShrineAppearsChance")
+        local rngs = randomFunction(nil, nil, "endTurnShrineAppearsChance", "chances")
    
 
         if rngs < 0.5 then
-            local vx = randomFunction(2, 9, "shrineX")
-            local vy = randomFunction(2, 9, "shrineY")
+            local vx = randomFunction(2, 9, "shrineX", "boardgrid")
+            local vy = randomFunction(2, 9, "shrineY", "boardgrid")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Shrine(vx, vy)
                 isShrineOnBoard = true
@@ -444,7 +544,7 @@ function endTurn()
     end
 
 
-    local magicForestChance = randomFunction(nil, nil, "magicforesttompitas")
+    local magicForestChance = randomFunction(nil, nil, "magicforesttompitas", "chances")
     local forestCounter = 0
     table.insert(sequenceBufferTable, {
         name = "geognomeResetState",
@@ -463,8 +563,8 @@ function endTurn()
             if boardGrid[x][y]:instanceOf(Forest) then
                 forestCounter = forestCounter + 1
                 if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter < 1 then
-                    local mfX = randomFunction(3, 8, "magicforestx")
-                    local mfY = randomFunction(3, 8, "magicforesty")
+                    local mfX = randomFunction(3, 8, "magicforestx", "boardgrid")
+                    local mfY = randomFunction(3, 8, "magicforesty", "boardgrid")
                     boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
                     magicForestTimer = turnCounter
                     magicForestCounter = magicForestCounter + 1
@@ -584,13 +684,13 @@ function endTurn()
 
                 if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 3 then
 
-                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Forest(x, y) end
-                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Mount(x, y) end
-                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Lake(x, y) end
-                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Field(x, y) end
-                    if randomFunction(nil, nil, "endTurn") < 0.12 then boardGrid[x][y] = Desert(x, y) end
-                    if randomFunction(nil, nil, "endTurn") < 0.10 then boardGrid[x][y] = Swamp(x, y) end
-                    if randomFunction(nil, nil, "endTurn") < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.25 then boardGrid[x][y] = Forest(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.25 then boardGrid[x][y] = Mount(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.25 then boardGrid[x][y] = Lake(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.25 then boardGrid[x][y] = Field(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.12 then boardGrid[x][y] = Desert(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.10 then boardGrid[x][y] = Swamp(x, y) end
+                    if randomFunction(nil, nil, "endTurn", "chances") < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
 
                 end
             
@@ -847,7 +947,7 @@ function spawnPrison(player)
         
             end
 
-            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP2, "prison spawn cell index")
+            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP2, "prison spawn cell index", "boardgrid")
             boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8] = Prison(prisonSpawnPosP2[prisonSpawnCellIndex].x, 8)
            -- boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8].isPrison = true
             playerTwo.prisonCount = playerTwo.prisonCount + 1
@@ -867,7 +967,7 @@ function spawnPrison(player)
                 end
             end
     
-            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP1, "prison spawn cell index")
+            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP1, "prison spawn cell index", "boardgrid")
             boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3] = Prison(prisonSpawnPosP1[prisonSpawnCellIndex].x, 3)
            -- boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3].isPrison = true   
             playerOne.prisonCount = playerOne.prisonCount + 1
@@ -904,8 +1004,8 @@ local function selectStartingPlayer()
   
    else
 
-        startingDicePlayerOne = randomFunction(1,6, "selectStartingPlayer")
-        startingDicePlayerTwo = randomFunction(1,6, "selectStartingPlayer")      
+        startingDicePlayerOne = randomFunction(1,6, "selectStartingPlayer", "diceroll")
+        startingDicePlayerTwo = randomFunction(1,6, "selectStartingPlayer", "diceroll")      
 
         if startingDicePlayerOne > startingDicePlayerTwo then rndPlayer = 1 end
 
@@ -1396,14 +1496,23 @@ local function initNetworking(arg)
         server:on("connect", function(data, client)
           
             local rng = {}
+
             rng[1] = love.math.getRandomState()
+            rng[2] = randomForBoardGrid:getState()
+            rng[3] = randomForChances:getState()
+       
+            rng[4] = randomForDiceRoll:getState()
+            rng[5] = randomForEvents:getState()
+            rng[6] = randomForItems:getState()
+            rng[7] = randomForSpells:getState()
+
             love.math.setRandomState(rng[1])
                
             print("server sending random seed")
            
             client:send("randomseed", rng)
           
-            nextTurnBeforeEvent = randomFunction(5, 9, "server:on connect - next turn before event")
+            nextTurnBeforeEvent = randomFunction(5, 9, "server:on connect - next turn before event", "events")
             initPlayerDeck(playerOne)
             initPlayerDeck(playerTwo)      
                       
@@ -1629,9 +1738,29 @@ local function initNetworking(arg)
             print("client getting random seed")
            
             print(rng[1])
+
+            randomForBoardGrid = love.math.newRandomGenerator()
+            randomForBoardGrid:setState(rng[2])
+
+            randomForChances = love.math.newRandomGenerator()
+            randomForChances:setState(rng[3])
+
+            randomForDiceRoll = love.math.newRandomGenerator()
+            randomForDiceRoll:setState(rng[4])
+
+            randomForEvents = love.math.newRandomGenerator()
+            randomForEvents:setState(rng[5])
+
+            randomForItems = love.math.newRandomGenerator()
+            randomForItems:setState(rng[6])
+
+            randomForSpells = love.math.newRandomGenerator()
+            randomForSpells:setState(rng[7])        
+
+
             love.math.setRandomState(rng[1])
         
-            nextTurnBeforeEvent = randomFunction(5, 9, "client on: connect")
+            nextTurnBeforeEvent = randomFunction(5, 9, "client on: connect", "events")
 
            initPlayerDeck(playerOne)
            initPlayerDeck(playerTwo)
@@ -1870,12 +1999,28 @@ end
 
 function love.load(arg)
        --board betoltese
-    if isGameClient ~= true and isGameServer ~= true then
-         nextTurnBeforeEvent = randomFunction(5, 9, "Love:load - next turn before event")
-    end
+        randomForCosmetics = love.math.newRandomGenerator(love.timer.getTime())
+        initNetworking(arg)
+       
+        if isGameServer then
+        randomForDiceRoll = love.math.newRandomGenerator(love.timer.getTime() / 2)
+        randomForBoardGrid = love.math.newRandomGenerator(love.timer.getTime()  * 2)
+        randomForSpells = love.math.newRandomGenerator(love.timer.getTime() * 3)
+        randomForEvents = love.math.newRandomGenerator(love.timer.getTime() / 3)
+        randomForItems = love.math.newRandomGenerator(love.timer.getTime() * 4)
+        randomForChances = love.math.newRandomGenerator(love.timer.getTime() / 4)
+       end
+    
+       if isGameClient ~= true and isGameServer ~= true then
+         nextTurnBeforeEvent = randomFunction(5, 9, "Love:load - next turn before event", "events")
+       end
 
-    initNetworking(arg)
-    randomForCosmetics = love.math.newRandomGenerator(love.timer.getTime())
+    
+    --randoms
+
+
+
+
     if isGameFullScreen then love.window.setFullscreen(true, "desktop") --  <- fullscreen, drawban a skálálzás
     else love.window.setMode(width,height)
     end       

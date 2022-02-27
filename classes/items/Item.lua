@@ -32,7 +32,7 @@ end
 
 local function getRandomItemFromItemTable()
 
-    local randomItem = randomFunction(1, #itemTable, "getrandomitemfromitemtable")
+    local randomItem = randomFunction(1, #itemTable, "getrandomitemfromitemtable", "items")
     return randomItem
     
 end

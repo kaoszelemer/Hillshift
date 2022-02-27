@@ -34,8 +34,8 @@ function Event048:eventFunction()
             duration = 0.1,
             sequenceTime = love.timer.getTime(),
             action = function()
-                rndCellX = randomFunction(1, 10, "event48")
-                rndCellY = randomFunction(1, 10, "event48")
+                rndCellX = randomFunction(1, 10, "event48", "boardgrid")
+                rndCellY = randomFunction(1, 10, "event48", "boardgrid")
                 if not boardGrid[rndCellX][rndCellY].isPoisoned then
                     Poison:apply(rndCellX, rndCellY)
                 end
@@ -48,8 +48,8 @@ function Event048:eventFunction()
             duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
-                    rndCellX = randomFunction(1, 10, "event48")
-                    rndCellY = randomFunction(1, 10, "event48")
+                    rndCellX = randomFunction(1, 10, "event48", "boardgrid")
+                    rndCellY = randomFunction(1, 10, "event48", "boardgrid")
                     if not boardGrid[rndCellX][rndCellY].isFrozen then
                         
                         Freeze:apply(rndCellX, rndCellY)

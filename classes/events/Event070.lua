@@ -27,7 +27,7 @@ end
 
 function Event070:eventFunction()
 
-    local randomChar = randomFunction(1, #activePlayer.characters, "event70")
+    local randomChar = randomFunction(1, #activePlayer.characters, "event70", "events")
 
 
     for i, currentChar in ipairs(activePlayer.characters) do
