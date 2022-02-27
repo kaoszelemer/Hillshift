@@ -15,44 +15,24 @@ local Druid = Character:extend("Druid")
  
     function Druid:drawSpellAnimation()
 
-        local duration = 0.5
     
-    
-        if self.drawSpellTop then
-            if love.timer.getTime() - self.spellTime <= duration then
-                if self.y - 1 > 0 then 
-                    druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x) * tileW + offsetX) + tileW / 4, ((self.y - 1)* tileH + offsetY) + tileH / 4)
+        for x = -1, 1 do
+            for y = -1, 1 do
+                if (x == 0 and y ~=0) or (x ~= 0 and y == 0) then
+
+                    if self.drawSpell then
+                        
+                            if self.y + y > 0 and self.y + y <= 10 and self.x + x > 0 and self.y + y <= 10 then
+                                animate(druidSpellAnimation, druidSpellAnimationImage, ((self.x + x) * tileW + offsetX) + tileW / 4, ((self.y + y) * tileH + offsetY) + tileH / 4, 1)
+                            end
+                       
+                    end
+
+
                 end
             end
         end
     
-        if self.drawSpellLeft then
-            if love.timer.getTime() - self.spellTime <= duration then
-                    if  self.x - 1 > 0 then 
-                            druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x - 1) * tileW + offsetX) + tileW / 4, ((self.y)* tileH + offsetY) + tileH / 4)
-                    end
-            end
-        end
-    
-    
-    
-        if self.drawSpellRight then
-            if love.timer.getTime() - self.spellTime <= duration then
-                    if self.x + 1 <= 10 then 
-                            druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x + 1) * tileW + offsetX) + tileW / 4, ((self.y)* tileH + offsetY) + tileH / 4)
-                    end
-            end
-        end
-    
-        if self.drawSpellBottom then
-            if love.timer.getTime() - self.spellTime <= duration then
-                    if self.y + 1 <= 10 then 
-                            druidSpellAnimation:draw(druidSpellAnimationImage, ((self.x) * tileW + offsetX) + tileW / 4, ((self.y + 1 )* tileH + offsetY) + tileH / 4)
-                    end
-            end  
-        end
-    
-        
     
     end
  
@@ -62,196 +42,71 @@ function Druid:spell(targetCell)
         gameState:changeState(gameState.states.waitingState)
                
         if self.actionPoints ~= 0 then
-        
-        local burnFirstCell
-        local burnSecondCell
-        local burnThirdCell
-        local burnFourthCell
+            if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) or
+            (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1)) or
+            (targetCell.y == self.y and targetCell.x == self.x) then
 
-        local poisonFirstCell
-        local poisonSecondCell
-        local poisonThirdCell
-        local poisonFourthCell
+                self.actionPoints = self.actionPoints - 1
+                self.drawSpell = true
+                self.timesHit = 0
 
-        local freezeFirstCell
-        local freezeSecondCell
-        local freezeThirdCell
-        local freezeFourthCell
-
-        if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y + 1)) or
-           (targetCell.y == self.y and (targetCell.x == self.x - 1 or targetCell.x == self.x + 1)) or
-           (targetCell.y == self.y and targetCell.x == self.x) then
-            self.actionPoints = self.actionPoints - 1
+                for x = -1, 1 do
+                    for y = -1, 1 do
+                        if (x == 0 and y ~=0) or (x ~= 0 and y == 0) then
+                            table.insert(sequenceBufferTable, {
+                                name = "druid spellhit",
+                                duration = 1,
+                                sequenceTime = love.timer.getTime(),
+                                action = function()
 
 
-            if self.y - 1 > 0 then
-                self.drawSpellTop = true
-                self.spellTime = love.timer.getTime()
-                if boardGrid[self.x][self.y - 1].isOnFire == true then  burnFirstCell = true end
-                if boardGrid[self.x][self.y - 1].isPoisoned == true then poisonFirstCell = true end
-                if boardGrid[self.x][self.y - 1].isFrozen == true then freezeFirstCell = true end
-               
-                table.insert(sequenceBufferTable, {
-                    name = "DruidSpellTopCell",
-                    duration = 0.1,
-                    sequenceTime = love.timer.getTime(),
-                    action = function()
-
-                        boardGrid[self.x][self.y - 1] = Forest(self.x, self.y - 1)
-                        boardGrid[self.x][self.y - 1].isInstanced = true
-                      
-            
-                        if burnFirstCell == true then 
-                            boardGrid[self.x][self.y - 1].isOnFire = true
-                            burnFirstCell = false 
-                        end
+                                    if boardGrid[self.x + x][self.y + y].isOccupied and boardGrid[self.x + x][self.y + y].occupiedBy.parentPlayer ~= self.parentPlayer and boardGrid[self.x + x][self.y + y]:instanceOf(Volcano) ~= true then
+                                        boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 6)
+                                        self.timesHit = self.timesHit + 1
+                                    end
+                                end})
+                            boardGrid[self.x + x][self.y + y] = Forest(self.x + x, self.y + y)
+                            boardGrid[self.x + x][self.y + y].isInstanced = true
                             
-                        if poisonFirstCell == true then
-                            boardGrid[self.x][self.y - 1].isPoisoned = true
-                            poisonFirstCell = false
-                        end
-                                    
-                        if freezeFirstCell == true then
-                            boardGrid[self.x][self.y - 1].isFrozen = true
-                            freezeFirstCell = false 
                         end
                     end
-                })
-            end
-            
-            if self.y + 1 <= 10 then
-                self.drawSpellBottom = true
-                self.spellTime = love.timer.getTime()
-                if boardGrid[self.x][self.y + 1].isOnFire == true then  burnSecondCell = true end
-                if boardGrid[self.x][self.y + 1].isPoisoned == true then poisonSecondCell = true end
-                if boardGrid[self.x][self.y + 1].isFrozen == true then freezeSecondCell = true end
-
-
-                table.insert(sequenceBufferTable, {
-                    name = "DruidSpellBottomCell",
-                    duration = 0.2,
-                    sequenceTime = love.timer.getTime(),
-                    action = function()
-
-                        boardGrid[self.x][self.y + 1] = Forest(self.x, self.y + 1)
-                        boardGrid[self.x][self.y + 1].isInstanced = true
-               
-                    
-                        if burnSecondCell == true then 
-                            boardGrid[self.x][self.y + 1].isOnFire = true
-                            burnSecondCell = false 
-                        end
-                            
-                        if poisonSecondCell == true then
-                            boardGrid[self.x][self.y + 1].isPoisoned = true
-                            poisonSecondCell = false
-                        end
-                                    
-                        if freezeSecondCell == true then
-                            boardGrid[self.x][self.y + 1].isFrozen = true
-                            freezeSecondCell = false 
-                        end
                 end
-            })
-      
+
             end
 
-            if self.x - 1 > 0 then
-                self.drawSpellLeft = true
-                self.spellTime = love.timer.getTime()
-                if boardGrid[self.x - 1][self.y].isOnFire == true then  burnThirdCell = true end
-                if boardGrid[self.x - 1][self.y].isPoisoned == true then poisonThirdCell = true end
-                if boardGrid[self.x - 1][self.y].isFrozen == true then freezeThirdCell = true end
-               
-                table.insert(sequenceBufferTable, {
-                    name = "DruidSpellLeftCell",
-                    duration = 0.3,
-                    sequenceTime = love.timer.getTime(),
-                    action = function()
-
-                        boardGrid[self.x - 1][self.y] = Forest(self.x - 1, self.y)
-                        boardGrid[self.x - 1][self.y].isInstanced = true
-               
             
-                        if burnThirdCell == true then 
-                            boardGrid[self.x - 1][self.y].isOnFire = true
-                            burnThirdCell = false 
-                        end
-                            
-                        if poisonThirdCell == true then
-                            boardGrid[self.x - 1][self.y].isPoisoned = true
-                            poisonThirdCell = false
-                        end
-                                    
-                        if freezeThirdCell == true then
-                            boardGrid[self.x - 1][self.y].isFrozen = true
-                            freezeThirdCell = false 
-                        end
-                end
-            })
-            end
-
-            if self.x + 1 <= 10 then
-                self.drawSpellRight = true
-                self.spellTime = love.timer.getTime()
-                if boardGrid[self.x + 1][self.y].isOnFire == true then  burnFourthCell = true end
-                if boardGrid[self.x + 1][self.y].isPoisoned == true then poisonFourthCell = true end
-                if boardGrid[self.x + 1][self.y].isFrozen == true then freezeFourthCell = true end
 
                 table.insert(sequenceBufferTable, {
-                    name = "DruidSpellRightCell",
-                    duration = 0.4,
+                    name = "druidResetState",
+                    duration = 2,
                     sequenceTime = love.timer.getTime(),
                     action = function()
 
-                         boardGrid[self.x + 1][self.y] = Forest(self.x + 1, self.y)
-                         boardGrid[self.x + 1][self.y].isInstanced = true
-
-                    if burnFourthCell == true then 
-                        boardGrid[self.x + 1][self.y].isOnFire = true
-                        burnFourthCell = false 
-                    end
+                        if self.timesHit == 2 then
+                            soundEngine:playSFX(doubledamageSound)
+                            elseif self.timesHit == 3  then
+                                soundEngine:playSFX(tripledamageSound)
+                            elseif self.timesHit == 4 then
+                                soundEngine:playSFX(quadripledamageSound)
+                        end
                         
-                    if poisonFourthCell == true then
-                        boardGrid[self.x + 1][self.y].isPoisoned = true
-                        poisonFourthCell = false
-                    end
-                                
-                    if freezeFourthCell == true then
-                        boardGrid[self.x + 1][self.y].isFrozen = true
-                        freezeFourthCell = false 
-                    end
-                end
-        })
 
-        
+                        self.timesHit = 0
 
-    
-            
+                        if self.actionPoints > 0  or self.stepPoints > 0 then
+                            selectedChar = self
+                            gameState:changeState(gameState.states.selectCharacterAction)
+                        else
+                    
+                            selectedChar = self
+                            gameState:changeState(gameState.states.selectCharacter)
+                        end
+                    
+                     self.drawSpell = false
+                                    Cell:resetParticleDrawing()
+                
+                    end})
             end
-            soundEngine:playSFX(forestSound)
-           
-        end
-    end
-
-        table.insert(sequenceBufferTable, {
-            name = "AirElementalResetState",
-            duration = 2,
-            sequenceTime = love.timer.getTime(),
-            action = function()
-
-                if self.actionPoints > 0  or self.stepPoints > 0 then
-                    selectedChar = self
-                    gameState:changeState(gameState.states.selectCharacterAction)
-                else
-             
-                    selectedChar = self
-                    gameState:changeState(gameState.states.selectCharacter)
-                end
-            
-                            Cell:resetParticleDrawing()
-        
-            end})
 
    
 end

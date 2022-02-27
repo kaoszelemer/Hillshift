@@ -118,6 +118,8 @@ function GeoGnome:spell(targetCell)
                         soundEngine:playSFX(quintipledamageSound)
                     elseif self.timesHit == 6 then
                         soundEngine:playSFX(sextupledamageSound)
+                    elseif self.timesHit == 7 then
+                        soundEngine:playSFX(ultramegabrutalSound)
                 end
 
                 if self.actionPoints > 0  or self.stepPoints > 0 then
