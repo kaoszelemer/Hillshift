@@ -860,9 +860,10 @@ function newTurn()
     else
         text = "PLAYER TWO - IT'S YOUR TURN"
     end
-   
-    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
     timeWaited = 0
+    timerActive = true
+    banner((turnCounter)..". TURN", text, "now it's your chance", love.timer.getTime(), 3)
+   
 
 
   --  gameState:changeState(gameState.states.selectCharacter)
@@ -1958,6 +1959,7 @@ function banner(name, text, flavor, bt, bandur)
 
     gameState:changeState(gameState.states.waitingState)
     turnTimer = turnTimer + bannerDuration
+   -- timeWaited = timeWaited - bannerDuration
     
     bannerAnimation:gotoFrame(1)
     bannerAnimation:resume()
@@ -2455,7 +2457,7 @@ function love.mousereleased(x, y, button, istouch, presses)
 
                 if (x > width / 2 + 192 and x < width / 2 + 310) and (y > height - 70 and y < height - 30) then
                     isEndTurnButtonClicked = false
-
+                    soundEngine:stopSFX(lastSecondsSound)
                     if isGameServer and activePlayer == playerOne and not enableBannerDraw then
                         server:sendToAll("serverendturn", "endturnclicked")
                         endTurn()
