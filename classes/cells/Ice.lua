@@ -23,17 +23,17 @@ function Ice:onEntry(selectedChar)
         duration = 0.5,
         sequenceTime = love.timer.getTime(),
         action = function()
+            if selectedChar then
+                selectedChar.actionPoints = 0
 
-            selectedChar.actionPoints = 0
+                if selectedChar.stepPoints == 2 then
+                    selectedChar.stepPoints = 2
+                elseif selectedChar.stepPoints <= 1 then
+                    selectedChar.stepPoints = 1
+                end
 
-            if selectedChar.stepPoints == 2 then
-                selectedChar.stepPoints = 2
-            elseif selectedChar.stepPoints <= 1 then
-                selectedChar.stepPoints = 1
+                gameState:changeState(gameState.states.selectCharacterAction)
             end
-
-            gameState:changeState(gameState.states.selectCharacterAction)
-        
         end})
 
  
