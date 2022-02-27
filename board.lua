@@ -314,7 +314,7 @@ function drawTileHelper()
                     if cell.isPoisoned then
                         love.graphics.setColor(purpleColor)
                         love.graphics.setFont(littleFont)
-                        love.graphics.print("This "..cell.name.." is poisoned!\n-3HP on entry, -6HP in 3 turn", tileW / 2 + tileW / 8, (4*150 + 60) + tileH+ tileH / 4)
+                        love.graphics.print("This "..cell.name.." is poisoned!\n-3HP on entry, -9HP in 3 turn", tileW / 2 + tileW / 8, (4*150 + 60) + tileH+ tileH / 4)
                         love.graphics.setColor(charColor)
                         love.graphics.setFont(statFont)
                     end

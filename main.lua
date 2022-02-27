@@ -771,10 +771,10 @@ function endTurn()
                     
                     end
                     if turnCounter - currentChar.poisoningTurn == 1 then
-                        currentChar:damage(currentChar, 2)
+                        currentChar:damage(currentChar, 3)
                     end
                     if turnCounter - currentChar.poisoningTurn == 2 then
-                        currentChar:damage(currentChar, 1)
+                        currentChar:damage(currentChar, 3)
                     end
                 end   
 
@@ -809,10 +809,10 @@ function endTurn()
                                 currentChar.isPoisoned = false
                             end
                             if turnCounter - currentChar.poisoningTurn == 1 then
-                                currentChar:damage(currentChar, 2)
+                                currentChar:damage(currentChar, 3)
                             end
                             if turnCounter - currentChar.poisoningTurn == 2 then
-                                currentChar:damage(currentChar, 1)
+                                currentChar:damage(currentChar, 3)
                             
                             end
                         end           
