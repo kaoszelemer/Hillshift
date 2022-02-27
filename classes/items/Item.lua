@@ -32,7 +32,7 @@ end
 
 local function getRandomItemFromItemTable()
 
-    local randomItem = randomFunction(1, #itemTable, "getrandomitemfromitemtable", inactivePlayer.characters[1].baseHP, turnCounter, activePlayer.characters[1].stepPoints + 2, activePlayer.characters[1].id + 2)
+    local randomItem = randomFunction(1, #itemTable, "getrandomitemfromitemtable")
     return randomItem
     
 end

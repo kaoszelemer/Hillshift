@@ -282,43 +282,22 @@ selectedChar = nil
 --event tábla
 eventTable = {}
 
-function randomFunction(...)
+function randomFunction(a, b, infotext)
 
-    local args = {...}
-
-    local a = args[1]
-    local b = args[2]
-    local infotext = args[3]
     local c
-
-    if args[4] ~= nil then
-        
-        local seed = math.floor(((args[4] * args[5]) * (args[6] * args[7])) + rndSeedPlus)
-    
-        love.math.setRandomSeed(seed)
-    end
 
     if a == nil and b == nil then
         c = love.math.random()
     else        
         c = love.math.random(a, b)
     end
-
-
     
-    local d = love.math.getRandomSeed()
+    local d = love.math.getRandomState()
     if activePlayer ~= nil then
-        print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSEED]: "..d)
+        print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
     end
-
-
     return c
-
-    
-   
-
 end
-
 
 function sequenceProcessor()
    
@@ -434,12 +413,12 @@ function endTurn()
 
 
     if turnCounter > 1 and isVolcanoOnBoard ~= true then
-        local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance", eventTurnCounter, turnCounter, #activePlayer.characters, #inactivePlayer.characters)
+        local rngv = randomFunction(nil, nil, "endTurnVolcanoAppearsChance")
        
 
         if rngv < (debugVolcanoChance or 0.15) then
-            local vx = randomFunction(2, 9, "volcanoX", rngv, turnCounter, eventTurnCounter, #activePlayer.characters)
-            local vy = randomFunction(2, 9, "volcanoY", rngv, vx, turnCounter, eventTurnCounter)
+            local vx = randomFunction(2, 9, "volcanoX")
+            local vy = randomFunction(2, 9, "volcanoY")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Volcano(vx, vy)
                 boardGrid[vx][vy].isOccupied = true
@@ -451,12 +430,12 @@ function endTurn()
     end
 
     if turnCounter > 8 and isShrineOnBoard ~= true then
-        local rngs = randomFunction(nil, nil, "endTurnShrineAppearsChance", turnCounter, #activePlayer.characters, #inactivePlayer.characters, 5)
+        local rngs = randomFunction(nil, nil, "endTurnShrineAppearsChance")
    
 
         if rngs < 0.5 then
-            local vx = randomFunction(2, 9, "shrineX", rngs, turnCounter, eventTurnCounter, #activePlayer.characters)
-            local vy = randomFunction(2, 9, "shrineY", vx, rngs, turnCounter, eventTurnCounter)
+            local vx = randomFunction(2, 9, "shrineX")
+            local vy = randomFunction(2, 9, "shrineY")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Shrine(vx, vy)
                 isShrineOnBoard = true
@@ -484,8 +463,8 @@ function endTurn()
             if boardGrid[x][y]:instanceOf(Forest) then
                 forestCounter = forestCounter + 1
                 if forestCounter >= 33 and magicForestChance < 0.33 and magicForestCounter < 1 then
-                    local mfX = randomFunction(3, 8, "magicforestx", forestCounter, turnCounter, #activePlayer.characters, #inactivePlayer.characters)
-                    local mfY = randomFunction(3, 8, "magicforesty", mfX, forestCounter, turnCounter, #activePlayer.characters)
+                    local mfX = randomFunction(3, 8, "magicforestx")
+                    local mfY = randomFunction(3, 8, "magicforesty")
                     boardGrid[mfX][mfY] = MagicForest(mfX, mfY)
                     magicForestTimer = turnCounter
                     magicForestCounter = magicForestCounter + 1
@@ -605,13 +584,13 @@ function endTurn()
 
                 if boardGrid[x][y]:instanceOf(MagicForest) and turnCounter - magicForestTimer == 3 then
 
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.25 then boardGrid[x][y] = Forest(x, y) end
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.25 then boardGrid[x][y] = Mount(x, y) end
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.25 then boardGrid[x][y] = Lake(x, y) end
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.25 then boardGrid[x][y] = Field(x, y) end
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.12 then boardGrid[x][y] = Desert(x, y) end
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.10 then boardGrid[x][y] = Swamp(x, y) end
-                    if randomFunction(nil, nil, "endTurn", forestCounter, turnCounter, eventTurnCounter, #activePlayer.characters) < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Forest(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Mount(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Lake(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.25 then boardGrid[x][y] = Field(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.12 then boardGrid[x][y] = Desert(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.10 then boardGrid[x][y] = Swamp(x, y) end
+                    if randomFunction(nil, nil, "endTurn") < 0.08 then boardGrid[x][y] = GlassMount(x, y) end
 
                 end
             
@@ -692,10 +671,10 @@ function endTurn()
                     
                     end
                     if turnCounter - currentChar.poisoningTurn == 1 then
-                        currentChar:damage(currentChar, 3)
+                        currentChar:damage(currentChar, 2)
                     end
                     if turnCounter - currentChar.poisoningTurn == 2 then
-                        currentChar:damage(currentChar, 3)
+                        currentChar:damage(currentChar, 1)
                     end
                 end   
 
@@ -868,9 +847,9 @@ function spawnPrison(player)
         
             end
 
-            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP2, "prison spawn cell index", turnCounter, activePlayer.characters[1].baseHP + inactivePlayer.characters[1].baseHP, eventTurnCounter, #activePlayer.characters + #inactivePlayer.characters)
+            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP2, "prison spawn cell index")
             boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8] = Prison(prisonSpawnPosP2[prisonSpawnCellIndex].x, 8)
-            boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8].isPrison = true
+           -- boardGrid[prisonSpawnPosP2[prisonSpawnCellIndex].x][8].isPrison = true
             playerTwo.prisonCount = playerTwo.prisonCount + 1
         end
 
@@ -888,9 +867,9 @@ function spawnPrison(player)
                 end
             end
     
-            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP1, "prison spawn cell index", turnCounter, activePlayer.characters[1].baseHP + inactivePlayer.characters[1].baseHP, eventTurnCounter, #activePlayer.characters + #inactivePlayer.characters)
+            local prisonSpawnCellIndex = randomFunction(1, #prisonSpawnPosP1, "prison spawn cell index")
             boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3] = Prison(prisonSpawnPosP1[prisonSpawnCellIndex].x, 3)
-            boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3].isPrison = true   
+           -- boardGrid[prisonSpawnPosP1[prisonSpawnCellIndex].x][3].isPrison = true   
             playerOne.prisonCount = playerOne.prisonCount + 1
         end
 
@@ -1418,10 +1397,7 @@ local function initNetworking(arg)
           
             local rng = {}
             rng[1] = love.math.getRandomState()
-            rng[2] = rndSeedPlus
             love.math.setRandomState(rng[1])
-
-
                
             print("server sending random seed")
            
@@ -1654,7 +1630,6 @@ local function initNetworking(arg)
            
             print(rng[1])
             love.math.setRandomState(rng[1])
-            rndSeedPlus = rng[2]
         
             nextTurnBeforeEvent = randomFunction(5, 9, "client on: connect")
 

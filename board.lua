@@ -74,9 +74,6 @@ diceFour = love.graphics.newQuad(192, 0, tileW, tileH, diceQuadWidth, tileH)
 diceFive = love.graphics.newQuad(256, 0, tileW, tileH, diceQuadWidth, tileH) 
 diceSix = love.graphics.newQuad(320, 0, tileW, tileH,  diceQuadWidth, tileH) 
 
-
-rndSeedPlus = love.timer.getTime()
-
 --Counter
 chestCounter = 0
 
@@ -285,7 +282,7 @@ local function testBoardForOccupy(activeplayer, inactiveplayer)
 end
 
 function getDiceRoll()
-   local diceRoll = randomFunction(1, 6, "getDiceRoll", activePlayer.characters[1].baseHP, turnCounter, activePlayer.characters[1].x, eventTurnCounter * 13)
+   local diceRoll = randomFunction(1, 6, "getDiceRoll")
    return diceRoll
 end
 
