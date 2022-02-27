@@ -19,88 +19,33 @@ end
 
 function GlassMount:onEntry(character, ax, ay)
 
+
+     
     
+
+    local targetx = self.x + (self.x - ax)
+    local targety = self.y + (self.y - ay)
+
+    if ((targetx < 0 or targetx > 10) or (targety < 0  or targety > 10)) then
+        return
+    end
+
+    if boardGrid[targetx][targety].isOccupied then
+        return
+    end
+
+ 
    
     table.insert(sequenceBufferTable, {
         name = "GlassMountSlide",
         duration = 0.3,
         sequenceTime = love.timer.getTime(),
         action = function()
-            if ax > character.x and ay == character.y then
-                if character.x - 1 > 0 then
-                    if not boardGrid[character.x - 1][character.y].isOccupied then
+          
                         
-                        character:freeMove(character.x - 1, character.y, character.x, character.y)
-                    end
-                end
-            end
-        
-        
-            
-            if ax < character.x and ay == character.y then
-                if character.x + 1 <= 10 then
-                    if not boardGrid[character.x + 1][character.y].isOccupied then
-                        
-                        character:freeMove(character.x + 1, character.y, character.x, character.y)
-                    end
-                end
-            end
-
-            if ax == character.x and ay > character.y then
-                if character.y - 1 > 0 then
-                    if not boardGrid[character.x][character.y - 1].isOccupied then
-                        
-                        character:freeMove(character.x, character.y - 1, character.x, character.y)
-                    end
-                 end
-            end
-
-            if ax == character.x and ay < character.y then
-                if character.y + 1 <= 10 then
-                    if not boardGrid[character.x][character.y + 1].isOccupied then
-                        
-                        character:freeMove(character.x, character.y + 1, character.x, character.y)
-                    end
-                end
-            end
-            
-            if ax > character.x and ay < character.y then
-                if character.x - 1 > 0 and character.y - 1 > 0 then
-                    if not boardGrid[character.x - 1][character.y - 1].isOccupied then
-                        
-                        character:freeMove(character.x - 1, character.y + 1, character.x, character.y)
-                    end
-                end
-            end
-
-            if ax > character.x and ay > character.y then
-                if character.x - 1 > 0 and character.y - 1 <= 10 then
-                    if not boardGrid[character.x - 1][character.y - 1].isOccupied then
-                        
-                        character:freeMove(character.x - 1, character.y - 1, character.x, character.y)
-                    end
-                end
-            end
-
-            if ax < character.x and ay > character.y then
-                if character.x + 1 <= 10 and character.y - 1 > 0 then
-                    if not boardGrid[character.x + 1][character.y - 1].isOccupied then
-                        
-                        character:freeMove(character.x + 1, character.y - 1, character.x, character.y)
-                    end
-                 end
-            end
-
-            if ax < character.x and ay < character.y then
-                if character.x + 1 <= 10 and character.y + 1 <= 10 then 
-                    if not boardGrid[character.x + 1][character.y + 1].isOccupied then
-                        
-                        character:freeMove(character.x + 1, character.y + 1, character.x, character.y)
-                    end
-                end
-            end
-        end
-    })
+                        character:freeMove(targetx, targety, character.x, character.y)
+    
+        end})
 
        
      
