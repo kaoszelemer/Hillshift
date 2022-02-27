@@ -20,11 +20,11 @@ function ThunderShaman:spell(targetCell)
  
 
         if self.actionPoints ~= 0 then
+            self.timesHit = 0
     
         if (targetCell.x == self.x and (targetCell.y == self.y - 1 or targetCell.y == self.y - 2)) or
             (targetCell.x == self.x and (targetCell.y == self.y + 1 or targetCell.y == self.y + 2)) then
                 self.actionPoints = self.actionPoints - 1
-
                 for oY = -2, 2 do
                     if oY ~= 0 then
                         if self.y + oY > 0 and self.y + oY <= 10 then
@@ -39,8 +39,10 @@ function ThunderShaman:spell(targetCell)
                                     lightningTimer = love.timer.getTime()
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Lake) and boardGrid[self.x][self.y + oY].isOccupied then
                                         boardGrid[self.x][self.y + oY].occupiedBy:damage(boardGrid[self.x][self.y + oY].occupiedBy, 20)
+                                        self.timesHit = self.timesHit + 1
                                     elseif boardGrid[self.x][self.y + oY].isOccupied then
                                         boardGrid[self.x][self.y + oY].occupiedBy:damage(boardGrid[self.x][self.y + oY].occupiedBy, 10)
+                                        self.timesHit = self.timesHit + 1
                                     end
                                     
                                     if boardGrid[self.x][self.y + oY]:instanceOf(Mount) then
@@ -96,8 +98,10 @@ function ThunderShaman:spell(targetCell)
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Lake) and boardGrid[self.x + oX][self.y].isOccupied then
                             
                                     boardGrid[self.x + oX][self.y].occupiedBy:damage(boardGrid[self.x + oX][self.y].occupiedBy, 20)
+                                    self.timesHit = self.timesHit + 1
                                 elseif boardGrid[self.x + oX][self.y].isOccupied then
                                     boardGrid[self.x + oX][self.y].occupiedBy:damage(boardGrid[self.x + oX][self.y].occupiedBy, 10)
+                                    self.timesHit = self.timesHit + 1
                                 end
                 
                                 if boardGrid[self.x + oX][self.y]:instanceOf(Mount) then
@@ -140,10 +144,18 @@ function ThunderShaman:spell(targetCell)
             duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
-    
+                if self.timesHit == 2 then
+                    soundEngine:playSFX(doubledamageSound)
+                    elseif self.timesHit == 3  then
+                        soundEngine:playSFX(tripledamageSound)
+                    elseif self.timesHit == 4 then
+                        soundEngine:playSFX(quadripledamageSound)
+                end
+
                 self.drawSpellLeft = false
                 self.drawSpellRight = false
                 Cell:resetParticleDrawing()
+                self.timesHit = 0
                 if self.actionPoints > 0  or self.stepPoints > 0 then
                     selectedChar = self
                     gameState:changeState(gameState.states.selectCharacterAction)

@@ -54,6 +54,8 @@ function GeoGnome:spell(targetCell)
 
             self.drawSpellAnim = true
             self.spellTime = love.timer.getTime()
+           self.timesHit = 0
+
 
                     for x = -1, 1 do
                         for y = -1, 1 do
@@ -68,7 +70,11 @@ function GeoGnome:spell(targetCell)
                                     if boardGrid[self.x + x][self.y + y].isOccupied then
                                         boardGrid[self.x + x][self.y + y].occupiedBy:damage(boardGrid[self.x + x][self.y + y].occupiedBy, 5)
                                      --   print(boardGrid[self.x + x][self.y + y].isOccupied)
+                                     self.timesHit = self.timesHit + 1
+                                     
                                     end
+
+                                    print(self.timesHit)
                                     
                                     table.insert(sequenceBufferTable, {
                                         name = "GeoGnomeSpel damage",
@@ -94,11 +100,25 @@ function GeoGnome:spell(targetCell)
 
 
         end
+
+     
         table.insert(sequenceBufferTable, {
             name = "geognomeResetState",
             duration = 1,
             sequenceTime = love.timer.getTime(),
             action = function()
+
+                if self.timesHit == 2 then
+                    soundEngine:playSFX(doubledamageSound)
+                    elseif self.timesHit == 3  then
+                        soundEngine:playSFX(tripledamageSound)
+                    elseif self.timesHit == 4 then
+                        soundEngine:playSFX(quadripledamageSound)
+                    elseif self.timesHit == 5 then
+                        soundEngine:playSFX(quintipledamageSound)
+                    elseif self.timesHit == 6 then
+                        soundEngine:playSFX(sextupledamageSound)
+                end
 
                 if self.actionPoints > 0  or self.stepPoints > 0 then
                     selectedChar = self
@@ -108,7 +128,7 @@ function GeoGnome:spell(targetCell)
                     selectedChar = self
                     gameState:changeState(gameState.states.selectCharacter)
                 end
-              
+                self.timesHit = 0
                 Cell:resetParticleDrawing()
              
         

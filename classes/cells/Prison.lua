@@ -28,6 +28,7 @@ function Prison:onEntry(character, ax, ay)
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
+                soundEngine:playSFX(prisononentrySound)
                 deadPool.playerOne[1].x = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
                 deadPool.playerOne[1].y = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
                 if boardGrid[deadPool.playerOne[1].x][deadPool.playerOne[1].y].isOccupied then
@@ -40,6 +41,7 @@ function Prison:onEntry(character, ax, ay)
                 table.insert(character.parentPlayer.characters, deadPool.playerOne[1])
                 table.remove(deadPool.playerOne)
                 boardGrid[self.x][self.y] = Field(self.x, self.y)
+                boardGrid[self.x][self.y].occupiedBy = character
             end
         })
 
@@ -59,6 +61,7 @@ function Prison:onEntry(character, ax, ay)
             duration = 0.3,
             sequenceTime = love.timer.getTime(),
             action = function()
+                soundEngine:playSFX(prisononentrySound)
                 currentChar.x = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
                 currentChar.y = randomFunction(1, 10, "cell:onentry prison", "boardgrid")
                 if boardGrid[currentChar.x][currentChar.y].isOccupied then
@@ -71,6 +74,7 @@ function Prison:onEntry(character, ax, ay)
                 table.insert(character.parentPlayer.characters, currentChar)
                 table.remove(deadPool.playerTwo)
                 boardGrid[self.x][self.y] = Field(self.x, self.y)
+                boardGrid[self.x][self.y].occupiedBy = character
             end
         })
 

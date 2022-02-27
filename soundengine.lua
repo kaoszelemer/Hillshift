@@ -146,8 +146,32 @@ function soundEngine:load()
     local haha = love.audio.newSource("/sounds/haha.mp3", "static")
     hahaSound = ripple.newSound(haha, {volume = 0.75, loop = false})
 
-    
+    local doubledamage = love.audio.newSource("/sounds/doubledamage.mp3", "static")
+    doubledamageSound = ripple.newSound(doubledamage, {volume = 0.75, loop = false})
 
+    local tripledamage = love.audio.newSource("/sounds/tripledamage.mp3", "static")
+    tripledamageSound = ripple.newSound(tripledamage, {volume = 0.75, loop = false})
+
+    local quadripledamage = love.audio.newSource("/sounds/quadripledamage.mp3", "static")
+    quadripledamageSound = ripple.newSound(quadripledamage, {volume = 0.75, loop = false})
+
+    local quintipledamage = love.audio.newSource("/sounds/quintipledamage.mp3", "static")
+    quintipledamageSound = ripple.newSound(quintipledamage, {volume = 0.75, loop = false})
+
+    local sextupledamage = love.audio.newSource("/sounds/sextupledamage.mp3", "static")
+    sextupledamageSound = ripple.newSound(sextupledamage, {volume = 0.75, loop = false})
+
+    local ultramegabrutal = love.audio.newSource("/sounds/ultramegabrutal.mp3", "static")
+    ultramegabrutalSound = ripple.newSound(ultramegabrutal, {volume = 0.75, loop = false})
+    
+    local itempickup = love.audio.newSource("/sounds/itempickup.mp3", "static")
+    itempickupSound = ripple.newSound(itempickup, {volume = 0.75, loop = false})
+
+    local prisononentry = love.audio.newSource("/sounds/prisononentry.mp3", "static")
+    prisononentrySound = ripple.newSound(prisononentry, {volume = 0.75, loop = false})
+    
+    
+    
 
 
     

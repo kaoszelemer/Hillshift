@@ -611,6 +611,7 @@ function Cell:onEntry(character)
 
     if not character.hasItem then
         if self.isChest then
+            soundEngine:playSFX(itempickupSound)
             player = character.parentPlayer
             character.hasItem = true
             Item:pickUpItem(character, player)
