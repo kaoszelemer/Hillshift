@@ -21,7 +21,7 @@ end
 function Prison:onEntry(character, ax, ay)
 
     
-    if character.parentPlayer == playerOne then
+    if character.parentPlayer == playerOne and self.y == 3 then
 
         table.insert(sequenceBufferTable, {
             name = "startingCellwasOccupiedSoMovingToanotherPosition",
@@ -52,7 +52,7 @@ function Prison:onEntry(character, ax, ay)
 
 
 
-   if character.parentPlayer == playerTwo then
+   if character.parentPlayer == playerTwo and self.y == 8 then
 
     local currentChar = deadPool.playerTwo[1]
 
