@@ -34,13 +34,13 @@ frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
 poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
 fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
 
-frozenGridBorder = love.graphics.newImage("graphics/frozenborder.png")
-poisonGridBorder = love.graphics.newImage("graphics/poisonborder.png")
-fireGridBorder = love.graphics.newImage("graphics/fireborder.png")
+timeWarperIcon = love.graphics.newImage('graphics/timewarper.png')
 
 freezeRemTurnIcon = love.graphics.newImage("graphics/iceremaining.png")
 fireRemTurnIcon = love.graphics.newImage("graphics/fireremaining.png")
 poisonRemTurnIcon = love.graphics.newImage("graphics/poisonremaining.png")
+
+
 
 
 --validMove images
@@ -199,6 +199,7 @@ function initPlayerDeck(player)
             table.insert(player.characters, ThunderShaman(player))
             table.insert(player.characters, SandWitch(player))
             table.insert(player.characters, WaterHag(player))
+         --   table.insert(player.characters, ChronoConjurer(player))
 
             --- ONLY ONE CHARACTER
 
@@ -1273,6 +1274,8 @@ local function loadAnimations()
    fireBorderAnimationImage = love.graphics.newImage('graphics/fireborderanimation.png')
    local g = anim8.newGrid(64, 64, fireBorderAnimationImage:getWidth(), fireBorderAnimationImage:getHeight())
    fireBorderAnimation = anim8.newAnimation(g('1-8', 1, '7-2', 1), {['1-7']= 0.1, ['8-8']= 2, ['9-14']=0.1})
+
+
 
    frozenBorderAnimationImage = love.graphics.newImage('graphics/frozenborderanimation.png')
    local g = anim8.newGrid(64, 64, frozenBorderAnimationImage:getWidth(), frozenBorderAnimationImage:getHeight())

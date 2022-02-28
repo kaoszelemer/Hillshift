@@ -49,6 +49,10 @@ function Effector:drawEffector()
                     love.graphics.setColor(charColor)
                     love.graphics.setFont(statFont)
                 end
+
+                if cell.isTimewarped then
+                    love.graphics.draw(timeWarperIcon, i, j)
+                end
            
         end
     end

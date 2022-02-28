@@ -111,6 +111,7 @@ FireMage = require('classes.characters.FireMage')
 ThunderShaman = require('classes.characters.ThunderShaman')
 SandWitch = require('classes.characters.SandWitch')
 WaterHag = require('classes.characters.WaterHag')
+ChronoConjurer = require('classes.characters.ChronoConjurer')
 
 deadPool = {playerOne = {}, playerTwo = {}}
 

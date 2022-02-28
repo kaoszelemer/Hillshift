@@ -660,6 +660,17 @@ function Cell:onEntry(character)
                 end
             end
         end
+
+
+        if self.isTimewarped then
+            if selectedChar.parentPlayer == self.timerParent then
+                turnTimer = turnTimer + 5
+                self.isTimewarped = false
+            elseif selectedChar.parentPlayer ~= self.timerParent then
+                turnTimer = turnTimer - 10
+                self.isTimewarped = false
+            end
+        end
     
 
 
