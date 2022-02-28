@@ -31,6 +31,7 @@ function Character:init(maxHP, baseHP, baseDefense, baseAttack, id, image, idleA
         Graveyard = true,
         Shrine = true,
         Prison = true,
+        Volcano = true,
     }
 
 

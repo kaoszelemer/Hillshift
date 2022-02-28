@@ -342,9 +342,6 @@ function Cell:click()
 
     if self.isOccupied then
 
-        if self:instanceOf(Volcano) then
-            return
-        end
 
         if gameState.state ~= gameState.states.selectMoveTargetCell and gameState.state ~= gameState.states.selectAttackTargetCharacter and gameState.state ~= gameState.states.selectSpellTargetArea then
 

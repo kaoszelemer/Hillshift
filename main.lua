@@ -522,7 +522,7 @@ function endTurn()
             local vy = randomFunction(2, 9, "volcanoY", "boardgrid")
             if boardGrid[vx][vy].isOccupied ~= true then
                 boardGrid[vx][vy] = Volcano(vx, vy)
-                boardGrid[vx][vy].isOccupied = true
+          
                 isVolcanoOnBoard = true
                 boardGrid[vx][vy].volcanoCounter = 3
             end

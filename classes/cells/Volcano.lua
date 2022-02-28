@@ -16,6 +16,14 @@ end
 
 
 
+function Volcano:click()
+end
+
+function Volcano:onEntry(char, ax, ay)
+
+    char:damage(char, 15)
+
+end
 
 function Volcano:boom(bx, by)
 
@@ -52,6 +60,10 @@ function Volcano:boom(bx, by)
                     
                     end
                 end
+            end
+
+            if self.isOccupied then
+                self.occupiedBy:damage(self.occupiedBy, 25)
             end
 
 
