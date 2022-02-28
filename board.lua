@@ -199,7 +199,7 @@ function initPlayerDeck(player)
             table.insert(player.characters, ThunderShaman(player))
             table.insert(player.characters, SandWitch(player))
             table.insert(player.characters, WaterHag(player))
-         --   table.insert(player.characters, ChronoConjurer(player))
+            table.insert(player.characters, ChronoConjurer(player))
 
             --- ONLY ONE CHARACTER
 
