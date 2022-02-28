@@ -105,34 +105,41 @@ function Cell:drawVolcanoAnim()
    
 end
 
-function Cell:moveSelectedCharIfValidOffset(ox, oy)
+function Cell:moveSelectedCharIfValidOffset()
     
-    if ((selectedChar.x + ox <= 10 and selectedChar.x + ox >= 1) and (self.x == selectedChar.x + ox and self.y == selectedChar.y + oy)) or
-       ((selectedChar.y + oy <= 10 and selectedChar.y + oy >= 1) and (self.y == selectedChar.y + oy and self.y == selectedChar.y + oy)) then
-            if selectedChar.x + ox == self.x and
-                selectedChar.y + oy == self.y then
+        local targetx = self.x - selectedChar.x
+        local targety = self.y - selectedChar.y
 
-                           
-                    if isGameServer then
-                        local cp = {selectedChar.id, self.x, self.y, selectedChar.x, selectedChar.y}
-                        server:sendToAll("servercharacterpositionchanging", cp)
-                    end
 
-                    if isGameClient then
-                        local cp = {selectedChar.id, self.x, self.y, selectedChar.x, selectedChar.y}
-                        client:send("clientcharacterpositionchanging", cp)
-                    end
-                   
+        if (targetx >= -1 and targetx <= 1 and targety >= - 1 and targety <= 1) then
 
-                    selectedChar:move(selectedChar.x + ox, selectedChar.y + oy, selectedChar.x, selectedChar.y)
-              
-            else
-
-                gameState:changeState(gameState.states.selectCharacter)
-
+            if (targetx == 0 and targety == 0) then
+                return
             end
-    end
-      
+                    
+            if isGameServer then
+                local cp = {selectedChar.id, self.x, self.y, selectedChar.x, selectedChar.y}
+                server:sendToAll("servercharacterpositionchanging", cp)
+            end
+
+            if isGameClient then
+                local cp = {selectedChar.id, self.x, self.y, selectedChar.x, selectedChar.y}
+                client:send("clientcharacterpositionchanging", cp)
+            end
+        
+
+            selectedChar:move(self.x, self.y, selectedChar.x, selectedChar.y)
+            
+        
+        else
+
+            gameState:changeState(gameState.states.selectCharacter)
+
+        end
+
+            
+            
+ 
 end
 
 function Cell:iceSlide(selectedChar)
@@ -422,14 +429,9 @@ function Cell:click()
     if gameState.state == gameState.states.selectMoveTargetCell and selectedChar.isWalkable[self.class.name] and not self.isOccupied then
 
 
-        for x = -1, 1 do
-            for y = -1, 1 do
-               if x ~= 0 or y ~= 0 then 
                    
-                    self:moveSelectedCharIfValidOffset(x, y)
-                end
-            end
-        end   
+        self:moveSelectedCharIfValidOffset()
+        
 
     return
     end
