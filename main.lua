@@ -287,116 +287,18 @@ function randomFunction(a, b, infotext, wf)
 
     local c
 
-    if wf == "boardgrid" then
-
         if a == nil and b == nil then
-            c = randomForBoardGrid:random()
+            c = love.math.random()
         else        
-            c = randomForBoardGrid:random(a, b)
+            c = love.math.random(a, b)
         end
 
-        local d = randomForBoardGrid:getState()
+        local d = love.math.getRandomState()
 
         if activePlayer ~= nil then
             print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
         end
         return c
-    end
-
-    if wf == "chances" then
-        
-        if a == nil and b == nil then
-            c = randomForChances:random()
-        else        
-            c = randomForChances:random(a, b)
-        end
-
-        local d = randomForChances:getState()
-
-        if activePlayer ~= nil then
-            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
-        end
-        return c
-
-
-    end
-    
-    if wf == "diceroll" then
-        
-        if a == nil and b == nil then
-            c = randomForDiceRoll:random()
-        else        
-            c = randomForDiceRoll:random(a, b)
-        end
-
-        local d = randomForDiceRoll:getState()
-
-        if activePlayer ~= nil then
-            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
-        end
-        return c
-
-
-    end
-
-    if wf == "events" then
-        
-        if a == nil and b == nil then
-            c = randomForEvents:random()
-        else        
-            c = randomForEvents:random(a, b)
-        end
-
-        local d = randomForEvents:getState()
-
-        if activePlayer ~= nil then
-            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
-        end
-        return c
-
-
-    end
-
-    if wf == "items" then
-        
-        if a == nil and b == nil then
-            c = randomForItems:random()
-        else        
-            c = randomForItems:random(a, b)
-        end
-
-        local d = randomForItems:getState()
-
-        if activePlayer ~= nil then
-            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
-        end
-        return c
-
-
-    end
-
-    if wf == "spells" then
-        
-        if a == nil and b == nil then
-            c = randomForSpells:random()
-        else        
-            c = randomForSpells:random(a, b)
-        end
-
-        local d = randomForSpells:getState()
-
-        if activePlayer ~= nil then
-            print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
-        end
-        return c
-
-
-    end
- 
-
-
-
-
     
 end
 
@@ -1500,14 +1402,6 @@ local function initNetworking(arg)
             local rng = {}
 
             rng[1] = love.math.getRandomState()
-            rng[2] = randomForBoardGrid:getState()
-            rng[3] = randomForChances:getState()
-       
-            rng[4] = randomForDiceRoll:getState()
-            rng[5] = randomForEvents:getState()
-            rng[6] = randomForItems:getState()
-            rng[7] = randomForSpells:getState()
-
             love.math.setRandomState(rng[1])
                
             print("server sending random seed")
@@ -1741,26 +1635,6 @@ local function initNetworking(arg)
             print("client getting random seed")
            
             print(rng[1])
-
-            randomForBoardGrid = love.math.newRandomGenerator()
-            randomForBoardGrid:setState(rng[2])
-
-            randomForChances = love.math.newRandomGenerator()
-            randomForChances:setState(rng[3])
-
-            randomForDiceRoll = love.math.newRandomGenerator()
-            randomForDiceRoll:setState(rng[4])
-
-            randomForEvents = love.math.newRandomGenerator()
-            randomForEvents:setState(rng[5])
-
-            randomForItems = love.math.newRandomGenerator()
-            randomForItems:setState(rng[6])
-
-            randomForSpells = love.math.newRandomGenerator()
-            randomForSpells:setState(rng[7])        
-
-
             love.math.setRandomState(rng[1])
         
             nextTurnBeforeEvent = randomFunction(5, 9, "client on: connect", "events")
@@ -2006,15 +1880,7 @@ function love.load(arg)
         randomForCosmetics = love.math.newRandomGenerator(love.timer.getTime())
         initNetworking(arg)
        
-        if isGameServer or (isGameClient ~= true and isGameServer ~= true) then
-        randomForDiceRoll = love.math.newRandomGenerator(love.timer.getTime() / 2)
-        randomForBoardGrid = love.math.newRandomGenerator(love.timer.getTime()  * 2)
-        randomForSpells = love.math.newRandomGenerator(love.timer.getTime() * 3)
-        randomForEvents = love.math.newRandomGenerator(love.timer.getTime() / 3)
-        randomForItems = love.math.newRandomGenerator(love.timer.getTime() * 4)
-        randomForChances = love.math.newRandomGenerator(love.timer.getTime() / 4)
-       end
-    
+      
        if isGameClient ~= true and isGameServer ~= true then
          nextTurnBeforeEvent = randomFunction(5, 9, "Love:load - next turn before event", "events")
        end
