@@ -1669,7 +1669,7 @@ local function initNetworking(arg)
                     for _, attackerChar in ipairs(activePlayer.characters) do
                         if attackerChar.id == attackerid then
                             print("[CLIENT]: "..attackerChar.name.." attacking "..enemyChar.name)
-                            attackerChar:attack(enemyChar)
+                            attackerChar:attack(enemyChar, true)
                                                
                         end
                     end
