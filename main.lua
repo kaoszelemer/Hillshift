@@ -298,6 +298,12 @@ function randomFunction(a, b, infotext, wf)
         if activePlayer ~= nil then
             print("[RNG]: by "..activePlayer.name.." in "..infotext.. " \n[RNDSTATE]: "..d)
         end
+
+        if isGameServer and wf == "diceroll" then
+            server:sendToAll("sendrandomtoclient", c)
+        end
+
+
         return c
     
 end
@@ -1494,6 +1500,14 @@ local function initNetworking(arg)
 
         end)
 
+        server:on("getrandomfromserver", function(r)
+
+          
+           RANDOMNUMBER = love.math.random(r[1], r[2])
+
+
+        end)
+
   
 
         server:on("clientcharacterpositionchanging", function(cp)
@@ -1700,6 +1714,12 @@ local function initNetworking(arg)
         -- Custom callback, called whenever you send the event from the server
         client:on("hello", function(msg)
             print("PING: " .. msg)
+        end)
+
+        client:on("sendrandomtoclient", function(r)
+
+            RANDOMNUMBER = r
+
         end)
 
 

@@ -925,37 +925,59 @@ function Character:attack(enemy, nw)
         action = function()
             if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
                 gameState:changeState(gameState.states.waitingState)
+              
 
+              
 
-                local dr = getDiceRoll()
-                self.diceRoll = dr
-                if dr == 6 then
-                    soundEngine:playSFX(niceRollSound)
-                elseif dr == 1 then
-                    soundEngine:playSFX(hahaSound)
-
+                if (isGameServer or (isGameClient ~= true and isGameServer ~= true)) and activePlayer == playerOne then
+                    self.diceRoll = getDiceRoll()
                 end
 
-                if boardGrid[self.x][self.y].isPoisoned then
-                    self.turnAttackModifier = self.turnAttackModifier - 3
-                    self.turnDefenseModifier = self.turnDefenseModifier - 1
+                if isGameClient and activePlayer == playerOne then 
+                    self.diceRoll = RANDOMNUMBER
                 end
 
-                if boardGrid[enemy.x][enemy.y].isPoisoned then
-                    enemy.turnAttackModifier = enemy.turnAttackModifier - 3
-                    enemy.turnDefenseModifier = enemy.turnDefenseModifier - 1
+                if isGameClient and activePlayer == playerTwo then
+                    local r = {}
+                    r[1] = 1
+                    r[2] = 6
+                    r[3] = "getDiceRoll"
+                    r[4] = "diceroll"
+                  
+                    client:send("getrandomfromserver", r)
+
+                    self.diceRoll = RANDOMNUMBER
+
                 end
+             
+            
+             
 
-                self.rolledAttack = self.baseAttack + dr + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
-                damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+                    if self.diceRoll == 6 then
+                        soundEngine:playSFX(niceRollSound)
+                    elseif self.diceRoll == 1 then
+                        soundEngine:playSFX(hahaSound)
 
-                enableDrawAttack(self, enemy)
-                enemy:damage(enemy, damage)
+                    end
 
+                    if boardGrid[self.x][self.y].isPoisoned then
+                        self.turnAttackModifier = self.turnAttackModifier - 3
+                        self.turnDefenseModifier = self.turnDefenseModifier - 1
+                    end
 
+                    if boardGrid[enemy.x][enemy.y].isPoisoned then
+                        enemy.turnAttackModifier = enemy.turnAttackModifier - 3
+                        enemy.turnDefenseModifier = enemy.turnDefenseModifier - 1
+                    end
 
+                    self.rolledAttack = self.baseAttack + self.diceRoll + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
+                    damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
+                    print("damage"..damage)
 
-
+               
+                    enableDrawAttack(self, enemy)
+                    enemy:damage(enemy, damage)
+       
 
 
                 self.actionPoints = self.actionPoints - 1
