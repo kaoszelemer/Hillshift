@@ -199,7 +199,10 @@ function initPlayerDeck(player)
             table.insert(player.characters, ThunderShaman(player))
             table.insert(player.characters, SandWitch(player))
             table.insert(player.characters, WaterHag(player))
-            table.insert(player.characters, ChronoConjurer(player))
+        --    table.insert(player.characters, ChronoConjurer(player))
+            table.insert(player.characters, ArchMager(player))
+            table.insert(player.characters, DragonDiviner(player))
+
 
             --- ONLY ONE CHARACTER
 
@@ -1321,6 +1324,12 @@ local function loadAnimations()
    geoGnomeSpellAnimationImage = love.graphics.newImage('graphics/geognomespellanim.png')
    local g = anim8.newGrid(32, 32, geoGnomeSpellAnimationImage:getWidth(), geoGnomeSpellAnimationImage:getHeight())
    geoGnomeSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+   archMagerSpellAnimationImage = love.graphics.newImage('graphics/archMagerspellanim.png')
+   local g = anim8.newGrid(32, 32, archMagerSpellAnimationImage:getWidth(), archMagerSpellAnimationImage:getHeight())
+   archMagerSpellAnimation = anim8.newAnimation(g('1-4',1), 0.3)
+
+
 end
 
 

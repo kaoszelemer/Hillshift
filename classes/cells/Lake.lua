@@ -17,7 +17,7 @@ function Lake:init(x, y)
 )
  
     for _, char in ipairs(activePlayer.characters) do
-        if char.x == self.x and char.y == self.y then
+        if (char.x == self.x and char.y == self.y) and char.id ~= 12 then
             char.stepPoints = 0
             char.actionPoints = 0
             boardGrid[self.x][self.y].occupiedBy = char
@@ -31,11 +31,13 @@ end
 
 function Lake:onEntry(char, ax, ay)
 
-    char.actionPoints = 0
-    char.stepPoints = 0
+    if char.id ~= 12 then
+        char.actionPoints = 0
+        char.stepPoints = 0
 
-    boardGrid[self.x][self.y].drawDamageOnBoard = true
-    boardGrid[self.x][self.y]:damageOnBoard("-1AP, -2SP")
+        boardGrid[self.x][self.y].drawDamageOnBoard = true
+        boardGrid[self.x][self.y]:damageOnBoard("-1AP, -2SP")
+    end
 
 
 end

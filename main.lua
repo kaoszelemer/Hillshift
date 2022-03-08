@@ -112,6 +112,8 @@ ThunderShaman = require('classes.characters.ThunderShaman')
 SandWitch = require('classes.characters.SandWitch')
 WaterHag = require('classes.characters.WaterHag')
 ChronoConjurer = require('classes.characters.ChronoConjurer')
+ArchMager = require('classes.characters.ArchMager')
+DragonDiviner = require('classes.characters.DragonDiviner')
 
 deadPool = {playerOne = {}, playerTwo = {}}
 
@@ -300,6 +302,7 @@ function randomFunction(a, b, infotext, wf)
         end
 
         if isGameServer and wf == "diceroll" then
+            print("sending random number"..c)
             server:sendToAll("sendrandomtoclient", c)
         end
 
@@ -1717,7 +1720,7 @@ local function initNetworking(arg)
         end)
 
         client:on("sendrandomtoclient", function(r)
-
+            print("client random number: "..r)
             RANDOMNUMBER = r
 
         end)

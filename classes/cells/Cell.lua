@@ -370,15 +370,27 @@ function Cell:click()
                 (self.occupiedBy.x - 1 > 0 and self.occupiedBy.y + 1 <= 10 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x - 1][self.occupiedBy.y + 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false )  or
                 (self.occupiedBy.x + 1 <= 10 and self.occupiedBy.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x + 1][self.occupiedBy.y - 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false ) or
                 (self.occupiedBy.x - 1 > 0 and self.occupiedBy.y - 1 > 0 and boardGrid[selectedChar.x][selectedChar.y] == boardGrid[self.occupiedBy.x - 1][self.occupiedBy.y - 1] and boardGrid[self.occupiedBy.x][self.occupiedBy.y]:instanceOf(Lake) == false ) then
-                    if isGameServer then
-                        local cp = {self.occupiedBy.id, selectedChar.id}
-                        server:sendToAll("server_attack", cp)
-                    end
-                    if isGameClient then
-                        local cp = {self.occupiedBy.id, selectedChar.id}
-                        client:send("client_attack", cp)
-                    end
-                        selectedChar:attack(self.occupiedBy)
+                    
+                
+                
+                        
+
+                        if isGameServer then
+                            local cp = {self.occupiedBy.id, selectedChar.id}
+                            selectedChar:attack(self.occupiedBy)
+                            server:sendToAll("server_attack", cp)
+                        end
+
+                        if isGameClient then
+                            local cp = {self.occupiedBy.id, selectedChar.id}
+                            client:send("client_attack", cp)
+                            selectedChar:attack(self.occupiedBy)
+                        end
+
+                        if isGameServer ~= true and isGameClient ~= true then
+                            selectedChar:attack(self.occupiedBy)
+                        end
+                 
             return
             end
         end
@@ -467,6 +479,25 @@ function Cell:click()
                             server:sendToAll("server_characterspell", ssend)
        
                     end
+
+                elseif selectedChar.id == 11 then
+                    for ox = -3, 3 do
+                        for oy = -3, 3 do
+                            
+                            if (ox == 3 or ox == -3) or (oy == 3 or oy == -3) then
+                                if ((self.x == selectedChar.x + ox) and (self.y == selectedChar.y + oy)) then
+                                              
+                                    server:sendToAll("server_characterspell", ssend)
+                                end
+                            end
+                        end
+                    end
+                elseif selectedChar.id == 12 then
+                    if (self.x == selectedChar.x and (self.y == selectedChar.y + 1 or self.y == selectedChar.y + 2)) or (self.x == selectedChar.x and (self.y == selectedChar.y - 1 or self.y == selectedChar.y - 2)) then
+                        server:sendToAll("server_characterspell", ssend)
+                    end
+                   
+              
     
                 elseif selectedChar.id ~= 2 then
     
@@ -475,6 +506,8 @@ function Cell:click()
                                 server:sendToAll("server_characterspell", ssend)
                             
                             end
+
+                                       
 
                 else
               
@@ -486,6 +519,7 @@ function Cell:click()
                             end
                       
                  end
+              
        
         end
         
@@ -519,6 +553,25 @@ function Cell:click()
                             client:send("client_characterspell", clsend)
 
                     end
+
+                elseif selectedChar.id == 11 then
+                    for ox = -3, 3 do
+                        for oy = -3, 3 do
+                            
+                            if (ox == 3 or ox == -3) or (oy == 3 or oy == -3) then
+                                if ((self.x == selectedChar.x + ox) and (self.y == selectedChar.y + oy)) then
+                                              
+                                    client:send("client_characterspell", clsend)
+                                end
+                            end
+                        end
+                    end
+
+                elseif selectedChar.id == 12 then
+                    if (self.x == selectedChar.x and (self.y == selectedChar.y + 1 or self.y == selectedChar.y + 2)) or (self.x == selectedChar.x and (self.y == selectedChar.y - 1 or self.y == selectedChar.y - 2)) then
+                        client:send("client_characterspell", clsend)
+                    end
+                   
     
             
     
@@ -564,6 +617,28 @@ function Cell:click()
                 
                 end
 
+            elseif selectedChar.id == 11 then
+
+                for ox = -3, 3 do
+                    for oy = -3, 3 do
+                        
+                        if (ox == 3 or ox == -3) or (oy == 3 or oy == -3) then
+                            if ((self.x == selectedChar.x + ox) and (self.y == selectedChar.y + oy)) then
+                                          
+                                selectedChar:spell(self)
+                              
+                            end
+                        end
+                    end
+                end
+               
+                   
+            elseif selectedChar.id == 12 then
+                if (self.x == selectedChar.x and (self.y == selectedChar.y + 1 or self.y == selectedChar.y + 2)) or (self.x == selectedChar.x and (self.y == selectedChar.y - 1 or self.y == selectedChar.y - 2)) then
+                    selectedChar:spell(self)
+                end
+              
+               
         
 
             elseif selectedChar.id ~= 2 then
@@ -593,10 +668,10 @@ function Cell:click()
                         
                         end
                     
-             end
-
             end
-            
+    end
+
+           
 
     
            

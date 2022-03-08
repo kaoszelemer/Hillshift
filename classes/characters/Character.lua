@@ -567,7 +567,30 @@ function Character:drawValidIcons()
             if self.y + 1 < 11 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y + 1) * tileH + offsetY) end
             if self.y - 1 > 0 then love.graphics.draw(validSpellImage, (self.x) * tileW + offsetX, (self.y - 1) * tileH + offsetY) end
         end
+
+        if self.id == 11 then -- ARCHMAGER
+            for x = -3, 3 do
+                for y = -3, 3 do
+                    if self.x + x <= 10 and self.x + x > 0 and self.y + y <=10 and self.y + y > 0 then
+                        if (y == 3 or y == -3) or (x == 3 or x == -3) then
+                            love.graphics.draw(validSpellImage, (self.x + x) * tileW + offsetX, (self.y + y) * tileH + offsetY)
+                        end
+                    end
+                end
+            end
         end
+
+        if self.id == 12 then --DRAGONDIVINER
+            for oy = -2, 2 do
+                if oy ~= 0 then
+                    if self.y + oy > 0 and self.y + oy <= 10 then
+                        love.graphics.draw(validSpellImage, self.x * tileW + offsetX, (self.y + oy) * tileH + offsetY)
+                    end
+                end
+            end
+
+        end
+    end
 
     end
 
@@ -918,6 +941,27 @@ function Character:kill()
 end
 
 function Character:attack(enemy, nw)
+
+  
+   
+        if (isGameServer or (isGameClient ~= true and isGameServer ~= true)) then
+            self.diceRoll = randomFunction(1, 6, "diceroll", "diceroll")
+       end
+     
+       
+       if isGameClient then 
+           table.insert(sequenceBufferTable, {
+               name = "AttackEnemyCharacter",
+               duration = 0.6,
+               sequenceTime = love.timer.getTime(),
+               action = function()
+                   self.diceRoll = RANDOMNUMBER
+                   print("RANDOMNUMBER"..RANDOMNUMBER)
+               end})
+       end
+
+
+
     table.insert(sequenceBufferTable, {
         name = "AttackEnemyCharacter",
         duration = 0.1,
@@ -925,34 +969,7 @@ function Character:attack(enemy, nw)
         action = function()
             if (gameState.state == gameState.states.selectAttackTargetCharacter or nw ) and self.actionPoints ~= 0 then
                 gameState:changeState(gameState.states.waitingState)
-              
-
-              
-
-                if (isGameServer or (isGameClient ~= true and isGameServer ~= true)) and activePlayer == playerOne then
-                    self.diceRoll = getDiceRoll()
-                end
-
-                if isGameClient and activePlayer == playerOne then 
-                    self.diceRoll = RANDOMNUMBER
-                end
-
-                if isGameClient and activePlayer == playerTwo then
-                    local r = {}
-                    r[1] = 1
-                    r[2] = 6
-                    r[3] = "getDiceRoll"
-                    r[4] = "diceroll"
-                  
-                    client:send("getrandomfromserver", r)
-
-                    self.diceRoll = RANDOMNUMBER
-
-                end
-             
-            
-             
-
+         
                     if self.diceRoll == 6 then
                         soundEngine:playSFX(niceRollSound)
                     elseif self.diceRoll == 1 then
@@ -972,7 +989,7 @@ function Character:attack(enemy, nw)
 
                     self.rolledAttack = self.baseAttack + self.diceRoll + boardGrid[self.x][self.y].attackModifier + self.turnAttackModifier
                     damage = math.max(0, self.rolledAttack - (enemy.baseDefense + boardGrid[enemy.x][enemy.y].defenseModifier + enemy.turnDefenseModifier))
-                    print("damage"..damage)
+              
 
                
                     enableDrawAttack(self, enemy)
@@ -1009,14 +1026,10 @@ function Character:attack(enemy, nw)
 
 
 
-                end
-
-
-            })
+                end})
             
           
-                end
-            })
+        end})
 
 end
 

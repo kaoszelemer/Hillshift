@@ -169,6 +169,11 @@ function soundEngine:load()
 
     local prisononentry = love.audio.newSource("/sounds/prisononentry.mp3", "static")
     prisononentrySound = ripple.newSound(prisononentry, {volume = 0.75, loop = false})
+   
+    local arrow = love.audio.newSource("/sounds/arrow.mp3", "static")
+    arrowSound = ripple.newSound(arrow, {volume = 0.75, loop = false})
+
+    
     
     
     
