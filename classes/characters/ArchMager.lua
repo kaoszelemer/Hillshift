@@ -31,7 +31,7 @@ function ArchMager:spell(targetcell)
                     sequenceTime = love.timer.getTime(),
                     action = function()
                         if boardGrid[targetcell.x][targetcell.y].isOccupied then
-                            boardGrid[targetcell.x][targetcell.y].occupiedBy:damage(boardGrid[targetcell.x][targetcell.y].occupiedBy, 20)
+                            boardGrid[targetcell.x][targetcell.y].occupiedBy:damage(boardGrid[targetcell.x][targetcell.y].occupiedBy, 8)
                         end
                     end})
               
