@@ -769,7 +769,7 @@ function Character:move(cx, cy, oldx, oldy)
 
                         if boardGrid[cx][cy]:instanceOf(Ice) ~= true then
                             self.stepPoints = 0
-                            gameState:changeState(gameState.states.selectCharacter)
+                          --  gameState:changeState(gameState.states.selectCharacter)
                         end
 
                     end})
